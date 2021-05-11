@@ -1,8 +1,8 @@
 import store from 'store'
 
-const STORED_SETTINGS = storedSettings => {
+const STORED_SETTINGS = (storedSettings) => {
   const settings = {}
-  Object.keys(storedSettings).forEach(key => {
+  Object.keys(storedSettings).forEach((key) => {
     const item = store.get(`app.settings.${key}`)
     settings[key] = typeof item !== 'undefined' ? item : storedSettings[key]
   })
@@ -14,9 +14,9 @@ export default {
     ...STORED_SETTINGS({
       // Read docs for available values: https://docs.visualbuilder.cloud
       // VB:REPLACE-START:SETTINGS
-      authProvider: 'jwt',
-      logo: 'Visual Builder',
-      version: 'fluent',
+      authProvider: 'firebase',
+      logo: 'MV Manager',
+      version: 'clean',
       theme: 'default',
       locale: 'en-US',
       isSidebarOpen: false,
@@ -25,12 +25,12 @@ export default {
       isMobileMenuOpen: false,
       isMenuCollapsed: false,
       isPreselectedOpen: false,
-      preselectedVariant: 'default',
+      preselectedVariant: 'river',
       menuLayoutType: 'left',
       routerAnimation: 'slide-fadein-up',
-      menuColor: 'gray',
+      menuColor: 'white',
       authPagesColor: 'gray',
-      isAuthTopbar: true,
+      isAuthTopbar: false,
       primaryColor: '#4b7cf3',
       leftMenuWidth: 256,
       isMenuUnfixed: false,
@@ -38,18 +38,18 @@ export default {
       isTopbarFixed: false,
       isTopbarSeparated: false,
       isGrayTopbar: false,
-      isContentMaxWidth: false,
-      isAppMaxWidth: false,
-      isGrayBackground: false,
+      isContentMaxWidth: true,
+      isAppMaxWidth: true,
+      isGrayBackground: true,
       isCardShadow: true,
       isSquaredBorders: false,
-      isBorderless: false,
-      layoutMenu: 'classic',
+      isBorderless: true,
+      layoutMenu: 'flyout',
       layoutTopbar: 'v1',
       layoutBreadcrumbs: 'v1',
       layoutFooter: 'v1',
-      flyoutMenuType: 'flyout',
-      flyoutMenuColor: 'blue',
+      flyoutMenuType: 'compact',
+      flyoutMenuColor: 'dark',
 
       // VB:REPLACE-END:SETTINGS
     }),
@@ -61,7 +61,7 @@ export default {
     },
     CHANGE_SETTING_BULK(state, payload) {
       const settings = {}
-      Object.keys(payload).forEach(key => {
+      Object.keys(payload).forEach((key) => {
         store.set(`app.settings.${key}`, payload[key])
         settings[key] = payload[key]
         state[key] = payload[key]
@@ -76,10 +76,7 @@ export default {
         if (str.indexOf('?') >= 0) {
           queryParams = JSON.parse(
             '{"' +
-              decodeURI(subs)
-                .replace(/"/g, '\\"')
-                .replace(/&/g, '","')
-                .replace(/=/g, '":"') +
+              decodeURI(subs).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g, '":"') +
               '"}',
           )
         }
@@ -87,7 +84,7 @@ export default {
       delete queryParams.redirect
       keys = Object.keys(queryParams)
       if (keys.length) {
-        keys.forEach(key => {
+        keys.forEach((key) => {
           let value
           switch (queryParams[key]) {
             case 'false':
@@ -134,6 +131,6 @@ export default {
   },
   actions: {},
   getters: {
-    settings: state => state,
+    settings: (state) => state,
   },
 }

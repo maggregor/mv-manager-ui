@@ -1,0 +1,186 @@
+{
+  "vb": "1.0.0",
+  "timestamp": 1620749474106,
+  "settings": {
+    "authProvider": "firebase",
+    "logo": "MV Manager",
+    "version": "clean",
+    "theme": "default",
+    "locale": "en-US",
+    "isSidebarOpen": false,
+    "isSupportChatOpen": false,
+    "isMobileView": false,
+    "isMobileMenuOpen": false,
+    "isMenuCollapsed": false,
+    "isPreselectedOpen": false,
+    "preselectedVariant": "river",
+    "menuLayoutType": "left",
+    "routerAnimation": "slide-fadein-up",
+    "menuColor": "white",
+    "authPagesColor": "gray",
+    "isAuthTopbar": false,
+    "primaryColor": "#4b7cf3",
+    "leftMenuWidth": 256,
+    "isMenuUnfixed": false,
+    "isMenuShadow": false,
+    "isTopbarFixed": false,
+    "isTopbarSeparated": false,
+    "isGrayTopbar": false,
+    "isContentMaxWidth": true,
+    "isAppMaxWidth": true,
+    "isGrayBackground": true,
+    "isCardShadow": true,
+    "isSquaredBorders": false,
+    "isBorderless": true,
+    "layoutMenu": "flyout",
+    "layoutTopbar": "v1",
+    "layoutBreadcrumbs": "v1",
+    "layoutFooter": "v1",
+    "flyoutMenuType": "compact",
+    "flyoutMenuColor": "dark"
+  },
+  "config": [
+    { "key": "__dashboard", "title": "Overview", "url": "/overview", "icon": "fe fe-airplay" },
+    { "title": "Manage", "url": "/manage", "icon": "fe fe-settings", "key": "y1ptz6" },
+    { "title": "History", "url": "/history", "icon": "fe fe-align-justify", "key": "na7daj" }
+  ],
+  "content": {
+    "__dashboard": [
+      {
+        "key": "l59pzt",
+        "columns": [
+          {
+            "key": "nbbvko",
+            "className": "col-lg-4 col-md-12",
+            "cards": [
+              {
+                "key": "owhvc8",
+                "extraClass": "card",
+                "widgets": [
+                  {
+                    "key": "j2df3w",
+                    "name": "Headers-Heading",
+                    "editable": true,
+                    "dataType": "object",
+                    "wrapper": "card-header",
+                    "data": { "title": "Payez svp" }
+                  },
+                  {
+                    "key": "1k3ap1",
+                    "name": "WidgetsGeneral-2v3",
+                    "wrapper": "card-body text-white bg-success rounded"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "key": "xlzisk",
+            "className": "col-lg-4 col-md-12",
+            "cards": [
+              {
+                "key": "93f0kf",
+                "extraClass": "card",
+                "widgets": [{ "key": "qe4udi", "name": "ChartsChartistjs-1" }]
+              }
+            ]
+          },
+          {
+            "key": "qv16r",
+            "className": "col-lg-4 col-md-12",
+            "cards": [
+              {
+                "key": "ps3lq",
+                "extraClass": "card",
+                "widgets": [
+                  {
+                    "key": "8ck31e",
+                    "name": "WidgetsGeneral-3v1",
+                    "wrapper": "card-body text-white bg-primary rounded"
+                  },
+                  { "key": "2c1zir", "name": "WidgetsGeneral-1" }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      { "key": "4tjnv", "columns": [{ "key": "867ebj", "className": "col-lg-12", "cards": [] }] }
+    ],
+    "na7daj": [
+      {
+        "key": "1lcanj",
+        "columns": [
+          {
+            "key": "me9htl",
+            "className": "col-lg-12",
+            "cards": [
+              {
+                "key": "ynqgra",
+                "extraClass": "card",
+                "widgets": [{ "key": "xf4rqx", "name": "TablesAntd-2" }]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "y1ptz6": [
+      {
+        "key": "b918g",
+        "columns": [
+          {
+            "key": "qx7lx",
+            "className": "col-lg-12",
+            "cards": [
+              {
+                "key": "gbuon4",
+                "extraClass": "card",
+                "widgets": [
+                  {
+                    "key": "kz08mg",
+                    "name": "Headers-Heading",
+                    "editable": true,
+                    "dataType": "object",
+                    "wrapper": "card-header",
+                    "data": { "title": "Datasets" }
+                  }
+                ]
+              },
+              {
+                "key": "hxu3w",
+                "extraClass": "card",
+                "widgets": [
+                  {
+                    "key": "gcy8b7",
+                    "name": "Headers-CardHeader",
+                    "editable": true,
+                    "dataType": "object",
+                    "wrapper": "card-header",
+                    "data": { "title": "mydataset" }
+                  },
+                  {
+                    "key": "0g05a",
+                    "name": "Controls-Button",
+                    "editable": true,
+                    "dataType": "object",
+                    "data": { "title": "Activate", "type": "primary" }
+                  }
+                ]
+              },
+              { "key": "91vxr", "extraClass": "card", "widgets": [] },
+              { "key": "1nbpcg", "extraClass": "card", "widgets": [] }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "plh7um",
+        "columns": [
+          { "key": "1ldngd", "className": "col-lg-8 col-md-12", "cards": [] },
+          { "key": "0ihhot", "className": "col-lg-4 col-md-12", "cards": [] }
+        ]
+      }
+    ]
+  }
+}

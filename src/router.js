@@ -15,7 +15,7 @@ const router = createRouter({
       path: '/',
       name: 'home',
       // VB:REPLACE-NEXT-LINE:ROUTER-REDIRECT
-      redirect: '/dashboard',
+      redirect: '/overview',
       component: MainLayout,
       meta: {
         authRequired: true,
@@ -24,9 +24,19 @@ const router = createRouter({
       children: [
         // VB:REPLACE-START:ROUTER-CONFIG
         {
-          path: '/dashboard',
-          meta: { title: 'Dashboard' },
-          component: () => import('./views/dashboard'),
+          path: '/overview',
+          meta: { title: 'Overview' },
+          component: () => import('./views/overview'),
+        },
+        {
+          path: '/manage',
+          meta: { title: 'Manage' },
+          component: () => import('./views/manage'),
+        },
+        {
+          path: '/history',
+          meta: { title: 'History' },
+          component: () => import('./views/history'),
         },
 
         // VB:REPLACE-END:ROUTER-CONFIG
@@ -100,7 +110,7 @@ router.beforeEach((to, from, next) => {
     NProgress.done()
   }, 300)
 
-  if (to.matched.some(record => record.meta.authRequired)) {
+  if (to.matched.some((record) => record.meta.authRequired)) {
     if (!store.state.user.authorized) {
       next({
         path: '/auth/login',

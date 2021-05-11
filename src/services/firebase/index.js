@@ -4,21 +4,28 @@ import 'firebase/auth'
 import 'firebase/database'
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyBJVhr2WZshEGR7egcxoygQIphKOkKVIYQ',
-  authDomain: 'sellpixels-7d5d4.firebaseapp.com',
-  databaseURL: 'https://sellpixels-7d5d4.firebaseio.com',
-  projectId: 'sellpixels-7d5d4',
-  storageBucket: 'cleanui-72a42.appspot.com',
-  messagingSenderId: '338219933237',
-}
+  apiKey: "AIzaSyAyjOhlwmruqMfyck8oamktn0aNPCihHC0",
+  authDomain: "achilio-dev.firebaseapp.com",
+  databaseURL: "https://achilio-dev-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "achilio-dev",
+  storageBucket: "achilio-dev.appspot.com",
+  messagingSenderId: "293325499254",
+  appId: "1:293325499254:web:ff3edcf3c1884cdc532857",
+  measurementId: "G-66Q3KQ4KXB",
+};
 
 firebase.initializeApp(firebaseConfig)
 export const firebaseAuth = firebase.auth()
 export const firebaseDatabase = firebase.database()
 
 export async function login(email, password) {
+  const provider = new firebase.auth.GoogleAuthProvider()
+  provider.addScope("email")
+  provider.addScope("profile")
+  provider.addScope("https://www.googleapis.com/auth/bigquery")
+  provider.addScope("https://www.googleapis.com/auth/cloudplatformprojects.readonly")
   return firebaseAuth
-    .signInWithEmailAndPassword(email, password)
+    .signInWithPopup(provider)
     .then(() => true)
     .catch(error => {
       notification.warning({
@@ -54,39 +61,12 @@ export async function register(email, password, name) {
 }
 
 export async function currentAccount() {
-  let userLoaded = false
-  function getCurrentUser(auth) {
-    return new Promise((resolve, reject) => {
-      if (userLoaded) {
-        resolve(firebaseAuth.currentUser)
-      }
-      const unsubscribe = auth.onAuthStateChanged(user => {
-        userLoaded = true
-        unsubscribe()
-        const getUserData = async () => {
-          if (user) {
-            const userFields = await firebaseDatabase
-              .ref('users')
-              .child(user.uid)
-              .once('value')
-              .then(snapshot => {
-                return snapshot.val()
-              })
-            const mergedUser = Object.assign(user, {
-              id: user.uid,
-              name: userFields.name,
-              role: userFields.role,
-              avatar: user.photoUrl,
-            })
-            return mergedUser
-          }
-          return user
-        }
-        resolve(getUserData())
-      }, reject)
-    })
-  }
-  return getCurrentUser(firebaseAuth)
+  let id = firebaseAuth.uid
+  let email = firebaseAuth.email
+  let name = firebaseAuth.displayName
+  let role = 'admin'
+  let avatar = firebaseAuth.photoURL
+  return firebaseAuth.currentUser
 }
 
 export async function logout() {
