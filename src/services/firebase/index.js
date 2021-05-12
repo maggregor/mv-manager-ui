@@ -71,13 +71,17 @@ export async function currentAccount() {
   function getCurrentUser(auth) {
     return new Promise((resolve, reject) => {
       auth.onAuthStateChanged(user => {
-        resolve({
-          id: user.uid,
-          name: user.displayName,
-          role: 'admin',
-          email: user.email,
-          avatar: user.photoURL,
-        })
+        if (user) {
+          resolve({
+            id: user.uid,
+            name: user.displayName,
+            role: 'admin',
+            email: user.email,
+            avatar: user.photoURL,
+          })
+        } else {
+          resolve(null)
+        }
       }, reject)
     })
   }
