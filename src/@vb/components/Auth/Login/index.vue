@@ -24,14 +24,14 @@
         @finish="handleFinish"
         @finishFailed="handleFinishFailed"
       >
-        <a-form-item name="email">
+        <a-form-item name="email"> 
           <a-input v-model:value="loginForm.email" placeholder="Email" />
         </a-form-item>
         <a-form-item name="password">
           <a-input v-model:value="loginForm.password" placeholder="Password" type="password" />
         </a-form-item>
         <a-button type="primary" html-type="submit" class="text-center w-100" :loading="loading">
-          <strong>Sign in</strong>
+          <strong>Sign in with Google</strong>
         </a-button>
       </a-form>
       <router-link to="/auth/forgot-password" class="vb__utils__link">

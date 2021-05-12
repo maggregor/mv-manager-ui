@@ -20,13 +20,20 @@ export const firebaseDatabase = firebase.database()
 
 export async function login(email, password) {
   const provider = new firebase.auth.GoogleAuthProvider()
+  console.log(firebaseAuth)
   provider.addScope("email")
   provider.addScope("profile")
   provider.addScope("https://www.googleapis.com/auth/bigquery")
   provider.addScope("https://www.googleapis.com/auth/cloudplatformprojects.readonly")
   return firebaseAuth
     .signInWithPopup(provider)
-    .then(() => true)
+    .then((result) => {
+      console.log(result)
+      console.log(result.credential.accessToken)
+      console.log(result.credential.idToken)
+      console.log(currentAccount())
+      return true
+    })
     .catch(error => {
       notification.warning({
         message: error.code,
@@ -61,12 +68,20 @@ export async function register(email, password, name) {
 }
 
 export async function currentAccount() {
-  let id = firebaseAuth.uid
-  let email = firebaseAuth.email
-  let name = firebaseAuth.displayName
-  let role = 'admin'
-  let avatar = firebaseAuth.photoURL
-  return firebaseAuth.currentUser
+  function getCurrentUser(auth) {
+    return new Promise((resolve, reject) => {
+      auth.onAuthStateChanged(user => {
+        resolve({
+          id: user.uid,
+          name: user.displayName,
+          role: 'admin',
+          email: user.email,
+          avatar: user.photoURL,
+        })
+      }, reject)
+    })
+  }
+  return getCurrentUser(firebaseAuth)
 }
 
 export async function logout() {

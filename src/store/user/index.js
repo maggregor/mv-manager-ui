@@ -11,25 +11,8 @@ const mapAuthProviders = {
     currentAccount: firebase.currentAccount,
     logout: firebase.logout,
   },
-  jwt: {
-    login: jwt.login,
-    register: jwt.register,
-    currentAccount: jwt.currentAccount,
-    logout: jwt.logout,
-  },
 }
 
-const DEV = process.env.VUE_APP_AUTHENTICATED
-  ? {
-    id: '1',
-    name: 'Tom Jones',
-    role: 'admin',
-    email: 'demo@sellpixels.com',
-    avatar: '',
-    authorized: true,
-    accountFetchIsTouched: true,
-  }
-  : {}
 
 export default {
   namespaced: true,
@@ -42,7 +25,6 @@ export default {
     authorized: false,
     loading: false,
     accountFetchIsTouched: false,
-    ...DEV, // remove it, used for demo build
   },
   mutations: {
     SET_STATE(state, payload) {
@@ -113,7 +95,9 @@ export default {
             role,
             authorized: true,
           })
+          console.log("responsed")
         }
+        console.log("nothing")
         commit('SET_STATE', {
           loading: false,
         })
