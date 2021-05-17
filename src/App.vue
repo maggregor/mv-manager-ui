@@ -37,10 +37,13 @@ export default {
     // redirect if authorized and current page is login
     watch(authorized, authorized => {
       if (authorized) {
-        const query = qs.parse(currentRoute.value.fullPath.split('?')[1], {
+        store.dispatch('projects/LOAD_PROJECTS')
+       /* const query = qs.parse(currentRoute.value.fullPath.split('?')[1], {
           ignoreQueryPrefix: true,
         })
-        router.push(query.redirect || '/')
+        router.push(query.redirect || '/')*/
+      } else {
+        store.dispatch('clearAll', {root: true})
       }
     })
   },

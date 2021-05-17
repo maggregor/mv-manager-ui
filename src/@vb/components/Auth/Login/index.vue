@@ -1,21 +1,12 @@
 <template>
   <div class="mt-5 pt-2">
     <div class="card" :class="$style.container">
-      <div class="text-dark font-size-32 mb-3">Sign In</div>
-      <div class="mb-4">
-        Login and password
-        <br />
-        <strong>demo@visualbuilder.cloud / VisualBuilder</strong>
+      <div :class="$style.logo">
+        <img src="/resources/images/mvm_logo.png"/>
+        <div :class="$style.name">
+        </div>
       </div>
-      <div class="mb-4">
-        <a-radio-group
-          :value="settings.authProvider"
-          @change="e => changeAuthProvider(e.target.value)"
-        >
-          <a-radio value="jwt">JWT</a-radio>
-          <a-radio value="firebase">Firebase</a-radio>
-        </a-radio-group>
-      </div>
+      <a-divider/>
       <a-form
         :model="loginForm"
         :rules="rules"
@@ -24,38 +15,44 @@
         @finish="handleFinish"
         @finishFailed="handleFinishFailed"
       >
-        <a-form-item name="email"> 
-          <a-input v-model:value="loginForm.email" placeholder="Email" />
-        </a-form-item>
-        <a-form-item name="password">
-          <a-input v-model:value="loginForm.password" placeholder="Password" type="password" />
-        </a-form-item>
-        <a-button type="primary" html-type="submit" class="text-center w-100" :loading="loading">
+        <a-button v-if="!authorized" type="primary" html-type="submit" class="text-center w-100" :loading="loading">
           <strong>Sign in with Google</strong>
         </a-button>
+        <div v-else> 
+          <UserMenu class="text-center w-100 mb-5 p"/>
+          <a-skeleton v-if="projectLoading" active/>
+          <ProjectCard 
+            v-else
+            class="mt-3"
+            v-for="project in projects" 
+            :key="project.projectId"
+            :project-id="project.projectId" 
+            :dataset-count="project.datasets.length" 
+            :activated="project.activated"
+            />
+        </div>
       </a-form>
-      <router-link to="/auth/forgot-password" class="vb__utils__link">
-        Forgot Password?
-      </router-link>
-    </div>
-    <div class="text-center pt-2 mb-auto">
-      <span class="mr-2">Don't have an account?</span>
-      <router-link to="/auth/register" class="vb__utils__link">
-        Sign up
-      </router-link>
     </div>
   </div>
 </template>
 <script>
 import { computed, reactive } from 'vue'
 import { useStore } from 'vuex'
-
+import ProjectCard from '@/@vb/components/ProjectCard'
+import UserMenu from '@/@vb/components/Topbar/UserMenu'
 export default {
   name: 'VbLogin',
+  components: {
+    ProjectCard,
+    UserMenu,
+  },
   setup() {
     const store = useStore()
     const settings = computed(() => store.getters.settings)
     const loading = computed(() => store.getters['user/user'].loading)
+    const authorized = computed(() => store.getters['user/user'].authorized)
+    const projects = computed(() => store.getters['projects/projects'])
+    const projectLoading = computed(() => store.getters['projects/loading'])
     const rules = {
       email: [
         {
@@ -89,6 +86,9 @@ export default {
       changeAuthProvider,
       handleFinish,
       handleFinishFailed,
+      authorized,
+      projects,
+      projectLoading,
     }
   },
   // data: function () {

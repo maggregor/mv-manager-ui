@@ -1,77 +1,71 @@
 import router from '@/router'
 import { notification } from 'ant-design-vue'
+import store from 'store'
 
 import * as firebase from '@/services/firebase'
-import * as jwt from '@/services/jwt'
+
+const getDefaultState = () => {
+  return {
+    state: {
+      id: '',
+      name: '',
+      email: '',
+      avatar: '',
+      accessToken: '',
+      authorized: false,
+      loading: false,
+      accountFetchIsTouched: false,
+      userLoaded: false,
+    },  
+  } 
+}
+
+const state = getDefaultState()
 
 const mapAuthProviders = {
   firebase: {
     login: firebase.login,
-    register: firebase.register,
     currentAccount: firebase.currentAccount,
     logout: firebase.logout,
   },
 }
 
-
 export default {
   namespaced: true,
-  state: {
-    id: '',
-    name: '',
-    role: '',
-    email: '',
-    avatar: '',
-    authorized: false,
-    loading: false,
-    accountFetchIsTouched: false,
-  },
+  state,
   mutations: {
     SET_STATE(state, payload) {
       Object.assign(state, {
         ...payload,
       })
     },
+    SET_USER(state, payload) {
+      state.id = payload.id
+      state.name = payload.name
+      state.email = payload.email
+      state.avatar = payload.avatar
+      state.accessToken = payload.accessToken
+    },
+    RESET_STATE(state) {
+      Object.assign(state, getDefaultState())
+    },
   },
   actions: {
-    LOGIN({ commit, dispatch, rootState }, { payload }) {
-      const { email, password } = payload
+    LOGIN({ commit, dispatch, rootState }) {
       commit('SET_STATE', {
         loading: true,
       })
 
       const login = mapAuthProviders[rootState.settings.authProvider].login
-      login(email, password).then(success => {
-        if (success) {
+      login().then(user => {
+        if (user) {
           dispatch('LOAD_CURRENT_ACCOUNT')
           notification.success({
             message: 'Logged In',
             description: 'You have successfully logged in!',
           })
         }
-        if (!success) {
-          commit('SET_STATE', {
-            loading: false,
-          })
-        }
-      })
-    },
-    REGISTER({ commit, dispatch, rootState }, { payload }) {
-      const { email, password, name } = payload
-      commit('SET_STATE', {
-        loading: true,
-      })
-
-      const register = mapAuthProviders[rootState.settings.authProvider].register
-      register(email, password, name).then(success => {
-        if (success) {
-          dispatch('LOAD_CURRENT_ACCOUNT')
-          notification.success({
-            message: 'Succesful Registered',
-            description: 'You have successfully registered!',
-          })
-        }
-        if (!success) {
+        if (!user) {
           commit('SET_STATE', {
             loading: false,
           })
@@ -86,18 +80,16 @@ export default {
       const currentAccount = mapAuthProviders[rootState.settings.authProvider].currentAccount
       currentAccount().then(response => {
         if (response) {
-          const { id, email, name, avatar, role } = response
+          const { id, email, name, avatar, accessToken } = response
           commit('SET_STATE', {
             id,
             name,
             email,
             avatar,
-            role,
+            accessToken,
             authorized: true,
           })
-          console.log("responsed")
         }
-        console.log("nothing")
         commit('SET_STATE', {
           loading: false,
         })
@@ -106,20 +98,13 @@ export default {
     LOGOUT({ commit, rootState }) {
       const logout = mapAuthProviders[rootState.settings.authProvider].logout
       logout().then(() => {
-        commit('SET_STATE', {
-          id: '',
-          name: '',
-          role: '',
-          email: '',
-          avatar: '',
-          authorized: false,
-          loading: false,
-        })
+        commit('SET_STATE', { authorized: false })
         router.push('/auth/login')
       })
     },
   },
   getters: {
     user: state => state,
+    userIsLoaded: state => state.userIsLoaded,
   },
 }

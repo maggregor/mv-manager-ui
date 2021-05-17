@@ -15,7 +15,7 @@ export default {
       // Read docs for available values: https://docs.visualbuilder.cloud
       // VB:REPLACE-START:SETTINGS
       authProvider: 'firebase',
-      logo: 'MV Manager',
+      logo: 'Materialized View Manager',
       version: 'clean',
       theme: 'default',
       locale: 'en-US',

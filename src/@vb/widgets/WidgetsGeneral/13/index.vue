@@ -38,7 +38,7 @@
       </div>
       <div class="mt-auto mb-3">
         <div class="text-white font-size-24 font-weight-bold pl-4">
-          David Beckham
+          David Beckhama
         </div>
       </div>
     </div>

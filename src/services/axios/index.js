@@ -1,16 +1,17 @@
 import axios from 'axios'
-import store from 'store'
+import store from '@/store'
 import { notification } from 'ant-design-vue'
 
 const apiClient = axios.create({
-  baseURL: '/api',
+  baseURL: `${process.env.VUE_APP_API_BASE_URL}/api/v1`,
   // timeout: 1000,
   // headers: { 'X-Custom-Header': 'foobar' }
 })
 
 apiClient.interceptors.request.use(request => {
-  const accessToken = store.get('accessToken')
+  const accessToken = store.getters['user/user'].accessToken
   if (accessToken) {
+    // TODO Add Bearer optimizer side (and here too)
     request.headers.Authorization = `Bearer ${accessToken}`
     request.headers.AccessToken = accessToken
   }

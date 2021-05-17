@@ -51,14 +51,10 @@
 </template>
 
 <script>
-import { UserOutlined } from '@ant-design/icons-vue'
 import { useStore } from 'vuex'
 import { computed } from 'vue'
 
 export default {
-  components: {
-    UserOutlined,
-  },
   setup() {
     const store = useStore()
     const user = computed(() => store.getters['user/user'])

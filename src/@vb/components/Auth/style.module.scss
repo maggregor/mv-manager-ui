@@ -20,10 +20,10 @@
 .logo {
   margin-bottom: rem(5);
 
-  svg {
+  img {
     margin-right: rem(6);
-    height: rem(48);
-    width: rem(48);
+    height: 60%;
+    width: 60%;
     path:nth-child(1) {
       stroke: $primary;
       fill: $primary;

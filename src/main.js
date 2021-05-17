@@ -7,7 +7,6 @@ import './registerServiceWorker'
 import router from './router'
 import store from './store'
 import { i18n } from './localization'
-import './services/axios/fakeApi' // mocking api
 
 createApp(App)
   .use(store)

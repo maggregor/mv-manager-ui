@@ -108,10 +108,8 @@ router.beforeEach((to, from, next) => {
   NProgress.start()
   setTimeout(() => {
     NProgress.done()
-  }, 150)
-  console.log(store.state.user.authorized)
+  }, 50)
   if (to.matched.some((record) => record.meta.authRequired)) {
-    console.log(store.state.user.authorized)
     if (!store.state.user.authorized) {
       next({
         path: '/auth/login',

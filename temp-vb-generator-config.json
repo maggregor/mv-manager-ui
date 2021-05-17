@@ -3,7 +3,7 @@
   "timestamp": 1620749474106,
   "settings": {
     "authProvider": "firebase",
-    "logo": "MV Manager",
+    "logo": "Materialized View Manager",
     "version": "clean",
     "theme": "default",
     "locale": "en-US",

@@ -15,8 +15,6 @@
       }"
     >
       <vb-variants />
-      <vb-sidebar />
-      <vb-support-chat />
       <vb-menu-classic v-if="settings.layoutMenu === 'classic'" />
       <vb-menu-flyout v-if="settings.layoutMenu === 'flyout'" />
       <vb-menu-simply v-if="settings.layoutMenu === 'simply'" />
@@ -41,17 +39,8 @@
             </transition>
           </router-view>
         </a-layout-content>
-        <a-layout-footer v-if="settings.layoutFooter === 'v1'">
+        <a-layout-footer>
           <vb-footer />
-        </a-layout-footer>
-        <a-layout-footer v-if="settings.layoutFooter === 'v2'">
-          <vb-footer2 />
-        </a-layout-footer>
-        <a-layout-footer v-if="settings.layoutFooter === 'v3'">
-          <vb-footer3 />
-        </a-layout-footer>
-        <a-layout-footer v-if="settings.layoutFooter === 'v4'">
-          <vb-footer4 />
         </a-layout-footer>
       </a-layout>
     </a-layout>
@@ -62,7 +51,6 @@
 import { computed, onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
 import VbTopbar from '@/@vb/components/Topbar'
-import VbSidebar from '@/@vb/components/Sidebar'
 import VbSupportChat from '@/@vb/components/SupportChat'
 import VbVariants from '@/@vb/components/Variants'
 import VbMenuClassic from '@/@vb/components/MenuClassic'
@@ -82,7 +70,6 @@ export default {
     VbMenuFlyout,
     VbMenuSimply,
     VbTopbar,
-    VbSidebar,
     VbSupportChat,
     VbVariants,
     VbBreadcrumbs,

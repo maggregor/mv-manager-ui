@@ -257,6 +257,7 @@
     .vb__utils__avatar {
       border: 3px solid $white;
       flex-shrink: 0;
+      height: 0;
 
       &:not(:first-child) {
         margin-left: rem(-16);
