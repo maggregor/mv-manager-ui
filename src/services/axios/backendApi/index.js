@@ -1,11 +1,12 @@
 import apiClient from '../index'
 
 export async function getProjects() {
-   try {
     const {data} = await apiClient.get('/project')
     return data
-  }
-  catch (error) {
-    console.log(error);
-  }
+}
+
+export async function getDatasets(payload) {
+  let projectId = payload.projectId
+  const {data} = await apiClient.get(`/project/${projectId}/dataset`)
+  return data
 }

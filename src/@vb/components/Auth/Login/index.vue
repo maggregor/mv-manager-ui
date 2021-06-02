@@ -26,8 +26,9 @@
             class="mt-3"
             v-for="project in projects" 
             :key="project.projectId"
-            :project-id="project.projectId" 
-            :dataset-count="project.datasets.length" 
+            :project-id="project.projectId"
+            :project-name="project.projectName"
+            :dataset-count="project.datasetCount"
             :activated="project.activated"
             />
         </div>

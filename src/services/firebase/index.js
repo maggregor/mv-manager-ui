@@ -36,7 +36,7 @@ export async function login() {
       let refreshToken = user.refreshToken
       let accessToken = result.credential.accessToken
       let ref = firebaseDatabase.ref(`/users/${user.uid}`)
-      ref.on("value", function(snapshot) {
+      ref.on('value', function(snapshot) {
         store.commit('user/SET_USER', snapshot.val())
       })
       ref.set({
@@ -63,7 +63,7 @@ export async function currentAccount() {
     return new Promise((resolve, reject) => {
       auth.onAuthStateChanged(user => {
         if (user) {
-          if (store.getters['user/user'].id === '') {
+          if (!store.getters['user/user'].id) {
             let ref = firebaseDatabase.ref(`/users/${user.uid}`)
             ref.once("value").then(snapshot => {
               store.commit('user/SET_USER', snapshot.val())
