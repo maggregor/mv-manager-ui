@@ -1,8 +1,8 @@
 steps:
-  - name: node:12
+  - name: node:12.22.5
     entrypoint: yarn
     args: ["install"]
-  - name: node:12
+  - name: node:12.22.5
     entrypoint: yarn
     args: ["run", "build"]
   - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
