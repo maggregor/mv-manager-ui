@@ -11,4 +11,4 @@ handlers:
     static_files: dist/index.html
     upload: dist/index.html
 env_variables:
-  VUE_APP_API_BASE_URL: "https://mvm-service-mb6m554bha-ew.a.run.app"
+  VUE_APP_API_BASE_URL: https://mvm-service-mb6m554bha-ew.a.run.app
