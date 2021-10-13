@@ -5,6 +5,8 @@ steps:
   - name: node:12.22.5
     entrypoint: yarn
     args: ["run", "build"]
+    env:
+      - VUE_APP_API_BASE_URL=https://mvm-service-mb6m554bha-ew.a.run.app
   - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
     entrypoint: gcloud
     args: ["app", "deploy"]
