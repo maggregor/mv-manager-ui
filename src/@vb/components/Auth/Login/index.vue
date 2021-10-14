@@ -14,6 +14,7 @@
         <div v-else> 
           <UserMenu class="text-center w-100 mb-5 p"/>
           <a-skeleton v-if="projectLoading" active/>
+          <a-skeleton v-if="projectLoading" active/>
           <ProjectCard 
             v-else
             class="mt-3"

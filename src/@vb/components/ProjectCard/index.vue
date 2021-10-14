@@ -1,5 +1,5 @@
 <template>
-  <div class="p-3" :class="$style.container">
+  <div :class="$style.container">
     <div :class="[ $style.status, activatedClass ]" />
     <div class="d-flex flex-nowrap align-items-center pb-3 pl-4 pr-4">
       <div class="mr-auto">
@@ -13,12 +13,6 @@
           {{ datasetCount ? `${datasetCount} dataset(s)` : 'No datasets available' }}
         </div>
       </div>
-      <div class="ml-1 text-success">
-        <i class="fe fe-arrow-right-circle font-size-40" />
-      </div>
-    </div>
-    <div class="py-3 pl-4" :class="$style.footer">
-      Let's manage this project.
     </div>
   </div>
 </template>
@@ -44,9 +38,6 @@ export default {
     },
   },
   computed: {
-    activatedClass: function () {
-      return { 'bg-success': this.activated, 'bg-danger': !this.activated }
-    },
   },
 }
 </script>
