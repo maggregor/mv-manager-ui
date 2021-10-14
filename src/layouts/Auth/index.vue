@@ -24,6 +24,11 @@
           <div :class="$style.logoContainer">
            <h1>achilio.</h1>
           </div>
+          <div v-if="authorized" :class="$style.userContainer">
+           <b class="text-gray-6">Esteban Gonzalez</b>
+           <a class="pl-3 text-primary text-weight-700" @click="logout">Logout</a><br>
+           esteban.achilio@achilio.com 
+          </div>
         </div>
         <div class="mb-5">
           <router-view v-slot="{ Component }">
@@ -55,12 +60,29 @@
 </template>
 
 <script>
+import { useStore } from 'vuex'
+import { computed } from 'vue'
 import { mapState } from 'vuex'
 
 export default {
   name: 'AuthLayout',
   components: {},
   computed: mapState(['settings']),
+  setup() {
+    const store = useStore()
+    const user = computed(() => store.getters['user/user'])
+    const authorized = computed(() => store.getters['user/user'].authorized)
+
+    const logout = () => {
+      store.dispatch('user/LOGOUT')
+    }
+
+    return {
+      user,
+      logout,
+      authorized,
+    }
+  },
 }
 </script>
 

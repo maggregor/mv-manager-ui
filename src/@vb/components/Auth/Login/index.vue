@@ -1,6 +1,5 @@
 <template>
-  <div class="mt-5">
-    <div class="card" :class="$style.container">
+    <div :class="$style.container">
       <a-form
         :model="loginForm"
         :rules="rules"
@@ -9,10 +8,9 @@
         @finishFailed="handleFinishFailed"
       >
         <a-button v-if="!authorized" type="primary" html-type="submit" class="text-center w-100" :loading="loading">
-          Sign in with <strong> Google</strong>
+          Sign in with<strong> Google</strong>
         </a-button>
         <div v-else> 
-          <UserMenu class="text-center w-100 mb-5 p"/>
           <a-skeleton v-if="projectLoading" active/>
           <a-skeleton v-if="projectLoading" active/>
           <ProjectCard 
@@ -28,18 +26,15 @@
         </div>
       </a-form>
     </div>
-  </div>
 </template>
 <script>
 import { computed, reactive } from 'vue'
 import { useStore } from 'vuex'
 import ProjectCard from '@/@vb/components/ProjectCard'
-import UserMenu from '@/@vb/components/Topbar/UserMenu'
 export default {
   name: 'VbLogin',
   components: {
     ProjectCard,
-    UserMenu,
   },
   setup() {
     const store = useStore()
@@ -86,37 +81,9 @@ export default {
       projectLoading,
     }
   },
-  // data: function () {
-  //   return {
-  //     rules: {
-  //       email: [{ required: true, message: 'Please input your email!', trigger: 'change' }],
-  //       password: [{ required: true, message: 'Please input password!', trigger: 'change' }],
-  //     },
-  //     loginForm: {
-  //       email: 'demo@visualbuilder.cloud',
-  //       password: 'VisualBuilder',
-  //     },
-  //   }
-  // },
-  // computed: {
-  //   ...mapState(['settings']),
-  //   loading() {
-  //     return this.$store.state.user.loading
-  //   },
-  // },
-  // methods: {
-  //   changeAuthProvider(value) {
-  //     this.$store.commit('CHANGE_SETTING', { setting: 'authProvider', value })
-  //   },
-  //   handleFinish(values) {
-  //     this.$store.dispatch('user/LOGIN', { payload: values })
-  //   },
-  //   handleFinishFailed(errors) {
-  //     console.log(errors)
-  //   },
-  // },
 }
 </script>
 <style lang="scss" module>
 @import '@/@vb/components/Auth/style.module.scss';
 </style>
+

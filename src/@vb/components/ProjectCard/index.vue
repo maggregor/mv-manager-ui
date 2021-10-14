@@ -1,16 +1,18 @@
 <template>
   <div :class="$style.container">
-    <div :class="[ $style.status, activatedClass ]" />
-    <div class="d-flex flex-nowrap align-items-center pb-3 pl-4 pr-4">
-      <div class="mr-auto">
-        <div class="font-weight-bold font-size-24 text-dark">
-          {{projectName}}
-        </div>
-        <div class="font-size-18">
-          {{ projectId }}
-        </div>
-        <div class="font-size-18">
-          {{ datasetCount ? `${datasetCount} dataset(s)` : 'No datasets available' }}
+    <div class="card">
+      <div :class="[ $style.status, activatedClass ]" />
+      <div class="d-flex flex-nowrap align-items-center pb-3 pl-4 pr-4">
+        <div class="mr-auto">
+          <div class="font-weight-bold font-size-18  text-dark">
+            {{projectName}}
+          </div>
+          <div class="font-size-14">
+            {{ projectId }}
+          </div>
+          <div class="font-size-14">
+            <p v-html="datasetField"></p>
+          </div>
         </div>
       </div>
     </div>
@@ -30,7 +32,7 @@ export default {
     },
     datasetCount: {
       type: Number,
-      default: 0,
+      default: -1,
     },
     activated: {
       type: Boolean,
@@ -38,6 +40,16 @@ export default {
     },
   },
   computed: {
+    datasetField() {
+      switch (this.datasetCount) {
+        case -1:
+          return "Loading...";
+        case 0:
+          return "No datasets";
+        default:
+          return `${this.datasetCount} dataset(s)`;
+      }
+    },
   },
 }
 </script>
