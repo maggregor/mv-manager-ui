@@ -22,11 +22,7 @@
           }"
         >
           <div :class="$style.logoContainer">
-            <div :class="$style.logo">
-              <img src="/resources/images/mvm_logo.png"/>
-              <div :class="$style.name">
-              </div>
-            </div>
+           <h1>achilio.</h1>
           </div>
         </div>
         <div class="mb-5">

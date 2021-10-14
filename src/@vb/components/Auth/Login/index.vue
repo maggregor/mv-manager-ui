@@ -1,22 +1,15 @@
 <template>
-  <div class="mt-5 pt-2">
+  <div class="mt-5">
     <div class="card" :class="$style.container">
-      <div :class="$style.logo">
-        <img src="/resources/images/mvm_logo.png"/>
-        <div :class="$style.name">
-        </div>
-      </div>
-      <a-divider/>
       <a-form
         :model="loginForm"
         :rules="rules"
         layout="vertical"
-        class="mb-4"
         @finish="handleFinish"
         @finishFailed="handleFinishFailed"
       >
         <a-button v-if="!authorized" type="primary" html-type="submit" class="text-center w-100" :loading="loading">
-          <strong>Sign in with Google</strong>
+          Sign in with <strong> Google</strong>
         </a-button>
         <div v-else> 
           <UserMenu class="text-center w-100 mb-5 p"/>
