@@ -1,6 +1,3 @@
-import router from '@/router'
-import { notification } from 'ant-design-vue'
-
 import * as api from '@/services/axios/backendApi'
 
 const getDefaultState = () => {
@@ -63,11 +60,14 @@ export default {
       })
     },
     LOAD_ALL_METRICS({ getters, dispatch }) {
-      getters['projects'].forEach(project => dispatch('LOAD_PROJECT_METRICS', { projectId: project.projectId }))
+      getters['projectNames'].forEach(project => dispatch('LOAD_PROJECT_METRICS', { projectId: project.projectId }))
     },
   },
   getters: {
-    projects: state => Object.keys(state.projects).map(key => state.projects[key]),
+    projectNames: state => Object.keys(state.projects).map(key => state.projects[key]),
     loading: state => state.loading,
+    getProjectById: (state) => (projectId) => {
+      return state.projects[projectId]
+    },
   },
 }

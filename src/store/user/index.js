@@ -99,7 +99,7 @@ export default {
       const logout = mapAuthProviders[rootState.settings.authProvider].logout
       logout().then(() => {
         commit('SET_STATE', { authorized: false })
-        router.push('/auth/login')
+        router.push('/login')
       })
     },
   },

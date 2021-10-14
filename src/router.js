@@ -1,6 +1,5 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import NProgress from 'nprogress'
-import AuthLayout from '@/layouts/Auth'
 import MainLayout from '@/layouts/Main'
 import store from '@/store'
 
@@ -9,14 +8,14 @@ const router = createRouter({
   scrollBehavior() {
     return { x: 0, y: 0 }
   },
-  history: createWebHashHistory(),
+  history: createWebHistory(),
   routes: [
     {
       path: '/',
       name: 'home',
       // VB:REPLACE-NEXT-LINE:ROUTER-REDIRECT
-      redirect: '/overview',
       component: MainLayout,
+      redirect: '/projects',
       meta: {
         authRequired: true,
         hidden: true,
@@ -24,19 +23,14 @@ const router = createRouter({
       children: [
         // VB:REPLACE-START:ROUTER-CONFIG
         {
-          path: '/overview',
+          path: '/projects',
+          meta: { title: 'Projects' },
+          component: () => import('./views/auth/login'),
+        },
+        {
+          path: '/:projectId/overview',
           meta: { title: 'Overview' },
           component: () => import('./views/overview'),
-        },
-        {
-          path: '/manage',
-          meta: { title: 'Manage' },
-          component: () => import('./views/manage'),
-        },
-        {
-          path: '/history',
-          meta: { title: 'History' },
-          component: () => import('./views/history'),
         },
 
         // VB:REPLACE-END:ROUTER-CONFIG
@@ -46,11 +40,11 @@ const router = createRouter({
     // System Pages
     {
       path: '/auth',
-      component: AuthLayout,
-      redirect: 'auth/login',
+      component: MainLayout,
+      redirect: 'login',
       children: [
         {
-          path: '/auth/404',
+          path: '/404',
           name: 'route404',
           meta: {
             title: 'Error 404',
@@ -58,14 +52,14 @@ const router = createRouter({
           component: () => import('./views/auth/404'),
         },
         {
-          path: '/auth/500',
+          path: '/500',
           meta: {
             title: 'Error 500',
           },
           component: () => import('./views/auth/500'),
         },
         {
-          path: '/auth/login',
+          path: '/login',
           name: 'login',
           meta: {
             title: 'Sign In',
@@ -73,21 +67,21 @@ const router = createRouter({
           component: () => import('./views/auth/login'),
         },
         {
-          path: '/auth/register',
+          path: '/register',
           meta: {
             title: 'Sign Up',
           },
           component: () => import('./views/auth/register'),
         },
         {
-          path: '/auth/forgot-password',
+          path: '/forgot-password',
           meta: {
             title: 'Forgot Password',
           },
           component: () => import('./views/auth/forgot-password'),
         },
         {
-          path: '/auth/lockscreen',
+          path: '/lockscreen',
           meta: {
             title: 'Lockscreen',
           },
@@ -112,7 +106,7 @@ router.beforeEach((to, from, next) => {
   if (to.matched.some((record) => record.meta.authRequired)) {
     if (!store.state.user.authorized) {
       next({
-        path: '/auth/login',
+        path: '/login',
         query: { redirect: to.fullPath },
       })
     } else {

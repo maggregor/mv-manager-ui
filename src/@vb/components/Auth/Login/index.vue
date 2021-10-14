@@ -10,7 +10,9 @@
         <a-button v-if="!authorized" type="primary" html-type="submit" class="text-center w-100" :loading="loading">
           Sign in with<strong> Google</strong>
         </a-button>
-        <div v-else> 
+        <div v-else>           
+          <div class="mb-3 text-gray-7 text-weight-600 font-size-36">Hi Esteban, welcome on your optimizer</div>
+          <div class="mb-3 text-gray-7 text-weight-200 font-size-24">Activate one of your projects below</div>
           <a-skeleton v-if="projectLoading" active/>
           <a-skeleton v-if="projectLoading" active/>
           <ProjectCard 
@@ -41,7 +43,7 @@ export default {
     const settings = computed(() => store.getters.settings)
     const loading = computed(() => store.getters['user/user'].loading)
     const authorized = computed(() => store.getters['user/user'].authorized)
-    const projects = computed(() => store.getters['projects/projects'])
+    const projects = computed(() => store.getters['projects/projectNames'])
     const projectLoading = computed(() => store.getters['projects/loading'])
     const rules = {
       email: [

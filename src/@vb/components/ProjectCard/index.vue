@@ -1,22 +1,28 @@
 <template>
-  <div :class="$style.container">
-    <div class="card">
+    <div class="pt-2 card ">
       <div :class="[ $style.status, activatedClass ]" />
-      <div class="d-flex flex-nowrap align-items-center pb-3 pl-4 pr-4">
-        <div class="mr-auto">
-          <div class="font-weight-bold font-size-18  text-dark">
-            {{projectName}}
+          <div class="pl-4 d-flex flex-wrap align-items-center ">
+          <div class="mr-auto">
+            <div class="font-weight-bold font-size-18  text-dark">
+              {{projectName}}
+            </div>
+            <div class="font-size-14">
+              {{ projectId }}
+            </div>
+            <div class="font-size-14">
+              <p v-html="datasetField"></p>
+            </div>
           </div>
-          <div class="font-size-14">
-            {{ projectId }}
-          </div>
-          <div class="font-size-14">
-            <p v-html="datasetField"></p>
+          <div class="pr-3">
+            <router-link :to="`/${projectId}/settings`" class="m-1 btn btn-outline-primary width-100">
+              Settings
+            </router-link>
+            <router-link :to="`/${projectId}/overview`" class="m-1 btn btn-primary width-100">
+              Open
+            </router-link>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
+    </div> 
 </template>
 <script>
 export default {
