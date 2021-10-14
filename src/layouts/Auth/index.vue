@@ -41,32 +41,14 @@
             class="list-unstyled d-flex mb-0 flex-wrap justify-content-center"
             :class="[$style.footerNav]"
           >
-            <li>
-              <a href="javascript: void(0);">Terms of Use</a>
-            </li>
-            <li class="active list-inline-item">
-              <a href="javascript: void(0);">Compliance</a>
-            </li>
-            <li>
-              <a href="javascript: void(0);">Support</a>
-            </li>
-            <li>
-              <a href="javascript: void(0);">Contacts</a>
-            </li>
-            <li>
-              <a href="javascript: void(0);">About</a>
-            </li>
-            <li>
-              <a href="javascript: void(0);">Advertising</a>
-            </li>
           </ul>
           <div class="text-center">
             Copyright © {{ new Date().getFullYear() }}
-            <a href="https://sellpixels.com" target="_blank" rel="noopener noreferrer">
-              Sellpixels.com
+            <a href="https://achilio.com" target="_blank" rel="noopener noreferrer">
+              Achilio.com
             </a>
             |
-            <a href="https://sellpixels.com/privacy" target="_blank" rel="noopener noreferrer">
+            <a href="https://achilio.com/privacy" target="_blank" rel="noopener noreferrer">
               Privacy Policy
             </a>
           </div>

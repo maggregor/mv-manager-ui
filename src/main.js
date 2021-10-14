@@ -1,6 +1,6 @@
+import PerfectScrollbar from 'vue3-perfect-scrollbar'
 import { createApp } from 'vue'
 import Antd from 'ant-design-vue'
-import PerfectScrollbar from 'vue3-perfect-scrollbar'
 
 import App from './App.vue'
 import './registerServiceWorker'
