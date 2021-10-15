@@ -11,7 +11,7 @@
           Sign in with<strong> Google</strong>
         </a-button>
         <div v-else>           
-          <div class="mb-3 text-gray-7 text-weight-600 font-size-36">Hi Esteban, welcome on your optimizer</div>
+          <div class="mb-3 text-gray-7 text-weight-600 font-size-36">Hi {{ user.name.split(' ')[0] }}, welcome to your optimizer</div>
           <div class="mb-3 text-gray-7 text-weight-200 font-size-24">Activate one of your projects below</div>
           <a-skeleton v-if="projectLoading" active/>
           <a-skeleton v-if="projectLoading" active/>
@@ -41,7 +41,7 @@ export default {
   setup() {
     const store = useStore()
     const settings = computed(() => store.getters.settings)
-    const loading = computed(() => store.getters['user/user'].loading)
+    const user = computed(() => store.getters['user/user'])
     const authorized = computed(() => store.getters['user/user'].authorized)
     const projects = computed(() => store.getters['projects/projectNames'])
     const projectLoading = computed(() => store.getters['projects/loading'])
@@ -72,7 +72,7 @@ export default {
 
     return {
       settings,
-      loading,
+      user,
       rules,
       loginForm,
       changeAuthProvider,

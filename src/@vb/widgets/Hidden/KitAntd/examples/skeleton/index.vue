@@ -4,7 +4,7 @@
       <strong>Basic</strong>
     </h5>
     <div class="mb-5">
-      <a-skeleton active />
+      <a-skeleton :width="200" active />
     </div>
   </div>
 </template>
