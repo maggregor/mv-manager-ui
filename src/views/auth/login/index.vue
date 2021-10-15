@@ -4,7 +4,7 @@
   </div>
 </template>
 <script>
-import VbLogin from '@/@vb/components/Auth/Login'
+import VbLogin from '@/components/Login'
 export default {
   components: {
     VbLogin,

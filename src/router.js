@@ -66,27 +66,6 @@ const router = createRouter({
           },
           component: () => import('./views/auth/login'),
         },
-        {
-          path: '/register',
-          meta: {
-            title: 'Sign Up',
-          },
-          component: () => import('./views/auth/register'),
-        },
-        {
-          path: '/forgot-password',
-          meta: {
-            title: 'Forgot Password',
-          },
-          component: () => import('./views/auth/forgot-password'),
-        },
-        {
-          path: '/lockscreen',
-          meta: {
-            title: 'Lockscreen',
-          },
-          component: () => import('./views/auth/lockscreen'),
-        },
       ],
     },
 
@@ -103,7 +82,7 @@ router.beforeEach((to, from, next) => {
   setTimeout(() => {
     NProgress.done()
   }, 50)
-  if (to.matched.some((record) => record.meta.authRequired)) {
+  if (to.matched.some(record => record.meta.authRequired)) {
     if (!store.state.user.authorized) {
       next({
         path: '/login',
