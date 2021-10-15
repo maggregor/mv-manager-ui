@@ -1,0 +1,33 @@
+@import '@/mixins.scss';
+
+.project-name-block {
+  background-color: $main-gray;
+  padding: 10px 113px 4px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.project-name {
+  color: $black;
+  margin-bottom: 10px;
+  letter-spacing: -0.68px;
+  @include poppins-34-bold;
+}
+.project-id {
+  width: 220px;
+  color: $main-deep-blue;
+  flex: 1;
+  display: flex;
+  margin-bottom: 10px;
+  letter-spacing: -0.28px;
+  @include poppins-14-bold;
+}
+.dataset-count {
+  height: 28px;
+  width: 246px;
+  color: $main-deep-blue;
+  display: flex;
+  align-items: center;
+  letter-spacing: -0.28px;
+  @include poppins-14-bold;
+}

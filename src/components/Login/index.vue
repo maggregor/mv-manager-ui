@@ -24,10 +24,8 @@
           Activate one of your projects below
         </div>
         <a-skeleton v-if="projectLoading" active />
-        <a-skeleton v-if="projectLoading" active />
         <ProjectCard
           v-else
-          class="mt-3"
           v-for="project in projects"
           :key="project.projectId"
           :project-id="project.projectId"
@@ -42,7 +40,7 @@
 <script>
 import { computed, reactive } from 'vue'
 import { useStore } from 'vuex'
-import ProjectCard from '@/components/ProjectCard'
+import ProjectCard from '@/components/Projects/ProjectCard'
 export default {
   name: 'VbLogin',
   components: {

@@ -1,0 +1,15 @@
+@import '@/mixins.scss';
+
+.cta-primary {
+  background-color: $blue;
+  border-radius: 10px;
+  padding: 11px 167px;
+  display: flex;
+  align-items: center;
+}
+.large-button {
+  color: $secondary-primary-white;
+  text-align: center;
+  letter-spacing: -0.56px;
+  @include poppins-28-bold;
+}

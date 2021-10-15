@@ -1,8 +1,7 @@
 module.exports = {
   devServer: {
-
     host: 'localhost',
-    },
+  },
   pwa: {
     iconPaths: {
       favicon32: './favicon.png',
