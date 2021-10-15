@@ -1,11 +1,10 @@
 @import '@/mixins.scss';
 
-.container {
-  position: relative;
-  overflow: hidden;
+.projectContainer {
+  background-color: #e8efff;
+  padding-top: 15px;
   border-radius: 15px;
 }
-
 .status {
   position: absolute;
   top: -1px;

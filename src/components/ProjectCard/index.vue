@@ -1,6 +1,6 @@
 <template>
-    <div class="pt-2 card ">
-      <div :class="[ $style.status, activatedClass ]" />
+    <div :class="$style.projectContainer">
+      <div/>
           <div class="pl-4 d-flex flex-wrap align-items-center ">
           <div class="mr-auto">
             <div class="font-weight-bold font-size-18  text-dark">
@@ -13,11 +13,14 @@
               <p v-html="datasetField"></p>
             </div>
           </div>
+          <div class="mr-auto">
+            
+          </div>
           <div class="pr-3">
-            <router-link :to="`/${projectId}/settings`" class="m-1 btn btn-outline-primary width-100">
+            <router-link :to="`/${projectId}/settings`" class="m-1 btn btn-outline-primary text-weight-600 width-150">
               Settings
             </router-link>
-            <router-link :to="`/${projectId}/overview`" class="m-1 btn btn-primary width-100">
+            <router-link :to="`/${projectId}/overview`" class="m-1 btn btn-primary text-weight-600 width-150">
               Open
             </router-link>
           </div>

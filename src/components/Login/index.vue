@@ -18,8 +18,7 @@
       </a-button>
       <div v-else>
         <div class="mb-3 text-black text-weight-600 font-size-36">
-          <ProjectBar />
-          Hi Esteban, welcome to your optimizer
+          Hi {{ user.name.split(' ')[0] }}, welcome to your optimizer
         </div>
         <div class="mb-3 text-black text-weight-200 font-size-24">
           Activate one of your projects below
@@ -44,17 +43,15 @@
 import { computed, reactive } from 'vue'
 import { useStore } from 'vuex'
 import ProjectCard from '@/components/ProjectCard'
-import ProjectBar from '@/components/ProjectBar'
 export default {
   name: 'VbLogin',
   components: {
     ProjectCard,
-    ProjectBar,
   },
   setup() {
     const store = useStore()
     const settings = computed(() => store.getters.settings)
-    const loading = computed(() => store.getters['user/user'].loading)
+    const user = computed(() => store.getters['user/user'])
     const authorized = computed(() => store.getters['user/user'].authorized)
     const projects = computed(() => store.getters['projects/projectNames'])
     const projectLoading = computed(() => store.getters['projects/loading'])
@@ -85,7 +82,7 @@ export default {
 
     return {
       settings,
-      loading,
+      user,
       rules,
       loginForm,
       changeAuthProvider,
