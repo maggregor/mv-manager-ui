@@ -1,10 +1,12 @@
 <template>
   <div class="project-card">
     <ProjectNameBlock
+      class="project-name-block"
       :key="project.projectId"
       :project-id="project.projectId"
       :project-name="project.projectName"
       :dataset-count="project.datasetCount"
+      :dataset-text="project.datasetText"
     /><CtaSecondary class="cta-secondary" /><CtaPrimary class="cta-primary" />
   </div>
 </template>
@@ -41,23 +43,36 @@ export default {
         projectId: this.projectId,
         projectName: this.projectName,
         datasetCount: this.datasetCount,
+        datasetText: 'Loading...',
       },
     }
   },
-  // computed: {
-  //   datasetField() {
-  //     switch (this.datasetCount) {
-  //       case -1:
-  //         return 'Loading...'
-  //       case 0:
-  //         return 'No dataset'
-  //       default:
-  //         return `${this.datasetCount} dataset(s)`
-  //     }
-  //   },
-  // },
+  watch: {
+    datasetCount: function() {
+      switch (this.datasetCount) {
+        case -1:
+          this.project.datasetText = 'Loading...'
+        case 0:
+          this.project.datasetText = 'No dataset'
+        default:
+          this.project.datasetText = `${this.datasetCount} dataset(s)`
+      }
+    },
+    // computed: {
+    //   datasetField() {
+    //     switch (this.datasetCount) {
+    //       case -1:
+    //         return 'Loading...'
+    //       case 0:
+    //         return 'No dataset'
+    //       default:
+    //         return `${this.datasetCount} dataset(s)`
+    //     }
+    //   },
+    // },
+  },
 }
 </script>
-<style lang="scss" module>
+<style lang="scss" scoped>
 @import './style.module.scss';
 </style>
