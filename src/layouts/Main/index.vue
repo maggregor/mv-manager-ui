@@ -1,4 +1,4 @@
-  <template>
+<template>
   <a-layout class="vb__layout">
     <a-layout-content>
       <div
@@ -22,12 +22,12 @@
           }"
         >
           <div :class="$style.logoContainer">
-           <h1>achilio.</h1>
+            <h1>achilio.</h1>
           </div>
           <div v-if="authorized" :class="$style.userContainer">
-           <b class="text-gray-6">{{ user.name }}</b>
-           <a class="pl-3 text-primary text-weight-700" @click="logout">Logout</a><br>
-           {{user.email}}
+            <b class="text-gray-6">{{ user.name }}</b>
+            <a class="pl-3 text-primary text-weight-700" @click="logout">Logout</a><br />
+            {{ user.email }}
           </div>
         </div>
         <div class="mb-5">
@@ -41,8 +41,7 @@
           <ul
             class="list-unstyled d-flex mb-0 flex-wrap justify-content-center"
             :class="[$style.footerNav]"
-          >
-          </ul>
+          ></ul>
           <div class="text-center">
             Copyright © {{ new Date().getFullYear() }}
             <a href="https://achilio.com" target="_blank" rel="noopener noreferrer">
@@ -67,7 +66,6 @@ import { mapState } from 'vuex'
 export default {
   name: 'AuthLayout',
   components: {},
-  computed: mapState(['settings']),
   setup() {
     const store = useStore()
     const user = computed(() => store.getters['user/user'])
@@ -83,10 +81,10 @@ export default {
       authorized,
     }
   },
+  computed: mapState(['settings']),
 }
 </script>
 
 <style lang="scss" module>
 @import './style.module.scss';
 </style>
-  

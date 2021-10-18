@@ -6,20 +6,21 @@
   padding: 45px 55px 45px 45px;
   display: flex;
   align-items: center;
+  margin-bottom: 30px;
 }
 .project-name-block {
   margin-right: 10px;
-  width: 266px;
+  width: 322px;
   height: 82px;
 }
-.cta-secondary {
-  &:not(:last-of-type) {
-    margin-right: 10px;
-  }
+.cta-primary {
+  position: absolute;
+  right: -1px;
+  top: 63px;
 }
-// dark theme
-[data-vb-theme='dark'] {
-  .footer {
-    background: $dark-gray-4;
-  }
-}
+// // dark theme
+// [data-vb-theme='dark'] {
+//   .footer {
+//     background: $dark-gray-4;
+//   }
+// }

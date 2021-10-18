@@ -61,11 +61,35 @@ $base-font-size: 15 !default;
   font-weight: 700;
   line-height: 14px;
 }
+@mixin poppins-18-bold {
+  font-family: 'Poppins';
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 20px;
+}
+@mixin poppins-18-bold-line24 {
+  font-family: 'Poppins';
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 24px;
+}
 @mixin poppins-18-light {
   font-family: 'Poppins';
   font-size: 18px;
   font-weight: 300;
   line-height: 26px;
+}
+@mixin poppins-24-bold {
+  font-family: 'Poppins';
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 42px;
+}
+@mixin poppins-24-bold-line24 {
+  font-family: 'Poppins';
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 24px;
 }
 @mixin poppins-28-bold {
   font-family: 'Poppins';
