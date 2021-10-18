@@ -1,13 +1,13 @@
 <template>
-  <div class="project-card">
+  <div class="project-card mb-4">
     <ProjectNameBlock
-      class="project-name-block"
       :key="project.projectId"
       :project-id="project.projectId"
       :project-name="project.projectName"
       :dataset-count="project.datasetCount"
       :dataset-text="project.datasetText"
-    /><CtaSecondary class="cta-secondary" /><CtaPrimary class="cta-primary" />
+    /><CtaSecondary class="cta-secondary" />
+    <CtaPrimary class="cta-primary" />
   </div>
 </template>
 

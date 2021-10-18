@@ -25,7 +25,6 @@
         </div>
         <a-skeleton v-if="projectLoading" active />
         <ProjectCard
-          class="project-card"
           v-else
           v-for="project in projects"
           :key="project.projectId"

@@ -1,33 +1,120 @@
 @import '@/mixins.scss';
 
 .project-name-block {
-  background-color: $main-gray;
-  padding: 10px 113px 4px 10px;
+  /* Project Name Block */
+
+  /* Auto Layout */
+
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  padding: 5px;
+
+  position: static;
+  width: 232px;
+  left: 16px;
+  top: 0px;
+
+  /* Inside Auto Layout */
+
+  flex: none;
+  order: 0;
+  flex-grow: 1;
+  margin: 0px 0px;
 }
 .project-name {
-  color: $black;
-  margin-bottom: 10px;
-  letter-spacing: -0.68px;
-  @include poppins-24-bold;
-}
-.project-id {
-  width: 220px;
-  color: $main-deep-blue;
-  flex: 1;
-  display: flex;
-  margin-bottom: 10px;
-  letter-spacing: -0.28px;
-  @include poppins-14-bold;
-}
-.dataset-count {
-  height: 28px;
-  width: 246px;
-  color: $main-deep-blue;
+  /* project name */
+
+  position: static;
+  width: 232px;
+  height: 24px;
+  left: 0px;
+  top: 0px;
+
+  /* basic */
+
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 24px;
+  /* identical to box height, or 200% */
+
   display: flex;
   align-items: center;
-  letter-spacing: -0.28px;
-  @include poppins-14-bold;
+  letter-spacing: -0.02em;
+
+  color: #000000;
+
+  /* Inside Auto Layout */
+
+  flex: none;
+  order: 0;
+  align-self: stretch;
+  flex-grow: 0;
+  margin: 4px 0px;
+}
+.project-id {
+  /* project-id */
+
+  position: static;
+  width: 232px;
+  height: 24px;
+  left: 0px;
+  top: 28px;
+
+  /* basic */
+
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 24px;
+  /* identical to box height, or 200% */
+
+  display: flex;
+  align-items: center;
+  letter-spacing: -0.02em;
+
+  color: #000000;
+
+  /* Inside Auto Layout */
+
+  flex: none;
+  order: 1;
+  align-self: stretch;
+  flex-grow: 0;
+  margin: 4px 0px;
+}
+.dataset-count {
+  /* dataset count */
+
+  position: static;
+  width: 232px;
+  height: 24px;
+  left: 0px;
+  top: 56px;
+
+  /* basic */
+
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 24px;
+  /* identical to box height, or 200% */
+
+  display: flex;
+  align-items: center;
+  letter-spacing: -0.02em;
+
+  color: #000000;
+
+  /* Inside Auto Layout */
+
+  flex: none;
+  order: 2;
+  align-self: stretch;
+  flex-grow: 0;
+  margin: 4px 0px;
 }

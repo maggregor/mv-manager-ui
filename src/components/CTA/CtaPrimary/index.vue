@@ -1,6 +1,6 @@
 <template>
   <div class="cta-primary">
-    <p class="large-button">Open</p>
+    <p class="label">Open</p>
   </div>
 </template>
 

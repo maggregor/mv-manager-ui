@@ -1,23 +1,49 @@
 @import '@/mixins.scss';
 
+// .project-card {
+//   background-color: $main-gray;
+//   border-radius: 40px;
+//   padding: 45px 55px 45px 45px;
+//   display: flex;
+//   align-items: center;
+//   margin-bottom: 30px;
+// }
 .project-card {
-  background-color: $main-gray;
-  border-radius: 40px;
-  padding: 45px 55px 45px 45px;
+  /* Project Bar 2 / Menu */
+
+  /* Auto Layout */
+
   display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
-  margin-bottom: 30px;
+  padding: 0px 16px;
+
+  position: relative;
+  width: 640px;
+  height: 100px;
+
+  /* main-gray */
+
+  background: #e7efff;
+  border-radius: 20px;
 }
-.project-name-block {
-  margin-right: 10px;
-  width: 322px;
-  height: 82px;
-}
-.cta-primary {
-  position: absolute;
-  right: -1px;
-  top: 63px;
-}
+// .project-card {
+//   background-color: #e8efff;
+//   padding-top: 15px;
+//   border-radius: 15px;
+//   display: flex;
+//   align-items: center;
+// }
+// .project-name-block {
+//   margin-right: 10px;
+//   width: 322px;
+//   height: 82px;
+// }
+// .cta-primary {
+//   right: -1px;
+//   top: 63px;
+// }
 // // dark theme
 // [data-vb-theme='dark'] {
 //   .footer {
