@@ -1,6 +1,6 @@
 <template>
   <div class="cta-primary" @click="changeRoute()">
-    <p class="label">Open</p>
+    <p class="label">{{ label }}</p>
   </div>
 </template>
 
@@ -13,6 +13,10 @@ export default {
       default: '',
     },
     url: {
+      type: String,
+      default: '',
+    },
+    label: {
       type: String,
       default: '',
     },
