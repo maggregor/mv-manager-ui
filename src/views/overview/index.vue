@@ -42,12 +42,13 @@ export default {
     const datasets = computed(() => store.getters['datasets/datasets'])
     const projectId = route.params.projectId
     onMounted(() => {
-      store.dispatch('datasets/LOAD_DATASETS', { projectId: 'achilio-dev' })
+      store.dispatch('datasets/LOAD_DATASETS', { projectId: projectId })
     })
     const project = computed(() => store.getters['projects/getProjectById'](projectId))
     return {
       datasets,
       project,
+      projectId,
     }
   },
 }

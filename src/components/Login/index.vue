@@ -12,7 +12,7 @@
         type="primary"
         html-type="submit"
         class="text-center w-100"
-        :loading="loading"
+        :loading="user.loading"
       >
         Sign in with<strong> Google</strong>
       </a-button>
