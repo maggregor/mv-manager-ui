@@ -22,7 +22,7 @@
           }"
         >
           <div :class="$style.logoContainer">
-            <h1>achilio.</h1>
+            <h1><a @click="$router.push({ name: 'home' })">achilio.</a></h1>
           </div>
           <div v-if="authorized" :class="$style.userContainer">
             <b class="text-gray-6">{{ user.name }}</b>
