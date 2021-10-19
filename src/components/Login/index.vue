@@ -17,6 +17,7 @@
         Sign in with<strong> Google</strong>
       </a-button>
       <div v-else>
+        <Breadcrumbs />
         <div class="mb-3 text-black text-weight-600 font-size-36">
           Hi {{ user.name.split(' ')[0] }}, welcome to your optimizer
         </div>
@@ -24,15 +25,16 @@
           Activate one of your projects below
         </div>
         <a-skeleton v-if="projectLoading" active />
-        <ProjectCard
-          v-else
-          v-for="project in projects"
-          :key="project.projectId"
-          :project-id="project.projectId"
-          :project-name="project.projectName"
-          :dataset-count="project.datasetCount"
-          :activated="project.activated"
-        />
+        <div v-else>
+          <ProjectCard
+            v-for="project in projects"
+            :key="project.projectId"
+            :project-id="project.projectId"
+            :project-name="project.projectName"
+            :dataset-count="project.datasetCount"
+            :activated="project.activated"
+          />
+        </div>
       </div>
     </a-form>
   </div>
@@ -41,10 +43,13 @@
 import { computed, reactive } from 'vue'
 import { useStore } from 'vuex'
 import ProjectCard from '@/components/Projects/ProjectCard'
+import Breadcrumbs from '@/components/Breadcrumbs'
+
 export default {
   name: 'VbLogin',
   components: {
     ProjectCard,
+    Breadcrumbs,
   },
   setup() {
     const store = useStore()

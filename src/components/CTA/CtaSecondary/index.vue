@@ -1,5 +1,5 @@
 <template>
-  <div class="cta-secondary">
+  <div class="cta-secondary" @click="$router.push(':projectId/settings')">
     <p class="label">Settings</p>
   </div>
 </template>
