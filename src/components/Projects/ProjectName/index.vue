@@ -2,7 +2,7 @@
   <div class="project-name-block">
     <p class="project-name">{{ projectName }}</p>
     <p class="project-id">{{ projectId }}</p>
-    <p class="dataset-count">{{ datasetText }}</p>
+    <p class="dataset-count">{{ datasetField }}</p>
   </div>
 </template>
 
@@ -18,11 +18,6 @@ export default {
       type: String,
       default: '',
     },
-    datasetText: {
-      type: String,
-      default: '',
-    },
-    // Not used for the moment
     datasetCount: {
       type: Number,
       default: -1,
