@@ -29,6 +29,7 @@ const router = createRouter({
         },
         {
           path: '/:projectId/overview',
+          name: 'Overview',
           meta: { title: 'Overview' },
           component: () => import('./views/overview'),
         },

@@ -5,8 +5,8 @@
       :project-id="project.projectId"
       :project-name="project.projectName"
       :dataset-count="project.datasetCount"
-    /><CtaSecondary class="cta-secondary" />
-    <CtaPrimary class="cta-primary" />
+    /><CtaSecondary class="cta-secondary" :project-id="project.projectId" :url="'/settings'" />
+    <CtaPrimary class="cta-primary" :project-id="project.projectId" :url="'/overview'" />
   </div>
 </template>
 

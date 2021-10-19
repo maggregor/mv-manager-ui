@@ -1,5 +1,5 @@
 <template>
-  <div class="cta-primary" @click="$router.push(':projectId/overview')">
+  <div class="cta-primary" @click="changeRoute()">
     <p class="label">Open</p>
   </div>
 </template>
@@ -11,6 +11,17 @@ export default {
     projectId: {
       type: String,
       default: '',
+    },
+    url: {
+      type: String,
+      default: '',
+    },
+  },
+  methods: {
+    changeRoute() {
+      // `route` is either a string or object
+      var route = '/' + this.projectId + this.url
+      this.$router.push(route)
     },
   },
 }
