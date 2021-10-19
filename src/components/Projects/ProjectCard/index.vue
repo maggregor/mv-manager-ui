@@ -7,13 +7,13 @@
       :dataset-count="project.datasetCount"
     /><CtaSecondary
       class="cta-secondary"
-      :project-id="project.projectId"
+      :resource-id="project.projectId"
       :url="'/settings'"
       :label="'Settings'"
     />
     <CtaPrimary
       class="cta-primary"
-      :project-id="project.projectId"
+      :resource-id="project.projectId"
       :url="'/overview'"
       :label="'Open'"
     />
