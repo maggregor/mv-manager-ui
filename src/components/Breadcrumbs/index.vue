@@ -33,7 +33,7 @@ export default {
 
     const getPath = (data, url, parents = []) => {
       if (url === '/') {
-        url = '/dashboard'
+        url = '/projects'
       }
       const items = reduce(
         data,

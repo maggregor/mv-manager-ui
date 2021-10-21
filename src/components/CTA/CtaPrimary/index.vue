@@ -23,9 +23,9 @@ export default {
   },
   methods: {
     changeRoute() {
-      // `route` is either a string or object
-      var route = '/' + this.resourceId + this.url
-      this.$router.push(route)
+      // var route = '/' + this.resourceId + this.url
+      // this.$router.push(route)
+      this.$router.push('/achilio-dev/overview')
     },
   },
 }

@@ -30,6 +30,7 @@
             {{ user.email }}
           </div>
         </div>
+        <div class="mb-3"><Breadcrumbs /></div>
         <div class="mb-5">
           <router-view v-slot="{ Component }">
             <transition :name="settings.routerAnimation" mode="out-in">
@@ -62,10 +63,13 @@
 import { useStore } from 'vuex'
 import { computed } from 'vue'
 import { mapState } from 'vuex'
+import Breadcrumbs from '@/components/Breadcrumbs'
 
 export default {
   name: 'AuthLayout',
-  components: {},
+  components: {
+    Breadcrumbs,
+  },
   setup() {
     const store = useStore()
     const user = computed(() => store.getters['user/user'])

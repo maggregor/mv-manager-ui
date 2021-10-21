@@ -2,7 +2,6 @@
   <div :class="$style.container">
     <a-form
       :model="loginForm"
-      :rules="rules"
       layout="vertical"
       @finish="handleFinish"
       @finishFailed="handleFinishFailed"
@@ -16,41 +15,16 @@
       >
         Sign in with<strong> Google</strong>
       </a-button>
-      <div v-else>
-        <Breadcrumbs />
-        <div class="mb-3 text-black text-weight-600 font-size-36">
-          Hi {{ user.name.split(' ')[0] }}, welcome to your optimizer
-        </div>
-        <div class="mb-3 text-black text-weight-200 font-size-24">
-          Activate one of your projects below
-        </div>
-        <a-skeleton v-if="projectLoading" active />
-        <div v-else>
-          <ProjectCard
-            v-for="project in projects"
-            :key="project.projectId"
-            :project-id="project.projectId"
-            :project-name="project.projectName"
-            :dataset-count="project.datasetCount"
-            :activated="project.activated"
-          />
-        </div>
-      </div>
     </a-form>
   </div>
 </template>
 <script>
 import { computed, reactive } from 'vue'
 import { useStore } from 'vuex'
-import ProjectCard from '@/components/Projects/ProjectCard'
-import Breadcrumbs from '@/components/Breadcrumbs'
 
 export default {
   name: 'VbLogin',
-  components: {
-    ProjectCard,
-    Breadcrumbs,
-  },
+  components: {},
   setup() {
     const store = useStore()
     const settings = computed(() => store.getters.settings)
@@ -58,20 +32,8 @@ export default {
     const authorized = computed(() => store.getters['user/user'].authorized)
     const projects = computed(() => store.getters['projects/projectNames'])
     const projectLoading = computed(() => store.getters['projects/loading'])
-    const rules = {
-      email: [
-        {
-          required: true,
-          message: 'Please input your email!',
-          trigger: 'change',
-        },
-      ],
-      password: [{ required: true, message: 'Please input password!', trigger: 'change' }],
-    }
-    const loginForm = reactive({
-      email: 'demo@visualbuilder.cloud',
-      password: 'VisualBuilder',
-    })
+
+    const loginForm = reactive({})
 
     const changeAuthProvider = value => {
       store.commit('CHANGE_SETTING', { setting: 'authProvider', value })
@@ -86,7 +48,6 @@ export default {
     return {
       settings,
       user,
-      rules,
       loginForm,
       changeAuthProvider,
       handleFinish,

@@ -12,32 +12,33 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'home',
-      // VB:REPLACE-NEXT-LINE:ROUTER-REDIRECT
+      name: 'root',
       component: MainLayout,
-      redirect: '/projects',
       meta: {
         authRequired: true,
         hidden: true,
       },
+      redirect: '/projects',
       children: [
-        // VB:REPLACE-START:ROUTER-CONFIG
         {
           path: '/projects',
-          meta: { title: 'Projects' },
-          component: () => import('./views/auth/login'),
+          name: 'home',
+          component: () => import('./views/home'),
+          meta: {
+            authRequired: true,
+            hidden: true,
+          },
+          children: [
+            {
+              path: ':projectId',
+              name: 'Project',
+              meta: { title: 'Project' },
+              component: () => import('./views/project'),
+            },
+          ],
         },
-        {
-          path: '/:projectId/overview',
-          name: 'Overview',
-          meta: { title: 'Overview' },
-          component: () => import('./views/overview'),
-        },
-
-        // VB:REPLACE-END:ROUTER-CONFIG
       ],
     },
-
     // System Pages
     {
       path: '/auth',

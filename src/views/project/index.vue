@@ -23,7 +23,7 @@
 // import VbChartsChartistjs1 from '@/@vb/widgets/ChartsChartistjs/1'
 // import VbWidgetsGeneral3v1 from '@/@vb/widgets/WidgetsGeneral/3v1'
 // import VbWidgetsGeneral1 from '@/@vb/widgets/WidgetsGeneral/1'
-import { computed, onMounted, watch } from 'vue'
+import { computed, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 
