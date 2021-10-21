@@ -14,7 +14,7 @@
     <CtaPrimary
       class="cta-primary"
       :resource-id="project.projectId"
-      :url="'/overview'"
+      :url="'/projects'"
       :label="'Open'"
     />
   </div>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :class="$style.container">
     <div class="pl-4 d-flex flex-wrap align-items-center">
       <div class="mr-auto">
         <div class="text-weight-600 text-gray-7 font-size-30">{{ project.projectName }}</div>
@@ -18,24 +18,13 @@
 </template>
 
 <script>
-// import VbHeadersHeading from '@/@vb/widgets/Headers/Heading'
-// import VbWidgetsGeneral2v3 from '@/@vb/widgets/WidgetsGeneral/2v3'
-// import VbChartsChartistjs1 from '@/@vb/widgets/ChartsChartistjs/1'
-// import VbWidgetsGeneral3v1 from '@/@vb/widgets/WidgetsGeneral/3v1'
-// import VbWidgetsGeneral1 from '@/@vb/widgets/WidgetsGeneral/1'
 import { computed, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 
 export default {
   name: 'Overview',
-  components: {
-    // VbHeadersHeading,
-    // VbWidgetsGeneral2v3,
-    // VbChartsChartistjs1,
-    // VbWidgetsGeneral3v1,
-    // VbWidgetsGeneral1,
-  },
+  components: {},
   setup() {
     const store = useStore()
     const route = useRoute()
@@ -53,3 +42,7 @@ export default {
   },
 }
 </script>
+
+<style lang="scss" module>
+@import './style.module.scss';
+</style>

@@ -1,15 +1,15 @@
 export const getMenuData = [
   // VB:REPLACE-START:MENU-CONFIG
   {
-    title: 'Overview',
+    title: 'Projects',
     key: '__dashboard',
-    url: '/overview',
+    url: '/projects',
     icon: 'fe fe-airplay',
   },
   {
-    title: 'Manage',
+    title: 'ProjectDetail',
     key: 'y1ptz6',
-    url: '/manage',
+    url: '/projects/achilio-dev',
     icon: 'fe fe-settings',
   },
   {

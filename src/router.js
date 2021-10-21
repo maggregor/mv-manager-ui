@@ -15,6 +15,7 @@ const router = createRouter({
       name: 'root',
       component: MainLayout,
       meta: {
+        title: 'Projects',
         authRequired: true,
         hidden: true,
       },
@@ -25,17 +26,15 @@ const router = createRouter({
           name: 'home',
           component: () => import('./views/home'),
           meta: {
+            title: 'Projects',
             authRequired: true,
             hidden: true,
           },
-          children: [
-            {
-              path: ':projectId',
-              name: 'Project',
-              meta: { title: 'Project' },
-              component: () => import('./views/project'),
-            },
-          ],
+        },
+        {
+          path: '/projects/:projectId',
+          name: 'Project',
+          component: () => import('./views/project'),
         },
       ],
     },
