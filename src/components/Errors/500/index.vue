@@ -14,6 +14,6 @@
 </template>
 <script>
 export default {
-  name: 'VbError500',
+  name: 'Error500',
 }
 </script>
