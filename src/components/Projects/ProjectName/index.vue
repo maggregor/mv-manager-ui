@@ -31,7 +31,7 @@ export default {
         case 0:
           return 'No dataset'
         default:
-          return `${this.datasetCount} dataset(s)`
+          return `${this.datasetCount} datasets / 480 tables`
       }
     },
   },

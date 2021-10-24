@@ -1,18 +1,18 @@
 <template>
-  <div class="project-card mb-4">
+  <div class="project-card mb-4 p-4">
     <ProjectNameBlock
       :key="project.projectId"
       :project-id="project.projectId"
       :project-name="project.projectName"
       :dataset-count="project.datasetCount"
     /><CtaSecondary
-      class="cta-secondary"
+      class="cta-secondary mt-4"
       :resource-id="project.projectId"
       :url="'/settings'"
       :label="'Settings'"
     />
     <CtaPrimary
-      class="cta-primary"
+      class="cta-primary mt-4"
       :resource-id="project.projectId"
       :url="'/projects'"
       :label="'Open'"

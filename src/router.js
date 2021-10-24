@@ -53,13 +53,6 @@ const router = createRouter({
           component: () => import('./views/auth/404'),
         },
         {
-          path: '/500',
-          meta: {
-            title: 'Error 500',
-          },
-          component: () => import('./views/auth/500'),
-        },
-        {
           path: '/login',
           name: 'login',
           meta: {

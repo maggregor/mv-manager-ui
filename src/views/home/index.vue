@@ -1,10 +1,10 @@
 <template>
   <div :class="$style.container">
-    <div class="mb-3 text-black text-weight-600 font-size-36">
-      Hi {{ user.name.split(' ')[0] }}, welcome to your optimizer
+    <div class="text-black text-weight-600 font-size-36">
+      Hi {{ username }}, welcome to your optimizer
     </div>
-    <div class="mb-3 text-black text-weight-200 font-size-24">
-      Activate one of your projects below
+    <div class="mb-4 text-black text-weight-200 font-size-24">
+      Activate one of your BigQuery projects below
     </div>
     <a-skeleton v-if="projectLoading" active />
     <div v-else>
@@ -32,12 +32,12 @@ export default {
   },
   setup() {
     const store = useStore()
-    const user = computed(() => store.getters['user/user'])
+    const username = computed(() => store.getters['user/username'])
     const projects = computed(() => store.getters['projects/projectNames'])
     const projectLoading = computed(() => store.getters['projects/loading'])
 
     return {
-      user,
+      username,
       projects,
       projectLoading,
     }

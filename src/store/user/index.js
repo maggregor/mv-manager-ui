@@ -105,6 +105,7 @@ export default {
   },
   getters: {
     user: state => state,
+    username: state => state.name.split(' ')[0],
     userIsLoaded: state => state.userIsLoaded,
   },
 }

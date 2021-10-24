@@ -23,21 +23,12 @@
   margin: 0px 0px;
 }
 .project-name {
-  /* project name */
-
-  position: static;
-  width: 232px;
-  height: 24px;
-  left: 0px;
-  top: 0px;
-
   /* basic */
 
   font-family: Poppins;
   font-style: normal;
   font-weight: bold;
-  font-size: 12px;
-  line-height: 24px;
+  font-size: 16px;
   /* identical to box height, or 200% */
 
   display: flex;
@@ -52,22 +43,14 @@
   order: 0;
   align-self: stretch;
   flex-grow: 0;
-  margin: 4px 0px;
+  margin: 0px 0px;
 }
 .project-id {
-  /* project-id */
-
-  position: static;
-  width: 131px;
-  height: 24px;
-  left: 0px;
-  top: 24px;
 
   font-family: Poppins;
   font-style: normal;
   font-weight: 600;
-  font-size: 10px;
-  line-height: 24px;
+  font-size: 12px;
   /* identical to box height, or 240% */
 
   letter-spacing: -0.02em;
@@ -82,22 +65,14 @@
   order: 1;
   align-self: stretch;
   flex-grow: 0;
-  margin: 0px 0px;
+  margin: 0px 0px 15px 0px;
 }
 .dataset-count {
-  /* dataset count */
-
-  position: static;
-  width: 131px;
-  height: 24px;
-  left: 0px;
-  top: 48px;
 
   font-family: Poppins;
   font-style: normal;
   font-weight: 600;
-  font-size: 10px;
-  line-height: 24px;
+  font-size: 12px;
   /* identical to box height, or 240% */
 
   text-align: left;
