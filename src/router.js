@@ -43,6 +43,10 @@ const router = createRouter({
       path: '/auth',
       component: MainLayout,
       redirect: 'login',
+      meta: {
+        title: 'Login',
+        hidden: true,
+      },
       children: [
         {
           path: '/404',
@@ -63,7 +67,7 @@ const router = createRouter({
           path: '/login',
           name: 'login',
           meta: {
-            title: 'Sign In',
+            title: 'Login',
           },
           component: () => import('./views/auth/login'),
         },

@@ -66,7 +66,7 @@ import { mapState } from 'vuex'
 import Breadcrumbs from '@/components/Breadcrumbs'
 
 export default {
-  name: 'AuthLayout',
+  name: 'MainLayout',
   components: {
     Breadcrumbs,
   },
