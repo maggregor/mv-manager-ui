@@ -31,13 +31,11 @@
           </div>
         </div>
         <div class="mb-3"><Breadcrumbs /></div>
-        <div class="mb-5">
-          <router-view v-slot="{ Component }">
-            <transition :name="settings.routerAnimation" mode="out-in">
-              <component :is="Component" />
-            </transition>
-          </router-view>
-        </div>
+        <router-view class="containerRouterView" v-slot="{ Component }">
+          <transition :name="settings.routerAnimation" mode="out-in">
+            <component :is="Component" />
+          </transition>
+        </router-view>
         <div class="mt-auto">
           <ul
             class="list-unstyled d-flex mb-0 flex-wrap justify-content-center"
