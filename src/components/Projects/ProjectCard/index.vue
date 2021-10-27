@@ -1,19 +1,19 @@
 <template>
   <div class="project-card mb-4 p-4">
     <ProjectNameBlock
-      :key="project.projectId"
-      :project-id="project.projectId"
-      :project-name="project.projectName"
-      :dataset-count="project.datasetCount"
+      :key="projectId"
+      :project-id="projectId"
+      :project-name="projectName"
+      :dataset-count="datasetCount"
     /><CtaSecondary
       class="cta-secondary mt-4"
-      :resource-id="project.projectId"
+      :resource-id="projectId"
       :url="'/settings'"
       :label="'Settings'"
     />
     <CtaPrimary
       class="cta-primary mt-4"
-      :resource-id="project.projectId"
+      :resource-id="projectId"
       :url="'/projects'"
       :label="'Open'"
     />
@@ -44,20 +44,6 @@ export default {
     activated: {
       type: Boolean,
       default: false,
-    },
-  },
-  data() {
-    return {
-      project: {
-        projectId: this.projectId,
-        projectName: this.projectName,
-        datasetCount: this.datasetCount,
-      },
-    }
-  },
-  watch: {
-    datasetCount: function() {
-      this.project.datasetCount = this.datasetCount
     },
   },
 }
