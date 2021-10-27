@@ -1,9 +1,9 @@
 <template>
   <div :class="$style.container">
     <div class="pl-4 d-flex flex-wrap align-items-center">
-      <a-skeleton :loading="isProjectLoading" active>
-        <div class="mr-auto">
-          <ProjectHeader :project="project" />
+      <div class="mr-auto">
+        <ProjectHeader :project="project" />
+        <a-skeleton :loading="isProjectLoading" active>
           <div class="mt-5">
             <div v-for="dataset in datasets" :key="dataset.datasetName">
               <a :to="`/${projectId}/overview`" class="m-1 btn btn-primary width-300">
@@ -11,8 +11,8 @@
               </a>
             </div>
           </div>
-        </div>
-      </a-skeleton>
+        </a-skeleton>
+      </div>
     </div>
   </div>
 </template>

@@ -12,8 +12,8 @@ export default {
     project: {
       type: Object,
       default: () => ({
-        projectId: 'project-id',
-        projectName: 'ProjectName',
+        projectId: 'loading...',
+        projectName: 'Loading...',
       }),
     },
   },
