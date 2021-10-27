@@ -6,8 +6,7 @@
     <div class="mb-4 text-black text-weight-200 font-size-24">
       Activate one of your BigQuery projects below
     </div>
-    <a-skeleton v-if="projectLoading" active />
-    <div v-else>
+    <a-skeleton :loading="isProjectLoading" >
       <ProjectCard
         v-for="project in projects"
         :key="project.projectId"
@@ -16,14 +15,14 @@
         :dataset-count="project.datasetCount"
         :activated="project.activated"
       />
-    </div>
+    </a-skeleton>
   </div>
 </template>
 
 <script>
 import ProjectCard from '@/components/Projects/ProjectCard'
 import { useStore } from 'vuex'
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 
 export default {
   name: 'Home',
@@ -34,13 +33,16 @@ export default {
     const store = useStore()
     const username = computed(() => store.getters['user/username'])
     const projects = computed(() => store.getters['projects/projectNames'])
-    const projectLoading = computed(() => store.getters['projects/loading'])
 
     return {
       username,
       projects,
-      projectLoading,
     }
+  },
+  computed: {
+    isProjectLoading: function () {
+      return !this.projects.length
+    },
   },
 }
 </script>
