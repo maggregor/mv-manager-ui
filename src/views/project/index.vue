@@ -1,18 +1,18 @@
 <template>
   <div :class="$style.container">
     <div class="pl-4 d-flex flex-wrap align-items-center">
-      <!-- <a-skeleton v-if="projectLoading" active /> -->
-      <div class="mr-auto">
-        <!-- <div>{{ project.projectId }}</div> -->
-        <ProjectHeader :project="project" />
-        <div class="mt-5">
-          <div v-for="dataset in datasets" :key="dataset.datasetName">
-            <a :to="`/${projectId}/overview`" class="m-1 btn btn-primary width-300">
-              Optimize <b>{{ dataset.datasetName }}</b>
-            </a>
+      <a-skeleton :loading="isProjectLoading" active>
+        <div class="mr-auto">
+          <ProjectHeader :project="project" />
+          <div class="mt-5">
+            <div v-for="dataset in datasets" :key="dataset.datasetName">
+              <a :to="`/${projectId}/overview`" class="m-1 btn btn-primary width-300">
+                Optimize <b>{{ dataset.datasetName }}</b>
+              </a>
+            </div>
           </div>
         </div>
-      </div>
+      </a-skeleton>
     </div>
   </div>
 </template>
@@ -47,6 +47,11 @@ export default {
       projectId,
       projectLoading,
     }
+  },
+  computed: {
+    isProjectLoading: function() {
+      return !this.project
+    },
   },
 }
 </script>
