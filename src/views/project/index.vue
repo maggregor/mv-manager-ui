@@ -1,10 +1,10 @@
 <template>
   <div :class="$style.container">
     <div class="pl-4 d-flex flex-wrap align-items-center">
+      <!-- <a-skeleton v-if="projectLoading" active /> -->
       <div class="mr-auto">
-        <div class="text-weight-600 text-gray-7 font-size-30">{{ project.projectName }}</div>
-        <div class="text-weight-200 text-gray-7 font-size-18">{{ project.projectId }}</div>
-        <!-- {{ datasets }} -->
+        <!-- <div>{{ project.projectId }}</div> -->
+        <ProjectHeader :project="project" />
         <div class="mt-5">
           <div v-for="dataset in datasets" :key="dataset.datasetName">
             <a :to="`/${projectId}/overview`" class="m-1 btn btn-primary width-300">
@@ -20,24 +20,32 @@
 <script>
 import { computed, onMounted } from 'vue'
 import { useStore } from 'vuex'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
+
+import ProjectHeader from '@/components/Projects/ProjectHeader'
 
 export default {
   name: 'Overview',
-  components: {},
+  components: { ProjectHeader },
   setup() {
     const store = useStore()
     const route = useRoute()
+    const router = useRouter()
     const datasets = computed(() => store.getters['datasets/datasets'])
     const projectId = route.params.projectId
     onMounted(() => {
-      store.dispatch('datasets/LOAD_DATASETS', { projectId: projectId })
+      store
+        .dispatch('datasets/LOAD_DATASETS', { projectId: projectId })
+        .catch(e => router.push('/'))
     })
     const project = computed(() => store.getters['projects/getProjectById'](projectId))
+    const projectLoading = computed(() => store.getters['projects/loading'])
     return {
+      store,
       datasets,
       project,
       projectId,
+      projectLoading,
     }
   },
 }
