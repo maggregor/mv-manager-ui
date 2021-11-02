@@ -15,6 +15,7 @@
     "vb-seed": "node ./scripts/generate.js --config=config-seed.json"
   },
   "dependencies": {
+    "@syncfusion/ej2-vue-buttons": "^19.3.44",
     "@syncfusion/ej2-vue-navigations": "^19.3.46",
     "ant-design-vue": "^2.0.0-rc.9",
     "axios": "^0.21.1",

@@ -1421,7 +1421,7 @@
   dependencies:
     "@syncfusion/ej2-icons" "~19.3.43"
 
-"@syncfusion/ej2-buttons@~19.3.44":
+"@syncfusion/ej2-buttons@19.3.44", "@syncfusion/ej2-buttons@~19.3.44":
   version "19.3.44"
   resolved "https://registry.yarnpkg.com/@syncfusion/ej2-buttons/-/ej2-buttons-19.3.44.tgz#95e10dfdb23980c200e1d3ccae8524d22aa5826e"
   integrity sha512-Qx/0kTISQ73+gxjCEFSoJo6uLzZJ97QIVAoQxAJFAMLEVxuazl1r0m5K5rU/4ZC6Tfgxf1iGfA1nsIVzNRsOPw==
@@ -1494,6 +1494,15 @@
   dependencies:
     "@syncfusion/ej2-base" "~19.3.47"
     glob "^7.0.5"
+
+"@syncfusion/ej2-vue-buttons@^19.3.44":
+  version "19.3.44"
+  resolved "https://registry.yarnpkg.com/@syncfusion/ej2-vue-buttons/-/ej2-vue-buttons-19.3.44.tgz#94f8566be57de2c445e395cb40c8a84184dd49e8"
+  integrity sha512-LJPpkQQMyM6y/s3Uqs7YOGVsmegbBiM19+4xoEOq5aqY607QwNqYKPU4XsmpN9kI4mFwtZL0wXKBYaWRopdqRA==
+  dependencies:
+    "@syncfusion/ej2-base" "~19.3.43"
+    "@syncfusion/ej2-buttons" "19.3.44"
+    "@syncfusion/ej2-vue-base" "~19.3.43"
 
 "@syncfusion/ej2-vue-navigations@^19.3.46":
   version "19.3.46"

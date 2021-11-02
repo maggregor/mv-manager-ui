@@ -1,51 +1,62 @@
 <template>
-  <div class="treeview-div">
-    <ejs-treeview id="treeview" :fields="fields"></ejs-treeview>
+  <div id="app">
+    <div class="control_wrapper">
+      <ejs-treeview
+        id="treeview"
+        :fields="fields"
+        :show-check-box="true"
+        :checked-nodes="checkedNodes"
+        :node-checked="nodeChecked"
+      ></ejs-treeview>
+    </div>
   </div>
 </template>
 <script>
-import { TreeViewComponent } from '@syncfusion/ej2-vue-navigations'
-
-var data = [
-  {
-    nodeId: '01',
-    nodeText: 'Music',
-    nodeChild: [{ nodeId: '01-01', nodeText: 'Gouttes.mp3' }],
-  },
-  {
-    nodeId: '02',
-    nodeText: 'Videos',
-    expanded: true,
-    nodeChild: [
-      { nodeId: '02-01', nodeText: 'Naturals.mp4' },
-      { nodeId: '02-02', nodeText: 'Wild.mpeg' },
-    ],
-  },
-  {
-    nodeId: '03',
-    nodeText: 'Documents',
-    nodeChild: [
-      { nodeId: '03-01', nodeText: 'Environment Pollution.docx' },
-      { nodeId: '03-02', nodeText: 'Global Water, Sanitation, & Hygiene.docx' },
-      { nodeId: '03-03', nodeText: 'Global Warming.ppt' },
-      { nodeId: '03-04', nodeText: 'Social Network.pdf' },
-      { nodeId: '03-05', nodeText: 'Youth Empowerment.pdf' },
-    ],
-  },
-]
 export default {
-  name: 'TableExplorer',
-  components: {
-    'ejs-treeview': TreeViewComponent,
-  },
   data() {
+    var dataSource = [
+      { id: 1, name: 'Achilio Dev', hasChild: true, expanded: true },
+      // Datasets
+      { id: 2, pid: 1, name: 'nyc-dataset-1', hasChild: true, expanded: true },
+      { id: 3, pid: 1, name: 'nyc-dataset-2', hasChild: true },
+      { id: 4, pid: 1, name: 'nyc-dataset-3', hasChild: true },
+      // Tables dataset 1
+      { id: 21, pid: 2, name: 'my_table_1' },
+      { id: 22, pid: 2, name: 'my_table_2' },
+      { id: 23, pid: 2, name: 'my_table_3' },
+      // Tables dataset 2
+      { id: 31, pid: 3, name: 'my_table_1' },
+      { id: 32, pid: 3, name: 'my_table_2' },
+      { id: 33, pid: 3, name: 'my_table_3' },
+      // Tables dataset 3
+      { id: 41, pid: 4, name: 'my_table_1' },
+      { id: 42, pid: 4, name: 'my_table_2' },
+      { id: 43, pid: 4, name: 'my_table_3' },
+    ]
     return {
-      fields: { dataSource: data, id: 'nodeId', text: 'nodeText', child: 'nodeChild' },
+      fields: {
+        dataSource: dataSource,
+        id: 'id',
+        parentID: 'pid',
+        text: 'name',
+        hasChildren: 'hasChild',
+      },
+      checkedNodes: [],
     }
+  },
+  methods: {
+    nodeChecked: function(args) {},
   },
 }
 </script>
-
-<style lang="scss" module>
-@import './style.module.scss';
+<style>
+@import '../../../node_modules/@syncfusion/ej2-base/styles/material.css';
+@import '../../../node_modules/@syncfusion/ej2-vue-navigations/styles/material.css';
+@import '../../../node_modules/@syncfusion/ej2-vue-buttons/styles/material.css';
+.control_wrapper {
+  display: block;
+  margin: auto;
+  overflow: auto;
+  border-radius: 3px;
+}
 </style>

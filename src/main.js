@@ -8,10 +8,13 @@ import router from './router'
 import store from './store'
 import { i18n } from './localization'
 
+import { TreeViewPlugin } from '@syncfusion/ej2-vue-navigations'
+
 createApp(App)
   .use(store)
   .use(router)
   .use(i18n)
   .use(Antd)
   .use(PerfectScrollbar)
+  .use(TreeViewPlugin)
   .mount('#app')
