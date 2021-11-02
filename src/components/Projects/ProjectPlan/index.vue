@@ -1,5 +1,5 @@
 <template>
-  <div class="project-plan mt-4 mb-4 p-4">
+  <div class="project-plan">
     <p class="project-plan-name">{{ planName }}</p>
     <p class="table-count">
       <span class="count-num">{{ tableCount }}/{{ maxTable }}</span> Table(s)
@@ -12,7 +12,7 @@
       v-if="planUpgradable"
       :url="'https://cloud.google.com/marketplace'"
       :external="true"
-      :label="'Upgrade'"
+      :label="'Upgrade your Smart Tuning Plan'"
     />
   </div>
 </template>

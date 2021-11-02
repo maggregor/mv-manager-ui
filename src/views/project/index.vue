@@ -9,18 +9,12 @@
       </a-col>
       <a-col :span="16">
         <a-row>
-          <a-col :span="6" :offset="2"
-            ><Kpi1 :data="tableCount.data" :label="tableCount.label"
-          /></a-col>
-          <a-col :span="6" :offset="2"
-            ><Kpi1 :data="viewCount.data" :label="viewCount.label"
-          /></a-col>
-          <a-col :span="6" :offset="2"
-            ><Kpi1 :data="scannedBytes.data" :label="scannedBytes.label"
-          /></a-col>
+          <a-col :span="8"><Kpi1 :data="tableCount.data" :label="tableCount.label"/></a-col>
+          <a-col :span="8"><Kpi1 :data="viewCount.data" :label="viewCount.label"/></a-col>
+          <a-col :span="8"><Kpi1 :data="scannedBytes.data" :label="scannedBytes.label"/></a-col>
         </a-row>
         <a-row>
-          <a-col :span="23" :offset="2">
+          <a-col :span="24">
             <ProjectPlan
               :project-plan="projectPlan.planName"
               :table-count="projectPlan.tableCount"
@@ -71,11 +65,11 @@ export default {
     return {
       tableCount: {
         data: 543,
-        label: 'Directly on a Table',
+        label: 'Queries directly on a Table',
       },
       viewCount: {
         data: 21,
-        label: 'Catched by Managed Materialized View',
+        label: 'Queries catched by Managed Materialized View',
       },
       scannedBytes: {
         data: 28000,

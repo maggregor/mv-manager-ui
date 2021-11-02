@@ -9,12 +9,12 @@
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  padding: 22px;
+  padding: 20px;
 
-  position: relative;
-  width: 199px;
+  // position: relative;
+  // width: 160px;
   height: 136px;
-
+  margin: 16px;
   background: $main-gray;
   border-radius: 15px;
 }
@@ -23,7 +23,7 @@
   /* Data */
 
   position: static;
-  width: 68px;
+  // width: 68px;
   height: 42px;
   left: 22px;
   top: 17px;
@@ -46,7 +46,7 @@
   /* Label */
 
   position: static;
-  width: 155px;
+  // width: 155px;
   height: 60px;
   left: 22px;
   top: 59px;
@@ -54,13 +54,13 @@
   font-family: Poppins;
   font-style: normal;
   font-weight: normal;
-  font-size: 18px;
+  font-size: 16px;
   line-height: 20px;
   /* or 167% */
 
   display: flex;
   align-items: center;
-  text-align: right;
+  // text-align: right;
   letter-spacing: -0.02em;
 
   /* main-deep-blue */
