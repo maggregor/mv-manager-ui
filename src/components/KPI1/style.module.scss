@@ -1,0 +1,77 @@
+@import '@/mixins.scss';
+
+.kpi-1 {
+  /* KPI1 */
+
+  /* Auto Layout */
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 22px;
+
+  position: relative;
+  width: 199px;
+  height: 136px;
+
+  background: $main-gray;
+  border-radius: 15px;
+}
+
+.data {
+  /* Data */
+
+  position: static;
+  width: 68px;
+  height: 42px;
+  left: 22px;
+  top: 17px;
+
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 36px;
+  line-height: 42px;
+  /* identical to box height, or 117% */
+
+  letter-spacing: -0.02em;
+
+  /* main-deep-blue */
+
+  color: $main-deep-blue;
+}
+
+.label {
+  /* Label */
+
+  position: static;
+  width: 155px;
+  height: 60px;
+  left: 22px;
+  top: 59px;
+
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 20px;
+  /* or 167% */
+
+  display: flex;
+  align-items: center;
+  text-align: right;
+  letter-spacing: -0.02em;
+
+  /* main-deep-blue */
+
+  color: $main-deep-blue;
+
+  /* Inside Auto Layout */
+
+  flex: none;
+  order: 1;
+  align-self: stretch;
+  flex-grow: 0;
+  margin: 0px 0px;
+}

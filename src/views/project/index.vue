@@ -9,9 +9,15 @@
       </a-col>
       <a-col :span="16">
         <a-row>
-          <a-col :span="6" :offset="2"> KPI #1 </a-col>
-          <a-col :span="6" :offset="2"> KPI #2 </a-col>
-          <a-col :span="6" :offset="2"> KPI #3 </a-col>
+          <a-col :span="6" :offset="2"
+            ><Kpi1 :data="tableCount.data" :label="tableCount.label"
+          /></a-col>
+          <a-col :span="6" :offset="2"
+            ><Kpi1 :data="viewCount.data" :label="viewCount.label"
+          /></a-col>
+          <a-col :span="6" :offset="2"
+            ><Kpi1 :data="scannedBytes.data" :label="scannedBytes.label"
+          /></a-col>
         </a-row>
         <a-row>
           <a-col :span="24">
@@ -29,10 +35,11 @@ import { useStore } from 'vuex'
 import { useRoute, useRouter } from 'vue-router'
 
 import ProjectHeader from '@/components/Projects/ProjectHeader'
+import Kpi1 from '@/components/KPI1'
 
 export default {
   name: 'Overview',
-  components: { ProjectHeader },
+  components: { ProjectHeader, Kpi1 },
   setup() {
     const store = useStore()
     const route = useRoute()
@@ -52,6 +59,22 @@ export default {
       project,
       projectId,
       projectLoading,
+    }
+  },
+  data() {
+    return {
+      tableCount: {
+        data: 543,
+        label: 'Directly on a Table',
+      },
+      viewCount: {
+        data: 21,
+        label: 'Catched by Managed Materialized View',
+      },
+      scannedBytes: {
+        data: 28000,
+        label: 'Total scanned byte last 30 days',
+      },
     }
   },
   computed: {
