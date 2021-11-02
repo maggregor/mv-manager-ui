@@ -13,6 +13,7 @@
 </template>
 <script>
 export default {
+  name: 'TableExplorer',
   data() {
     var dataSource = [
       { id: 1, name: 'Achilio Dev', hasChild: true, expanded: true },
@@ -49,14 +50,7 @@ export default {
   },
 }
 </script>
-<style>
-@import '../../../node_modules/@syncfusion/ej2-base/styles/material.css';
-@import '../../../node_modules/@syncfusion/ej2-vue-navigations/styles/material.css';
-@import '../../../node_modules/@syncfusion/ej2-vue-buttons/styles/material.css';
-.control_wrapper {
-  display: block;
-  margin: auto;
-  overflow: auto;
-  border-radius: 3px;
-}
+
+<style lang="scss">
+@import './style.module.scss';
 </style>

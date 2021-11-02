@@ -14,7 +14,7 @@
   width: 100px;
   height: 35px;
 
-  border: 1px solid #4318ff;
+  border: 1px solid $main-purple;
   box-sizing: border-box;
   border-radius: 6px;
 
@@ -60,7 +60,7 @@
   text-align: center;
   letter-spacing: -0.02em;
 
-  color: #4318ff;
+  color: $main-purple;
 
   /* Inside Auto Layout */
 
@@ -71,5 +71,5 @@
 }
 
 .label:hover {
-  color: #2200b7;
+  color: $blue-dark;
 }

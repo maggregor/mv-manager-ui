@@ -16,7 +16,7 @@
 
   /* main-clear-blue */
 
-  background: #4318ff;
+  background: $main-purple;
   border-radius: 6px;
 
   /* Inside Auto Layout */
@@ -51,6 +51,6 @@
 .cta-primary:hover {
   /* main-old-blue */
 
-  background: #2200b7;
+  background: $blue-dark;
   cursor: pointer;
 }
