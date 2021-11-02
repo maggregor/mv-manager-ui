@@ -6,7 +6,7 @@
     <div class="mb-4 text-black text-weight-200 font-size-24">
       Activate one of your BigQuery projects below
     </div>
-    <a-skeleton :loading="isProjectLoading" >
+    <a-skeleton :loading="isProjectLoading">
       <ProjectCard
         v-for="project in projects"
         :key="project.projectId"
@@ -40,7 +40,7 @@ export default {
     }
   },
   computed: {
-    isProjectLoading: function () {
+    isProjectLoading: function() {
       return !this.projects.length
     },
   },

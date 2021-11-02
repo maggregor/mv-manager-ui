@@ -1,19 +1,25 @@
 <template>
   <div :class="$style.container">
-    <div class="pl-4 d-flex flex-wrap align-items-center">
-      <div class="mr-auto">
-        <ProjectHeader :project="project" />
-        <a-skeleton :loading="isProjectLoading" active>
-          <div class="mt-5">
-            <div v-for="dataset in datasets" :key="dataset.datasetName">
-              <a :to="`/${projectId}/overview`" class="m-1 btn btn-primary width-300">
-                Optimize <b>{{ dataset.datasetName }}</b>
-              </a>
-            </div>
-          </div>
-        </a-skeleton>
-      </div>
+    <div class="d-flex flex-wrap align-items-center">
+      <ProjectHeader :project="project" />
     </div>
+    <a-row>
+      <a-col :span="8">
+        Tree view Datasets / Tables
+      </a-col>
+      <a-col :span="16">
+        <a-row>
+          <a-col :span="6" :offset="2"> KPI #1 </a-col>
+          <a-col :span="6" :offset="2"> KPI #2 </a-col>
+          <a-col :span="6" :offset="2"> KPI #3 </a-col>
+        </a-row>
+        <a-row>
+          <a-col :span="24">
+            Project Plan / Upgrade the project
+          </a-col>
+        </a-row>
+      </a-col>
+    </a-row>
   </div>
 </template>
 
