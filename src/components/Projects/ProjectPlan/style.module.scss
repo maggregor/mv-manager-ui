@@ -1,0 +1,24 @@
+@import '@/mixins.scss';
+
+.project-plan {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 30px;
+  color: $main-deep-blue;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  background-color: $main-gray;
+  border-radius: 12px;
+}
+
+.table-count,
+.mmv-count {
+  font-weight: 300;
+  .count-num {
+    font-weight: 600;
+  }
+}

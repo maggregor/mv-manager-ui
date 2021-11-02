@@ -20,8 +20,12 @@
           /></a-col>
         </a-row>
         <a-row>
-          <a-col :span="24">
-            Project Plan / Upgrade the project
+          <a-col :span="23" :offset="2">
+            <ProjectPlan
+              :project-plan="projectPlan.planName"
+              :table-count="projectPlan.tableCount"
+              :mmv-count="projectPlan.mmvCount"
+            />
           </a-col>
         </a-row>
       </a-col>
@@ -35,11 +39,12 @@ import { useStore } from 'vuex'
 import { useRoute, useRouter } from 'vue-router'
 
 import ProjectHeader from '@/components/Projects/ProjectHeader'
+import ProjectPlan from '@/components/Projects/ProjectPlan'
 import Kpi1 from '@/components/KPI1'
 
 export default {
   name: 'Overview',
-  components: { ProjectHeader, Kpi1 },
+  components: { ProjectHeader, ProjectPlan, Kpi1 },
   setup() {
     const store = useStore()
     const route = useRoute()
@@ -61,6 +66,7 @@ export default {
       projectLoading,
     }
   },
+  // Fake data before API Implementation
   data() {
     return {
       tableCount: {
@@ -74,6 +80,11 @@ export default {
       scannedBytes: {
         data: 28000,
         label: 'Total scanned byte last 30 days',
+      },
+      projectPlan: {
+        planName: 'Startup Plan',
+        tableCount: 1,
+        mmvCount: 2,
       },
     }
   },

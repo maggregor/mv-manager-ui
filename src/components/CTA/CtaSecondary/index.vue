@@ -8,13 +8,13 @@
 export default {
   name: 'CtaSecondary',
   props: {
-    resourceId: {
-      type: String,
-      default: '',
-    },
     url: {
       type: String,
       default: '',
+    },
+    external: {
+      type: Boolean,
+      default: false,
     },
     label: {
       type: String,
@@ -23,9 +23,11 @@ export default {
   },
   methods: {
     changeRoute() {
-      // `route` is either a string or object
-      var route = '/' + this.resourceId + this.url
-      this.$router.push(route)
+      if (this.external) {
+        window.open(this.url)
+      } else {
+        this.$router.push(this.url)
+      }
     },
   },
 }

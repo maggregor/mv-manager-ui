@@ -8,13 +8,13 @@
 export default {
   name: 'CtaPrimary',
   props: {
-    resourceId: {
-      type: String,
-      default: '',
-    },
     url: {
       type: String,
       default: '',
+    },
+    external: {
+      type: Boolean,
+      default: false,
     },
     label: {
       type: String,
@@ -23,8 +23,11 @@ export default {
   },
   methods: {
     changeRoute() {
-      var route = this.url + '/' + this.resourceId
-      this.$router.push(route)
+      if (this.external) {
+        window.open(this.url)
+      } else {
+        this.$router.push(this.url)
+      }
       // this.$router.push('/projects/achilio-dev') // For testing only
     },
   },

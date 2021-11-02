@@ -7,16 +7,10 @@
       :dataset-count="datasetCount"
     /><CtaSecondary
       class="cta-secondary mt-4"
-      :resource-id="projectId"
-      :url="'/settings'"
+      :url="'/settings/' + projectId"
       :label="'Settings'"
     />
-    <CtaPrimary
-      class="cta-primary mt-4"
-      :resource-id="projectId"
-      :url="'/projects'"
-      :label="'Open'"
-    />
+    <CtaPrimary class="cta-primary mt-4" :url="'/projects/' + projectId" :label="'Open'" />
   </div>
 </template>
 
