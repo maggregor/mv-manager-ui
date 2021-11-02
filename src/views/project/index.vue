@@ -5,7 +5,7 @@
     </div>
     <a-row>
       <a-col :span="8">
-        Tree view Datasets / Tables
+        <TableExplorer />
       </a-col>
       <a-col :span="16">
         <a-row>
@@ -35,10 +35,11 @@ import { useRoute, useRouter } from 'vue-router'
 import ProjectHeader from '@/components/Projects/ProjectHeader'
 import ProjectPlan from '@/components/Projects/ProjectPlan'
 import Kpi1 from '@/components/KPI1'
+import TableExplorer from '@/components/TableExplorer'
 
 export default {
   name: 'Overview',
-  components: { ProjectHeader, ProjectPlan, Kpi1 },
+  components: { ProjectHeader, ProjectPlan, Kpi1, TableExplorer },
   setup() {
     const store = useStore()
     const route = useRoute()
