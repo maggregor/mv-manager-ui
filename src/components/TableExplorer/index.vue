@@ -7,6 +7,7 @@
         :show-check-box="true"
         :checked-nodes="checkedNodes"
         :node-checked="nodeChecked"
+        :node-clicked="nodeClicked"
       ></ejs-treeview>
     </div>
   </div>
@@ -47,6 +48,15 @@ export default {
   },
   methods: {
     nodeChecked: function(args) {},
+    nodeClicked: function() {
+      // Example that disable node 22 (table2 of dataset1)
+      // when any node is clicked
+      var tree = document.getElementById('treeview').ej2_instances[0]
+      console.log(tree)
+      console.log(tree.getTreeData())
+      tree.disableNodes(['22'])
+      // tree.checkAll()
+    },
   },
 }
 </script>
