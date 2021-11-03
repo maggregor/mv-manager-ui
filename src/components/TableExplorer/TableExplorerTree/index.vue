@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="control_wrapper">
     <ejs-treeview
       id="treeview"
       :fields="fields"
