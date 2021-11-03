@@ -5,7 +5,7 @@
     </div>
     <a-row>
       <a-col :span="8">
-        <TableExplorer />
+        <TableExplorerTree />
       </a-col>
       <a-col :span="16">
         <a-row>
@@ -35,11 +35,11 @@ import { useRoute, useRouter } from 'vue-router'
 import ProjectHeader from '@/components/Projects/ProjectHeader'
 import ProjectPlan from '@/components/Projects/ProjectPlan'
 import Kpi1 from '@/components/KPI1'
-import TableExplorer from '@/components/TableExplorer'
+import TableExplorerTree from '@/components/TableExplorer/TableExplorerTree'
 
 export default {
   name: 'Overview',
-  components: { ProjectHeader, ProjectPlan, Kpi1, TableExplorer },
+  components: { ProjectHeader, ProjectPlan, Kpi1, TableExplorerTree },
   setup() {
     const store = useStore()
     const route = useRoute()
