@@ -5,22 +5,15 @@
 
   /* Auto Layout */
 
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
   align-items: center;
   padding: 0px 16px;
 
   position: relative;
-  width: 50rem;
+  width: 100%;
   height: 100px;
 
   /* main-gray */
 
   background: #e7efff;
   border-radius: 15px;
-}
-
-.cta-primary {
-  width: 100px;
 }

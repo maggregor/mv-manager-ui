@@ -1,16 +1,29 @@
 <template>
-  <div class="project-card mb-4 p-4">
-    <ProjectNameBlock
-      :key="projectId"
-      :project-id="projectId"
-      :project-name="projectName"
-      :dataset-count="datasetCount"
-    /><CtaSecondary
-      class="cta-secondary mt-4"
-      :url="'/settings/' + projectId"
-      :label="'Settings'"
-    />
-    <CtaPrimary class="cta-primary mt-4" :url="'/projects/' + projectId" :label="'Open'" />
+  <div class="project-card mb-4">
+    <a-row>
+      <a-col :span="12">
+        <ProjectNameBlock
+          :key="projectId"
+          :project-id="projectId"
+          :project-name="projectName"
+          :dataset-count="datasetCount"
+        />
+      </a-col>
+      <a-col :span="12">
+        <a-row class="mt-5" type="flex" justify="space-between" align="bottom">
+          <a-col :span="11">
+            <CtaSecondary
+              class="cta-secondary"
+              :url="'/settings/' + projectId"
+              :label="'Settings'"
+            />
+          </a-col>
+          <a-col class="ml-1" :span="11">
+            <CtaPrimary class="cta-primary" :url="'/projects/' + projectId" :label="'Open'" />
+          </a-col>
+        </a-row>
+      </a-col>
+    </a-row>
   </div>
 </template>
 
@@ -21,7 +34,11 @@ import ProjectNameBlock from '@/components/Projects/ProjectName'
 
 export default {
   name: 'ProjectCard',
-  components: { ProjectNameBlock, CtaSecondary, CtaPrimary },
+  components: {
+    ProjectNameBlock,
+    CtaSecondary,
+    CtaPrimary,
+  },
   props: {
     projectId: {
       type: String,
