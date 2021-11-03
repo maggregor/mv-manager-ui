@@ -3,6 +3,16 @@ import * as api from '@/services/axios/backendApi'
 const getDefaultState = () => {
   return {
     projects: [],
+    currentProject: {
+      id: null,
+      name: null,
+      kpi1: null,
+      kpi2: null,
+      kpi3: null,
+      planName: null,
+      datasets: [],
+      tables: [],
+    },
     loading: false,
   }
 }
@@ -20,7 +30,10 @@ export default {
     },
     SET_PROJECT_STATE(state, payload) {
       let projectId = payload.projectId
-      Object.assign(state.projects[projectId], {...payload})
+      Object.assign(state.projects[projectId], { ...payload })
+    },
+    SET_CURRENT_PROJECT(state, payload) {
+      Object.assign(state.currentProject, { ...payload })
     },
     RESET_STATE(state) {
       Object.assign(state, getDefaultState())
@@ -34,11 +47,12 @@ export default {
 
       await api.getProjects().then(projects => {
         if (projects) {
-          commit('SET_STATE', { projects: 
-            projects.reduce((map, obj) => {
-            map[obj.projectId] = obj;
-            return map;
-        }, {}) })
+          commit('SET_STATE', {
+            projects: projects.reduce((map, obj) => {
+              map[obj.projectId] = obj
+              return map
+            }, {}),
+          })
         }
         commit('SET_STATE', {
           loading: false,
@@ -46,13 +60,13 @@ export default {
       })
       dispatch('LOAD_ALL_METRICS')
     },
-    LOAD_PROJECT_METRICS({ commit,getters }, payload) {
+    LOAD_PROJECT_METRICS({ commit, getters }, payload) {
       let projectId = payload.projectId
       commit('SET_PROJECT_STATE', {
         projectId,
         loadingDatasetCount: true,
       })
-      api.getDatasets({projectId}).then(datasets => {
+      api.getDatasets({ projectId }).then(datasets => {
         if (datasets) {
           commit('SET_PROJECT_STATE', { projectId, datasetCount: datasets.length })
         }
@@ -60,14 +74,28 @@ export default {
       })
     },
     LOAD_ALL_METRICS({ getters, dispatch }) {
-      getters['projectNames'].forEach(project => dispatch('LOAD_PROJECT_METRICS', { projectId: project.projectId }))
+      getters['projectNames'].forEach(project =>
+        dispatch('LOAD_PROJECT_METRICS', { projectId: project.projectId }),
+      )
+    },
+    LOAD_CURRENT_PROJECT({ commit, getters, dispatch }, payload) {
+      let projectId = payload.projectId
+      let datasetId = payload.datasetId
+      //
+      // Set table to loading
+      //
+      api.getDatasetTables({ projectId, datasetId }).then(tables => {
+        console.log(tables)
+        commit('SET_CURRENT_PROJECT', { tables: tables })
+      })
     },
   },
   getters: {
     projectNames: state => Object.keys(state.projects).map(key => state.projects[key]),
     loading: state => state.loading,
-    getProjectById: (state) => (projectId) => {
+    getProjectById: state => projectId => {
       return state.projects[projectId]
     },
+    currentProjectTables: state => state.currentProject.tables,
   },
 }

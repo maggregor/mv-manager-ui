@@ -6,6 +6,7 @@
     <a-row>
       <a-col :span="8">
         <TableExplorerTree />
+        <div>{{ projectTables }}</div>
       </a-col>
       <a-col :span="16">
         <a-row>
@@ -50,15 +51,21 @@ export default {
       store
         .dispatch('datasets/LOAD_DATASETS', { projectId: projectId })
         .catch(e => router.push('/'))
+      store.dispatch('projects/LOAD_CURRENT_PROJECT', {
+        projectId: projectId,
+        datasetId: 'nyc_trips',
+      })
     })
     const project = computed(() => store.getters['projects/getProjectById'](projectId))
     const projectLoading = computed(() => store.getters['projects/loading'])
+    const projectTables = computed(() => store.getters['projects/currentProjectTables'])
     return {
       store,
       datasets,
       project,
       projectId,
       projectLoading,
+      projectTables,
     }
   },
   // Fake data before API Implementation
