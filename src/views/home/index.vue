@@ -1,14 +1,27 @@
 <template>
   <div :class="$style.container">
-    <div class="text-black text-weight-600 font-size-36">
+    <div class="mb-4 text-black text-weight-600 font-size-36">
       Hi {{ username }}, welcome to your optimizer
     </div>
-    <div class="mb-4 text-black text-weight-200 font-size-24">
+    <div v-if="activatedProjects.length" class="mb-3 text-black text-weight-200 font-size-24">
+      Your activated projects below
+    </div>
+    <a-skeleton :loading="isProjectLoading">
+      <ProjectCard
+        v-for="project in activatedProjects"
+        :key="project.projectId"
+        :project-id="project.projectId"
+        :project-name="project.projectName"
+        :dataset-count="project.datasetCount"
+        :activated="project.activated"
+      />
+    </a-skeleton>
+    <div v-if="notActivatedProjects.length" class="mb-3 text-black text-weight-200 font-size-24">
       Activate one of your BigQuery projects below
     </div>
     <a-skeleton :loading="isProjectLoading">
       <ProjectCard
-        v-for="project in projects"
+        v-for="project in notActivatedProjects"
         :key="project.projectId"
         :project-id="project.projectId"
         :project-name="project.projectName"
@@ -42,6 +55,12 @@ export default {
   computed: {
     isProjectLoading: function() {
       return !this.projects.length
+    },
+    activatedProjects: function() {
+      return this.projects.filter(e => e.activated)
+    },
+    notActivatedProjects: function() {
+      return this.projects.filter(e => !e.activated)
     },
   },
 }

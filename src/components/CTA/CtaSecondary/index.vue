@@ -12,18 +12,19 @@ export default {
       type: String,
       default: '',
     },
-    external: {
-      type: Boolean,
-      default: false,
-    },
     label: {
       type: String,
       default: '',
     },
   },
+  computed: {
+    isExternal: function() {
+      return /^((http|https):\/\/)/.test(this.url)
+    },
+  },
   methods: {
     changeRoute() {
-      if (this.external) {
+      if (this.isExternal) {
         window.open(this.url)
       } else {
         this.$router.push(this.url)

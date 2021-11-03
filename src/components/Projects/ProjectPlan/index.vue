@@ -11,7 +11,6 @@
       class="cta-primary mt-4"
       v-if="planUpgradable"
       :url="'https://cloud.google.com/marketplace'"
-      :external="true"
       :label="'Upgrade your Smart Tuning Plan'"
     />
   </div>

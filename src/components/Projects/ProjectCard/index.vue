@@ -1,29 +1,38 @@
 <template>
-  <div class="project-card mb-4">
-    <a-row>
-      <a-col :span="12">
-        <ProjectNameBlock
-          :key="projectId"
-          :project-id="projectId"
-          :project-name="projectName"
-          :dataset-count="datasetCount"
-        />
-      </a-col>
-      <a-col :span="12">
-        <a-row class="mt-5" type="flex" justify="space-between" align="bottom">
-          <a-col :span="11">
-            <CtaSecondary
-              class="cta-secondary"
-              :url="'/settings/' + projectId"
-              :label="'Settings'"
-            />
-          </a-col>
-          <a-col class="ml-1" :span="11">
-            <CtaPrimary class="cta-primary" :url="'/projects/' + projectId" :label="'Open'" />
-          </a-col>
-        </a-row>
-      </a-col>
-    </a-row>
+  <div>
+    <div class="project-card mb-4">
+      <img class="google-cloud-logo" src="@/assets/google_cloud-icon.svg" />
+      <a-row>
+        <a-col :span="12" :style="{ top: '-30px' }">
+          <ProjectNameBlock
+            :key="projectId"
+            :project-id="projectId"
+            :project-name="projectName"
+            :dataset-count="datasetCount"
+          />
+        </a-col>
+        <!-- Activated project -->
+        <a-col class="mt-3" :span="12">
+          <div v-if="activated">
+            <a-row type="flex" justify="space-between" align="bottom">
+              <a-col style="right: 2%" :span="12">
+                <CtaSecondary
+                  class="cta-secondary"
+                  :url="'/settings/' + projectId"
+                  :label="'Settings'"
+                />
+              </a-col>
+              <a-col :span="12">
+                <CtaPrimary class="cta-primary" :url="'/projects/' + projectId" :label="'Open'" />
+              </a-col>
+            </a-row>
+          </div>
+          <div v-else>
+            <CtaPrimary class="cta-secondary" :url="'https://cloud.google.com/marketplace'" :label="'Enable in Google Cloud Marketplace'" />
+          </div>
+        </a-col>
+      </a-row>
+    </div>
   </div>
 </template>
 
