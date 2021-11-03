@@ -22,6 +22,7 @@ export default {
       { id: 2, pid: 1, name: 'nyc-dataset-1', hasChild: true, expanded: true },
       { id: 3, pid: 1, name: 'nyc-dataset-2', hasChild: true },
       { id: 4, pid: 1, name: 'nyc-dataset-3', hasChild: true },
+      { id: 5, pid: 1, name: 'nyc-dataset-4', hasChild: true },
       // Tables dataset 1
       { id: 21, pid: 2, name: 'my_table_1' },
       { id: 22, pid: 2, name: 'my_table_2' },
@@ -34,6 +35,10 @@ export default {
       { id: 41, pid: 4, name: 'my_table_1' },
       { id: 42, pid: 4, name: 'my_table_2' },
       { id: 43, pid: 4, name: 'my_table_3' },
+      // Tables dataset 3
+      { id: 44, pid: 5, name: 'my_table_1' },
+      { id: 45, pid: 5, name: 'my_table_2' },
+      { id: 46, pid: 5, name: 'my_table_3' },
     ]
     return {
       fields: {
