@@ -16,11 +16,13 @@ export default {
   data() {
     var nodeTemplate = require('@/components/TableExplorer/TableExplorerNode')
     var dataSource = [
+      // Project
+      { id: 'achilio-dev', name: `All tables`, hasChild: true, expanded: true },
       // Datasets
-      { id: 'nyc-dataset-1', name: 'nyc-dataset-1', hasChild: true },
-      { id: 'nyc-dataset-2', name: 'nyc-dataset-2', hasChild: true },
-      { id: 'nyc-dataset-3', name: 'nyc-dataset-3', hasChild: true },
-      { id: 'nyc-dataset-4', name: 'nyc-dataset-4', hasChild: true },
+      { id: 'nyc-dataset-1', pid:'achilio-dev', name: 'nyc-dataset-1', hasChild: true },
+      { id: 'nyc-dataset-2', pid:'achilio-dev', name: 'nyc-dataset-2', hasChild: true },
+      { id: 'nyc-dataset-3', pid:'achilio-dev', name: 'nyc-dataset-3', hasChild: true },
+      { id: 'nyc-dataset-4', pid:'achilio-dev', name: 'nyc-dataset-4', hasChild: true },
       // Tables dataset 1
       { id: 'nyc-dataset-1:my_table_1', pid: 'nyc-dataset-1', name: 'my_table_1' },
       { id: 'nyc-dataset-1:my_table_2', pid: 'nyc-dataset-1', name: 'my_table_2' },

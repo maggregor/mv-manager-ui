@@ -16,11 +16,16 @@
   border-radius: 12px;
 }
 
-.table-count,
-.mmv-count {
-  font-size: 24px;
-  font-weight: 300;
-  .count-num {
-    font-weight: 600;
-  }
-}
+// I used directly text-weight / text-size in the class.
+// I'm little bit balanced. Up to you to remove comment... and use this css instead my classes.
+// Sorry for inconvenience.
+// .table-count {
+//   font-size: 16px;
+// }
+// .mmv-count {
+//   font-size: 16px;
+//   font-weight: 300;
+//   .count-num {
+//     font-weight: 600;
+//   }
+// }

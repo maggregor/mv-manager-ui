@@ -2,7 +2,9 @@
   <div class="project-name-block">
     <p class="project-name">{{ projectName }}</p>
     <p class="project-id text-gray-6">{{ projectId }}</p>
-    <p class="dataset-count text-gray-6">{{ datasetField }}</p>
+    <div>
+    <p class="dataset-count text-gray-5">{{ datasetField }} • {{ Math.floor(Math.random() * 100) }}% optimizable traffic</p>
+    </div>
   </div>
 </template>
 
@@ -31,7 +33,7 @@ export default {
         case 0:
           return 'No dataset'
         default:
-          return `${this.datasetCount} datasets / 480 tables`
+          return `${this.datasetCount} datasets`
       }
     },
   },

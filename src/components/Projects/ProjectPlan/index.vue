@@ -1,11 +1,11 @@
 <template>
   <div class="project-plan">
     <p class="project-plan-name">{{ planName }}</p>
-    <p class="table-count">
-      <span class="count-num">{{ tableCount }}/{{ maxTable }}</span> Table(s)
+    <p class="table-count text-weight-300 font-size-18">
+      <span class="count-num text-weight-600">{{ tableCount }}/{{ maxTable }}</span> Table(s)
     </p>
-    <p class="mmv-count">
-      <span class="count-num">{{ mmvCount }}/{{ maxMmv }}</span> Managed Materialized View(s)
+    <p class="mmv-count text-weight-300 font-size-18">
+      <span class="count-num text-weight-600">{{ mmvCount }}/{{ maxMmv }}</span> Managed Materialized View(s)
     </p>
     <CtaPrimary
       class="cta-primary mt-4"

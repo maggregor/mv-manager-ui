@@ -1,9 +1,8 @@
 <template>
   <div>
     <div class="project-card mb-4">
-      <img class="google-cloud-logo" src="@/assets/google_cloud-icon.svg" />
       <a-row>
-        <a-col :span="12" :style="{ top: '-30px' }">
+        <a-col :span="12" :style="{ top: '10px' }">
           <ProjectNameBlock
             :key="projectId"
             :project-id="projectId"
@@ -12,7 +11,7 @@
           />
         </a-col>
         <!-- Activated project -->
-        <a-col class="mt-3" :span="12">
+        <a-col :span="12" :style="{ top: '50px' }">
           <div v-if="activated">
             <a-row type="flex" justify="space-between" align="bottom">
               <a-col style="right: 2%" :span="12">
@@ -23,12 +22,14 @@
                 />
               </a-col>
               <a-col :span="12">
-                <CtaPrimary class="cta-primary" :url="'/projects/' + projectId" :label="'Open'" />
+                <CtaPrimary :url="'/projects/' + projectId" :label="'Open'" />
               </a-col>
             </a-row>
           </div>
           <div v-else>
-            <CtaPrimary class="cta-secondary" :url="'https://cloud.google.com/marketplace'" :label="'Enable in Google Cloud Marketplace'" />
+            <CtaSecondary
+            :url="'https://cloud.google.com/marketplace'" 
+            :label="'Enable in Google Cloud Marketplace'" />
           </div>
         </a-col>
       </a-row>
