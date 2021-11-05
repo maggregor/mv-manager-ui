@@ -9,7 +9,7 @@
       </a-col>
       <a-col :span="16">
         <a-row>
-          <a-col :span="8"><Kpi1 :data="totalSelect" :label="tableCount.label"/></a-col>
+          <a-col :span="8"><Kpi1 :data="totalSelectOnTable" :label="tableCount.label"/></a-col>
           <a-col :span="8"><Kpi1 :data="totalSelectCaught" :label="viewCount.label"/></a-col>
           <a-col :span="8"><Kpi1 :data="totalScanned" :label="scannedBytes.label"/></a-col>
         </a-row>
@@ -62,12 +62,14 @@ export default {
     const projectTables = computed(() => store.getters['projects/currentProjectTables'])
     const queryStatistics = computed(() => store.getters['projects/currentProjectQueryStatistics'])
     const totalSelect = ref(-1)
+    const totalSelectOnTable = ref(-1)
     const totalSelectCaught = ref(-1)
     const totalScanned = ref(-1)
     watch(queryStatistics, queryStatistics => {
       if (queryStatistics) {
         totalSelect.value = queryStatistics.totalSelect
-        totalSelectCaught.value = queryStatistics.totalSelectCaught
+        totalSelectCaught.value = queryStatistics.totalSelectCaught 
+        totalSelectOnTable.value = totalSelect.value - totalSelectCaught.value
         totalScanned.value = prettyBytes(queryStatistics.totalScanned)
       }
     })
@@ -82,6 +84,7 @@ export default {
       totalSelect,
       totalSelectCaught,
       totalScanned,
+      totalSelectOnTable,
     }
   },
   // Fake data before API Implementation
