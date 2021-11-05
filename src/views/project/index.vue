@@ -9,9 +9,9 @@
       </a-col>
       <a-col :span="16">
         <a-row>
-          <a-col :span="8"><Kpi1 :data="selectCount" :label="'Queries Total'"/></a-col>
-          <a-col :span="8"><Kpi1 :data="MmvCount" :label="'Queries in MMV'"/></a-col>
-          <a-col :span="8"><Kpi1 :data="scannedBytes" :label="'Total scanned byte'"/></a-col>
+            <a-col :span="8"><Kpi1 :data="selectCount" :label="'Queries Total'"/></a-col>
+            <a-col :span="8"><Kpi1 :data="MmvCount" :label="'Queries in MMV'"/></a-col>
+            <a-col :span="8"><Kpi1 :data="scannedBytes" :label="'Total scanned byte'"/></a-col>
         </a-row>
         <a-row>
           <a-col :span="24">
@@ -87,19 +87,19 @@ export default {
     },
     selectCount: function() {
       if (this.queryStatistics) {
-        return this.queryStatistics.totalSelect
+        return this.queryStatistics.global.queries
       }
       return -1
     },
     MmvCount: function() {
       if (this.queryStatistics) {
-        return this.queryStatistics.totalSelectCaught
+        return this.queryStatistics.details.in.queries
       }
       return -1
     },
     scannedBytes: function() {
       if (this.queryStatistics) {
-        return prettyBytes(this.queryStatistics.totalScanned)
+        return prettyBytes(this.queryStatistics.global.billedBytes)
       }
       return -1
     },
