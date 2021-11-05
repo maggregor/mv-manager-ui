@@ -1,8 +1,8 @@
 <template>
   <div class="kpi-1">
     <a-skeleton :loading="data == -1">
-    <p class="data">{{ data }}</p>
-    <p class="label">{{ label }}</p>
+      <p class="data">{{ data }}</p>
+      <p class="label">{{ label }}</p>
     </a-skeleton>
   </div>
 </template>
@@ -12,7 +12,7 @@ export default {
   name: 'Kpi1',
   props: {
     data: {
-      type: Number,
+      type: [Number, String],
       default: -1,
     },
     label: {

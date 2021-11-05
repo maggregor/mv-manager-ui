@@ -9,9 +9,9 @@
       </a-col>
       <a-col :span="16">
         <a-row>
-          <a-col :span="8"><Kpi1 :data="totalSelectOnTable" :label="tableCount.label"/></a-col>
-          <a-col :span="8"><Kpi1 :data="totalSelectCaught" :label="viewCount.label"/></a-col>
-          <a-col :span="8"><Kpi1 :data="totalScanned" :label="scannedBytes.label"/></a-col>
+          <a-col :span="8"><Kpi1 :data="selectCount" :label="'Queries Total'"/></a-col>
+          <a-col :span="8"><Kpi1 :data="MmvCount" :label="'Queries in MMV'"/></a-col>
+          <a-col :span="8"><Kpi1 :data="scannedBytes" :label="'Total scanned byte'"/></a-col>
         </a-row>
         <a-row>
           <a-col :span="24">
@@ -61,18 +61,6 @@ export default {
     const projectLoading = computed(() => store.getters['projects/loading'])
     const projectTables = computed(() => store.getters['projects/currentProjectTables'])
     const queryStatistics = computed(() => store.getters['projects/currentProjectQueryStatistics'])
-    const totalSelect = ref(-1)
-    const totalSelectOnTable = ref(-1)
-    const totalSelectCaught = ref(-1)
-    const totalScanned = ref(-1)
-    watch(queryStatistics, queryStatistics => {
-      if (queryStatistics) {
-        totalSelect.value = queryStatistics.totalSelect
-        totalSelectCaught.value = queryStatistics.totalSelectCaught 
-        totalSelectOnTable.value = totalSelect.value - totalSelectCaught.value
-        totalScanned.value = prettyBytes(queryStatistics.totalScanned)
-      }
-    })
     return {
       store,
       datasets,
@@ -81,27 +69,11 @@ export default {
       projectLoading,
       projectTables,
       queryStatistics,
-      totalSelect,
-      totalSelectCaught,
-      totalScanned,
-      totalSelectOnTable,
     }
   },
   // Fake data before API Implementation
   data() {
     return {
-      tableCount: {
-        data: 543,
-        label: 'Queries directly on a Table',
-      },
-      viewCount: {
-        data: 21,
-        label: 'Queries catched by Managed Materialized View',
-      },
-      scannedBytes: {
-        data: 28000,
-        label: 'Total scanned byte last 30 days',
-      },
       projectPlan: {
         planName: 'Startup Plan',
         tableCount: 1,
@@ -112,6 +84,24 @@ export default {
   computed: {
     isProjectLoading: function() {
       return !this.project
+    },
+    selectCount: function() {
+      if (this.queryStatistics) {
+        return this.queryStatistics.totalSelect
+      }
+      return -1
+    },
+    MmvCount: function() {
+      if (this.queryStatistics) {
+        return this.queryStatistics.totalSelectCaught
+      }
+      return -1
+    },
+    scannedBytes: function() {
+      if (this.queryStatistics) {
+        return prettyBytes(this.queryStatistics.totalScanned)
+      }
+      return -1
     },
   },
 }
