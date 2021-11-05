@@ -5,7 +5,7 @@
     </div>
     <div class="mb-5 text-gray-7 text-weight-300 font-size-18">
       <div>
-      You are connected to <span class="google-font text-weight-400 mr-2">Google Cloud Platform™</span>
+      You are connected to your <span class="google-font text-weight-400 mr-2">Google Cloud Platform™</span>
 
     <img :style="{ height: '1.5rem' }" src="@/assets/google/google-cloud-platform_logo.svg" />
       </div>
