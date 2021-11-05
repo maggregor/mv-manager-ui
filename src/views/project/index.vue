@@ -6,13 +6,12 @@
     <a-row>
       <a-col :span="8">
         <TableExplorerTree />
-        <div>{{ projectTables }}</div>
       </a-col>
       <a-col :span="16">
         <a-row>
-          <a-col :span="8"><Kpi1 :data="tableCount.data" :label="tableCount.label"/></a-col>
-          <a-col :span="8"><Kpi1 :data="viewCount.data" :label="viewCount.label"/></a-col>
-          <a-col :span="8"><Kpi1 :data="scannedBytes.data" :label="scannedBytes.label"/></a-col>
+          <a-col :span="8"><Kpi1 :data="totalSelect" :label="tableCount.label"/></a-col>
+          <a-col :span="8"><Kpi1 :data="totalSelectCaught" :label="viewCount.label"/></a-col>
+          <a-col :span="8"><Kpi1 :data="totalScanned" :label="scannedBytes.label"/></a-col>
         </a-row>
         <a-row>
           <a-col :span="24">
@@ -29,7 +28,7 @@
 </template>
 
 <script>
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute, useRouter } from 'vue-router'
 
@@ -37,6 +36,8 @@ import ProjectHeader from '@/components/Projects/ProjectHeader'
 import ProjectPlan from '@/components/Projects/ProjectPlan'
 import Kpi1 from '@/components/KPI1'
 import TableExplorerTree from '@/components/TableExplorer/TableExplorerTree'
+
+const prettyBytes = require('pretty-bytes')
 
 export default {
   name: 'Overview',
@@ -59,6 +60,17 @@ export default {
     const project = computed(() => store.getters['projects/getProjectById'](projectId))
     const projectLoading = computed(() => store.getters['projects/loading'])
     const projectTables = computed(() => store.getters['projects/currentProjectTables'])
+    const queryStatistics = computed(() => store.getters['projects/currentProjectQueryStatistics'])
+    const totalSelect = ref(-1)
+    const totalSelectCaught = ref(-1)
+    const totalScanned = ref(-1)
+    watch(queryStatistics, queryStatistics => {
+      if (queryStatistics) {
+        totalSelect.value = queryStatistics.totalSelect
+        totalSelectCaught.value = queryStatistics.totalSelectCaught
+        totalScanned.value = prettyBytes(queryStatistics.totalScanned)
+      }
+    })
     return {
       store,
       datasets,
@@ -66,6 +78,10 @@ export default {
       projectId,
       projectLoading,
       projectTables,
+      queryStatistics,
+      totalSelect,
+      totalSelectCaught,
+      totalScanned,
     }
   },
   // Fake data before API Implementation

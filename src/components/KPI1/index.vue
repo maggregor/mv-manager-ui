@@ -1,7 +1,9 @@
 <template>
   <div class="kpi-1">
+    <a-skeleton :loading="data == -1">
     <p class="data">{{ data }}</p>
     <p class="label">{{ label }}</p>
+    </a-skeleton>
   </div>
 </template>
 
@@ -11,11 +13,11 @@ export default {
   props: {
     data: {
       type: Number,
-      default: 345,
+      default: -1,
     },
     label: {
       type: String,
-      default: 'Directly on the Table from BigQuery',
+      default: 'Label',
     },
   },
 }

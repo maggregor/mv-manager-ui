@@ -6,9 +6,7 @@ const getDefaultState = () => {
     currentProject: {
       id: null,
       name: null,
-      kpi1: null,
-      kpi2: null,
-      kpi3: null,
+      queryStatistics: null,
       planName: null,
       datasets: [],
       tables: [],
@@ -88,6 +86,9 @@ export default {
         console.log(tables)
         commit('SET_CURRENT_PROJECT', { tables: tables })
       })
+      api.getQueryStatistics({ projectId, lastDays: 30 }).then(queryStatistics => {
+        commit('SET_CURRENT_PROJECT', { queryStatistics: queryStatistics })
+      })
     },
   },
   getters: {
@@ -97,5 +98,6 @@ export default {
       return state.projects[projectId]
     },
     currentProjectTables: state => state.currentProject.tables,
+    currentProjectQueryStatistics: state => state.currentProject.queryStatistics,
   },
 }
