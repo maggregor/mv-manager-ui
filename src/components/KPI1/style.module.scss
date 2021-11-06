@@ -27,7 +27,7 @@
   height: 42px;
   left: 22px;
   top: 17px;
-
+  padding-top: 10px;
   font-family: Poppins;
   font-style: normal;
   font-weight: bold;
@@ -60,7 +60,7 @@
 
   display: flex;
   align-items: center;
-  // text-align: right;
+  justify-content: center;
   letter-spacing: -0.02em;
 
   /* main-deep-blue */

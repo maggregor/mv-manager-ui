@@ -9,9 +9,9 @@
       </a-col>
       <a-col :span="16">
         <a-row>
-            <a-col :span="8"><Kpi1 :data="selectCount" :label="'Queries Total'"/></a-col>
-            <a-col :span="8"><Kpi1 :data="MmvCount" :label="'Queries in MMV'"/></a-col>
-            <a-col :span="8"><Kpi1 :data="scannedBytes" :label="'Total scanned byte'"/></a-col>
+          <a-col :span="8"><Kpi1 :data="selectCount" :label="'Queries Total'"/></a-col>
+          <a-col :span="8"><Kpi1 :data="MmvCount" :label="'Queries in MMV'"/></a-col>
+          <a-col :span="8"><Kpi1 :data="scannedBytes" :label="'Total scanned'"/></a-col>
         </a-row>
         <a-row>
           <a-col :span="24">
