@@ -6,13 +6,7 @@
       @finish="handleFinish"
       @finishFailed="handleFinishFailed"
     >
-      <a-button
-        v-if="!authorized"
-        type="primary"
-        html-type="submit"
-        class="text-center w-100"
-        :loading="user.loading"
-      >
+      <a-button type="primary" html-type="submit" class="text-center w-100" :loading="user.loading">
         Sign in with<strong> Google</strong>
       </a-button>
     </a-form>

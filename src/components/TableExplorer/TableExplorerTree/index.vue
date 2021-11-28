@@ -20,10 +20,10 @@ export default {
       // Project
       { id: 'achilio-dev', name: `All tables`, hasChild: true, expanded: true },
       // Datasets
-      { id: 'nyc-dataset-1', pid:'achilio-dev', name: 'nyc-dataset-1', hasChild: true },
-      { id: 'nyc-dataset-2', pid:'achilio-dev', name: 'nyc-dataset-2', hasChild: true },
-      { id: 'nyc-dataset-3', pid:'achilio-dev', name: 'nyc-dataset-3', hasChild: true },
-      { id: 'nyc-dataset-4', pid:'achilio-dev', name: 'nyc-dataset-4', hasChild: true },
+      { id: 'nyc-dataset-1', pid: 'achilio-dev', name: 'nyc-dataset-1', hasChild: true },
+      { id: 'nyc-dataset-2', pid: 'achilio-dev', name: 'nyc-dataset-2', hasChild: true },
+      { id: 'nyc-dataset-3', pid: 'achilio-dev', name: 'nyc-dataset-3', hasChild: true },
+      { id: 'nyc-dataset-4', pid: 'achilio-dev', name: 'nyc-dataset-4', hasChild: true },
       // Tables dataset 1
       { id: 'nyc-dataset-1:my_table_1', pid: 'nyc-dataset-1', name: 'my_table_1' },
       { id: 'nyc-dataset-1:my_table_2', pid: 'nyc-dataset-1', name: 'my_table_2' },
@@ -65,17 +65,10 @@ export default {
       // Example that disable node 22 (table2 of dataset1)
       // when any node is clicked
       var tree = document.getElementById('treeview').ej2_instances[0]
-      console.log(tree)
-      console.log(tree.getTreeData())
       tree.disableNodes(['nyc-dataset-1'])
       // tree.checkAll()
     },
-    nodeChecking: function(args) {
-      setTimeout(() => {
-        console.log('World!')
-      }, 2000)
-      console.log('loading...')
-    },
+    nodeChecking: function(args) {},
   },
 }
 </script>

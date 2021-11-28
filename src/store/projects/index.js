@@ -83,7 +83,6 @@ export default {
       // Set table to loading
       //
       api.getDatasetTables({ projectId, datasetId }).then(tables => {
-        console.log(tables)
         commit('SET_CURRENT_PROJECT', { tables: tables })
       })
       api.getQueryStatistics({ projectId, lastDays: 30 }).then(queryStatistics => {

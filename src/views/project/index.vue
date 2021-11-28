@@ -11,7 +11,7 @@
         <a-row>
           <a-col :span="8"><Kpi1 :data="selectCount" :label="'Queries Total'"/></a-col>
           <a-col :span="8"><Kpi1 :data="MmvCount" :label="'Queries in MMV'"/></a-col>
-          <a-col :span="8"><Kpi1 :data="scannedBytes" :label="'Total scanned'"/></a-col>
+          <a-col :span="8"><Kpi1 :data="scannedBytes" :label="'Total scanned byte'"/></a-col>
         </a-row>
         <a-row>
           <a-col :span="24">
@@ -87,19 +87,19 @@ export default {
     },
     selectCount: function() {
       if (this.queryStatistics) {
-        return this.queryStatistics.global.queries
+        return this.queryStatistics.global.totalQueries
       }
       return -1
     },
     MmvCount: function() {
       if (this.queryStatistics) {
-        return this.queryStatistics.details.in.queries
+        return this.queryStatistics.details.in.totalQueries
       }
       return -1
     },
     scannedBytes: function() {
       if (this.queryStatistics) {
-        return prettyBytes(this.queryStatistics.global.billedBytes)
+        return prettyBytes(this.queryStatistics.global.totalBilledBytes)
       }
       return -1
     },
