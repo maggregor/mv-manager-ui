@@ -1,6 +1,6 @@
 <template>
   <div class="kpi-1">
-    <a-skeleton :loading="data == -1">
+    <a-skeleton :paragraph="false" active :loading="data == -1">
       <p class="data">{{ data }}</p>
       <p class="label">{{ label }}</p>
     </a-skeleton>
