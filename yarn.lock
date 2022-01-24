@@ -2600,6 +2600,20 @@ axios-mock-adapter@^1.19.0:
     is-blob "^2.1.0"
     is-buffer "^2.0.5"
 
+axios-oauth-client@^1.4.4:
+  version "1.4.4"
+  resolved "https://registry.yarnpkg.com/axios-oauth-client/-/axios-oauth-client-1.4.4.tgz#aa5f6cd5df4d1d23c86e514973cf2ff48bbca4f2"
+  integrity sha512-1jh5iXDUj5uI88VMsDlM27MiOWvyt2Jn4WrskNoWpfFYEG9Oprkza96nL7s9cWmrEa6Fxq1sxMN+yezqW69vAw==
+  dependencies:
+    qs "^6.10.1"
+
+axios-token-interceptor@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/axios-token-interceptor/-/axios-token-interceptor-0.2.0.tgz#07e79f01f414c196bc84b07556cc84e02ed676bd"
+  integrity sha512-la74OEsXBH1IS9yI6p2oTIynPtBzs0PVUSOwOBgFg2kBwTeDqQ+YJ6jaOWxsTYyqJO510OzHTfnzAn3GFuf9xA==
+  dependencies:
+    lock "^1.1.0"
+
 axios@^0.21.1:
   version "0.21.4"
   resolved "https://registry.yarnpkg.com/axios/-/axios-0.21.4.tgz#c67b90dc0568e5c1cf2b0b858c43ba28e2eda575"
@@ -6673,6 +6687,11 @@ locate-path@^5.0.0:
   dependencies:
     p-locate "^4.1.0"
 
+lock@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/lock/-/lock-1.1.0.tgz#53157499d1653b136ca66451071fca615703fa55"
+  integrity sha1-UxV0mdFlOxNspmRRBx/KYVcD+lU=
+
 lodash-es@^4.17.15, lodash-es@^4.17.20:
   version "4.17.21"
   resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.17.21.tgz#43e626c46e6591b7750beb2b50117390c609e3ee"
@@ -8478,6 +8497,13 @@ qs@6.7.0:
   version "6.7.0"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.7.0.tgz#41dc1a015e3d581f1621776be31afb2876a9b1bc"
   integrity sha512-VCdBRNFTX1fyE7Nb6FYoURo/SPe62QCaAyzJvUjwRaIsc+NePBEniHlvxFmmX56+HZphIGtV0XeCirBtpDrTyQ==
+
+qs@^6.10.1:
+  version "6.10.3"
+  resolved "https://registry.yarnpkg.com/qs/-/qs-6.10.3.tgz#d6cde1b2ffca87b5aa57889816c5f81535e22e8e"
+  integrity sha512-wr7M2E0OFRfIfJZjKGieI8lBKb7fRCH4Fv5KNPEs7gJ8jadvotdsS08PzOKR7opXhZ/Xkjtt3WF9g38drmyRqQ==
+  dependencies:
+    side-channel "^1.0.4"
 
 qs@^6.9.6:
   version "6.10.1"

@@ -5,15 +5,15 @@ import 'firebase/database'
 import store from '@/store'
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAyjOhlwmruqMfyck8oamktn0aNPCihHC0",
-  authDomain: "achilio-dev.firebaseapp.com",
-  databaseURL: "https://achilio-dev.europe-west1.firebasedatabase.app",
-  projectId: "achilio-dev",
-  storageBucket: "achilio-dev.appspot.com",
-  messagingSenderId: "293325499254",
-  appId: "1:293325499254:web:ff3edcf3c1884cdc532857",
-  measurementId: "G-66Q3KQ4KXB",
-};
+  apiKey: 'AIzaSyAyjOhlwmruqMfyck8oamktn0aNPCihHC0',
+  authDomain: 'achilio-dev.firebaseapp.com',
+  databaseURL: 'https://achilio-dev.europe-west1.firebasedatabase.app',
+  projectId: 'achilio-dev',
+  storageBucket: 'achilio-dev.appspot.com',
+  messagingSenderId: '293325499254',
+  appId: '1:293325499254:web:ff3edcf3c1884cdc532857',
+  measurementId: 'G-66Q3KQ4KXB',
+}
 
 firebase.initializeApp(firebaseConfig)
 export const firebaseAuth = firebase.auth()
@@ -31,7 +31,8 @@ allScopes.forEach(scope => provider.addScope(scope))
 export async function login() {
   return firebaseAuth
     .signInWithPopup(provider)
-    .then((result) => {
+    .then(result => {
+      console.log(result)
       let user = result.user
       let refreshToken = user.refreshToken
       let accessToken = result.credential.accessToken
@@ -44,7 +45,7 @@ export async function login() {
         email: user.email,
         avatar: user.photoURL,
         name: user.displayName,
-        refreshToken: refreshToken, 
+        refreshToken: refreshToken,
         accessToken: accessToken,
       })
       return true
@@ -65,7 +66,7 @@ export async function currentAccount() {
         if (user) {
           if (!store.getters['user/user'].id) {
             let ref = firebaseDatabase.ref(`/users/${user.uid}`)
-            ref.once("value").then(snapshot => {
+            ref.once('value').then(snapshot => {
               store.commit('user/SET_USER', snapshot.val())
               resolve(store.getters['user/user'])
             })

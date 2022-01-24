@@ -2,7 +2,7 @@ import router from '@/router'
 import { notification } from 'ant-design-vue'
 import store from 'store'
 
-import * as firebase from '@/services/firebase'
+import * as oauth2 from '@/services/oauth2'
 
 const getDefaultState = () => {
   return {
@@ -16,17 +16,17 @@ const getDefaultState = () => {
       loading: false,
       accountFetchIsTouched: false,
       userLoaded: false,
-    },  
-  } 
+    },
+  }
 }
 
 const state = getDefaultState()
 
 const mapAuthProviders = {
-  firebase: {
-    login: firebase.login,
-    currentAccount: firebase.currentAccount,
-    logout: firebase.logout,
+  oauth2: {
+    login: oauth2.login,
+    currentAccount: oauth2.currentAccount,
+    logout: oauth2.logout,
   },
 }
 
@@ -52,6 +52,7 @@ export default {
   },
   actions: {
     LOGIN({ commit, dispatch, rootState }) {
+      console.log(rootState.settings.authProvider)
       commit('SET_STATE', {
         loading: true,
       })
@@ -73,27 +74,26 @@ export default {
       })
     },
     LOAD_CURRENT_ACCOUNT({ commit, rootState }) {
-      commit('SET_STATE', {
-        loading: true,
-      })
-
-      const currentAccount = mapAuthProviders[rootState.settings.authProvider].currentAccount
-      currentAccount().then(response => {
-        if (response) {
-          const { id, email, name, avatar, accessToken } = response
-          commit('SET_STATE', {
-            id,
-            name,
-            email,
-            avatar,
-            accessToken,
-            authorized: true,
-          })
-        }
-        commit('SET_STATE', {
-          loading: false,
-        })
-      })
+      // commit('SET_STATE', {
+      //   loading: true,
+      // })
+      // const currentAccount = mapAuthProviders[rootState.settings.authProvider].currentAccount
+      // currentAccount().then(response => {
+      //   if (response) {
+      //     const { id, email, name, avatar, accessToken } = response
+      //     commit('SET_STATE', {
+      //       id,
+      //       name,
+      //       email,
+      //       avatar,
+      //       accessToken,
+      //       authorized: true,
+      //     })
+      //   }
+      //   commit('SET_STATE', {
+      //     loading: false,
+      //   })
+      // })
     },
     LOGOUT({ commit, rootState }) {
       const logout = mapAuthProviders[rootState.settings.authProvider].logout
