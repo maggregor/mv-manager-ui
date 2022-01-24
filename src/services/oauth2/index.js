@@ -4,8 +4,6 @@
 const axios = require('axios')
 const oauth = require('axios-oauth-client')
 
-axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*'
-
 export async function login() {
   const getAuthorizationCode = oauth.client(axios.create(), {
     url: 'http://localhost:8080/authorize',
