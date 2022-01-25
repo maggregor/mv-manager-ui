@@ -66,7 +66,6 @@ const router = createRouter({
         },
       ],
     },
-
     // Redirect to 404
     {
       path: '/:pathMatch(.*)*',

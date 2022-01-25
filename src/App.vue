@@ -37,6 +37,7 @@ export default {
     // redirect if authorized and current page is login
     watch(authorized, authorized => {
       if (authorized) {
+        // TODO: Move to project
         store.dispatch('projects/LOAD_PROJECTS')
         const query = qs.parse(currentRoute.value.fullPath.split('?')[1], {
           ignoreQueryPrefix: true,

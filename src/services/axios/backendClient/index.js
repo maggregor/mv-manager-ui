@@ -2,24 +2,20 @@ import axios from 'axios'
 import store from '@/store'
 import { notification } from 'ant-design-vue'
 
-const apiClient = axios.create({
+const backendClient = axios.create({
   baseURL: `${process.env.VUE_APP_API_BASE_URL}/api/v1`,
-  // timeout: 1000,
-  // headers: { 'X-Custom-Header': 'foobar' }
+  timeout: 60000,
 })
 
-apiClient.interceptors.request.use(request => {
-  console.log(store)
+backendClient.interceptors.request.use(request => {
   const accessToken = store.getters['user/accessToken']
-  console.log(accessToken)
   if (accessToken) {
     request.headers.Authorization = `Bearer ${accessToken}`
-    // request.headers.AccessToken = accessToken
   }
   return request
 })
 
-apiClient.interceptors.response.use(undefined, error => {
+backendClient.interceptors.response.use(undefined, error => {
   // Errors handling
   const { response } = error
   const { data } = response
@@ -30,4 +26,4 @@ apiClient.interceptors.response.use(undefined, error => {
   }
 })
 
-export default apiClient
+export default backendClient

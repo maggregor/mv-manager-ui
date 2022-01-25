@@ -75,12 +75,13 @@ export default {
       const currentAccount = mapAuthProviders[rootState.settings.authProvider].currentAccount
       currentAccount().then(response => {
         if (response) {
-          const { id, email, name, avatar } = response
+          const { id, email, name, avatar, accessToken } = response
           commit('SET_STATE', {
             id,
             name,
             email,
             avatar,
+            accessToken,
             authorized: true,
           })
         }

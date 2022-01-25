@@ -1,8 +1,9 @@
-import apiClient from '@/services/axios'
+import * as authApi from '@/services/axios/authApi'
 
 export async function login() {
-  const googleAuthUrl = 'https://accounts.google.com/o/oauth2/v2/auth'
-  const redirectUri = 'api/v1/auth/login/google/'
+  const googleAuthUrl = process.env.VUE_APP_GOOGLE_OAUTH2_URL
+  const authServerUrl = process.env.VUE_APP_AUTH_BASE_URL
+  const redirectUri = process.env.VUE_APP_SERVER_AUTH_REDIRECT
 
   const scope = [
     'https://www.googleapis.com/auth/userinfo.email',
@@ -11,8 +12,8 @@ export async function login() {
 
   const params = {
     response_type: 'code',
-    client_id: '293325499254-8h7bv5piflnjdoufjak8jjh03tpqss8b.apps.googleusercontent.com',
-    redirect_uri: `http://localhost:8000/${redirectUri}`,
+    client_id: `${process.env.VUE_APP_GOOGLE_OAUTH2_CLIENT_ID}`,
+    redirect_uri: `${authServerUrl}/${redirectUri}`,
     prompt: 'consent',
     include_granted_scopes: 'true',
     access_type: 'offline',
@@ -25,20 +26,15 @@ export async function login() {
 }
 
 export async function currentAccount() {
-  return apiClient
-    .get('http://localhost:8000/api/v1/users/me', { withCredentials: true })
-    .then(response => {
-      if (response) {
-        // const { accessToken } = response.data
-        // if (accessToken) {
-        //   store.set('accessToken', accessToken)
-        // }
-        return response.data
-      }
-      return false
-    })
-    .catch(err => console.log(err))
-  return {}
+  return (
+    authApi
+      .getUserInfo()
+      .then(response => {
+        return response ? response.data : false
+      })
+      // TODO Notification ?
+      .catch(err => console.log(err))
+  )
 }
 
 export async function logout() {
