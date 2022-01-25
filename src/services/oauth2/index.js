@@ -26,13 +26,13 @@ export async function login() {
 
 export async function currentAccount() {
   return apiClient
-    .get('/api/v1/users/me')
+    .get('http://localhost:8000/api/v1/users/me', { withCredentials: true })
     .then(response => {
       if (response) {
-        const { accessToken } = response.data
-        if (accessToken) {
-          store.set('accessToken', accessToken)
-        }
+        // const { accessToken } = response.data
+        // if (accessToken) {
+        //   store.set('accessToken', accessToken)
+        // }
         return response.data
       }
       return false

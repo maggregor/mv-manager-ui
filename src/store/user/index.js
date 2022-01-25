@@ -6,15 +6,13 @@ import * as oauth2 from '@/services/oauth2'
 
 const getDefaultState = () => {
   return {
-    state: {
-      id: '',
-      name: '',
-      email: '',
-      avatar: '',
-      accessToken: '',
-      authorized: false,
-      loading: false,
-    },
+    id: '',
+    name: '',
+    email: '',
+    avatar: '',
+    accessToken: 'qweqwe',
+    authorized: false,
+    loading: false,
   }
 }
 
