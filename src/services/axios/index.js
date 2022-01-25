@@ -9,9 +9,8 @@ const apiClient = axios.create({
 })
 
 apiClient.interceptors.request.use(request => {
-  const accessToken = store.getters['user/user'].accessToken
+  const accessToken = store.getters['user/accesToken']
   if (accessToken) {
-    // TODO Add Bearer optimizer side (and here too)
     request.headers.Authorization = `Bearer ${accessToken}`
     request.headers.AccessToken = accessToken
   }

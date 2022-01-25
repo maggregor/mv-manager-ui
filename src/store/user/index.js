@@ -14,8 +14,6 @@ const getDefaultState = () => {
       accessToken: '',
       authorized: false,
       loading: false,
-      accountFetchIsTouched: false,
-      userLoaded: false,
     },
   }
 }
@@ -52,7 +50,6 @@ export default {
   },
   actions: {
     LOGIN({ commit, dispatch, rootState }) {
-      console.log(rootState.settings.authProvider)
       commit('SET_STATE', {
         loading: true,
       })
@@ -74,26 +71,25 @@ export default {
       })
     },
     LOAD_CURRENT_ACCOUNT({ commit, rootState }) {
-      // commit('SET_STATE', {
-      //   loading: true,
-      // })
-      // const currentAccount = mapAuthProviders[rootState.settings.authProvider].currentAccount
-      // currentAccount().then(response => {
-      //   if (response) {
-      //     const { id, email, name, avatar, accessToken } = response
-      //     commit('SET_STATE', {
-      //       id,
-      //       name,
-      //       email,
-      //       avatar,
-      //       accessToken,
-      //       authorized: true,
-      //     })
-      //   }
-      //   commit('SET_STATE', {
-      //     loading: false,
-      //   })
-      // })
+      commit('SET_STATE', {
+        loading: true,
+      })
+      const currentAccount = mapAuthProviders[rootState.settings.authProvider].currentAccount
+      currentAccount().then(response => {
+        if (response) {
+          const { id, email, name, avatar } = response
+          commit('SET_STATE', {
+            id,
+            name,
+            email,
+            avatar,
+            authorized: true,
+          })
+        }
+        commit('SET_STATE', {
+          loading: false,
+        })
+      })
     },
     LOGOUT({ commit, rootState }) {
       const logout = mapAuthProviders[rootState.settings.authProvider].logout
@@ -105,6 +101,7 @@ export default {
   },
   getters: {
     user: state => state,
+    accessToken: state => state.accessToken,
     username: state => state.name.split(' ')[0],
     userIsLoaded: state => state.userIsLoaded,
   },
