@@ -33,7 +33,9 @@ export async function currentAccount() {
         return response ? response.data : false
       })
       // TODO Notification ?
-      .catch(err => console.log(err))
+      .catch(err => {
+        console.log(err)
+      })
   )
 }
 

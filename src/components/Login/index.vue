@@ -6,6 +6,18 @@
       @finish="handleFinish"
       @finishFailed="handleFinishFailed"
     >
+      <h2 class="font-weight-bold pb-2">
+        Welcome. <br />Join
+        <span
+          style="color: background-color: #663dff;
+background-image: linear-gradient(319deg, #663dff 0%, #aa00ff 37%, #cc4499 100%);
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;"
+          >BigTunr</span
+        >
+        , now.
+      </h2>
       <a-button type="primary" html-type="submit" class="text-center w-100" :loading="user.loading">
         Sign in with<strong> Google</strong>
       </a-button>

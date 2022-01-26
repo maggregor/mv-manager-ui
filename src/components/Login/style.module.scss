@@ -6,84 +6,23 @@
 .container {
   max-width: 30vw;
   min-width: 30vw;
-  padding: rem(20);
-  margin-left: auto;
-  margin-right: auto;
+  min-height: 50vh;
+  max-height: 50vh;
+  margin: 10% auto;
   border-radius: 12px;
+  display: flex;
 }
 
-// .logo {
-//   margin-bottom: rem(5);
+h2 {
+  font-size: 58px;
+  justify-content: center;
+  margin-bottom: 5%;
+}
 
-//   img {
-//     margin-right: rem(6);
-//     height: 60%;
-//     width: 60%;
-//     path:nth-child(1) {
-//       stroke: $primary;
-//       fill: $primary;
-//       stroke-width: 1px;
-//       animation: logoAnimate 6s ease-in-out infinite;
-//     }
-//     path:nth-child(2) {
-//       stroke: $primary;
-//       fill: $primary;
-//       stroke-width: 1px;
-//       animation: logoAnimate 6s ease-in-out infinite;
-//       animation-delay: 2s;
-//     }
-//     path:nth-child(3) {
-//       stroke: $primary;
-//       fill: $primary;
-//       stroke-width: 1px;
-//       animation: logoAnimate 6s ease-in-out infinite;
-//       animation-delay: 4s;
-//     }
-
-//     @keyframes logoAnimate {
-//       0% {
-//         stroke: $primary;
-//         fill: $primary;
-//       }
-//       50% {
-//         stroke: #1ad697;
-//         fill: #1ad697;
-//       }
-//       100% {
-//         stroke: $primary;
-//         fill: $primary;
-//       }
-//     }
-//   }
-// }
-
-// .mainLogo {
-//   color: $black;
-//   margin-right: rem(10);
-// }
-
-// .version {
-//   position: relative;
-//   top: -3px;
-//   display: inline-block;
-//   line-height: rem(35);
-//   height: rem(35);
-//   font-size: 70%;
-//   background: $black;
-//   border-radius: 8px;
-//   color: $white;
-//   padding: 0 rem(10);
-//   text-transform: capitalize;
-// }
-
-// // dark theme
-// [data-vb-theme='dark'] {
-//   .mainLogo {
-//     color: $white;
-//   }
-
-//   .version {
-//     background: $dark-gray-4;
-//     color: $dark-gray-1;
-//   }
-// }
+.testtest {
+  font-size: 58px;
+  background-color: #2876f9;
+  background-image: linear-gradient(315deg, #2876f9 0%, #6d17cb 74%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}

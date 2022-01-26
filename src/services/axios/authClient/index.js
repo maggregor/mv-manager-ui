@@ -6,15 +6,4 @@ const authClient = axios.create({
   withCredentials: true, // Forward JWT token
 })
 
-authClient.interceptors.response.use(undefined, error => {
-  // Errors handling
-  const { response } = error
-  const { data } = response
-  if (data) {
-    notification.warning({
-      message: data,
-    })
-  }
-})
-
 export default authClient
