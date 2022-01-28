@@ -1,8 +1,7 @@
 import axios from 'axios'
-import { notification } from 'ant-design-vue'
 
 const authClient = axios.create({
-  baseURL: `${process.env.VUE_APP_AUTH_BASE_URL}`,
+  baseURL: `${process.env.VUE_APP_AUTH_BASE_URL}/api/v1`,
   withCredentials: true, // Forward JWT token
 })
 

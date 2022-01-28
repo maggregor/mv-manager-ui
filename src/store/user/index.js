@@ -1,6 +1,5 @@
 import router from '@/router'
 import { notification } from 'ant-design-vue'
-import store from 'store'
 
 import * as oauth2 from '@/services/oauth2'
 
@@ -9,7 +8,7 @@ const getDefaultState = () => {
     id: '',
     name: '',
     email: '',
-    avatar: '',
+    firstName: '',
     accessToken: 'qweqwe',
     authorized: false,
     loading: false,
@@ -39,7 +38,7 @@ export default {
       state.id = payload.id
       state.name = payload.name
       state.email = payload.email
-      state.avatar = payload.avatar
+      state.firstName = payload.firstName
       state.accessToken = payload.accessToken
     },
     RESET_STATE(state) {
@@ -75,12 +74,14 @@ export default {
       const currentAccount = mapAuthProviders[rootState.settings.authProvider].currentAccount
       currentAccount().then(response => {
         if (response) {
-          const { id, email, name, avatar, accessToken } = response
+          const { id, email, name } = response
+          const accessToken = response['access_token']
+          const firstName = response['first_name']
           commit('SET_STATE', {
             id,
             name,
             email,
-            avatar,
+            firstName,
             accessToken,
             authorized: true,
           })

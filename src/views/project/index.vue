@@ -5,7 +5,14 @@
     </div>
     <a-row>
       <a-col :span="8">
-        <TableExplorerTree />
+        <a-skeleton :paragraph="true" active :loading="!datasets.length">
+          <DatasetCard
+            v-for="dataset in datasets"
+            :key="dataset.datasetName"
+            :project-id="projectId"
+            :name="dataset.datasetName"
+          />
+        </a-skeleton>
       </a-col>
       <a-col :span="16">
         <a-row>
@@ -35,13 +42,20 @@ import { useRoute, useRouter } from 'vue-router'
 import ProjectHeader from '@/components/Projects/ProjectHeader'
 import ProjectPlan from '@/components/Projects/ProjectPlan'
 import Kpi1 from '@/components/KPI1'
-import TableExplorerTree from '@/components/TableExplorer/TableExplorerTree'
+import DatasetCard from '@/components/Projects/DatasetCard'
+// import TableExplorerTree from '@/components/TableExplorer/TableExplorerTree'
 
 const prettyBytes = require('pretty-bytes')
 
 export default {
   name: 'Overview',
-  components: { ProjectHeader, ProjectPlan, Kpi1, TableExplorerTree },
+  components: {
+    ProjectHeader,
+    ProjectPlan,
+    Kpi1,
+    DatasetCard,
+    //  TableExplorerTree
+  },
   setup() {
     const store = useStore()
     const route = useRoute()
@@ -54,7 +68,6 @@ export default {
         .catch(e => router.push('/'))
       store.dispatch('projects/LOAD_CURRENT_PROJECT', {
         projectId: projectId,
-        datasetId: 'nyc_trips',
       })
     })
     const project = computed(() => store.getters['projects/getProjectById'](projectId))

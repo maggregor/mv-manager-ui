@@ -4,7 +4,7 @@
       Server Error
     </div>
     <div>This page is deprecated, deleted, or does not exist at all</div>
-    <div class="font-weight-bold font-size-70 mb-1">
+    <div class="font-weight-bold font-size-38 mb-1">
       500 —
     </div>
     <router-link to="/" class="btn btn-outline-primary width-100">

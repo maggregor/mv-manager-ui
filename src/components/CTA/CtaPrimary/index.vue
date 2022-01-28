@@ -1,7 +1,7 @@
 <template>
-  <div class="cta-primary" @click="changeRoute()">
+  <a-button class="cta-primary" @click="triggerAction()" :loading="loading">
     <p class="label">{{ label }}</p>
-  </div>
+  </a-button>
 </template>
 
 <script>
@@ -16,6 +16,12 @@ export default {
       type: String,
       default: '',
     },
+    trigger: {
+      type: Function,
+    },
+  },
+  data() {
+    return { loading: false }
   },
   computed: {
     isExternal: function() {
@@ -23,13 +29,22 @@ export default {
     },
   },
   methods: {
+    async triggerAction() {
+      if (this.trigger != undefined) {
+        this.loading = true
+        await this.trigger()
+        this.loading = false
+      } else {
+        this.changeRoute()
+      }
+    },
+    executePost() {},
     changeRoute() {
       if (this.isExternal) {
         window.open(this.url)
       } else {
         this.$router.push(this.url)
       }
-      // this.$router.push('/projects/achilio-dev') // For testing only
     },
   },
 }

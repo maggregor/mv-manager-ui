@@ -33,3 +33,10 @@ export async function getQueryStatistics(payload) {
   const { data } = await backendClient.get(`/project/${projectId}/queries/${lastDays}/statistics`)
   return data
 }
+
+export async function postOptimizeDataset(payload) {
+  let projectId = payload.projectId
+  let datasetName = payload.datasetName
+  const { data } = await backendClient.post(`/optimize/${projectId}/dataset/${datasetName}`)
+  return data
+}

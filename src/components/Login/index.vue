@@ -1,27 +1,37 @@
 <template>
-  <div :class="$style.container">
-    <a-form
-      :model="loginForm"
-      layout="vertical"
-      @finish="handleFinish"
-      @finishFailed="handleFinishFailed"
-    >
-      <h2 class="font-weight-bold pb-2">
-        Welcome. <br />Join
-        <span
-          style="color: background-color: #663dff;
-background-image: linear-gradient(319deg, #663dff 0%, #aa00ff 37%, #cc4499 100%);
-
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;"
-          >BigTunr</span
+  <div class="container">
+    <a-row type="flex" justify="space-around" align="middle">
+      <a-col :span="11">
+        <h2 class="font-weight-bold pb-2">
+          Join the beta !
+        </h2>
+        <h3 class=" pb-2">Make your Google BigQuery™ projects <b>autonomnous</b>.</h3>
+      </a-col>
+      <a-divider style="height: 30vh" type="vertical" />
+      <a-col :span="10">
+        <a-form
+          :model="loginForm"
+          layout="vertical"
+          @finish="handleFinish"
+          @finishFailed="handleFinishFailed"
         >
-        , now.
-      </h2>
-      <a-button type="primary" html-type="submit" class="text-center w-100" :loading="user.loading">
-        Sign in with<strong> Google</strong>
-      </a-button>
-    </a-form>
+          <a-button
+            type="primary"
+            html-type="submit"
+            class="text-center w-100  "
+            :loading="user.loading"
+          >
+            Sign in with<strong> Google</strong>
+          </a-button>
+          <p class="mt-2">
+            By signing up, you agree to Achilio’s
+            <a href="https://achilio.com"><b>Terms of Service</b></a> and
+            <a href="https://achilio.com"><b>Privacy Policy</b></a
+            >.
+          </p>
+        </a-form>
+      </a-col>
+    </a-row>
   </div>
 </template>
 <script>
@@ -65,6 +75,32 @@ export default {
   },
 }
 </script>
-<style lang="scss" module>
-@import './style.module.scss';
+<style scoped>
+.container {
+  min-width: 60vw;
+  max-width: 60vw;
+  min-height: 50vh;
+  max-height: 50vh;
+  margin-bottom: 20%;
+}
+.space-align-container {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.ant-row {
+  height: 60vh;
+}
+h2 {
+  font-size: 46px;
+}
+h3 {
+  font-size: 28px;
+  font-weight: 300;
+}
+p {
+  text-align: center;
+  font-size: 12px;
+}
 </style>

@@ -8,6 +8,8 @@ export async function login() {
   const scope = [
     'https://www.googleapis.com/auth/userinfo.email',
     'https://www.googleapis.com/auth/userinfo.profile',
+    'https://www.googleapis.com/auth/bigquery',
+    'https://www.googleapis.com/auth/cloudplatformprojects.readonly',
   ].join(' ')
 
   const params = {
@@ -40,5 +42,5 @@ export async function currentAccount() {
 }
 
 export async function logout() {
-  return {}
+  return await authApi.logout()
 }

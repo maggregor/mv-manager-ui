@@ -5,7 +5,7 @@
 
   /* Auto Layout */
 
-  padding: 5px;
+  margin-left: 5px;
 
   /* Inside Auto Layout */
 
@@ -18,12 +18,11 @@
   font-family: Poppins;
   font-style: normal;
   font-weight: bold;
-  font-size: 16px;
+  font-size: 18px;
   /* identical to box height, or 200% */
 
   display: flex;
   align-items: center;
-  letter-spacing: -0.02em;
 
   color: #000000;
 
@@ -36,11 +35,10 @@
   margin: 0px 0px;
 }
 .project-id {
-
   font-family: Poppins;
   font-style: normal;
-  font-weight: 600;
-  font-size: 12px;
+  font-weight: 400;
+  font-size: 14px;
   /* identical to box height, or 240% */
 
   letter-spacing: -0.02em;
@@ -58,7 +56,6 @@
   margin: 0px 0px 15px 0px;
 }
 .dataset-count {
-
   font-family: Poppins;
   font-style: normal;
   font-weight: 600;

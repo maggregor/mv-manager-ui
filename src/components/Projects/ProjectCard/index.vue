@@ -12,7 +12,7 @@
         </a-col>
         <!-- Activated project -->
         <a-col :span="12" :style="{ top: '50px' }">
-          <div v-if="activated">
+          <div v-if="isActivated">
             <a-row type="flex" justify="space-between" align="bottom">
               <a-col style="right: 2%" :span="12">
                 <CtaSecondary
@@ -28,8 +28,9 @@
           </div>
           <div v-else>
             <CtaSecondary
-            :url="'https://cloud.google.com/marketplace'" 
-            :label="'Enable in Google Cloud Marketplace'" />
+              :url="'https://cloud.google.com/marketplace'"
+              :label="'Enable in Google Cloud Marketplace'"
+            />
           </div>
         </a-col>
       </a-row>
@@ -62,7 +63,7 @@ export default {
       type: Number,
       default: -1,
     },
-    activated: {
+    isActivated: {
       type: Boolean,
       default: false,
     },

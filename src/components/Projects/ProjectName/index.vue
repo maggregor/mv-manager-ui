@@ -2,9 +2,9 @@
   <div class="project-name-block">
     <p class="project-name">{{ projectName }}</p>
     <p class="project-id text-gray-6">{{ projectId }}</p>
-    <div>
-    <p class="dataset-count text-gray-5">{{ datasetField }} • {{ Math.floor(Math.random() * 100) }}% optimizable traffic</p>
-    </div>
+    <p class="dataset-count text-gray-5">
+      {{ datasetField }} • {{ Math.floor(Math.random() * 100) }}% optimizable traffic
+    </p>
   </div>
 </template>
 

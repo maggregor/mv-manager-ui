@@ -15,7 +15,7 @@ export default {
       // Read docs for available values: https://docs.visualbuilder.cloud
       // VB:REPLACE-START:SETTINGS
       authProvider: 'oauth2',
-      logo: 'Materialized View Manager',
+      logo: 'BigTunr',
       version: 'clean',
       theme: 'default',
       locale: 'en-US',
