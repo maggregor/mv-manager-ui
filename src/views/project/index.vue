@@ -111,7 +111,9 @@ export default {
     const projectLoading = computed(() => store.getters['projects/loading'])
     const projectTables = computed(() => store.getters['projects/currentProjectTables'])
     const queryStatistics = computed(() => store.getters['projects/currentProjectQueryStatistics'])
-    project.value.projectPlan = 'Enterprise'
+    if (project.value) {
+      project.value.projectPlan = 'Enterprise'
+    }
     return {
       store,
       datasets,

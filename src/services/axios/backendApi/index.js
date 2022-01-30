@@ -34,6 +34,13 @@ export async function getQueryStatistics(payload) {
   return data
 }
 
+export async function getMaterializedViewEvents(payload) {
+  let projectId = payload.projectId
+  let lastDays = payload.lastDays
+  const { data } = await backendClient.get(`/project/${projectId}/events/${lastDays}/statistics`)
+  return data
+}
+
 export async function postOptimizeDataset(payload) {
   let projectId = payload.projectId
   let datasetName = payload.datasetName
