@@ -3,7 +3,7 @@
     <h1 class="text-black text-weight-700 font-size-50">Hello {{ username }},</h1>
     <h2 class="mb-5 text-gray-7 text-weight-300 font-size-24">
       You are connected to your
-      <span class="google-font text-weight-500 mr-2">Google Cloud Platform™</span>
+      <span class="google-font text-weight-500 mr-2">Google Cloud Platform</span>
 
       <img :style="{ height: '2rem' }" src="@/assets/google/google-cloud-platform_logo.svg" />
     </h2>

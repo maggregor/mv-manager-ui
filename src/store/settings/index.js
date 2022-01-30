@@ -15,7 +15,7 @@ export default {
       // Read docs for available values: https://docs.visualbuilder.cloud
       // VB:REPLACE-START:SETTINGS
       authProvider: 'oauth2',
-      logo: 'BigTunr',
+      logo: 'Supertunr',
       version: 'clean',
       theme: 'default',
       locale: 'en-US',
@@ -27,7 +27,7 @@ export default {
       isPreselectedOpen: false,
       preselectedVariant: 'river',
       menuLayoutType: 'left',
-      routerAnimation: 'slide-fadein-up',
+      routerAnimation: 'zoom-fadein',
       menuColor: 'white',
       authPagesColor: 'gray',
       isAuthTopbar: false,

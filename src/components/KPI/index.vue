@@ -1,23 +1,25 @@
 <template>
-  <div class="kpi-1">
-    <a-skeleton :paragraph="false" active :loading="data == -1">
-      <p class="data">{{ data }}</p>
-      <p class="label">{{ label }}</p>
-    </a-skeleton>
+  <div class="kpi-card">
+    <span class="value" v-html="data == -1 ? '...' : data" />
+    <br />
+    <span class="label" v-html="label" />
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Kpi1',
+  name: 'Kpi',
   props: {
     data: {
       type: [Number, String],
-      default: -1,
     },
     label: {
       type: String,
       default: 'Label',
+    },
+    gradient: {
+      type: Boolean,
+      default: false,
     },
   },
 }

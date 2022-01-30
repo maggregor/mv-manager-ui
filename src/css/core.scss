@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 :root {
-  --vb-color-primary: #4318FF;
+  --vb-color-primary: #4318ff;
 }
 
 html {
@@ -23,6 +23,7 @@ body {
   font-variant: normal;
   font-feature-settings: normal;
   font-family: 'Poppins', sans-serif;
+  letter-spacing: -0.5px;
 }
 
 a {
@@ -63,6 +64,17 @@ h4,
 h5,
 h6 {
   color: $black;
+  letter-spacing: -1px;
+}
+
+h3 {
+  font-size: 28px;
+  font-weight: 600;
+}
+
+h6 {
+  font-size: 14px;
+  font-weight: 400;
 }
 
 svg {

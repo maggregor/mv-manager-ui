@@ -1,29 +1,14 @@
 @import '@/mixins.scss';
 
 .project-header {
-  /* Project Name Block */
-
-  /* Auto Layout */
-
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-
-  position: static;
-
-  /* Inside Auto Layout */
-
-  flex: none;
-  order: 0;
-  flex-grow: 1;
 }
 .project-name {
   /* basic */
 
   font-family: Poppins;
   font-style: normal;
-  font-weight: 600;
-  font-size: 30px;
+  font-weight: 900;
+  font-size: 58px;
   margin-bottom: rem(-10);
   /* identical to box height, or 200% */
 
@@ -43,18 +28,12 @@
   font-style: normal;
   font-weight: 200;
   font-size: 14px;
-  /* identical to box height, or 240% */
+  margin-top: -3px;
+}
 
-  letter-spacing: -0.02em;
-
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-
-  /* Inside Auto Layout */
-
-  flex: none;
-  order: 1;
-  align-self: stretch;
-  flex-grow: 0;
+.project-plan {
+  font-weight: 800;
+  background: linear-gradient(90deg, rgb(255, 109, 109), rgb(74, 74, 255) 15%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }

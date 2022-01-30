@@ -1,14 +1,27 @@
 <template>
-  <div class="project-header">
-    <p class="project-name">{{ project.projectName }}</p>
-    <p class="project-id">{{ project.projectId }}</p>
+  <div class="mb-5">
+    <a
+      @click="$router.push('/projects')"
+      class="text-weight-600 font-size-18"
+      style="margin-top:15px;"
+      >{{ 'Back to projects' }}</a
+    >
+    <h1 class="mt-3 project-name">
+      {{ project.projectName }}
+    </h1>
+    <h2 class="project-plan">{{ project.projectPlan }}</h2>
+    <!-- <a-progress
+      :stroke-color="{
+        '0%': 'rgb(255, 109, 109)',
+        '100%': 'blue',
+      }"
+      :percent="90"
+      :showInfo="false"
+      style="width:150px; height:5px important;"
+    />
+    17/20 Materialized View -->
+    <!-- <h2 class="project-id">{{ project.projectId }}</h2> -->
   </div>
-  <!-- <div class="container">
-    <h1 class="text-black text-weight-700 font-size-50">{{ project.projectName }}</h1>
-    <h2 class="mb-5 text-gray-7 text-weight-300 font-size-24">
-      {{ project.projectId }}
-    </h2>
-  </div> -->
 </template>
 
 <script>
@@ -19,7 +32,8 @@ export default {
       type: Object,
       default: () => ({
         projectId: 'loading...',
-        projectName: 'Loading...',
+        projectName: 'loading...',
+        projectPlan: 'loading...',
       }),
     },
   },
@@ -28,11 +42,4 @@ export default {
 
 <style lang="scss" scoped>
 @import './style.module.scss';
-.container {
-  max-width: 50vw;
-  min-width: 50vw;
-  padding: rem(0) rem(30) rem(30) rem(30);
-  margin-left: auto;
-  margin-right: auto;
-}
 </style>

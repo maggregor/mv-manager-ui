@@ -3,7 +3,7 @@
     <p class="project-name">{{ projectName }}</p>
     <p class="project-id text-gray-6">{{ projectId }}</p>
     <p class="dataset-count text-gray-5">
-      {{ datasetField }} • {{ Math.floor(Math.random() * 100) }}% optimizable traffic
+      Last 30 days usage: <span class="text-weight-700">2 hours</span>
     </p>
   </div>
 </template>

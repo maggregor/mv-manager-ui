@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="project-card mb-4">
+    <div :class="{ 'project-card': true, 'mb-4': true, 'project-activated': isActivated }">
       <a-row>
         <a-col :span="12" :style="{ top: '10px' }">
           <ProjectNameBlock
@@ -11,26 +11,28 @@
           />
         </a-col>
         <!-- Activated project -->
-        <a-col :span="12" :style="{ top: '50px' }">
+        <a-col :span="12" :style="{ top: '15px' }">
           <div v-if="isActivated">
             <a-row type="flex" justify="space-between" align="bottom">
-              <a-col style="right: 2%" :span="12">
-                <CtaSecondary
+              <a-col :span="12">
+                <!-- <cta
                   class="cta-secondary"
                   :url="'/settings/' + projectId"
                   :label="'Settings'"
-                />
+                /> -->
               </a-col>
               <a-col :span="12">
-                <CtaPrimary :url="'/projects/' + projectId" :label="'Open'" />
+                <cta secondary :url="'/projects/' + projectId" :label="'Open'" />
               </a-col>
             </a-row>
           </div>
           <div v-else>
-            <CtaSecondary
-              :url="'https://cloud.google.com/marketplace'"
-              :label="'Enable in Google Cloud Marketplace'"
-            />
+            <a-row type="flex" justify="space-between" align="bottom">
+              <a-col :span="12"> </a-col>
+              <a-col :span="12">
+                <cta :url="'https://cloud.google.com/marketplace'" :label="'Try 14-days now'" />
+              </a-col>
+            </a-row>
           </div>
         </a-col>
       </a-row>
@@ -39,16 +41,14 @@
 </template>
 
 <script>
-import CtaPrimary from '@/components/CTA/CtaPrimary'
-import CtaSecondary from '@/components/CTA/CtaSecondary'
+import CTA from '@/components/CTA'
 import ProjectNameBlock from '@/components/Projects/ProjectName'
 
 export default {
   name: 'ProjectCard',
   components: {
     ProjectNameBlock,
-    CtaSecondary,
-    CtaPrimary,
+    cta: CTA,
   },
   props: {
     projectId: {

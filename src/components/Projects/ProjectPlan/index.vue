@@ -5,9 +5,10 @@
       <span class="count-num text-weight-600">{{ tableCount }}/{{ maxTable }}</span> Table(s)
     </p>
     <p class="mmv-count text-weight-300 font-size-18">
-      <span class="count-num text-weight-600">{{ mmvCount }}/{{ maxMmv }}</span> Managed Materialized View(s)
+      <span class="count-num text-weight-600">{{ mmvCount }}/{{ maxMmv }}</span> Managed
+      Materialized View(s)
     </p>
-    <CtaPrimary
+    <cta
       class="cta-primary mt-4"
       v-if="planUpgradable"
       :url="'https://cloud.google.com/marketplace'"
@@ -17,11 +18,11 @@
 </template>
 
 <script>
-import CtaPrimary from '@/components/CTA/CtaPrimary'
+import CTA from '@/components/CTA'
 
 export default {
   name: 'ProjectPlan',
-  components: { CtaPrimary },
+  components: { cta: CTA },
   props: {
     planName: {
       type: String,

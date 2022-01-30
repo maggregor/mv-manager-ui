@@ -2,10 +2,12 @@
   <div class="container">
     <a-row type="flex" justify="space-around" align="middle">
       <a-col :span="11">
-        <h2 class="font-weight-bold pb-2">
-          Join the beta !
-        </h2>
-        <h3 class=" pb-2">Make your Google BigQuery™ projects <b>autonomnous</b>.</h3>
+        <h1 class="font-weight-bold font-size-70 pb-2">
+          Lorem Ipsum !
+        </h1>
+        <h3 class=" pb-2">
+          Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.
+        </h3>
       </a-col>
       <a-divider style="height: 30vh" type="vertical" />
       <a-col :span="10">

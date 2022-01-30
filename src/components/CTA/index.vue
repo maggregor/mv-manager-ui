@@ -1,12 +1,16 @@
 <template>
-  <a-button class="cta-primary" @click="triggerAction()" :loading="loading">
+  <a-button
+    :class="{ 'cta-primary': !secondary, 'cta-secondary': secondary }"
+    @click="triggerAction()"
+    :loading="loading"
+  >
     <p class="label">{{ label }}</p>
   </a-button>
 </template>
 
 <script>
 export default {
-  name: 'CtaPrimary',
+  name: 'Cta',
   props: {
     url: {
       type: String,
@@ -18,6 +22,9 @@ export default {
     },
     trigger: {
       type: Function,
+    },
+    secondary: {
+      type: Boolean,
     },
   },
   data() {
