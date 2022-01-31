@@ -1,9 +1,6 @@
 steps:
   - name: node:12.22.5
     entrypoint: yarn
-    args: ['--update-checksums']
-  - name: node:12.22.5
-    entrypoint: yarn
     args: ['install']
   - name: node:12.22.5
     entrypoint: yarn
