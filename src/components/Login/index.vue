@@ -3,35 +3,29 @@
     <a-row type="flex" justify="space-around" align="middle">
       <a-col :span="11">
         <h1 class="font-weight-bold font-size-70 pb-2">
-          Lorem Ipsum !
+          Welcome
         </h1>
         <h3 class=" pb-2">
-          Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.
+          To BigTunr for Google BigQuery
         </h3>
       </a-col>
       <a-divider style="height: 30vh" type="vertical" />
-      <a-col :span="10">
-        <a-form
-          :model="loginForm"
-          layout="vertical"
-          @finish="handleFinish"
-          @finishFailed="handleFinishFailed"
-        >
-          <a-button
+      <a-col style="text-align: center" :span="10">
+        <!-- <a-button
             type="primary"
             html-type="submit"
             class="text-center w-100  "
             :loading="user.loading"
           >
             Sign in with<strong> Google</strong>
-          </a-button>
-          <p class="mt-2">
-            By signing up, you agree to Achilio’s
-            <a href="https://achilio.com"><b>Terms of Service</b></a> and
-            <a href="https://achilio.com"><b>Privacy Policy</b></a
-            >.
-          </p>
-        </a-form>
+          </a-button> -->
+        <google-button @click="handleFinish" />
+        <p class="mt-3">
+          By signing up, you agree to Achilio’s
+          <a href="https://achilio.com"><b>Terms of Service</b></a> and
+          <a href="https://achilio.com"><b>Privacy Policy</b></a
+          >.
+        </p>
       </a-col>
     </a-row>
   </div>
@@ -40,9 +34,11 @@
 import { computed, reactive } from 'vue'
 import { useStore } from 'vuex'
 
+import GoogleButton from '@/components/GoogleButton'
+
 export default {
   name: 'VbLogin',
-  components: {},
+  components: { 'google-button': GoogleButton },
   setup() {
     const store = useStore()
     const settings = computed(() => store.getters.settings)

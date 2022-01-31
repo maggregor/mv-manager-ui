@@ -76,6 +76,8 @@ import { computed, onMounted, ref, watch } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute, useRouter } from 'vue-router'
 
+import { getMaterializedViewEvents } from '@/services/axios/backendApi'
+
 import ProjectHeader from '@/components/Projects/ProjectHeader'
 import Kpi from '@/components/KPI'
 import CTA from '@/components/CTA'
@@ -114,6 +116,7 @@ export default {
     if (project.value) {
       project.value.projectPlan = 'Enterprise'
     }
+    getMaterializedViewEvents({ projectId: projectId, days: 10 })
     return {
       store,
       datasets,
