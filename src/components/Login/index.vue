@@ -1,26 +1,21 @@
 <template>
   <div class="container">
     <a-row type="flex" justify="space-around" align="middle">
-      <a-col :span="11">
-        <h1 class="font-weight-bold font-size-70 pb-2">
-          Welcome
-        </h1>
-        <h3 class=" pb-2">
-          To BigTunr for Google BigQuery
-        </h3>
+      <a-col class="details_container" :span="10">
+        <h1>With BigTunr</h1>
+        <h2>Automatically improve your performance</h2>
+        <div class="strengh_container">
+          <h3 class="strengh_item">✅ Ca va très vite</h3>
+          <h3 class="strengh_item">✅ En plus c'est automatique</h3>
+          <h3 class="strengh_item">✅ Et on fait gaffe à vos données</h3>
+        </div>
       </a-col>
-      <a-divider style="height: 30vh" type="vertical" />
-      <a-col style="text-align: center" :span="10">
-        <!-- <a-button
-            type="primary"
-            html-type="submit"
-            class="text-center w-100  "
-            :loading="user.loading"
-          >
-            Sign in with<strong> Google</strong>
-          </a-button> -->
-        <google-button @click="handleFinish" />
-        <p class="mt-3">
+      <a-col class="details_container" :span="2">
+        <a-divider style="height: 30vh" type="vertical" />
+      </a-col>
+      <a-col class="login_container" :span="10">
+        <google-button class="mb-4" @click="handleFinish" />
+        <p>
           By signing up, you agree to Achilio’s
           <a href="https://achilio.com"><b>Terms of Service</b></a> and
           <a href="https://achilio.com"><b>Privacy Policy</b></a
@@ -73,32 +68,6 @@ export default {
   },
 }
 </script>
-<style scoped>
-.container {
-  min-width: 60vw;
-  max-width: 60vw;
-  min-height: 50vh;
-  max-height: 50vh;
-  margin-bottom: 20%;
-}
-.space-align-container {
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-.ant-row {
-  height: 60vh;
-}
-h2 {
-  font-size: 46px;
-}
-h3 {
-  font-size: 28px;
-  font-weight: 300;
-}
-p {
-  text-align: center;
-  font-size: 12px;
-}
+<style lang="scss" scoped>
+@import './style.module.scss';
 </style>

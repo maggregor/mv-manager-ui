@@ -1,6 +1,6 @@
 import axios from 'axios'
 import store from '@/store'
-import { notification } from 'ant-design-vue'
+import { message } from 'ant-design-vue'
 
 const backendClient = axios.create({
   baseURL: `${process.env.VUE_APP_API_BASE_URL}/api/v1`,
@@ -20,9 +20,7 @@ backendClient.interceptors.response.use(undefined, error => {
   const { response } = error
   const { data } = response
   if (data) {
-    notification.warning({
-      message: data.error,
-    })
+    message.error(data.message, 5)
   }
 })
 
