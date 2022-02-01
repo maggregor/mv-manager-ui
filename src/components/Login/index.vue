@@ -4,11 +4,11 @@
       <a-col class="details_container" :span="10">
         <h1>With BigTunr</h1>
         <h2>Automatically improve your performance</h2>
-        <div class="strengh_container">
+        <!-- <div class="strengh_container">
           <h3 class="strengh_item">✅ Ca va très vite</h3>
           <h3 class="strengh_item">✅ En plus c'est automatique</h3>
           <h3 class="strengh_item">✅ Et on fait gaffe à vos données</h3>
-        </div>
+        </div> -->
       </a-col>
       <a-col class="details_container" :span="2">
         <a-divider style="height: 30vh" type="vertical" />
