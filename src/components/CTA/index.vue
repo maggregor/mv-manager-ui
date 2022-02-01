@@ -22,6 +22,7 @@ export default {
     },
     trigger: {
       type: Function,
+      default: undefined,
     },
     secondary: {
       type: Boolean,
