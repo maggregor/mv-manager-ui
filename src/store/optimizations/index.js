@@ -2,7 +2,7 @@ import * as api from '@/services/axios/backendApi'
 
 const getDefaultState = () => {
   return {
-    datasets: [],
+    optimizations: [],
     loading: false,
   }
 }
@@ -18,23 +18,22 @@ export default {
         ...payload,
       })
     },
-    SET_PROJECT_STATE(state, payload) {
-      let projectId = payload.projectId
-      Object.assign(state.projects[projectId], { ...payload })
+    SET_OPTIMIZATIONS_STATE(state, payload) {
+      Object.assign(state, { ...payload })
     },
     RESET_STATE(state) {
       Object.assign(state, getDefaultState())
     },
   },
   actions: {
-    async LOAD_DATASETS({ commit }, payload) {
+    async LOAD_OPTIMIZATIONS({ commit }, payload) {
       commit('SET_STATE', {
         loading: true,
       })
       let projectId = payload.projectId
-      await api.getDatasets({ projectId }).then(datasets => {
-        if (datasets) {
-          commit('SET_STATE', { datasets: datasets })
+      await api.getOptimizations({ projectId }).then(optimizations => {
+        if (optimizations) {
+          commit('SET_STATE', { optimizations: optimizations })
         }
         commit('SET_STATE', {
           loading: false,
@@ -43,7 +42,7 @@ export default {
     },
   },
   getters: {
-    datasets: state => state.datasets,
+    optimizations: state => state.optimizations,
     loading: state => state.loading,
   },
 }

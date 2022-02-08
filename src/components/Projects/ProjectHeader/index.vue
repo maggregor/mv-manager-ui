@@ -1,11 +1,8 @@
 <template>
-  <div class="mb-5">
-    <a
-      @click="$router.push('/projects')"
-      class="text-weight-600 font-size-18"
-      style="margin-top:15px;"
-      >{{ 'Back to projects' }}</a
-    >
+  <div>
+    <a @click="$router.push('/projects')" class="text-weight-600 font-size-18">{{
+      'Back to projects'
+    }}</a>
     <h1 class="mt-3 project-name">
       {{ project.projectName }}
     </h1>

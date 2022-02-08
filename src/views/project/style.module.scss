@@ -1,8 +1,9 @@
 @import '@/mixins.scss';
 
 .container {
-  min-width: 80rem;
-  max-width: 80rem;
+  margin: auto;
+  min-width: 65vw;
+  max-width: 65vw;
   min-height: 75vh;
   max-height: 75vh;
   padding: 5px;

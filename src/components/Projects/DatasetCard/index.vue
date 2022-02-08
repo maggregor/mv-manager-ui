@@ -42,6 +42,7 @@ export default {
       await postOptimizeDataset({ projectId: this.projectId, datasetName: this.name })
       this.$message.success(`Optimization done !`, 5)
       this.loading = false
+      this.$store.dispatch('optimizations/LOAD_OPTIMIZATIONS', { projectId: this.projectId })
     },
   },
 }

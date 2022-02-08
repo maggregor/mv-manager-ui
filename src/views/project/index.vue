@@ -11,28 +11,16 @@
         ></cta>
         <cta secondary disabled style="width: 49%; margin-top: 100px;" label="Settings"></cta>
       </a-col>
-      <a-col class="pr-5" :span="8">
+      <a-col :span="8">
         <h3>
           Datasets
         </h3>
-        <!-- 17/20 Managed Materialized Views
-        <a style="color: #e21818; font-weight: bold">Upgrade plan</a>
-        <a-progress
-          style="height:10px"
-          :stroke-color="{
-            '0%': 'green',
-            '90%': 'green',
-            '100%': '#e21818',
-          }"
-          :percent="90"
-          :showInfo="false"
-        /> -->
       </a-col>
       <a-col :span="16">
         <h3>
           Last 30 days performance
+          <h6>(Excluding cached queries)</h6>
         </h3>
-        <h6>(Excluding cached queries)</h6>
       </a-col>
     </a-row>
     <a-row class="p-1">
@@ -45,6 +33,18 @@
             :name="dataset.datasetName"
           />
         </a-skeleton>
+        <a-col :span="24">
+          <h3 style="margin-top:30px">
+            Last optimizations
+          </h3>
+          <OptimizationHistoryCard
+            v-for="optimization in optimizations"
+            :key="optimization.id"
+            :date="optimization.createdDate"
+            :dataset="optimization.datasetName"
+            :eligible-percent="optimization.eligiblePercent"
+          />
+        </a-col>
       </a-col>
       <a-col :span="16">
         <a-row style="height:120px; margin-top: 30px;">
@@ -58,14 +58,7 @@
             ><Kpi :data="scannedBytes" :label="'Total scanned byte'"
           /></a-col>
         </a-row>
-        <a-row>
-          <a-col :span="24">
-            <h3 style="margin-top:50px">
-              Optimizations history
-            </h3>
-            <a-empty style="margin-top:10px"></a-empty>
-          </a-col>
-        </a-row>
+        <a-row> </a-row>
       </a-col>
     </a-row>
   </div>
@@ -74,16 +67,14 @@
 <script>
 import { computed, onMounted, ref, watch } from 'vue'
 import { useStore } from 'vuex'
-import { useRoute, useRouter } from 'vue-router'
-
-import { getMaterializedViewEvents } from '@/services/axios/backendApi'
+import { useRoute } from 'vue-router'
 
 import ProjectHeader from '@/components/Projects/ProjectHeader'
 import Kpi from '@/components/KPI'
 import CTA from '@/components/CTA'
 
 import DatasetCard from '@/components/Projects/DatasetCard'
-// import TableExplorerTree from '@/components/TableExplorer/TableExplorerTree'
+import OptimizationHistoryCard from '@/components/OptimizationHistoryCard'
 
 const prettyBytes = require('pretty-bytes')
 
@@ -94,20 +85,21 @@ export default {
     Kpi,
     DatasetCard,
     cta: CTA,
+    OptimizationHistoryCard,
   },
   setup() {
     const store = useStore()
     const route = useRoute()
-    const router = useRouter()
     const datasets = computed(() => store.getters['datasets/datasets'])
+    const optimizations = computed(() => {
+      let optimizations = store.getters['optimizations/optimizations']
+      return optimizations.sort((a, b) => new Date(b.createdDate) - new Date(a.createdDate))
+    })
     const projectId = route.params.projectId
     onMounted(() => {
-      store
-        .dispatch('datasets/LOAD_DATASETS', { projectId: projectId })
-        .catch(e => router.push('/'))
-      store.dispatch('projects/LOAD_CURRENT_PROJECT', {
-        projectId: projectId,
-      })
+      store.dispatch('datasets/LOAD_DATASETS', { projectId: projectId })
+      store.dispatch('projects/LOAD_CURRENT_PROJECT', { projectId: projectId })
+      store.dispatch('optimizations/LOAD_OPTIMIZATIONS', { projectId: projectId })
     })
     const project = computed(() => store.getters['projects/getProjectById'](projectId))
     const projectLoading = computed(() => store.getters['projects/loading'])
@@ -116,7 +108,6 @@ export default {
     if (project.value) {
       project.value.projectPlan = 'Enterprise'
     }
-    getMaterializedViewEvents({ projectId: projectId, days: 10 })
     return {
       store,
       datasets,
@@ -125,6 +116,7 @@ export default {
       projectLoading,
       projectTables,
       queryStatistics,
+      optimizations,
     }
   },
   // Fake data before API Implementation
@@ -162,7 +154,7 @@ export default {
     },
     scannedBytes: function() {
       if (this.queryStatistics) {
-        return prettyBytes(this.queryStatistics.global.totalBilledBytes)
+        return prettyBytes(this.queryStatistics.global.totalProcessedBytes)
       }
       return -1
     },
