@@ -36,6 +36,9 @@
         <a-col :span="24">
           <h3 style="margin-top:30px">
             Last optimizations
+            <!-- <a-button :loading="loading" type="link">
+              <span class="text-dark">View history</span>
+            </a-button> -->
           </h3>
           <OptimizationHistoryCard
             v-for="optimization in optimizations"
@@ -58,7 +61,9 @@
             ><Kpi :data="scannedBytes" :label="'Total scanned byte'"
           /></a-col>
         </a-row>
-        <a-row> </a-row>
+        <a-row>
+          <!-- <DateTimeChart /> -->
+        </a-row>
       </a-col>
     </a-row>
   </div>
@@ -75,6 +80,7 @@ import CTA from '@/components/CTA'
 
 import DatasetCard from '@/components/Projects/DatasetCard'
 import OptimizationHistoryCard from '@/components/OptimizationHistoryCard'
+// import DateTimeChart from '@/components/DateTimeChart'
 
 const prettyBytes = require('pretty-bytes')
 
@@ -86,6 +92,7 @@ export default {
     DatasetCard,
     cta: CTA,
     OptimizationHistoryCard,
+    // DateTimeChart,
   },
   setup() {
     const store = useStore()
@@ -93,7 +100,13 @@ export default {
     const datasets = computed(() => store.getters['datasets/datasets'])
     const optimizations = computed(() => {
       let optimizations = store.getters['optimizations/optimizations']
-      return optimizations.sort((a, b) => new Date(b.createdDate) - new Date(a.createdDate))
+      optimizations = optimizations.sort(
+        (a, b) => new Date(b.createdDate) - new Date(a.createdDate),
+      )
+      if (optimizations.length >= 3) {
+        optimizations.length = 3
+      }
+      return optimizations
     })
     const projectId = route.params.projectId
     onMounted(() => {

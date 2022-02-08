@@ -1,0 +1,54 @@
+@import '@/mixins.scss';
+
+.footer {
+  margin: 0 auto;
+  padding: 0 rem(30) rem(30);
+  background: white;
+
+  @media (max-width: $sm-max-width) {
+    padding: 0 rem(16) !important;
+  }
+}
+
+.footerInner {
+  border-top: 1px solid $border;
+  padding-top: rem(30);
+}
+
+.logo {
+  display: block;
+  padding-top: rem(15);
+  padding-bottom: rem(15);
+  margin-right: rem(30);
+  line-height: 1;
+  height: rem(64);
+  white-space: nowrap;
+
+  &__letter {
+    float: left;
+  }
+  &__name {
+    font-weight: 900;
+    font-size: rem(20);
+    margin-left: rem(40);
+  }
+  &__descr {
+    color: $gray-6;
+    margin-left: rem(40);
+    font-size: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+  }
+}
+
+// dark theme
+[data-vb-theme='dark'] {
+  .footer {
+    color: $dark-gray-1;
+  }
+
+  .footerInner {
+    border-top: 1px solid $dark-gray-4;
+  }
+}

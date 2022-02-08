@@ -1,82 +1,54 @@
 <template>
-  <a-layout class="vb__layout">
-    <a-layout-content>
-      <div
-        :class="{
-          [$style.container]: true,
-          vb__layout__squaredBorders: settings.isSquaredBorders,
-          vb__layout__cardsShadow: true,
-          vb__layout__borderless: true,
-        }"
-        :style="{
-          backgroundImage:
-            settings.authPagesColor === 'image'
-              ? `url(resources/images/content/photos/8.jpeg)`
-              : 'none',
-        }"
-      >
-        <div
-          :class="{
-            [$style.topbar]: true,
-            [$style.topbarGray]: settings.isGrayTopbar,
-          }"
-        >
-          <div :class="$style.logoContainer">
-            <h1><a @click="$router.push({ name: 'home' })">achilio.</a></h1>
-          </div>
-          <div v-if="authorized" :class="$style.userContainer">
-            <b class="text-gray-6">{{ user.name }}</b>
-            <a class="pl-3 text-primary text-weight-700" @click="logout">Logout</a><br />
-            {{ user.email }}
-          </div>
-        </div>
-        <!-- <div class="mb-3"><Breadcrumbs /></div> -->
-        <router-view class="containerRouterView" v-slot="{ Component }">
-          <transition :name="settings.routerAnimation" mode="out-in">
-            <component :is="Component" />
-          </transition>
-        </router-view>
-        <div style="position: absolute;bottom: 0;width: 75%;height: 2.5rem;">
-          <ul
-            class="list-unstyled d-flex mb-0 flex-wrap justify-content-center"
-            :class="[$style.footerNav]"
-          ></ul>
-          <div class="text-center">
-            Copyright © {{ new Date().getFullYear() }}
-            <a href="https://achilio.com" target="_blank" rel="noopener noreferrer">
-              Achilio.com
-            </a>
-            |
-            <a href="https://achilio.com/privacy" target="_blank" rel="noopener noreferrer">
-              Privacy Policy
-            </a>
-          </div>
-        </div>
-      </div>
-    </a-layout-content>
-  </a-layout>
+  <div
+    :class="{
+      vb__layout__grayBackground: settings.isGrayBackground,
+    }"
+  >
+    <a-layout
+      :class="{
+        vb__layout: true,
+        vb__layout__contentMaxWidth: settings.isContentMaxWidth,
+        vb__layout__appMaxWidth: settings.isAppMaxWidth,
+        vb__layout__squaredBorders: settings.isSquaredBorders,
+        vb__layout__cardsShadow: settings.isCardShadow,
+        vb__layout__borderless: settings.isBorderless,
+      }"
+    >
+      <a-layout>
+        <a-layout-header>
+          <Topbar />
+        </a-layout-header>
+        <a-layout-content class="vb__layout__content">
+          <router-view v-slot="{ Component }">
+            <transition :name="settings.routerAnimation" mode="out-in">
+              <component :is="Component" />
+            </transition>
+          </router-view>
+        </a-layout-content>
+        <a-layout-footer>
+          <Footer />
+        </a-layout-footer>
+      </a-layout>
+    </a-layout>
+  </div>
 </template>
 
 <script>
 import { useStore } from 'vuex'
 import { computed } from 'vue'
 import { mapState } from 'vuex'
-import Breadcrumbs from '@/components/Breadcrumbs'
-
+import Topbar from '@/components/Topbar'
+import Footer from '@/components/Footer'
 export default {
   name: 'MainLayout',
-  components: {
-    Breadcrumbs,
-  },
+  components: { Topbar, Footer },
   setup() {
     const store = useStore()
     const user = computed(() => store.getters['user/user'])
     const authorized = computed(() => store.getters['user/user'].authorized)
-
     const logout = () => {
       store.dispatch('user/LOGOUT')
     }
-
     return {
       user,
       logout,

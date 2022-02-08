@@ -40,7 +40,7 @@ export default {
       isGrayTopbar: false,
       isContentMaxWidth: true,
       isAppMaxWidth: true,
-      isGrayBackground: true,
+      isGrayBackground: false,
       isCardShadow: true,
       isSquaredBorders: false,
       isBorderless: true,

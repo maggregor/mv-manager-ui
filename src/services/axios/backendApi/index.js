@@ -48,6 +48,6 @@ export async function updateProjectMetadata(projectId, payload) {
 
 export async function getOptimizations(payload) {
   let projectId = payload.projectId
-  const { data } = await backendClient.get(`/optimize/project/${projectId}`)
+  const { data } = await backendClient.get(`/optimize/${projectId}`)
   return data
 }

@@ -18,9 +18,11 @@ backendClient.interceptors.request.use(request => {
 backendClient.interceptors.response.use(undefined, error => {
   // Errors handling
   const { response } = error
-  const { data } = response
-  if (data) {
+  if (response && response.data) {
+    const { data } = response
     message.error(data.message, 5)
+  } else {
+    message.error('Achilio API is unreachable.', 8)
   }
 })
 
