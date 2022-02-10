@@ -139,7 +139,7 @@ export default {
     const queryStatistics = computed(() => store.getters['projects/currentProjectQueryStatistics'])
     const triggerOptimization = async () => {
       optimizeLoading.value = true
-      await optimizeProject(projectId.value)
+      await store.dispatch('optimizations/RUN_OPTIMIZE', projectId.value)
       optimizeLoading.value = false
     }
     if (project.value) {

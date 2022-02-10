@@ -1,8 +1,4 @@
 <template>
-  <!-- <a-card class="container">
-     <cta secondary class="button" :label="name" :trigger="optimizeDataset" />
-    <a slot="extra" href="#">more</a>
-  </a-card> -->
   <div class="dataset-card">
     <a-row type="flex" justify="space-between" style="height: 25px">
       <a-col class="p-2" :span="16">{{ datasetName }}</a-col>
@@ -18,13 +14,10 @@
   </div>
 </template>
 <script>
-import { postOptimizeDataset, updateDatasetMetadata } from '@/services/axios/backendApi'
-// import CTA from '@/components/CTA'
+import { updateDatasetMetadata } from '@/services/axios/backendApi'
 export default {
   name: 'DatasetCard',
-  components: {
-    // cta: CTA,
-  },
+  components: {},
   props: {
     projectId: {
       type: String,
@@ -43,14 +36,6 @@ export default {
     }
   },
   methods: {
-    async optimizeDataset() {
-      this.loading = true
-      this.$message.loading(`Optimization of ${this.name} in progress..`, 5)
-      await postOptimizeDataset(this.projectId, this.datasetName)
-      this.$message.success(`Optimization done !`, 5)
-      this.loading = false
-      this.$store.dispatch('optimizations/LOAD_OPTIMIZATIONS', { projectId: this.projectId })
-    },
     toggleActivate() {
       this.loading = true
       let newValue = !this.activated

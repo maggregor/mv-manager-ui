@@ -1,4 +1,5 @@
 import * as api from '@/services/axios/backendApi'
+import { message } from 'ant-design-vue'
 
 const getDefaultState = () => {
   return {
@@ -39,6 +40,16 @@ export default {
           loading: false,
         })
       })
+    },
+    async RUN_OPTIMIZE({ dispatch }, projectId) {
+      message.loading(`Optimization in progress...`, 10)
+      await api
+        .optimizeProject(projectId)
+        .then(() => {
+          message.success(`Optimization done !`, 5)
+          dispatch('LOAD_OPTIMIZATIONS', { projectId: projectId })
+        })
+        .catch(() => message.error(`Optimization error.`, 5))
     },
   },
   getters: {
