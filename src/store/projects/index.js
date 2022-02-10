@@ -64,12 +64,6 @@ export default {
         projectId,
         loadingDatasetCount: true,
       })
-      api.getDatasets({ projectId }).then(datasets => {
-        if (datasets) {
-          commit('SET_PROJECT_STATE', { projectId, datasetCount: datasets.length })
-        }
-        commit('SET_PROJECT_STATE', { projectId, loadingDatasetCount: false })
-      })
     },
     LOAD_ALL_METRICS({ getters, dispatch }) {
       getters['projectNames'].forEach(project =>

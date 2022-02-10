@@ -1,7 +1,15 @@
 <template>
   <div class="container">
     <a-row>
-      <a-col :span="16"><ProjectHeader :project="project"/></a-col>
+      <a-col :span="8"><ProjectHeader :project="project"/></a-col>
+      <a-col :span="8">
+        <cta
+          style="width: 49%; float:right; margin-top: 100px; margin-right: 5px;"
+          label="Start optimization"
+          :loading="optimizeLoading"
+          @click="triggerOptimization"
+        ></cta
+      ></a-col>
       <a-col :span="8">
         <cta
           secondary
@@ -11,6 +19,8 @@
         ></cta>
         <cta secondary disabled style="width: 49%; margin-top: 100px;" label="Settings"></cta>
       </a-col>
+    </a-row>
+    <a-row class="mt-3">
       <a-col :span="8">
         <h3>
           Datasets
@@ -30,24 +40,30 @@
             v-for="dataset in datasets"
             :key="dataset.datasetName"
             :project-id="projectId"
-            :name="dataset.datasetName"
+            :dataset-name="dataset.datasetName"
+            :default-activated="dataset.activated"
           />
         </a-skeleton>
-        <a-col :span="24">
-          <h3 style="margin-top:30px">
-            Last optimizations
-            <!-- <a-button :loading="loading" type="link">
-              <span class="text-dark">View history</span>
-            </a-button> -->
-          </h3>
-          <OptimizationHistoryCard
-            v-for="optimization in optimizations"
-            :key="optimization.id"
-            :date="optimization.createdDate"
-            :dataset="optimization.datasetName"
-            :eligible-percent="optimization.eligiblePercent"
-          />
-        </a-col>
+        <h3
+          style="margin-top:30px; 
+  display: block;"
+        >
+          Last optimizations
+          <a-button :loading="loading" type="link">
+            <span
+              class="text-dark"
+              @click="$router.push(`/projects/${$route.params.projectId}/optimizations`)"
+              >All</span
+            >
+          </a-button>
+        </h3>
+        <OptimizationHistoryCard
+          v-for="optimization in optimizations"
+          :key="optimization.id"
+          :date="optimization.createdDate"
+          :id="optimization.id"
+          :eligible-percent="optimization.eligiblePercent"
+        />
       </a-col>
       <a-col :span="16">
         <a-row style="height:120px; margin-top: 30px;">
@@ -61,8 +77,8 @@
             ><Kpi :data="scannedBytes" :label="'Total scanned byte'"
           /></a-col>
         </a-row>
-        <a-row>
-          <!-- <DateTimeChart /> -->
+        <a-row style="height:500px">
+          <Chart style="width: 100%" />
         </a-row>
       </a-col>
     </a-row>
@@ -70,7 +86,7 @@
 </template>
 
 <script>
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, onMounted, method, ref, watch } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 
@@ -80,7 +96,9 @@ import CTA from '@/components/CTA'
 
 import DatasetCard from '@/components/Projects/DatasetCard'
 import OptimizationHistoryCard from '@/components/OptimizationHistoryCard'
-// import DateTimeChart from '@/components/DateTimeChart'
+import Chart from '@/components/Chart'
+
+import { optimizeProject } from '@/services/axios/backendApi'
 
 const prettyBytes = require('pretty-bytes')
 
@@ -92,7 +110,7 @@ export default {
     DatasetCard,
     cta: CTA,
     OptimizationHistoryCard,
-    // DateTimeChart,
+    Chart,
   },
   setup() {
     const store = useStore()
@@ -108,16 +126,22 @@ export default {
       }
       return optimizations
     })
-    const projectId = route.params.projectId
+    const optimizeLoading = ref(false)
+    const projectId = ref(route.params.projectId)
     onMounted(() => {
-      store.dispatch('datasets/LOAD_DATASETS', { projectId: projectId })
-      store.dispatch('projects/LOAD_CURRENT_PROJECT', { projectId: projectId })
-      store.dispatch('optimizations/LOAD_OPTIMIZATIONS', { projectId: projectId })
+      store.dispatch('datasets/LOAD_DATASETS', { projectId: projectId.value })
+      store.dispatch('projects/LOAD_CURRENT_PROJECT', { projectId: projectId.value })
+      store.dispatch('optimizations/LOAD_OPTIMIZATIONS', { projectId: projectId.value })
     })
-    const project = computed(() => store.getters['projects/getProjectById'](projectId))
+    const project = computed(() => store.getters['projects/getProjectById'](projectId.value))
     const projectLoading = computed(() => store.getters['projects/loading'])
     const projectTables = computed(() => store.getters['projects/currentProjectTables'])
     const queryStatistics = computed(() => store.getters['projects/currentProjectQueryStatistics'])
+    const triggerOptimization = async () => {
+      optimizeLoading.value = true
+      await optimizeProject(projectId.value)
+      optimizeLoading.value = false
+    }
     if (project.value) {
       project.value.projectPlan = 'Enterprise'
     }
@@ -130,6 +154,8 @@ export default {
       projectTables,
       queryStatistics,
       optimizations,
+      optimizeLoading,
+      triggerOptimization,
     }
   },
   // Fake data before API Implementation

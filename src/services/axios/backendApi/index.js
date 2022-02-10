@@ -34,10 +34,8 @@ export async function getQueryStatistics(payload) {
   return data
 }
 
-export async function postOptimizeDataset(payload) {
-  let projectId = payload.projectId
-  let datasetName = payload.datasetName
-  const { data } = await backendClient.post(`/optimize/${projectId}/dataset/${datasetName}`)
+export async function optimizeProject(projectId) {
+  const { data } = await backendClient.post(`/optimize/${projectId}/days/30`)
   return data
 }
 
@@ -46,8 +44,28 @@ export async function updateProjectMetadata(projectId, payload) {
   return data
 }
 
+export async function updateDatasetMetadata(projectId, datasetName, payload) {
+  const { data } = await backendClient.post(
+    `/project/${projectId}/dataset/${datasetName}/metadata`,
+    payload,
+  )
+  return data
+}
+
+// export async function updateDatasetMetadata(projectId, datasetName, payload) {
+//   const { data } = await backendClient.post(`/project/update`)
+//   return data
+// }
+
 export async function getOptimizations(payload) {
   let projectId = payload.projectId
   const { data } = await backendClient.get(`/optimize/${projectId}`)
+  return data
+}
+
+export async function getDailyStatistics(projectId, days) {
+  const { data } = await backendClient.get(
+    `/project/${projectId}/queries/${days}/statistics/series`,
+  )
   return data
 }

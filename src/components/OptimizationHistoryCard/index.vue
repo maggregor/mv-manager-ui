@@ -4,10 +4,10 @@
       <div class="d-flex flex-nowrap align-items-center pb-2">
         <div class="mr-auto">
           <div class="text-gray-4 pt-1 font-size-12">
-            Dataset
+            ID
           </div>
           <div class="font-weight-bold font-size-18 text-gray-6">
-            {{ dataset }}
+            {{ id }}
           </div>
           <div class="text-gray-4 pt-1">
             {{ moment(date).fromNow() }}
@@ -42,7 +42,7 @@ export default {
     date: {
       type: Date,
     },
-    dataset: {
+    id: {
       type: String,
     },
     eligiblePercent: {

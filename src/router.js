@@ -36,6 +36,16 @@ const router = createRouter({
           name: 'Project',
           component: () => import('./views/project'),
         },
+        {
+          path: '/projects/:projectId/optimizations',
+          name: 'optimizations',
+          component: () => import('./views/optimizations'),
+          meta: {
+            title: 'Optimizations',
+            authRequired: true,
+            hidden: true,
+          },
+        },
       ],
     },
     // System Pages
