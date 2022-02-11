@@ -72,14 +72,8 @@ export default {
     },
     LOAD_CURRENT_PROJECT({ commit, getters, dispatch }, payload) {
       let projectId = payload.projectId
-      let datasetId = payload.datasetId
-      //
-      // Set table to loading
-      //
-      // api.getDatasetTables({ projectId, datasetId }).then(tables => {
-      //   commit('SET_CURRENT_PROJECT', { tables: tables })
-      // })
-      api.getQueryStatistics({ projectId, lastDays: 30 }).then(queryStatistics => {
+      let days = payload.days
+      api.getQueryStatistics({ projectId, lastDays: days }).then(queryStatistics => {
         commit('SET_CURRENT_PROJECT', { queryStatistics: queryStatistics })
       })
     },

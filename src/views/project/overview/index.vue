@@ -8,7 +8,7 @@
       </a-col>
       <a-col :span="16">
         <h3>
-          Last 30 days performance
+          Last 28 days performance
           <h6>(Excluding cached queries)</h6>
         </h3>
       </a-col>
@@ -57,7 +57,7 @@
         </a-row>
         <a-row style="margin-top: 65px">
           <h3>
-            Average scanned bytes
+            Average scanned bytes per query
           </h3>
           <Chart style="width: 100%" />
         </a-row>
@@ -105,7 +105,7 @@ export default {
     const projectId = ref(route.params.projectId)
     onMounted(() => {
       store.dispatch('datasets/LOAD_DATASETS', { projectId: projectId.value })
-      store.dispatch('projects/LOAD_CURRENT_PROJECT', { projectId: projectId.value })
+      store.dispatch('projects/LOAD_CURRENT_PROJECT', { projectId: projectId.value, days: 28 })
       store.dispatch('optimizations/LOAD_OPTIMIZATIONS', { projectId: projectId.value })
     })
     const project = computed(() => store.getters['projects/getProjectById'](projectId.value))
