@@ -22,7 +22,7 @@ const router = createRouter({
       redirect: '/projects',
       children: [
         {
-          path: '/projects',
+          path: 'projects',
           name: 'home',
           component: () => import('./views/home'),
           meta: {
@@ -31,20 +31,68 @@ const router = createRouter({
             hidden: true,
           },
         },
+      ],
+    },
+    {
+      path: '/projects/:projectId',
+      name: 'Project',
+      component: MainLayout,
+      meta: {
+        hidden: true,
+        authRequired: true,
+      },
+      children: [
         {
-          path: '/projects/:projectId',
-          name: 'Project',
+          path: '',
+          name: 'Project overview',
           component: () => import('./views/project'),
-        },
-        {
-          path: '/projects/:projectId/optimizations',
-          name: 'optimizations',
-          component: () => import('./views/optimizations'),
-          meta: {
-            title: 'Optimizations',
-            authRequired: true,
-            hidden: true,
-          },
+          children: [
+            {
+              path: 'overview',
+              name: 'Overview',
+              component: () => import('./views/project/overview'),
+              meta: {
+                breadcrumb: '',
+              },
+            },
+            {
+              path: 'optimizations',
+              name: 'Optimizations',
+              component: () => import('./views/project/optimizations'),
+              meta: {
+                breadcrumb: 'Optimizations',
+              },
+            },
+            {
+              path: 'optimizations/:optimizationId',
+              name: 'Optimization details',
+              component: () => import('./views/project/optimizations/details'),
+            },
+            {
+              path: 'optimizations',
+              name: 'Optimizations',
+              component: () => import('./views/project/optimizations'),
+              meta: {
+                breadcrumb: 'Optimizations',
+              },
+            },
+            {
+              path: 'settings',
+              name: 'Settings',
+              component: () => import('./views/project/settings'),
+              meta: {
+                breadcrumb: 'Settings',
+              },
+            },
+            {
+              path: 'subscription',
+              name: 'Subscription',
+              component: () => import('./views/project/subscription'),
+              meta: {
+                breadcrumb: 'Subscription',
+              },
+            },
+          ],
         },
       ],
     },

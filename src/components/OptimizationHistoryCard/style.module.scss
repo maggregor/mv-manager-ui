@@ -21,4 +21,9 @@
     font-size: 22px;
     font-weight: 700;
   }
+  &:hover {
+    cursor: pointer;
+    // border: 1px solid rgba(184, 184, 184, 0.6);
+    box-shadow: 2px 2px rgb(225, 225, 225);
+  }
 }

@@ -1,7 +1,7 @@
 <template>
   <div :class="$style.breadcrumbs">
     <div v-if="crumbs.length > 1" :class="$style.path">
-      <template  v-for="(item, index) in crumbs" :key="index">
+      <template v-for="(item, index) in crumbs" :key="index">
         <span v-if="index == 0">
           <router-link :to="item.to">{{ item.text }}</router-link>
         </span>
@@ -10,10 +10,6 @@
           <router-link :to="item.to">{{ item.text }}</router-link>
         </span>
       </template>
-      <!-- <span v-if="activeItem">
-        <span :class="$style.arrow"></span>
-        <strong :class="$style.current">{{ activeItem.title }}</strong>
-      </span> -->
     </div>
   </div>
 </template>

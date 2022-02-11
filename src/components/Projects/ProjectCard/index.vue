@@ -25,7 +25,7 @@
                 <cta secondary :trigger="deactivateProject" :label="'Deactivate'" />
               </a-col>
               <a-col class="p-1" :span="8">
-                <cta secondary :url="'/projects/' + projectId" :label="'Open'" />
+                <cta secondary :url="`/projects/${projectId}/overview`" :label="'Open'" />
               </a-col>
             </a-row>
           </div>

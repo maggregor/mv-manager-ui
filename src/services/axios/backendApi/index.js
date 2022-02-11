@@ -59,7 +59,12 @@ export async function updateDatasetMetadata(projectId, datasetName, payload) {
 
 export async function getOptimizations(payload) {
   let projectId = payload.projectId
-  const { data } = await backendClient.get(`/optimize/${projectId}`)
+  let optimizationId = payload.optimizationId
+  let resource = `/optimize/${projectId}`
+  if (optimizationId) {
+    resource += `/${optimizationId}`
+  }
+  const { data } = await backendClient.get(resource)
   return data
 }
 

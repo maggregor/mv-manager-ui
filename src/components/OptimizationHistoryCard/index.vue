@@ -1,5 +1,8 @@
 <template>
-  <div class="event-card">
+  <div
+    class="event-card"
+    @click="$router.push(`/projects/${$route.params.projectId}/optimizations/${optimization.id}`)"
+  >
     <div>
       <div class="d-flex flex-nowrap align-items-center pb-2">
         <div class="mr-auto">
@@ -7,30 +10,18 @@
             ID
           </div>
           <div class="font-weight-bold font-size-18 text-gray-6">
-            {{ id }}
+            {{ optimization.id }}
           </div>
           <div class="text-gray-4 pt-1">
             {{ moment(date).fromNow() }}
           </div>
         </div>
         <div>
-          <div class="percent">
-            {{ isNaN(eligiblePercent) ? 0 : eligiblePercent.toFixed(2) * 100 }}%
-          </div>
+          <div class="percent">{{ eligiblePercentFormatted }}%</div>
           <div class="font-size-12">Eligible queries</div>
         </div>
       </div>
     </div>
-    <!-- <a-row>
-      <a-col class="dataset-container" :span="16">
-        <a-row class="dataset">{{ dataset }} </a-row>
-        <a-row class="time"> {{ moment(date).fromNow() }} </a-row>
-      </a-col>
-      <a-col class="percent-container" :span="8">
-        <a-row>Eligible queries</a-row
-        ><a-row class="percent">{{ eligiblePercent.toFixed(2) * 100 }}%</a-row>
-      </a-col>
-    </a-row> -->
   </div>
 </template>
 <script>
@@ -39,14 +30,13 @@ export default {
   name: 'OptimizationHistoryCard',
   components: {},
   props: {
-    date: {
-      type: Date,
-    },
-    id: {
-      type: String,
-    },
-    eligiblePercent: {
-      type: Number,
+    optimization: {
+      type: Object,
+      default: () => ({
+        date: '...',
+        id: '...',
+        eligiblePercent: 0,
+      }),
     },
   },
   data() {
@@ -54,6 +44,12 @@ export default {
       loading: false,
       moment,
     }
+  },
+  computed: {
+    eligiblePercentFormatted() {
+      const percent = this.optimization.eligiblePercent
+      return isNaN(percent) ? 0 : (percent * 100).toFixed()
+    },
   },
   methods: {},
 }

@@ -1,27 +1,67 @@
 <template>
   <div class="container">
-    <a-row>
-      <a-col :span="12"><ProjectHeader :project="project"/></a-col>
-      <a-col :span="12">
-        <a-row style="float:right;">
-          <cta
-            secondary
-            style="width: 30%; float:right; margin-top: 100px;margin-right: 10px;"
-            @click="$router.push(`/projects/${projectId}/settings`)"
-            label="Settings"
-          ></cta>
-          <cta
-            style="width: 60%; margin-top: 100px; "
-            label="Start optimization"
-            @click="triggerOptimization"
-          ></cta>
+    <a-row class="mt-3">
+      <a-col :span="8">
+        <h3>
+          Datasets
+        </h3>
+      </a-col>
+      <a-col :span="16">
+        <h3>
+          Last 30 days performance
+          <h6>(Excluding cached queries)</h6>
+        </h3>
+      </a-col>
+    </a-row>
+    <a-row class="p-1">
+      <a-col class="pr-5" :span="8">
+        <a-skeleton :paragraph="true" active :loading="!datasets.length">
+          <DatasetCard
+            v-for="dataset in datasets"
+            :key="dataset.datasetName"
+            :project-id="projectId"
+            :dataset-name="dataset.datasetName"
+            :default-activated="dataset.activated"
+          />
+        </a-skeleton>
+        <h3
+          style="margin-top:30px; 
+  display: block;"
+        >
+          Last optimizations
+          <a-button :loading="loading" type="link">
+            <span
+              class="text-dark"
+              @click="$router.push(`/projects/${$route.params.projectId}/optimizations`)"
+              >All</span
+            >
+          </a-button>
+        </h3>
+        <OptimizationHistoryCard
+          v-for="optimization in optimizations"
+          :key="optimization.id"
+          :optimization="optimization"
+        />
+      </a-col>
+      <a-col :span="16">
+        <a-row style="height:120px; margin-top: 90px;">
+          <a-col class="p-1" :span="8"
+            ><Kpi :data="MmvCount" :label="'Queries in Materialized Views<br/>managed by BigTunr'"
+          /></a-col>
+          <a-col class="p-1" :span="8"
+            ><Kpi :data="selectCount" :label="`Queries processed<br/>without optimization`"
+          /></a-col>
+          <a-col class="p-1" :span="8"
+            ><Kpi :data="scannedBytes" :label="'Total scanned byte'"
+          /></a-col>
+        </a-row>
+        <a-row style="margin-top: 65px">
+          <h3>
+            Average scanned bytes
+          </h3>
+          <Chart style="width: 100%" />
         </a-row>
       </a-col>
-      <router-view v-slot="{ Component }">
-        <transition name="zoom-fadein" mode="out-in">
-          <component :is="Component" />
-        </transition>
-      </router-view>
     </a-row>
   </div>
 </template>
@@ -31,16 +71,21 @@ import { computed, onMounted, method, ref, watch } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 
-import ProjectHeader from '@/components/Projects/ProjectHeader'
-import CTA from '@/components/CTA'
+import Kpi from '@/components/KPI'
+
+import DatasetCard from '@/components/Projects/DatasetCard'
+import OptimizationHistoryCard from '@/components/OptimizationHistoryCard'
+import Chart from '@/components/Chart'
 
 const prettyBytes = require('pretty-bytes')
 
 export default {
   name: 'Overview',
   components: {
-    ProjectHeader,
-    cta: CTA,
+    Kpi,
+    DatasetCard,
+    OptimizationHistoryCard,
+    Chart,
   },
   setup() {
     const store = useStore()
@@ -75,7 +120,6 @@ export default {
     if (project.value) {
       project.value.projectPlan = 'Enterprise'
     }
-
     return {
       store,
       datasets,
@@ -127,11 +171,6 @@ export default {
         return prettyBytes(this.queryStatistics.global.totalProcessedBytes)
       }
       return -1
-    },
-  },
-  methods: {
-    goTo(path) {
-      this.$router.push(path)
     },
   },
 }

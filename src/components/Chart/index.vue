@@ -1,12 +1,17 @@
 <template>
-  <div>
-    <VueEcharts style="width:100%; height:300px;" :option="options" :autoresize="true" />
+  <div style="width:100%; height:300px;">
+    <VueEcharts
+      style="width:100%; height:300px;"
+      :loading="loading"
+      :option="options"
+      :autoresize="true"
+    ></VueEcharts>
   </div>
 </template>
 
 <script>
 import { VueEcharts } from 'vue3-echarts'
-import { onMounted, computed, ref } from 'vue'
+import { computed, ref } from 'vue'
 import * as api from '@/services/axios/backendApi'
 
 export default {
@@ -40,7 +45,9 @@ export default {
     })
 
     return {
+      data,
       options,
+      loading: ref(false),
     }
   },
 }

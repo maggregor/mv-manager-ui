@@ -1,16 +1,11 @@
 <template>
-  <div class="container">
-    <a-row>
-      <ProjectHeader :project="project" />
-    </a-row>
-  </div>
+  <div class="container"></div>
 </template>
 
 <script>
-import ProjectHeader from '@/components/Projects/ProjectHeader'
 export default {
   name: 'Optimizations',
-  components: { ProjectHeader },
+  components: {},
   setup() {
     return {}
   },

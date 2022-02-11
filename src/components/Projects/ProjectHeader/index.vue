@@ -3,21 +3,11 @@
     <a @click="$router.push('/projects')" class="text-weight-600 font-size-18">{{
       'Back to projects'
     }}</a>
-    <h1 class="mt-3 project-name">
+    <h1 class="project-path">
       {{ project.projectName }}
+      <span class="path" v-if="breadcrumb"> / {{ breadcrumb }}</span>
     </h1>
     <h2 class="project-plan">{{ project.projectPlan }}</h2>
-    <!-- <a-progress
-      :stroke-color="{
-        '0%': 'rgb(255, 109, 109)',
-        '100%': 'blue',
-      }"
-      :percent="90"
-      :showInfo="false"
-      style="width:150px; height:5px important;"
-    />
-    17/20 Materialized View -->
-    <!-- <h2 class="project-id">{{ project.projectId }}</h2> -->
   </div>
 </template>
 
@@ -32,6 +22,18 @@ export default {
         projectName: 'loading...',
         projectPlan: 'loading...',
       }),
+    },
+  },
+  setup() {
+    return {}
+  },
+  computed: {
+    breadcrumb() {
+      let optimizationId = this.$route.params.optimizationId
+      if (optimizationId) {
+        return `#${optimizationId}`
+      }
+      return this.$route.meta.breadcrumb
     },
   },
 }
