@@ -26,7 +26,7 @@
       </tbody>
       <div
         class="average-line"
-        v-if="averageScannedBytes > 0"
+        v-if="averageScannedBytes > 0 && data != undefined && data.length > 0"
         :style="`bottom: ${heightAverage(averageScannedBytes)}px`"
       >
         <div class="description">
@@ -54,8 +54,7 @@ export default {
       default: -1,
     },
   },
-  setup(props) {
-    console.log(props.averageScannedBytes)
+  setup() {
     const data = ref({})
     const maxValue = ref()
     const minValue = ref()
@@ -89,8 +88,6 @@ export default {
       return value / this.maxValue / 1.2
     },
     heightAverage() {
-      console.log(this.averageScannedBytes)
-      console.log(this.maxValue)
       return 25 + (this.averageScannedBytes * 330) / this.maxValue
     },
   },

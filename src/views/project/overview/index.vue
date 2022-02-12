@@ -57,7 +57,11 @@
           <h3>
             Average scanned bytes per query
           </h3>
-          <Chart :project-id="projectId" :average-scanned-bytes="scannedBytes" style="width: 100%" />
+          <Chart
+            :project-id="projectId"
+            :average-scanned-bytes="scannedBytes"
+            style="width: 100%"
+          />
         </a-row>
       </a-col>
     </a-row>
@@ -166,10 +170,6 @@ export default {
     },
     scannedBytes: function() {
       if (this.queryStatistics && this.queryStatistics.global.totalQueries) {
-        console.log(
-          this.queryStatistics.global.totalProcessedBytes /
-            this.queryStatistics.global.totalQueries,
-        )
         return (
           this.queryStatistics.global.totalProcessedBytes / this.queryStatistics.global.totalQueries
         )

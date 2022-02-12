@@ -58,34 +58,19 @@ export default {
     })
     const optimizeLoading = ref(false)
     const projectId = ref(route.params.projectId)
-    onMounted(() => {
-      store.dispatch('datasets/LOAD_DATASETS', { projectId: projectId.value })
-      store.dispatch('projects/LOAD_CURRENT_PROJECT', { projectId: projectId.value })
-      store.dispatch('optimizations/LOAD_OPTIMIZATIONS', { projectId: projectId.value })
-    })
+
     const project = computed(() => store.getters['projects/getProjectById'](projectId.value))
-    const projectLoading = computed(() => store.getters['projects/loading'])
-    const projectTables = computed(() => store.getters['projects/currentProjectTables'])
-    const queryStatistics = computed(() => store.getters['projects/currentProjectQueryStatistics'])
+
     const triggerOptimization = async () => {
       optimizeLoading.value = true
       await store.dispatch('optimizations/RUN_OPTIMIZE', projectId.value)
       optimizeLoading.value = false
     }
-    if (project.value) {
-      project.value.projectPlan = 'Enterprise'
-    }
-
     return {
       store,
       datasets,
       project,
       projectId,
-      projectLoading,
-      projectTables,
-      queryStatistics,
-      optimizations,
-      optimizeLoading,
       triggerOptimization,
     }
   },
