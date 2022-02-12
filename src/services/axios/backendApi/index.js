@@ -14,7 +14,7 @@ export async function getDatasets(payload) {
 export async function getProjectMetadata(payload) {
   // Return id, name, planName
   let projectId = payload.projectId
-  const { data } = await backendClient.get(`/project/${projectId}/metadata`)
+  const { data } = await backendClient.get(`/project/${projectId}`)
   return data
 }
 
@@ -40,22 +40,14 @@ export async function optimizeProject(projectId) {
 }
 
 export async function updateProjectMetadata(projectId, payload) {
-  const { data } = await backendClient.post(`/project/${projectId}/metadata`, payload)
+  const { data } = await backendClient.post(`/project/${projectId}`, payload)
   return data
 }
 
 export async function updateDatasetMetadata(projectId, datasetName, payload) {
-  const { data } = await backendClient.post(
-    `/project/${projectId}/dataset/${datasetName}/metadata`,
-    payload,
-  )
+  const { data } = await backendClient.post(`/project/${projectId}/dataset/${datasetName}`, payload)
   return data
 }
-
-// export async function updateDatasetMetadata(projectId, datasetName, payload) {
-//   const { data } = await backendClient.post(`/project/update`)
-//   return data
-// }
 
 export async function getOptimizations(payload) {
   let projectId = payload.projectId
