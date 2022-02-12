@@ -39,16 +39,13 @@ export default {
     toggleActivate() {
       this.loading = true
       let newValue = !this.activated
-      setTimeout(
-        updateDatasetMetadata(this.projectId, this.datasetName, { activated: newValue })
-          .then(() => {
-            this.activated = newValue
-          })
-          .finally(() => {
-            this.loading = false
-          }),
-        3000,
-      )
+      updateDatasetMetadata(this.projectId, this.datasetName, { activated: newValue })
+        .then(() => {
+          this.activated = newValue
+        })
+        .finally(() => {
+          this.loading = false
+        })
     },
   },
 }

@@ -54,12 +54,12 @@ export default {
       default: -1,
     },
   },
-  setup() {
+  setup(props) {
     const data = ref({})
     const maxValue = ref()
     const minValue = ref()
     onMounted(async () => {
-      data.value = await api.getDailyStatistics('achilio-dev', 28)
+      data.value = await api.getDailyStatistics(props.projectId, 28)
       data.value = data.value
       let max = 0
       let min = 0
