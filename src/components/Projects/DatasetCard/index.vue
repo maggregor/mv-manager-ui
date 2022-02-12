@@ -1,7 +1,7 @@
 <template>
   <div class="dataset-card">
     <a-row type="flex" justify="space-between" style="height: 25px">
-      <a-col class="p-2" :span="16">{{ datasetName }}</a-col>
+      <a-col class="p-1" :span="18">{{ datasetName }}</a-col>
       <a-switch
         checked-children="On"
         un-checked-children="Off"

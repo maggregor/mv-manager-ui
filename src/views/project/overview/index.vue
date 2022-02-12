@@ -185,7 +185,9 @@ export default {
   },
   methods: {
     abbr(num) {
-      if (String(num).length < 7) {
+      if (num < 1000) {
+        return num
+      } else if (String(num).length < 7) {
         return (num / 1000).toFixed(1) + 'K'
       } else {
         return Math.floor(num / 1000000) + 'M'

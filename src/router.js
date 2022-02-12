@@ -38,6 +38,7 @@ const router = createRouter({
       name: 'Project',
       component: MainLayout,
       meta: {
+        title: 'Overview',
         hidden: true,
         authRequired: true,
       },
@@ -52,6 +53,7 @@ const router = createRouter({
               name: 'Overview',
               component: () => import('./views/project/overview'),
               meta: {
+                title: 'Overview',
                 breadcrumb: '',
               },
             },
@@ -60,6 +62,7 @@ const router = createRouter({
               name: 'Optimizations',
               component: () => import('./views/project/optimizations'),
               meta: {
+                title: 'Optimizations',
                 breadcrumb: 'Optimizations',
               },
             },
@@ -67,13 +70,8 @@ const router = createRouter({
               path: 'optimizations/:optimizationId',
               name: 'Optimization details',
               component: () => import('./views/project/optimizations/details'),
-            },
-            {
-              path: 'optimizations',
-              name: 'Optimizations',
-              component: () => import('./views/project/optimizations'),
               meta: {
-                breadcrumb: 'Optimizations',
+                title: 'Details',
               },
             },
             {
@@ -82,6 +80,7 @@ const router = createRouter({
               component: () => import('./views/project/settings'),
               meta: {
                 breadcrumb: 'Settings',
+                title: 'Settings',
               },
             },
             {
@@ -90,6 +89,7 @@ const router = createRouter({
               component: () => import('./views/project/subscription'),
               meta: {
                 breadcrumb: 'Subscription',
+                title: 'Subscription',
               },
             },
           ],
