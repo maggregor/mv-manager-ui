@@ -13,6 +13,7 @@
           <cta
             style="width: 60%; margin-top: 100px; "
             label="Start optimization"
+            :loading="optimizeLoading"
             @click="triggerOptimization"
           ></cta>
         </a-row>
@@ -71,10 +72,10 @@ export default {
       datasets,
       project,
       projectId,
+      optimizeLoading,
       triggerOptimization,
     }
   },
-  // Fake data before API Implementation
   data() {
     return {
       projectPlan: {

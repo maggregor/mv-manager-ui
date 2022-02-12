@@ -13,7 +13,7 @@
             {{ optimization.id }}
           </div>
           <div class="text-gray-4 pt-1">
-            {{ moment(date).fromNow() }}
+            {{ moment(optimization.createdDate).fromNow() }}
           </div>
         </div>
         <div>
@@ -33,7 +33,7 @@ export default {
     optimization: {
       type: Object,
       default: () => ({
-        date: '...',
+        createdDate: '...',
         id: '...',
         eligiblePercent: 0,
       }),
