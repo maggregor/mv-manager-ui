@@ -48,18 +48,16 @@
           <a-col class="p-1" :span="8"
             ><Kpi :data="MmvCount" :label="'Queries in Materialized Views<br/>managed by BigTunr'"
           /></a-col>
+          <a-col class="p-1" :span="8"><Kpi :data="selectCount" :label="`Total queries`"/></a-col>
           <a-col class="p-1" :span="8"
-            ><Kpi :data="selectCount" :label="`Queries processed<br/>without optimization`"
-          /></a-col>
-          <a-col class="p-1" :span="8"
-            ><Kpi :data="scannedBytes" :label="'Total scanned byte'"
+            ><Kpi :data="scannedBytesFormatted" :label="'Average scanned bytes per query'"
           /></a-col>
         </a-row>
         <a-row style="margin-top: 65px">
           <h3>
             Average scanned bytes per query
           </h3>
-          <Chart style="width: 100%" />
+          <Chart :project-id="projectId" :average-scanned-bytes="scannedBytes" style="width: 100%" />
         </a-row>
       </a-col>
     </a-row>
@@ -67,7 +65,7 @@
 </template>
 
 <script>
-import { computed, onMounted, method, ref, watch } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 
@@ -149,9 +147,9 @@ export default {
     },
     selectCount: function() {
       if (this.queryStatistics) {
-        return (
+        return this.abbr(
           this.queryStatistics.global.totalQueries -
-          this.queryStatistics.details.cached.totalQueries
+            this.queryStatistics.details.cached.totalQueries,
         )
       }
       return -1
@@ -167,10 +165,31 @@ export default {
       return -1
     },
     scannedBytes: function() {
-      if (this.queryStatistics) {
-        return prettyBytes(this.queryStatistics.global.totalProcessedBytes)
+      if (this.queryStatistics && this.queryStatistics.global.totalQueries) {
+        console.log(
+          this.queryStatistics.global.totalProcessedBytes /
+            this.queryStatistics.global.totalQueries,
+        )
+        return (
+          this.queryStatistics.global.totalProcessedBytes / this.queryStatistics.global.totalQueries
+        )
       }
       return -1
+    },
+    scannedBytesFormatted: function() {
+      if (this.queryStatistics && this.queryStatistics.global.totalQueries) {
+        return prettyBytes(this.scannedBytes)
+      }
+      return -1
+    },
+  },
+  methods: {
+    abbr(num) {
+      if (String(num).length < 7) {
+        return (num / 1000).toFixed(1) + 'K'
+      } else {
+        return Math.floor(num / 1000000) + 'M'
+      }
     },
   },
 }

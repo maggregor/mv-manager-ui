@@ -47,7 +47,6 @@
 import CTA from '@/components/CTA'
 import ProjectNameBlock from '@/components/Projects/ProjectName'
 import { updateProjectMetadata } from '@/services/axios/backendApi'
-import { useStore } from 'vuex'
 
 export default {
   name: 'ProjectCard',
@@ -75,13 +74,11 @@ export default {
   },
   methods: {
     async activateProject() {
-      // this.$message.loading(`Activation of ${this.projectName} in progress..`, 2)
       await updateProjectMetadata(this.projectId, { activated: true })
       await this.$store.dispatch('projects/LOAD_PROJECTS')
       this.$message.success(`${this.projectName} is activated !`, 3)
     },
     async deactivateProject() {
-      // this.$message.loading(`Deactivation of ${this.projectName} in progress..`, 2)
       await updateProjectMetadata(this.projectId, { activated: false })
       await this.$store.dispatch('projects/LOAD_PROJECTS')
       this.$message.success(`${this.projectName} is deactivated !`, 3)

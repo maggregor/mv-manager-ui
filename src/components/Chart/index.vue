@@ -13,35 +13,53 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="entry in data" :key="entry.timestamp">
-          <th scope="row"></th>
-          <td :style="`--size:${entry.value / maxValue / 1.2};`">
+        <tr v-for="(entry, index) in data" :key="entry.timestamp">
+          <th class="x-label" scope="row" v-if="index % 7 == 0">
+            {{ moment(entry.timestamp * 1000).format('DD-MM-YYYY') }}
+          </th>
+          <td :style="`--size:${heightRatio(entry.value)};`">
             <span v-if="entry.value == maxValue" class="max-data"
               >Higgest {{ entry.valueFormatted }}</span
-            >
-            <span v-else-if="entry.value == minValue" class="min-data"
-              >Lowest {{ entry.valueFormatted }}</span
             >
           </td>
         </tr>
       </tbody>
+      <div
+        class="average-line"
+        v-if="averageScannedBytes > 0"
+        :style="`bottom: ${heightAverage(averageScannedBytes)}px`"
+      >
+        <div class="description">
+          <span> Average {{ prettyBytes(averageScannedBytes) }} </span>
+        </div>
+      </div>
     </table>
   </div>
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import * as api from '@/services/axios/backendApi'
 import moment from 'moment'
 const prettyBytes = require('pretty-bytes')
 
 export default {
   components: {},
-  setup() {
+  props: {
+    projectId: {
+      type: String,
+    },
+    averageScannedBytes: {
+      type: Number,
+      default: -1,
+    },
+  },
+  setup(props) {
+    console.log(props.averageScannedBytes)
     const data = ref({})
     const maxValue = ref()
     const minValue = ref()
-    const loadData = async () => {
+    onMounted(async () => {
       data.value = await api.getDailyStatistics('achilio-dev', 28)
       data.value = data.value
       let max = 0
@@ -57,28 +75,58 @@ export default {
       })
       maxValue.value = max
       minValue.value = min
-    }
-    loadData()
+    })
     return {
       data,
       maxValue,
       minValue,
       moment,
+      prettyBytes,
     }
+  },
+  methods: {
+    heightRatio(value) {
+      return value / this.maxValue / 1.2
+    },
+    heightAverage() {
+      console.log(this.averageScannedBytes)
+      console.log(this.maxValue)
+      return 25 + (this.averageScannedBytes * 330) / this.maxValue
+    },
   },
 }
 </script>
 
 <style lang="scss" scoped>
+.average-line {
+  height: 3px;
+  background: repeating-linear-gradient(90deg, #000000, #000000 5px, #ffffff00 5px, #ffffff00 15px);
+  border-radius: 90px;
+  position: relative;
+  .description {
+    margin-top: -25px;
+    span {
+      font-weight: 600;
+      color: white;
+      background-color: #505050;
+      padding: 2px 5px 2px 5px;
+      border-radius: 8px;
+    }
+  }
+}
 #column-example-13 {
   height: 330px;
   margin: 0 auto;
+  .x-label {
+    white-space: nowrap;
+    font-size: 10px;
+    font-weight: 500;
+  }
 }
 #column-example-13 td {
   width: 10px;
-  background-color: rgb(179, 170, 255);
-  border-radius: 5px 5px 0 0;
-  border: 1px solid rgb(230, 230, 230);
+  background-color: rgb(194, 190, 255);
+  border-radius: 8px 8px 0 0;
   .max-data {
     white-space: nowrap;
     font-size: 22px;
