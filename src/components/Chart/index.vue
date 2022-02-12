@@ -88,7 +88,7 @@ export default {
       return value / this.maxValue / 1.2
     },
     heightAverage() {
-      return 25 + (this.averageScannedBytes * 330) / this.maxValue / 1.3
+      return 25 + (this.averageScannedBytes * 330) / this.maxValue / 1.35
     },
   },
 }
