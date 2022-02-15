@@ -1,6 +1,10 @@
 <template>
   <div
-    :class="`header-container-${isSmall ? 'small' : 'large'}`"
+    :class="{
+      'header-container-large': !isSmall,
+      'header-container-small': isSmall,
+      'selected-container': isSmall && $route.params.optimizationId == optimization.id,
+    }"
     @click="$router.push(`/projects/${$route.params.projectId}/optimizations/${optimization.id}`)"
   >
     <div v-if="isSmall">
@@ -27,6 +31,7 @@
           </div>
         </a-col>
         <a-col :span="10" style="margin-top: auto;">
+          <div class="time">#{{ optimization.id }}</div>
           <p class="time">{{ moment(optimization.createdDate).fromNow() }}</p>
         </a-col>
       </a-row>

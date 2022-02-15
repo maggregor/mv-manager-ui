@@ -5,8 +5,8 @@
         <h1 class="mb-4">History</h1>
         <OptimizationHeaderList :optimizations="optimizations" />
       </a-col>
-      <a-col span="17" class="pl-4">
-        <h1 class="mb-4">Optimization #{{ currentOptimization.optimization.id }}</h1>
+      <a-col v-if="route.params.optimizationId" span="17" class="pl-4">
+        <h1 class="mb-4">Optimization #{{ route.params.optimizationId }}</h1>
         <router-view v-slot="{ Component }">
           <transition name="zoom-fadein" mode="out-in">
             <component :is="Component" />
@@ -36,7 +36,7 @@ export default {
         (a, b) => new Date(b.createdDate) - new Date(a.createdDate),
       )
     })
-    return { optimizations, currentOptimization }
+    return { optimizations, currentOptimization, route }
   },
   data() {
     return {}
