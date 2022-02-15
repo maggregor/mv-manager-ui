@@ -5,7 +5,7 @@
       <!-- Name -->
       <a-col flex="auto" class="property">
         <p class="label">Name</p>
-        <p class="value">{{ result.name }}</p>
+        <p class="value">{{ result.mvName }}</p>
       </a-col>
       <!-- Dataset -->
       <a-col flex="auto" class="property">
@@ -69,7 +69,7 @@ export default {
     }
     const materializedViewUrl = computed(
       () =>
-        `https://console.cloud.google.com/bigquery?project=${props.result.projectId}&d=${props.result.datasetName}&p=${props.result.projectId}&t=${props.result.name}&page=table`,
+        `https://console.cloud.google.com/bigquery?project=${props.result.projectId}&d=${props.result.datasetName}&p=${props.result.projectId}&t=${props.result.mvName}&page=table`,
     )
     return {
       prettyBytes,
