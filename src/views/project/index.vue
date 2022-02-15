@@ -15,7 +15,6 @@
             secondary
             style="width: 20%; margin-top: 100px; margin-right: 10px;"
             label="Settings"
-            :loading="optimizeLoading"
             @click="router.push(`/projects/${projectId}/settings`)"
           ></cta>
           <cta
