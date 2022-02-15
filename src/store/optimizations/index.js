@@ -48,7 +48,6 @@ export default {
       let optimizationId = payload.optimizationId
       await api.getOptimizations({ projectId, optimizationId }).then(optimization => {
         if (optimization) {
-          console.log(optimization)
           commit('SET_STATE', { currentOptimization: optimization })
         }
       })

@@ -125,7 +125,6 @@ export default {
         return 0
       }
       let percent = (this.optimization.mvAppliedCount * 100) / this.optimization.mvProposalCount
-      console.log(this.optimization.mvProposalCount)
       return percent > 100 ? 100 : percent.toFixed(0)
     },
     partiallyApplied() {
