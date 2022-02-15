@@ -32,7 +32,6 @@ export async function login() {
   return firebaseAuth
     .signInWithPopup(provider)
     .then(result => {
-      console.log(result)
       let user = result.user
       let refreshToken = user.refreshToken
       let accessToken = result.credential.accessToken

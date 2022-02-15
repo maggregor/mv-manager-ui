@@ -95,9 +95,6 @@ export default {
     optimization: {
       type: Object,
     },
-    historyDays: {
-      type: Number,
-    },
     createdBy: {
       type: String,
       default: 'unknowndu75@achilio.com',
@@ -141,13 +138,12 @@ export default {
     showModal() {
       Modal.info({
         title: `Parameters`,
-        content: `<div><p><b>History range:</b> ${historyDays} days<br /><b>Maximum Materialized Views per table:</b> ${this.optimization.mvMaxPerTable}</p></div>`,
+        content: `Max. per table: ${this.optimization.mvMaxPerTable}`,
         onOk() {},
         class: 'test',
       })
     },
     handleOk(e) {
-      console.log(e)
       this.visible = false
     },
   },
