@@ -2,6 +2,14 @@
 
 .container {
   margin: auto;
-  max-width: 75vw;
   padding: 5px;
+  .results {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    h1 {
+      font-size: 26px;
+      font-weight: 300;
+      height: 34px;
+    }
+  }
 }

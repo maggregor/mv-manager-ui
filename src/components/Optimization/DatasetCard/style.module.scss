@@ -1,0 +1,21 @@
+@import '@/mixins.scss';
+
+.container {
+  background-color: #f7f7f7;
+  border-radius: 10px;
+  // height: 60px;
+  padding: 8px 20px 8px 20px;
+  margin-bottom: 20px;
+}
+
+.property {
+  font-size: 12px;
+  .label {
+    height: 8px;
+    color: #949494;
+  }
+  .value {
+    height: 8px;
+    color: #636363;
+  }
+}

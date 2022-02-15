@@ -37,7 +37,8 @@
             >
           </a-button>
         </h3>
-        <OptimizationHistoryCard
+        <OptimizationHeader
+          small
           v-for="optimization in optimizations"
           :key="optimization.id"
           :optimization="optimization"
@@ -46,7 +47,7 @@
       <a-col :span="16">
         <a-row style="height:120px; margin-top: 90px;">
           <a-col class="p-1" :span="8"
-            ><Kpi :data="MmvCount" :label="'Queries in Materialized Views<br/>managed by BigTunr'"
+            ><Kpi :data="MmvCount" :label="'Queries in Materialized Views<br/>managed by Achilio'"
           /></a-col>
           <a-col class="p-1" :span="8"><Kpi :data="selectCount" :label="`Total queries`"/></a-col>
           <a-col class="p-1" :span="8"
@@ -76,7 +77,7 @@ import { useRoute } from 'vue-router'
 import Kpi from '@/components/KPI'
 
 import DatasetCard from '@/components/Projects/DatasetCard'
-import OptimizationHistoryCard from '@/components/OptimizationHistoryCard'
+import OptimizationHeader from '@/components/Optimization/OptimizationHeader'
 import Chart from '@/components/Chart'
 
 const prettyBytes = require('pretty-bytes')
@@ -86,7 +87,7 @@ export default {
   components: {
     Kpi,
     DatasetCard,
-    OptimizationHistoryCard,
+    OptimizationHeader,
     Chart,
   },
   setup() {
