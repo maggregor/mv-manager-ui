@@ -45,8 +45,8 @@ export default {
     })
     const results = computed(() => (optimization.value ? optimization.value.results : []))
     const appliedResults = computed(() => results.value.filter(o => o.status === 'APPLY'))
-    const notAppliedResults = computed(() =>
-      results.value.filter(o => o.status === 'PLAN_LIMIT_REACHED'),
+    const notAppliedResults = computed(
+      () => -results.value.filter(o => o.status === 'PLAN_LIMIT_REACHED'),
     )
     return {
       optimization,
