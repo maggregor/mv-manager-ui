@@ -44,7 +44,7 @@ export default {
     async RUN_OPTIMIZE({ dispatch }, projectId) {
       message.loading(`Optimization in progress...`, 10)
       await api
-        .optimizeProject(projectId)
+        .optimizeProject(projectId, { days: 30 })
         .then(() => {
           message.success(`Optimization done !`, 5)
           dispatch('LOAD_OPTIMIZATIONS', { projectId: projectId })
