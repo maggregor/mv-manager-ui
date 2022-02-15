@@ -74,7 +74,11 @@ export default {
   },
   methods: {
     async activateProject() {
-      await updateProjectMetadata(this.projectId, { activated: true })
+      const email = this.$store.getters['user/user'].email
+      await updateProjectMetadata(this.projectId, {
+        activated: true,
+        username: email,
+      })
       await this.$store.dispatch('projects/LOAD_PROJECTS')
       this.$message.success(`${this.projectName} is activated !`, 3)
     },
