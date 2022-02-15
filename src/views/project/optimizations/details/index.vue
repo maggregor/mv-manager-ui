@@ -4,9 +4,6 @@
       <OptimizationHeader
         v-if="optimization"
         :optimization="optimization.optimization"
-        :mv-applied-count="appliedResults.length"
-        :mv-proposal-count="appliedResults.length + notAppliedResults.length"
-        :mv-plan-max="24"
         :created-by="'unknowndu75@gmail.com'"
       />
     </div>
@@ -24,9 +21,10 @@
 </template>
 
 <script>
-import { onMounted } from '@vue/runtime-core'
+import { onMounted, watch } from '@vue/runtime-core'
 import { getOptimizations } from '@/services/axios/backendApi'
 import { useRoute } from 'vue-router'
+import { useStore } from 'vuex'
 import { ref, computed } from 'vue'
 
 import OptimizationHeader from '@/components/Optimization/OptimizationHeader'
@@ -37,18 +35,30 @@ export default {
   components: { OptimizationHeader, OptimizationResultList },
   setup() {
     const route = useRoute()
-    const projectId = route.params.projectId
-    const optimizationId = route.params.optimizationId
-    const optimization = ref()
-    onMounted(async () => {
-      optimization.value = await getOptimizations({ projectId, optimizationId })
-    })
-    const results = computed(() => (optimization.value ? optimization.value.results : []))
+    const store = useStore()
+    const projectId = computed(() => route.params.projectId)
+    const optimizationId = computed(() => route.params.optimizationId)
+    const optimization = computed(() => store.getters['optimizations/currentOptimization'])
+    watch(
+      () => route,
+      () => {
+        if (projectId.value && optimizationId.value) {
+          store.dispatch('optimizations/LOAD_OPTIMIZATION_DETAILS', {
+            projectId: projectId.value,
+            optimizationId: optimizationId.value,
+          })
+        }
+      },
+      { deep: true, immediate: true },
+    )
+    const results = computed(() => (optimization.value.results ? optimization.value.results : []))
     const appliedResults = computed(() => results.value.filter(o => o.status === 'APPLY'))
     const notAppliedResults = computed(() =>
-      results.value.filter(o => o.status === 'PLAN_LIMIT_REACHED'),
+      results.value ? results.value.filter(o => o.status === 'PLAN_LIMIT_REACHED') : [],
     )
     return {
+      store,
+      results,
       optimization,
       appliedResults,
       notAppliedResults,
@@ -57,6 +67,6 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import './style.module.scss';
 </style>

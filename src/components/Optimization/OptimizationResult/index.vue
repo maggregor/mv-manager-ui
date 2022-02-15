@@ -2,7 +2,6 @@
   <div class="container">
     <a-row type="flex">
       <a-col flex="auto" class="property">#{{ index + 1 }} </a-col>
-
       <!-- Name -->
       <a-col flex="auto" class="property">
         <p class="label">Name</p>
@@ -31,7 +30,8 @@
       <!-- Statement -->
       <a-col flex="auto" class="property">
         <p class="label">Statement</p>
-        <a class="value" @click="showStatement">Show</a>
+        <a class="value m-1" @click="showStatement">Show</a> /
+        <a class="value m-1" @click="copyToClipboard">Copy</a>
       </a-col>
       <!-- Open in BigQuery -->
       <a-col flex="auto" class="property">
@@ -41,6 +41,7 @@
   </div>
 </template>
 <script>
+import { Modal, message } from 'ant-design-vue'
 import prettyBytes from 'pretty-bytes'
 import { computed } from '@vue/reactivity'
 export default {
@@ -55,6 +56,17 @@ export default {
     },
   },
   setup(props) {
+    const showStatement = () =>
+      Modal.info({
+        title: `Statement`,
+        content: `${props.result.statement}`,
+        onOk() {},
+        class: 'test',
+      })
+    const copyToClipboard = () => {
+      navigator.clipboard.writeText(props.result.statement)
+      message.success('Statement copied to clipboard')
+    }
     const materializedViewUrl = computed(
       () =>
         `https://console.cloud.google.com/bigquery?project=${props.result.projectId}&d=${props.result.datasetName}&p=${props.result.projectId}&t=${props.result.name}&page=table`,
@@ -62,10 +74,11 @@ export default {
     return {
       prettyBytes,
       materializedViewUrl,
+      showStatement,
+      copyToClipboard,
     }
   },
   computed: {},
-  methods: {},
 }
 </script>
 <style lang="scss" scoped>

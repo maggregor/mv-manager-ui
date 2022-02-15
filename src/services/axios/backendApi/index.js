@@ -35,7 +35,7 @@ export async function getQueryStatistics(payload) {
 }
 
 export async function optimizeProject(projectId) {
-  const { data } = await backendClient.post(`/optimize/${projectId}/days/30`)
+  const { data } = await backendClient.post(`/optimize/${projectId}`, { days: 30 })
   return data
 }
 

@@ -45,8 +45,9 @@ const router = createRouter({
       children: [
         {
           path: '',
-          name: 'Project overview',
+          name: 'Project layout',
           component: () => import('./views/project'),
+          redirect: '/overview',
           children: [
             {
               path: 'overview',
@@ -65,15 +66,18 @@ const router = createRouter({
                 title: 'Optimizations',
                 breadcrumb: 'Optimizations',
               },
+              children: [
+                {
+                  path: ':optimizationId',
+                  name: 'Optimization details',
+                  component: () => import('./views/project/optimizations/details'),
+                  meta: {
+                    title: 'Details',
+                  },
+                },
+              ],
             },
-            {
-              path: 'optimizations/:optimizationId',
-              name: 'Optimization details',
-              component: () => import('./views/project/optimizations/details'),
-              meta: {
-                title: 'Details',
-              },
-            },
+
             {
               path: 'settings',
               name: 'Settings',
@@ -143,12 +147,10 @@ router.beforeEach((to, from, next) => {
         path: '/login',
         query: { redirect: to.fullPath },
       })
-    } else {
-      next()
+      return
     }
-  } else {
-    next()
   }
+  next()
 })
 
 export default router

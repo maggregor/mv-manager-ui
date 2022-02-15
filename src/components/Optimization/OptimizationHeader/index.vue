@@ -33,7 +33,7 @@
     </div>
     <div v-else>
       <a-row>
-        <a-col :span="18">
+        <a-col :span="20">
           <div>
             <p>
               {{ moment(optimization.createdDate).format('MMMM Do YYYY hh:mm:ss') }}
@@ -52,7 +52,7 @@
             <p>Triggered by {{ createdBy }}</p>
           </div>
         </a-col>
-        <a-col :span="6">
+        <a-col :span="4">
           <h1 class="percent">
             {{ eligiblePercentFormatted() }}%
             <p>Eligible queries</p>
@@ -94,6 +94,9 @@ export default {
     },
     optimization: {
       type: Object,
+      default: () => ({
+        createdDate: 0,
+      }),
     },
     createdBy: {
       type: String,

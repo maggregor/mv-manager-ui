@@ -1,12 +1,12 @@
 <template>
   <div class="container">
     <a-row class="mt-3">
-      <a-col :span="8">
+      <a-col :span="7">
         <h3>
           Datasets
         </h3>
       </a-col>
-      <a-col :span="16">
+      <a-col :span="17">
         <h3>
           Last 28 days performance
           <h6>(Excluding cached queries)</h6>
@@ -14,7 +14,7 @@
       </a-col>
     </a-row>
     <a-row class="p-1">
-      <a-col class="pr-5" :span="8">
+      <a-col class="pr-5" :span="7">
         <a-skeleton :paragraph="true" active :loading="!datasets.length">
           <DatasetCard
             v-for="dataset in datasets"
@@ -44,7 +44,7 @@
           :optimization="optimization"
         />
       </a-col>
-      <a-col :span="16">
+      <a-col :span="17">
         <a-row style="height:120px; margin-top: 90px;">
           <a-col class="p-1" :span="8"
             ><Kpi :data="MmvCount" :label="'Queries in Materialized Views<br/>managed by Achilio'"

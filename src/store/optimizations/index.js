@@ -5,6 +5,8 @@ const getDefaultState = () => {
   return {
     optimizations: [],
     loading: false,
+    // Contains optimization results
+    currentOptimization: {},
   }
 }
 
@@ -41,6 +43,16 @@ export default {
         })
       })
     },
+    async LOAD_OPTIMIZATION_DETAILS({ commit }, payload) {
+      let projectId = payload.projectId
+      let optimizationId = payload.optimizationId
+      await api.getOptimizations({ projectId, optimizationId }).then(optimization => {
+        if (optimization) {
+          console.log(optimization)
+          commit('SET_STATE', { currentOptimization: optimization })
+        }
+      })
+    },
     async RUN_OPTIMIZE({ dispatch }, projectId) {
       message.loading(`Optimization in progress...`, 10)
       await api
@@ -55,5 +67,6 @@ export default {
   getters: {
     optimizations: state => state.optimizations,
     loading: state => state.loading,
+    currentOptimization: state => state.currentOptimization,
   },
 }
