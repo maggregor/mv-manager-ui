@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute, useRouter } from 'vue-router'
 
@@ -53,9 +53,15 @@ export default {
     const route = useRoute()
     const router = useRouter()
     const optimizeLoading = ref(false)
+    const project = computed(() => store.getters['projects/currentProject'])
     const projectId = ref(route.params.projectId)
-    const project = computed(() => store.getters['projects/getProjectById'](projectId.value))
-
+    onMounted(async () => {
+      await store.dispatch('projects/LOAD_CURRENT_PROJECT', { projectId: projectId.value })
+      store.dispatch('datasets/LOAD_DATASETS', { projectId: projectId.value })
+      store.dispatch('optimizations/LOAD_OPTIMIZATIONS', { projectId: projectId.value })
+      store.dispatch('projects/LOAD_CURRENT_PROJECT_STATISTICS', { days: 28 })
+      store.dispatch('projects/LOAD_CURRENT_PROJECT_DAILY_STATISTICS', { days: 28 })
+    })
     const triggerOptimization = async () => {
       optimizeLoading.value = true
       await store.dispatch('optimizations/RUN_OPTIMIZE', projectId.value)

@@ -92,7 +92,6 @@ export default {
   },
   setup() {
     const store = useStore()
-    const route = useRoute()
     const datasets = computed(() => store.getters['datasets/datasets'])
     const optimizations = computed(() => {
       let optimizations = store.getters['optimizations/optimizations']
@@ -105,13 +104,8 @@ export default {
       return optimizations
     })
     const optimizeLoading = ref(false)
-    const projectId = ref(route.params.projectId)
-    onMounted(() => {
-      store.dispatch('datasets/LOAD_DATASETS', { projectId: projectId.value })
-      store.dispatch('projects/LOAD_CURRENT_PROJECT', { projectId: projectId.value, days: 28 })
-      store.dispatch('optimizations/LOAD_OPTIMIZATIONS', { projectId: projectId.value })
-    })
-    const project = computed(() => store.getters['projects/getProjectById'](projectId.value))
+    const projectId = computed(() => store.getters['projects/currentProjectId'])
+    const project = computed(() => store.getters['projects/currentProject'])
     const projectLoading = computed(() => store.getters['projects/loading'])
     const projectTables = computed(() => store.getters['projects/currentProjectTables'])
     const queryStatistics = computed(() => store.getters['projects/currentProjectQueryStatistics'])

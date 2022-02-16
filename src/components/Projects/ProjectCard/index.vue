@@ -46,7 +46,7 @@
 <script>
 import CTA from '@/components/CTA'
 import ProjectNameBlock from '@/components/Projects/ProjectName'
-import { updateProjectMetadata } from '@/services/axios/backendApi'
+import { updateProject } from '@/services/axios/backendApi'
 
 export default {
   name: 'ProjectCard',
@@ -75,7 +75,7 @@ export default {
   methods: {
     async activateProject() {
       const email = this.$store.getters['user/user'].email
-      await updateProjectMetadata(this.projectId, {
+      await updateProject(this.projectId, {
         activated: true,
         username: email,
       })
@@ -83,7 +83,7 @@ export default {
       this.$message.success(`${this.projectName} is activated !`, 3)
     },
     async deactivateProject() {
-      await updateProjectMetadata(this.projectId, { activated: false })
+      await updateProject(this.projectId, { activated: false })
       await this.$store.dispatch('projects/LOAD_PROJECTS')
       this.$message.success(`${this.projectName} is deactivated !`, 3)
     },
