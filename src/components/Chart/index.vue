@@ -13,7 +13,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(entry, index) in data" :key="entry.timestamp">
+        <tr v-for="(entry, index) in dailyStatistics" :key="entry.timestamp">
           <th class="x-label" scope="row" v-if="index % 7 == 0">
             {{ moment(entry.timestamp * 1000).format('DD-MM-YYYY') }}
           </th>
@@ -26,7 +26,9 @@
       </tbody>
       <div
         class="average-line"
-        v-if="averageScannedBytes > 0 && data != undefined && data.length > 0"
+        v-if="
+          averageScannedBytes > 0 && dailyStatistics !== undefined && dailyStatistics.length > 0
+        "
         :style="`bottom: ${heightAverage(averageScannedBytes)}px`"
       >
         <div class="description">
@@ -38,11 +40,10 @@
 </template>
 
 <script>
-import { ref, onMounted } from 'vue'
-import * as api from '@/services/axios/backendApi'
+import { useStore } from 'vuex'
+import { ref, computed } from 'vue'
 import moment from 'moment'
 const prettyBytes = require('pretty-bytes')
-
 export default {
   components: {},
   props: {
@@ -54,29 +55,27 @@ export default {
       default: -1,
     },
   },
-  setup(props) {
-    const data = ref({})
-    const maxValue = ref()
-    const minValue = ref()
-    onMounted(async () => {
-      data.value = await api.getDailyStatistics(props.projectId, 28)
-      data.value = data.value
-      let max = 0
-      let min = 0
-      data.value.forEach(entry => {
-        if (entry.value > max) {
-          max = entry.value
-        }
-        if (entry.value < min || min == 0) {
-          min = entry.value
-        }
+  setup() {
+    const store = useStore()
+    const maxValue = ref(0)
+    const minValue = ref(0)
+    const dailyStatistics = computed(() => {
+      const statistics = store.getters['projects/currentProjectDailyStatistics']
+      if (statistics === null) {
+        // Not initialized
+        return []
+      }
+      statistics.forEach(entry => {
+        // Find min/max to correctly scale the chart
+        if (entry.value > maxValue.value) maxValue.value = entry.value
+        if (entry.value < minValue.value || minValue.value == 0) minValue.value = entry.value
+        // Make human-readabledaily processed bytes
         entry.valueFormatted = entry.value == 0 ? '' : prettyBytes(entry.value)
       })
-      maxValue.value = max
-      minValue.value = min
+      return statistics
     })
     return {
-      data,
+      dailyStatistics,
       maxValue,
       minValue,
       moment,
