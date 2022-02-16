@@ -28,9 +28,6 @@
           ></cta>
         </a-row>
       </a-col>
-      <!-- <a-row v-else style="float:right;"> -->
-      <!-- </a-row> -->
-      <!-- </a-col> -->
       <router-view v-slot="{ Component }">
         <transition name="zoom-fadein" mode="out-in">
           <component :is="Component" />
