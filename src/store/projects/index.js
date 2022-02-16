@@ -91,7 +91,6 @@ export default {
     LOAD_CURRENT_PROJECT_DAILY_STATISTICS({ commit, getters }, payload) {
       const projectId = getters.currentProjectId
       const lastDays = payload.days
-      console.log(projectId)
       api.getDailyStatistics(projectId, lastDays).then(dailyStatistics => {
         commit('SET_CURRENT_PROJECT', { dailyStatistics })
       })
