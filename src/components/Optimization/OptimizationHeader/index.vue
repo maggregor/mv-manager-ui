@@ -54,7 +54,7 @@
             <p v-else class="title">
               <b>Applied:</b> {{ optimization.mvAppliedCount }} Materialized views
             </p>
-            <p>Triggered by {{ createdBy }}</p>
+            <p>Triggered by {{ optimization.username }}</p>
           </div>
         </a-col>
         <a-col :span="4">
@@ -102,10 +102,6 @@ export default {
       default: () => ({
         createdDate: 0,
       }),
-    },
-    createdBy: {
-      type: String,
-      default: 'unknowndu75@achilio.com',
     },
   },
   setup() {
