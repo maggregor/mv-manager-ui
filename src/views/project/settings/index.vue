@@ -16,7 +16,7 @@
     <div class="setting">
       <h2>Automatic generation</h2>
       <h3>
-        Achilio creates automatically Materialized Views when the algorithm find something good.
+        Achilio creates automatically Materialized Views.
       </h3>
       <a-skeleton style="width: 10%" :loading="loading" :paragraph="false">
         <a-switch
@@ -32,8 +32,7 @@
     <div class="setting">
       <h2>Range of history analysis</h2>
       <h3>
-        The query history range in BigQuery on which Achilio will work to create views adapted to
-        your use.
+        The query history timeframe used during the usage analysis.
       </h3>
       <a-skeleton style="width: 10%" :loading="loading" :paragraph="false">
         <!-- DROPDOWN DAYS TIMEFRAME -->
@@ -51,13 +50,13 @@
     <div class="setting">
       <h2>Maximum Materialized Views per table</h2>
       <h3>
-        Achilio creates automatically Materialized Views when the algorithm find something good.
+        The maximum number of materialized view per table
       </h3>
       <div>
         <a-skeleton :loading="loading" :paragraph="false">
           <a-slider
             style="margin: auto;width: 90%"
-            class="mb-5"
+            class="mb-2"
             v-model:value="mvMaxPerTable"
             :min="1"
             :max="20"
@@ -69,8 +68,8 @@
     <div class="delete">
       <a-row type="flex" align="middle">
         <a-col span="18">
-          <h1>Delete all materialized views</h1>
-          <h2>This will delete all materialized views on this project</h2>
+          <h1>Delete all managed materialized views</h1>
+          <h2>This will delete all materialized views created by Achilio on this project</h2>
           <h2>If automatic mode is enabled, they will be re-created.</h2>
         </a-col>
         <a-col span="auto">
@@ -124,9 +123,14 @@ const refreshSettings = () => {
 }
 
 const deleteAll = () => {
+  let timeout = 7
+  message.loading('Materialized Views deletion requesting...', timeout)
   deleteLoading.value = true
   store.dispatch('projects/DELETE_ALL_MATERIALIZED_VIEWS').finally(() => {
-    deleteLoading.value = false
+    setTimeout(() => {
+      deleteLoading.value = false
+      message.success('Materialized Views deletion request sent', timeout)
+    }, timeout * 1000)
   })
 }
 
