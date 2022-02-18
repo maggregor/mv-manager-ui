@@ -1,11 +1,7 @@
 <template>
   <div class="container">
     <div class="header">
-      <OptimizationHeader
-        v-if="optimization"
-        :optimization="optimization.optimization"
-        :created-by="'unknowndu75@gmail.com'"
-      />
+      <OptimizationHeader v-if="optimization" :optimization="optimization.optimization" />
     </div>
     <div class="results">
       <div v-if="appliedResults.length" class="mb-5">
