@@ -21,7 +21,7 @@
       v-if="notActivatedProjects.length"
       class="mb-3 mt-5 text-black text-weight-300 font-size-24"
     >
-      <span class="text-weight-500">Activate</span> the optimizer on your projects
+      Projects without <span class="text-weight-600">achilio</span>
     </div>
     <a-skeleton :loading="isProjectLoading">
       <ProjectCard

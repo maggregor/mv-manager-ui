@@ -1,0 +1,55 @@
+@import '@/mixins.scss';
+
+.subscription-card {
+  background: white;
+  padding: 10px;
+  width: 280px;
+  min-height: 500px;
+  border-radius: 10px;
+  border: 1px solid rgb(84, 78, 181);
+
+  transition: all 0.5s ease;
+  h1 {
+    color: rgb(84, 78, 181);
+    font-size: 28px;
+    font-weight: 700;
+  }
+  h2 {
+    color: rgb(41, 38, 103);
+    font-size: 20px;
+    font-weight: 600;
+  }
+
+  h3 {
+    color: rgb(85, 78, 200);
+    font-size: 14px;
+    font-weight: 600;
+  }
+  h1:hover {
+    font-size: 28px;
+    font-weight: 800;
+    background: -webkit-linear-gradient(45deg, red, blue 50%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  &:hover::before {
+    cursor: pointer;
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 8px;
+    padding: 2px;
+    background: linear-gradient(45deg, red, blue);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+  }
+}
+
+.illustration {
+  min-width: 200px;
+  max-width: 200px;
+}

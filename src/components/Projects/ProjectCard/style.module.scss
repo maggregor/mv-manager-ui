@@ -6,7 +6,7 @@
   /* Auto Layout */
 
   align-items: center;
-  padding: 0px 16px;
+  padding: 5px 30px;
 
   position: relative;
   width: 100%;
@@ -15,8 +15,14 @@
   /* main-gray */
 
   background: #ffffff;
-  border-radius: 10px;
+  border-radius: 8px;
   border: 1px solid rgba(226, 226, 226, 1);
+
+  transition: box-shadow 150ms;
+  &:hover {
+    cursor: pointer;
+    box-shadow: 0 0 10px 0 rgba(130, 130, 130, 0.5);
+  }
 }
 
 .project-activated::before {
@@ -26,7 +32,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  border-radius: 10px;
+  border-radius: 8px;
   padding: 1px;
   background: linear-gradient(45deg, red, blue);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);

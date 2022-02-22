@@ -4,6 +4,7 @@ import settings from './settings'
 import datasets from './datasets'
 import projects from './projects'
 import optimizations from './optimizations'
+import plans from './plans'
 
 export default createStore({
   modules: {
@@ -12,6 +13,7 @@ export default createStore({
     settings,
     projects,
     optimizations,
+    plans,
   },
   state: {},
   mutations: {},

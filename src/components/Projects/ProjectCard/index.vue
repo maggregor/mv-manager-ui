@@ -1,6 +1,9 @@
 <template>
   <div>
-    <div :class="{ 'project-card': true, 'mb-4': true, 'project-activated': isActivated }">
+    <div
+      :class="{ 'project-card': true, 'mb-4': true, 'project-activated': isActivated }"
+      @click="$router.push(`/projects/${projectId}/overview`)"
+    >
       <a-row>
         <a-col :span="12" :style="{ top: '10px' }">
           <ProjectNameBlock
@@ -21,19 +24,19 @@
                   :label="'Settings'"
                 /> -->
               </a-col>
-              <a-col class="p-1" :span="8">
+              <!-- <a-col class="p-1" :span="8">
                 <cta secondary :trigger="deactivateProject" :label="'Deactivate'" />
               </a-col>
               <a-col class="p-1" :span="8">
                 <cta secondary :url="`/projects/${projectId}/overview`" :label="'Open'" />
-              </a-col>
+              </a-col> -->
             </a-row>
           </div>
           <div v-else>
             <a-row type="flex" justify="space-between" align="bottom">
               <a-col :span="8"> </a-col>
               <a-col :span="16">
-                <cta :trigger="activateProject" :label="'Try 14-days now'" />
+                <!-- <cta :trigger="activateProject" :label="'Try 14-days now'" /> -->
               </a-col>
             </a-row>
           </div>
@@ -44,7 +47,7 @@
 </template>
 
 <script>
-import CTA from '@/components/CTA'
+// import CTA from '@/components/CTA'
 import ProjectNameBlock from '@/components/Projects/ProjectName'
 import { updateProject } from '@/services/axios/backendApi'
 
@@ -52,7 +55,7 @@ export default {
   name: 'ProjectCard',
   components: {
     ProjectNameBlock,
-    cta: CTA,
+    // cta: CTA,
   },
   props: {
     projectId: {
