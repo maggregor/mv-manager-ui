@@ -7,11 +7,16 @@
       {{ project.projectName }}
       <span class="path" v-if="breadcrumb"> / {{ breadcrumb }}</span>
     </h1>
-    <h2 class="project-plan">{{ project.projectPlan }}</h2>
+    <div v-if="plan" class="project-plan">
+      <p class="name">{{ plan.name }}</p>
+      <a class="manage" @click="$router.push(`/projects/${project.projectId}/plan`)">Manage plan</a>
+    </div>
   </div>
 </template>
 
 <script>
+import { computed } from '@vue/reactivity'
+import { useStore } from 'vuex'
 export default {
   name: 'ProjectHeader',
   props: {
@@ -25,7 +30,9 @@ export default {
     },
   },
   setup() {
-    return {}
+    const store = useStore()
+    const plan = computed(() => store.getters['plans/planByProjectId'])
+    return { plan }
   },
   computed: {
     breadcrumb() {

@@ -1,7 +1,5 @@
 @import '@/mixins.scss';
 
-.project-header {
-}
 .project-path {
   /* basic */
 
@@ -9,7 +7,6 @@
   font-style: normal;
   font-weight: 900;
   font-size: 58px;
-  margin-bottom: rem(-10);
   /* identical to box height, or 200% */
 
   align-items: center;
@@ -32,13 +29,27 @@
   font-family: Poppins;
   font-style: normal;
   font-weight: 200;
-  font-size: 14px;
-  margin-top: -3px;
 }
 
 .project-plan {
-  font-weight: 800;
-  background: linear-gradient(45deg, rgb(255, 109, 109), rgb(74, 74, 255) 15%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  display: flex;
+  white-space: nowrap;
+  align-items: center;
+  width: 300px;
+  margin-top: -15px;
+  p {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 800;
+    background: linear-gradient(45deg, rgb(255, 109, 109), rgb(74, 74, 255) 50%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-right: 10px;
+  }
+  a {
+    color: rgb(135, 133, 255);
+    font-weight: 500;
+    font-size: 12px;
+    text-decoration: underline;
+  }
 }
