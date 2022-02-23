@@ -17,20 +17,7 @@
         <a-col :span="12" :style="{ top: '15px' }">
           <div v-if="isActivated">
             <a-row type="flex" justify="space-between" align="bottom">
-              <a-col :span="8">
-                <Chart v-if="false" :project-id="projectId" fake />
-                <!-- <cta
-                  class="cta-secondary"
-                  :url="'/settings/' + projectId"
-                  :label="'Settings'"
-                /> -->
-              </a-col>
-              <!-- <a-col class="p-1" :span="8">
-                <cta secondary :trigger="deactivateProject" :label="'Deactivate'" />
-              </a-col>
-              <a-col class="p-1" :span="8">
-                <cta secondary :url="`/projects/${projectId}/overview`" :label="'Open'" />
-              </a-col> -->
+              <a-col :span="8"> </a-col>
             </a-row>
           </div>
           <div v-else>
@@ -48,16 +35,12 @@
 </template>
 
 <script>
-// import CTA from '@/components/CTA'
 import ProjectNameBlock from '@/components/Projects/ProjectName'
 import { updateProject } from '@/services/axios/backendApi'
-import Chart from '@/components/Chart'
 export default {
   name: 'ProjectCard',
   components: {
     ProjectNameBlock,
-    Chart,
-    // cta: CTA,
   },
   props: {
     projectId: {
