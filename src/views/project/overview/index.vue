@@ -115,9 +115,6 @@ export default {
       await store.dispatch('optimizations/RUN_OPTIMIZE', projectId.value)
       optimizeLoading.value = false
     }
-    if (project.value) {
-      project.value.projectPlan = 'Enterprise'
-    }
     return {
       store,
       datasets,

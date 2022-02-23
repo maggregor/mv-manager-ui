@@ -57,7 +57,6 @@ export default {
     },
   },
   setup(props) {
-    console.log('coucou')
     const store = useStore()
     const maxValue = ref(0)
     const minValue = ref(0)
@@ -122,7 +121,7 @@ export default {
   }
 }
 #column-example-13 {
-  height: 100px;
+  height: 330px;
   margin: 0 auto;
   .x-label {
     white-space: nowrap;

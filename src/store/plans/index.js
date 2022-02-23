@@ -41,5 +41,6 @@ export default {
   getters: {
     plans: state => state.plans,
     loading: state => state.loading,
+    planByProjectId: state => state.plans.find(p => true),
   },
 }

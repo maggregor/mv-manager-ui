@@ -7,7 +7,7 @@
 
       <img :style="{ height: '2rem' }" src="@/assets/google/google-cloud-platform_logo.svg" />
     </h2>
-    <a-skeleton :loading="isProjectLoading">
+    <a-skeleton :loading="loading">
       <ProjectCard
         v-for="project in activatedProjects"
         :key="project.projectId"
@@ -23,7 +23,7 @@
     >
       Projects without <span class="text-weight-600">achilio</span>
     </div>
-    <a-skeleton :loading="isProjectLoading">
+    <a-skeleton :loading="loading">
       <ProjectCard
         v-for="project in notActivatedProjects"
         :key="project.projectId"
@@ -50,16 +50,15 @@ export default {
     const store = useStore()
     const username = computed(() => store.getters['user/username'])
     const projects = computed(() => store.getters['projects/projectNames'])
-
+    const loading = computed(() => store.getters['projects/loading'])
+    onMounted(() => store.dispatch('projects/LOAD_PROJECTS'))
     return {
       username,
       projects,
+      loading,
     }
   },
   computed: {
-    isProjectLoading: function() {
-      return !this.projects.length
-    },
     activatedProjects: function() {
       return this.projects.filter(e => e.activated)
     },

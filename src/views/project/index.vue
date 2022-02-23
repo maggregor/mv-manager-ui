@@ -59,6 +59,9 @@ export default {
     onMounted(async () => {
       await store.dispatch('projects/LOAD_CURRENT_PROJECT', { projectId: projectId.value })
       currentProjectLoaded.value = true
+      store.dispatch('plans/LOAD_PLANS', {
+        customerId: store.getters['projects/currentProjectCustomerId'],
+      })
       store.dispatch('datasets/LOAD_DATASETS', { projectId: projectId.value })
       store.dispatch('optimizations/LOAD_OPTIMIZATIONS', { projectId: projectId.value })
       store.dispatch('projects/LOAD_CURRENT_PROJECT_STATISTICS', { days: 28 })

@@ -21,7 +21,7 @@
 <script>
 import { useStore } from 'vuex'
 import CTA from '@/components/CTA'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { getLatestIntentClientSecret } from '@/services/axios/backendApi'
 export default {
   name: 'ElementsCheckout',
@@ -45,13 +45,19 @@ export default {
   async mounted() {
     this.stripe = window.Stripe(process.env.VUE_APP_STRIPE_PUBLIC_KEY)
     const store = useStore()
+    const router = useRouter()
     const route = useRoute()
     const subscriptionId = route.params.subscriptionId
+    const projectId = store.getters['projects/currentProjectId']
     getLatestIntentClientSecret({
       subscriptionId,
     }).then(response => {
-      let clientSecret = response
-      this.mountElements({ clientSecret: clientSecret })
+      let clientSecret = response.clientSecret
+      if (clientSecret === null) {
+        router.push(`/projects/${projectId}/overview`)
+      } else {
+        this.mountElements({ clientSecret: clientSecret })
+      }
     })
   },
   methods: {

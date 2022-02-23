@@ -14,16 +14,9 @@
         <a-col class="mb-3" span="auto">
           <h3>{{ plan.description }}</h3>
         </a-col>
-        <!-- <a-col span="auto">
-        <CTA
-          v-if="getAvailableFreeTrialDays > 0"
-          :trigger="trigger"
-          :label="`Start ${getAvailableFreeTrialDays}-days free trial`"
-        />
-      </a-col> -->
         <a-col span="24">
           <CTA v-if="plan.enabled" secondary :trigger="triggerCancel" :label="`Cancel`" />
-          <CTA v-else :trigger="triggerPay" :label="`Pay`" />
+          <CTA v-else :trigger="triggerPay" :label="`Upgrade`" />
         </a-col>
       </a-row>
     </div>
@@ -60,8 +53,9 @@ export default {
       })
     }
     const triggerCancel = () => {
-      return cancelSubscription({ subscriptionId: props.plan.subscription.id }).then(() => {
-        store.dispatch('plans/LOAD_PLANS', { customerId })
+      return cancelSubscription({ subscriptionId: props.plan.subscription.id }).then(async () => {
+        await store.dispatch('plans/LOAD_PLANS', { customerId })
+        router.push(`/projects/${route.params.projectId}/overview`)
       })
     }
     const getAvailableFreeTrialDays = computed(() =>
