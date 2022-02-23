@@ -24,10 +24,13 @@
     box-shadow: 0 0 10px 0 rgba(130, 130, 130, 0.5);
   }
 }
-
+.project-activated {
+  height: 200px;
+}
 .project-activated::before {
   content: '';
   position: absolute;
+  height: 200px;
   top: 0;
   left: 0;
   right: 0;

@@ -54,13 +54,13 @@ export default {
     const route = useRoute()
     const customerId = store.getters['projects/currentProjectCustomerId']
     const triggerPay = () => {
-      createSubscription({ customerId, priceId: price.id }).then(response => {
+      return createSubscription({ customerId, priceId: price.id }).then(response => {
         let subscriptionId = response.data.id
         router.push(`/projects/${route.params.projectId}/checkout/${subscriptionId}`)
       })
     }
     const triggerCancel = () => {
-      cancelSubscription({ subscriptionId: props.plan.subscription.id }).then(() => {
+      return cancelSubscription({ subscriptionId: props.plan.subscription.id }).then(() => {
         store.dispatch('plans/LOAD_PLANS', { customerId })
       })
     }

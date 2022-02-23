@@ -1,6 +1,6 @@
 <template>
   <div class="checkout-container">
-    <h1 class="mb-5">Checkout</h1>
+    <h1 class="mb-5">Payment</h1>
     <form id="payment-form">
       <div id="payment-element">
         <!-- Elements will create form elements here -->
@@ -9,7 +9,7 @@
         style="width:300px; margin: auto; margin-top: 50px;"
         text="Subscribe"
         label="Pay"
-        @click.prevent="confirmPayment"
+        :trigger="confirmPayment"
       />
       <div id="error-message">
         <!-- Display error message to your customers here -->
@@ -61,7 +61,7 @@ export default {
         // `Elements` instance that was used to create the Payment Element
         elements: this.elements,
         confirmParams: {
-          return_url: `${window.location.origin}/projects/${projectId}/subscription`,
+          return_url: `${window.location.origin}/projects/${projectId}/overview`,
         },
       })
 

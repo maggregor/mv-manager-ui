@@ -4,9 +4,6 @@
       id="column-example-13"
       class="charts-css column show-labels show-primary-axis data-spacing-3"
     >
-      {{
-        columns
-      }}
       <thead>
         <tr>
           <th scope="col">Date</th>
@@ -60,6 +57,7 @@ export default {
     },
   },
   setup(props) {
+    console.log('coucou')
     const store = useStore()
     const maxValue = ref(0)
     const minValue = ref(0)
@@ -124,7 +122,7 @@ export default {
   }
 }
 #column-example-13 {
-  height: 330px;
+  height: 100px;
   margin: 0 auto;
   .x-label {
     white-space: nowrap;

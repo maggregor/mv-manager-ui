@@ -18,6 +18,7 @@
           <div v-if="isActivated">
             <a-row type="flex" justify="space-between" align="bottom">
               <a-col :span="8">
+                <Chart v-if="false" :project-id="projectId" fake />
                 <!-- <cta
                   class="cta-secondary"
                   :url="'/settings/' + projectId"
@@ -50,11 +51,12 @@
 // import CTA from '@/components/CTA'
 import ProjectNameBlock from '@/components/Projects/ProjectName'
 import { updateProject } from '@/services/axios/backendApi'
-
+import Chart from '@/components/Chart'
 export default {
   name: 'ProjectCard',
   components: {
     ProjectNameBlock,
+    Chart,
     // cta: CTA,
   },
   props: {
