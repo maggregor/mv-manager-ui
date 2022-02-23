@@ -7,12 +7,19 @@ steps:
     args: ["run", "build"]
     env:
       # API
-      - VUE_APP_API_BASE_URL=https://beta.api.achilio.com
+      - VUE_APP_API_BASE_URL=${_VUE_APP_API_BASE_URL}
       # Authentication
-      - VUE_APP_AUTH_BASE_URL=https://beta.auth.achilio.com
-      - VUE_APP_GOOGLE_OAUTH2_URL=https://accounts.google.com/o/oauth2/v2/auth
-      - VUE_APP_GOOGLE_OAUTH2_CLIENT_ID=293325499254-8h7bv5piflnjdoufjak8jjh03tpqss8b.apps.googleusercontent.com
-      - VUE_APP_SERVER_AUTH_REDIRECT=api/v1/auth/login/google/
+      - VUE_APP_AUTH_BASE_URL=${_VUE_APP_AUTH_BASE_URL}
+      - VUE_APP_GOOGLE_OAUTH2_URL=${_VUE_APP_GOOGLE_OAUTH2_URL}
+      - VUE_APP_GOOGLE_OAUTH2_CLIENT_ID=${_VUE_APP_GOOGLE_OAUTH2_CLIENT_ID}
+      - VUE_APP_SERVER_AUTH_REDIRECT=${_VUE_APP_SERVER_AUTH_REDIRECT}
   - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
     entrypoint: gcloud
     args: ["app", "deploy"]
+substitutions:
+  _VUE_APP_API_BASE_URL: "https://beta.api.achilio.com"
+  _VUE_APP_AUTH_BASE_URL: "https://beta.auth.achilio.com"
+  _VUE_APP_GOOGLE_OAUTH2_URL: "https://accounts.google.com/o/oauth2/v2/auth"
+  _VUE_APP_GOOGLE_OAUTH2_CLIENT_ID: "293325499254-8h7bv5piflnjdoufjak8jjh03tpqss8b.apps.googleusercontent.com"
+  _VUE_APP_SERVER_AUTH_REDIRECT: "api/v1/auth/login/google/"
+timeout: 1200s
