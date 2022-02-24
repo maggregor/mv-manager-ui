@@ -10,10 +10,10 @@ export default {
   components: { Plan },
   setup() {
     const store = useStore()
-    const customerId = store.getters['projects/currentProjectCustomerId']
     const plans = computed(() => store.getters['plans/plans'])
+    const projectId = store.getters['projects/currentProjectId']
     onMounted(() => {
-      store.dispatch('plans/LOAD_PLANS', { customerId })
+      store.dispatch('plans/LOAD_PLANS', { projectId })
     })
     return { plans }
   },

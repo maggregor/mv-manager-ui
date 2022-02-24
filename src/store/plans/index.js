@@ -24,11 +24,12 @@ export default {
   },
   actions: {
     async LOAD_PLANS({ commit }, payload) {
-      let customerId = payload.customerId
+      console.log(payload.projectId)
+      let projectId = payload.projectId
       commit('SET_STATE', {
         loading: true,
       })
-      await api.getPlans({ customerId }).then(plans => {
+      await api.getPlans({ projectId }).then(plans => {
         if (plans) {
           commit('SET_STATE', { plans })
         }
