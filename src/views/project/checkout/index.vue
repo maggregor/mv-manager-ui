@@ -2,9 +2,12 @@
   <div class="checkout-container">
     <h1 class="mb-5">Payment</h1>
     <form id="payment-form">
-      <div id="payment-element">
-        <!-- Elements will create form elements here -->
-      </div>
+      <a-spin size="large" :spinning="loading">
+        <div id="payment-element">
+          <!-- Elements will create form elements here -->
+        </div>
+      </a-spin>
+
       <CTA
         style="width:300px; margin: auto; margin-top: 50px;"
         text="Subscribe"
@@ -19,6 +22,7 @@
 </template>
 
 <script>
+import { message } from 'ant-design-vue'
 import { useStore } from 'vuex'
 import CTA from '@/components/CTA'
 import { useRoute, useRouter } from 'vue-router'
@@ -33,6 +37,7 @@ export default {
   },
   data() {
     return {
+      loading: true,
       clientSecret: null,
     }
   },
@@ -54,9 +59,21 @@ export default {
     }).then(response => {
       let clientSecret = response.clientSecret
       if (clientSecret === null) {
-        router.push(`/projects/${projectId}/overview`)
+        message.loading('Subscription...')
+        // No one invoice to pay, redirect to overview
+        this.loading = true
+        store.dispatch('projects/LOAD_CURRENT_PROJECT', { projectId: route.params.projectId })
+        setTimeout(() => {
+          router.push(`/projects`)
+          message.destroy()
+          message.success('Congratulations. Successfully subscribed.')
+        }, 2000)
       } else {
+        // Mount the Stripe elements for the payment intent
         this.mountElements({ clientSecret: clientSecret })
+        setTimeout(() => {
+          this.loading = false
+        }, 1000)
       }
     })
   },
@@ -67,7 +84,7 @@ export default {
         // `Elements` instance that was used to create the Payment Element
         elements: this.elements,
         confirmParams: {
-          return_url: `${window.location.origin}/projects/${projectId}/overview`,
+          return_url: `${window.location.origin}/projects`,
         },
       })
 
@@ -75,9 +92,6 @@ export default {
         const messageContainer = document.querySelector('#error-message')
         messageContainer.textContent = error.code
       } else {
-        // Your customer will be redirected to your `return_url`. For some payment
-        // methods like iDEAL, your customer will be redirected to an intermediate
-        // site first to authorize the payment, then redirected to the `return_url`.
       }
     },
     async mountElements({ clientSecret }) {
@@ -95,6 +109,6 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import './style.module.scss';
 </style>

@@ -25,12 +25,12 @@
   }
 }
 .project-activated {
-  height: 200px;
+  height: 100px;
 }
 .project-activated::before {
   content: '';
   position: absolute;
-  height: 200px;
+  height: 100px;
   top: 0;
   left: 0;
   right: 0;
