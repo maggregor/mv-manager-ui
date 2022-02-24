@@ -39,6 +39,7 @@ export default {
     toggleActivate() {
       this.loading = true
       let newValue = !this.activated
+
       updateDatasetMetadata(this.projectId, this.datasetName, { activated: newValue })
         .then(() => {
           this.activated = newValue

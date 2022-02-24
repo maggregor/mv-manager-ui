@@ -11,12 +11,12 @@
         <a-col class="mb-1" span="auto">
           <h2>{{ formattedAmount }} {{ formattedCurrency }} / {{ interval }}</h2>
         </a-col>
-        <a-col class="mb-3" span="auto">
+        <a-col class="mb-5" span="auto">
           <h3>{{ plan.description }}</h3>
         </a-col>
-        <a-col span="24">
+        <a-col class="mt-5" span="24">
           <CTA v-if="plan.enabled" secondary :trigger="triggerCancel" :label="`Cancel`" />
-          <CTA v-else :trigger="triggerPay" :label="`Upgrade`" />
+          <CTA v-else :trigger="triggerPay" :label="`Subscribe`" />
         </a-col>
       </a-row>
     </div>
@@ -55,7 +55,7 @@ export default {
     const triggerCancel = () => {
       return cancelSubscription({ subscriptionId: props.plan.subscription.id }).then(async () => {
         await store.dispatch('plans/LOAD_PLANS', { customerId })
-        router.push(`/projects/${route.params.projectId}/overview`)
+        router.push(`/projects`)
       })
     }
     const getAvailableFreeTrialDays = computed(() =>

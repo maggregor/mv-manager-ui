@@ -92,6 +92,11 @@ export default {
     Chart,
     NotActivatedProject,
   },
+  props: {
+    globalLoading: {
+      type: Boolean,
+    },
+  },
   setup() {
     const store = useStore()
     const datasets = computed(() => store.getters['datasets/datasets'])
