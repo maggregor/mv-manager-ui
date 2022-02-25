@@ -142,16 +142,13 @@ const saveSettings = async () => {
     mvMaxPerTable: mvMaxPerTable.value,
   })
     .then(() => {
-      console.log('ok')
       setTimeout(() => {
         saveLoading.value = false
         message.success('Settings saved')
       }, 1000)
-      store
-        .dispatch('projects/LOAD_CURRENT_PROJECT', { projectId: route.params.projectId })
-        .then(() => {
-          refreshSettings()
-        })
+      store.dispatch('projects/LOAD_CURRENT_PROJECT', { projectId: projectId.value }).then(() => {
+        refreshSettings()
+      })
     })
     .catch(error => {
       setTimeout(() => {
