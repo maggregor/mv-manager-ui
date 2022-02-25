@@ -16,7 +16,7 @@
     <div class="setting">
       <h2>Automatic generation</h2>
       <h3>
-        Achilio creates automatically Materialized Views.
+        Achilio will continuously optimize your datasets
       </h3>
       <a-skeleton style="width: 10%" :loading="loading" :paragraph="false">
         <a-switch
@@ -32,7 +32,7 @@
     <div class="setting">
       <h2>Range of history analysis</h2>
       <h3>
-        The query history timeframe used during the usage analysis.
+        The query history timeframe used during the usage analysis
       </h3>
       <a-skeleton style="width: 10%" :loading="loading" :paragraph="false">
         <!-- DROPDOWN DAYS TIMEFRAME -->
@@ -84,7 +84,7 @@
 
 <script setup>
 import { message } from 'ant-design-vue'
-import { computed, onMounted, reactive, ref, shallowRef } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 import { updateProject } from '@/services/axios/backendApi'
@@ -141,15 +141,20 @@ const saveSettings = async () => {
     analysisTimeframe: analysisTimeframe.value,
     mvMaxPerTable: mvMaxPerTable.value,
   })
-
-  setTimeout(() => {
-    saveLoading.value = false
-    message.success('Settings saved')
-  }, 1000)
-  store
-    .dispatch('projects/LOAD_CURRENT_PROJECT', { projectId: route.params.projectId })
     .then(() => {
-      refreshSettings()
+      setTimeout(() => {
+        saveLoading.value = false
+        message.success('Settings saved')
+      }, 1000)
+      store.dispatch('projects/LOAD_CURRENT_PROJECT', { projectId: projectId.value }).then(() => {
+        refreshSettings()
+      })
+    })
+    .catch(error => {
+      setTimeout(() => {
+        saveLoading.value = false
+        refreshSettings()
+      }, 1000)
     })
 }
 

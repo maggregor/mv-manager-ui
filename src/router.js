@@ -88,12 +88,20 @@ const router = createRouter({
               },
             },
             {
-              path: 'subscription',
-              name: 'Subscription',
-              component: () => import('./views/project/subscription'),
+              path: 'plan',
+              name: 'Plan',
+              component: () => import('./views/project/plan'),
               meta: {
-                breadcrumb: 'Subscription',
-                title: 'Subscription',
+                breadcrumb: 'Plan',
+                title: 'Plan',
+              },
+            },
+            {
+              path: 'checkout/:subscriptionId',
+              name: 'Checkout',
+              component: () => import('./views/project/checkout'),
+              meta: {
+                title: 'Checkout',
               },
             },
           ],

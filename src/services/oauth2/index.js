@@ -9,7 +9,6 @@ export async function login() {
     'https://www.googleapis.com/auth/userinfo.email',
     'https://www.googleapis.com/auth/userinfo.profile',
     'https://www.googleapis.com/auth/bigquery',
-    'https://www.googleapis.com/auth/cloudplatformprojects.readonly',
   ].join(' ')
 
   const params = {

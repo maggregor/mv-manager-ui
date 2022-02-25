@@ -2,7 +2,7 @@
   <div class="container">
     <a-row type="flex" justify="space-around" align="middle">
       <a-col class="details_container" :span="10">
-        <h1>With BigTunr</h1>
+        <h1>With Achilio</h1>
         <h2>Automatically improve your performance</h2>
         <!-- <div class="strengh_container">
           <h3 class="strengh_item">✅ Ca va très vite</h3>

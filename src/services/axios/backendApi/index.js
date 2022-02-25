@@ -66,3 +66,70 @@ export async function getDailyStatistics(projectId, days) {
 export function deleteAllMaterializedViews(projectId) {
   return backendClient.delete(`/optimize/${projectId}`)
 }
+
+/**
+ * POST
+ *
+ * Create an new subscription based on the priceId
+ *
+ * @param { projectId, priceId }
+ * @returns
+ */
+export function createSubscription(payload) {
+  return backendClient.post(`/subscription`, payload)
+}
+
+/**
+ *
+ * @param { subscriptionId } payload
+ * @returns
+ */
+export function getSubscription(payload) {
+  let subscriptionId = payload.subscriptionId
+  return backendClient.get(`/subscription/${subscriptionId}`, payload)
+}
+
+/**
+ *
+ * @param { subscriptionId } payload
+ * @returns
+ */
+export function cancelSubscription(payload) {
+  let subscriptionId = payload.subscriptionId
+  return backendClient.delete(`/subscription/${subscriptionId}`, payload)
+}
+
+/**
+ *
+ * @param { subscriptionId } payload
+ * @returns
+ */
+export function updateSubscription(payload) {
+  let subscriptionId = payload.subscriptionId
+  return backendClient.post(`/subscription/${subscriptionId}`, payload)
+}
+
+/**
+ *
+ * @param { projectId } payload
+ * @returns
+ */
+export async function getPlans(payload) {
+  const { data } = await backendClient.get(`/plan`, {
+    params: { projectId: payload.projectId },
+  })
+  return data
+}
+
+/**
+ *
+ * @param { projectId } payload
+ * @returns
+ */
+export async function getLatestIntentClientSecret(payload) {
+  let subscriptionId = payload.subscriptionId
+  const { data } = await backendClient.get(
+    `/subscription/${subscriptionId}/latestIntentClientSecret`,
+  )
+  return data
+}

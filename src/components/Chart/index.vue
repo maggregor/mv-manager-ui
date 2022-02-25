@@ -4,9 +4,6 @@
       id="column-example-13"
       class="charts-css column show-labels show-primary-axis data-spacing-3"
     >
-      {{
-        columns
-      }}
       <thead>
         <tr>
           <th scope="col">Date</th>
@@ -54,13 +51,26 @@ export default {
       type: Number,
       default: -1,
     },
+    fake: {
+      type: Boolean,
+      default: false,
+    },
   },
-  setup() {
+  setup(props) {
     const store = useStore()
     const maxValue = ref(0)
     const minValue = ref(0)
     const dailyStatistics = computed(() => {
-      const statistics = store.getters['projects/currentProjectDailyStatistics']
+      const getFakeData = () => {
+        let arr = []
+        for (let i = 0; i < 28; i++) {
+          arr.push({ timestamp: i, value: Math.random() * 50 + 50, valueFormatted: '' })
+        }
+        return arr
+      }
+      const statistics = props.fake
+        ? getFakeData()
+        : store.getters['projects/currentProjectDailyStatistics']
       if (statistics === null) {
         // Not initialized
         return []
