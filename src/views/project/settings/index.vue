@@ -89,6 +89,8 @@ import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 import { updateProject } from '@/services/axios/backendApi'
 
+import CTA from '@/components/CTA'
+
 const loading = ref(false)
 const store = useStore()
 const route = useRoute()
