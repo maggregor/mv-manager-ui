@@ -71,7 +71,7 @@
 </template>
 
 <script>
-import { computed, onMounted, ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useStore } from 'vuex'
 
 import Kpi from '@/components/KPI'

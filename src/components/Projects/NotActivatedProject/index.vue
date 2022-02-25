@@ -20,10 +20,9 @@ export default {
   setup() {
     const store = useStore()
     const projectId = computed(() => store.getters['projects/currentProjectId'])
-    const customerId = store.getters['projects/currentProjectCustomerId']
     const plans = computed(() => store.getters['plans/plans'])
     onMounted(() => {
-      store.dispatch('plans/LOAD_PLANS', { customerId })
+      store.dispatch('plans/LOAD_PLANS', { projectId: projectId.value })
     })
     return {
       projectId,

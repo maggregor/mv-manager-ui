@@ -60,7 +60,7 @@ export default {
       await store.dispatch('projects/LOAD_CURRENT_PROJECT', { projectId: projectId.value })
       currentProjectLoaded.value = true
       store.dispatch('plans/LOAD_PLANS', {
-        customerId: store.getters['projects/currentProjectCustomerId'],
+        projectId: projectId.value,
       })
       store.dispatch('datasets/LOAD_DATASETS', { projectId: projectId.value })
       store.dispatch('optimizations/LOAD_OPTIMIZATIONS', { projectId: projectId.value })

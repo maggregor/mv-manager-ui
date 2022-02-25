@@ -124,7 +124,5 @@ export default {
       state.currentProject ? state.currentProject.analysisTimeframe : false,
     currentProjectMvMaxPerTable: state =>
       state.currentProject ? state.currentProject.mvMaxPerTable : false,
-    currentProjectCustomerId: state =>
-      state.currentProject ? state.currentProject.customerId : null,
   },
 }
