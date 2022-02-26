@@ -118,43 +118,43 @@ export default {
       return !this.project
     },
     selectCount: function() {
-      if (!this.isActivated) {
+      if (!this.project.activated) {
         return this.abbr(Math.random() * 100000)
       }
-      if (this.queryStatistics) {
-        return this.abbr(
-          this.queryStatistics.global.totalQueries -
-            this.queryStatistics.details.cached.totalQueries,
-        )
+      if (this.project.queryStatistics) {
+        let stats = this.project.queryStatistics
+
+        return this.abbr(stats.global.totalQueries - stats.details.cached.totalQueries)
       }
       return -1
     },
     MmvCount: function() {
-      if (!this.isActivated) {
+      if (!this.project.activated) {
         return Math.floor(Math.random() * 50) + 50 + '%'
       }
-      if (this.queryStatistics) {
-        let totalOptimized = this.queryStatistics.details.in.totalQueries
+      if (this.project.queryStatistics) {
+        let totalOptimized = this.project.queryStatistics.details.in.totalQueries
         let totalQueries =
-          this.queryStatistics.global.totalQueries -
-          this.queryStatistics.details.cached.totalQueries
+          this.project.queryStatistics.global.totalQueries -
+          this.project.queryStatistics.details.cached.totalQueries
         return Math.round((totalOptimized * 100) / totalQueries) + '%'
       }
       return -1
     },
     scannedBytes: function() {
-      if (this.queryStatistics && this.queryStatistics.global.totalQueries) {
+      if (this.project.queryStatistics && this.project.queryStatistics.global.totalQueries) {
         return (
-          this.queryStatistics.global.totalProcessedBytes / this.queryStatistics.global.totalQueries
+          this.project.queryStatistics.global.totalProcessedBytes /
+          this.project.queryStatistics.global.totalQueries
         )
       }
       return -1
     },
     scannedBytesFormatted: function() {
-      if (!this.isActivated) {
+      if (!this.project.activated) {
         return prettyBytes(Math.round(Math.random() * 10))
       }
-      if (this.queryStatistics && this.queryStatistics.global.totalQueries) {
+      if (this.project.queryStatistics && this.project.queryStatistics.global.totalQueries) {
         return prettyBytes(this.scannedBytes)
       }
       return -1
