@@ -26,7 +26,6 @@ const mapAuthProviders = {
 }
 
 export default {
-  namespaced: true,
   state,
   mutations: {
     SET_STATE(state, payload) {

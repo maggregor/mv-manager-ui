@@ -10,7 +10,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(entry, index) in dailyStatistics" :key="entry.timestamp">
+        <tr v-for="(entry, index) in statistics" :key="entry.timestamp">
           <th class="x-label" scope="row" v-if="index % 7 == 0">
             {{ moment(entry.timestamp * 1000).format('DD-MM-YYYY') }}
           </th>
@@ -37,9 +37,8 @@
 </template>
 
 <script>
-import { useStore } from 'vuex'
-import { ref, computed } from 'vue'
-import moment from 'moment'
+import { ref } from '@vue/reactivity'
+const moment = require('moment')
 const prettyBytes = require('pretty-bytes')
 export default {
   components: {},
@@ -56,41 +55,37 @@ export default {
       default: false,
     },
   },
-  setup(props) {
-    const store = useStore()
-    const maxValue = ref(0)
+  setup() {
     const minValue = ref(0)
-    const dailyStatistics = computed(() => {
-      const getFakeData = () => {
-        let arr = []
-        for (let i = 0; i < 28; i++) {
-          arr.push({ timestamp: i, value: Math.random() * 50 + 50, valueFormatted: '' })
-        }
-        return arr
+    const maxValue = ref(0)
+    return {
+      minValue,
+      maxValue,
+      moment,
+    }
+  },
+  computed: {
+    statistics() {
+      const project = this.$store.getters['selectedProject']
+      let statistics = []
+      if (this.fake) {
+        statistics = this.getFakeData(28)
+      } else {
+        statistics = project.dailyStatistics
       }
-      const statistics = props.fake
-        ? getFakeData()
-        : store.getters['projects/currentProjectDailyStatistics']
-      if (statistics === null) {
-        // Not initialized
+      if (!statistics) {
+        // Not yet initialized
         return []
       }
       statistics.forEach(entry => {
         // Find min/max to correctly scale the chart
-        if (entry.value > maxValue.value) maxValue.value = entry.value
-        if (entry.value < minValue.value || minValue.value == 0) minValue.value = entry.value
+        if (entry.value > this.maxValue) this.maxValue = entry.value
+        if (entry.value < this.minValue || this.minValue == 0) this.minValue = entry.value
         // Make human-readabledaily processed bytes
         entry.valueFormatted = entry.value == 0 ? '' : prettyBytes(entry.value)
       })
       return statistics
-    })
-    return {
-      dailyStatistics,
-      maxValue,
-      minValue,
-      moment,
-      prettyBytes,
-    }
+    },
   },
   methods: {
     heightRatio(value) {
@@ -98,6 +93,13 @@ export default {
     },
     heightAverage() {
       return 15 + (this.averageScannedBytes * 330) / this.maxValue / 1.35
+    },
+    getFakeData(timeframe) {
+      let arr = []
+      for (let i = 0; i < timeframe; i++) {
+        arr.push({ timestamp: i, value: Math.random() * 50 + 50, valueFormatted: '' })
+      }
+      return arr
     },
   },
 }

@@ -44,10 +44,10 @@ export default {
   components: { Topbar, Footer },
   setup() {
     const store = useStore()
-    const user = computed(() => store.getters['user/user'])
-    const authorized = computed(() => store.getters['user/user'].authorized)
+    const user = computed(() => store.getters['user'])
+    const authorized = computed(() => store.getters['user'].authorized)
     const logout = () => {
-      store.dispatch('user/LOGOUT')
+      store.dispatch('LOGOUT')
     }
     return {
       user,

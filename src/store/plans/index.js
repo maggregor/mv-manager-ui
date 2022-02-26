@@ -23,13 +23,11 @@ export default {
     },
   },
   actions: {
-    async LOAD_PLANS({ commit }, payload) {
-      console.log(payload.projectId)
-      let projectId = payload.projectId
+    async LOAD_PLANS({ commit }, projectId) {
       commit('SET_STATE', {
         loading: true,
       })
-      await api.getPlans({ projectId }).then(plans => {
+      await api.getPlans(projectId).then(plans => {
         if (plans) {
           commit('SET_STATE', { plans })
         }
@@ -42,6 +40,5 @@ export default {
   getters: {
     plans: state => state.plans,
     loading: state => state.loading,
-    planByProjectId: state => state.plans.find(p => true),
   },
 }

@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <a-row>
-      <a-col :span="12"><ProjectHeader :project="project"/></a-col>
+    <a-row v-if="hasSelectedProject">
+      <a-col :span="12"><ProjectHeader :project="selectedProject"/></a-col>
       <a-col :span="12">
         <a-row style="float:right;">
           <cta
@@ -9,25 +9,23 @@
             secondary
             style="width: 150px; margin-top: 100px; margin-right: 10px;"
             label="Settings"
-            @click="router.push(`/projects/${projectId}/settings`)"
+            @click="router.push(`/projects/${selectedProject.projectId}/settings`)"
           ></cta>
-
           <cta
             v-else
             secondary
-            style="width: 150px;; margin-top: 100px;margin-right: 10px;"
-            :url="`/projects/${projectId}/overview`"
+            style="width: 150px; margin-top: 100px;margin-right: 10px;"
+            :url="`/projects/${selectedProject.projectId}/overview`"
             label="Back to overview"
           ></cta>
           <cta
             style="width: 50%; margin-top: 100px; "
             label="Start optimization"
-            :loading="optimizeLoading"
             :trigger="triggerOptimization"
           ></cta>
         </a-row>
       </a-col>
-      <router-view v-if="currentProjectLoaded" v-slot="{ Component }">
+      <router-view v-slot="{ Component }">
         <component :is="Component" />
       </router-view>
     </a-row>
@@ -35,8 +33,8 @@
 </template>
 
 <script>
-import { computed, onMounted, ref } from 'vue'
-import { useStore } from 'vuex'
+import { computed, onMounted } from 'vue'
+import { mapGetters, useStore } from 'vuex'
 import { useRoute, useRouter } from 'vue-router'
 
 import ProjectHeader from '@/components/Projects/ProjectHeader'
@@ -52,37 +50,27 @@ export default {
     const store = useStore()
     const route = useRoute()
     const router = useRouter()
-    const optimizeLoading = ref(false)
-    const project = computed(() => store.getters['projects/currentProject'])
-    const projectId = ref(route.params.projectId)
-    const currentProjectLoaded = ref(false)
+    const projectId = route.params.projectId
     onMounted(async () => {
-      await store.dispatch('projects/LOAD_CURRENT_PROJECT', { projectId: projectId.value })
-      currentProjectLoaded.value = true
-      store.dispatch('plans/LOAD_PLANS', {
-        projectId: projectId.value,
-      })
-      store.dispatch('datasets/LOAD_DATASETS', { projectId: projectId.value })
-      store.dispatch('optimizations/LOAD_OPTIMIZATIONS', { projectId: projectId.value })
-      store.dispatch('projects/LOAD_CURRENT_PROJECT_STATISTICS', { days: 28 })
-      store.dispatch('projects/LOAD_CURRENT_PROJECT_DAILY_STATISTICS', { days: 28 })
+      store.dispatch('SET_SELECTED_PROJECT_ID', projectId)
+      store.dispatch('plans/LOAD_PLANS', projectId)
+      store.dispatch('datasets/LOAD_DATASETS', { projectId })
+      store.dispatch('optimizations/LOAD_OPTIMIZATIONS', { projectId })
+      store.dispatch('LOAD_PROJECT_STATISTICS', { projectId, timeframe: 28 })
     })
     const triggerOptimization = async () => {
-      router.push(`/projects/${projectId.value}/overview`)
-      optimizeLoading.value = true
-      await store.dispatch('optimizations/RUN_OPTIMIZE', projectId.value)
-      optimizeLoading.value = false
+      router.push(`/projects/${projectId}/overview`)
+      await store.dispatch('optimizations/RUN_OPTIMIZE', projectId)
     }
     const isOverview = computed(() => route.fullPath.includes('overview'))
     return {
-      currentProjectLoaded,
       isOverview,
       router,
-      project,
-      projectId,
-      optimizeLoading,
       triggerOptimization,
     }
+  },
+  computed: {
+    ...mapGetters(['hasSelectedProject', 'selectedProject']),
   },
 }
 </script>

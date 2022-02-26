@@ -21,7 +21,7 @@ export default {
     const logo = computed(() => store.getters.settings.logo)
     const routeTitle = computed(() => route.meta.title)
     const currentRoute = computed(() => route)
-    const authorized = computed(() => store.getters['user/user'].authorized)
+    const authorized = computed(() => store.getters['user'].authorized)
 
     // watch page title change
     watch(
@@ -31,14 +31,14 @@ export default {
 
     // initial auth check
     onMounted(() => {
-      store.dispatch('user/LOAD_CURRENT_ACCOUNT')
+      store.dispatch('LOAD_CURRENT_ACCOUNT')
     })
 
     // redirect if authorized and current page is login
-    watch(authorized, authorized => {
+    watch(authorized, async authorized => {
       if (authorized) {
         // TODO: Move to project
-        store.dispatch('projects/LOAD_PROJECTS')
+        await store.dispatch('LOAD_ALL_PROJECTS')
         const query = qs.parse(currentRoute.value.fullPath.split('?')[1], {
           ignoreQueryPrefix: true,
         })

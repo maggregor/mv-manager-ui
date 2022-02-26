@@ -4,33 +4,26 @@
     <h2 class="mb-5 text-gray-7 text-weight-300 font-size-24">
       You are connected to your
       <span class="google-font text-weight-500 mr-2">Google Cloud Platform</span>
-
       <img :style="{ height: '2rem' }" src="@/assets/google/google-cloud-platform_logo.svg" />
     </h2>
     <a-skeleton :loading="loading">
       <ProjectCard
         v-for="project in activatedProjects"
         :key="project.projectId"
-        :project-id="project.projectId"
-        :project-name="project.projectName"
-        :dataset-count="project.datasetCount"
-        :is-activated="project.activated"
+        :project="project"
       />
     </a-skeleton>
     <div
-      v-if="notActivatedProjects.length"
+      v-if="deactivatedProjects.length"
       class="mb-3 mt-5 text-black text-weight-300 font-size-24"
     >
       Projects without <span class="text-weight-600">achilio</span>
     </div>
     <a-skeleton :loading="loading">
       <ProjectCard
-        v-for="project in notActivatedProjects"
+        v-for="project in deactivatedProjects"
         :key="project.projectId"
-        :project-id="project.projectId"
-        :project-name="project.projectName"
-        :dataset-count="project.datasetCount"
-        :is-activated="project.activated"
+        :project="project"
       />
     </a-skeleton>
   </div>
@@ -38,8 +31,8 @@
 
 <script>
 import ProjectCard from '@/components/Projects/ProjectCard'
-import { useStore } from 'vuex'
-import { computed, onMounted, ref } from 'vue'
+import { onMounted } from 'vue'
+import { mapGetters, useStore } from 'vuex'
 
 export default {
   name: 'Home',
@@ -47,24 +40,10 @@ export default {
     ProjectCard,
   },
   setup() {
-    const store = useStore()
-    const username = computed(() => store.getters['user/username'])
-    const projects = computed(() => store.getters['projects/projectNames'])
-    const loading = computed(() => store.getters['projects/loading'])
-    onMounted(() => store.dispatch('projects/LOAD_PROJECTS'))
-    return {
-      username,
-      projects,
-      loading,
-    }
+    onMounted(() => useStore().dispatch('LOAD_ALL_PROJECTS'))
   },
   computed: {
-    activatedProjects: function() {
-      return this.projects.filter(e => e.activated)
-    },
-    notActivatedProjects: function() {
-      return this.projects.filter(e => !e.activated)
-    },
+    ...mapGetters(['username', 'activatedProjects', 'deactivatedProjects', 'loading']),
   },
 }
 </script>

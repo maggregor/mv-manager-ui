@@ -20,7 +20,7 @@
             <DatasetCard
               v-for="dataset in datasets"
               :key="dataset.datasetName"
-              :project-id="projectId"
+              :project-id="project.projectId"
               :dataset-name="dataset.datasetName"
               :default-activated="dataset.activated"
             />
@@ -30,7 +30,7 @@
             <a-button :loading="loading" type="link">
               <span
                 class="text-dark"
-                @click="$router.push(`/projects/${$route.params.projectId}/optimizations`)"
+                @click="$router.push(`/projects/${$project.projectId}/optimizations`)"
                 >All</span
               >
             </a-button>
@@ -44,11 +44,11 @@
         </a-col>
         <a-col :span="17">
           <a-row style="height:120px; margin-top: 90px;">
-            <a-col class="p-1" :span="8"
+            <a-col :span="8"
               ><Kpi :data="MmvCount" :label="'Queries in Materialized Views<br/>managed by Achilio'"
             /></a-col>
-            <a-col class="p-1" :span="8"><Kpi :data="selectCount" :label="`Total queries`"/></a-col>
-            <a-col class="p-1" :span="8"
+            <a-col :span="8"><Kpi :data="selectCount" :label="`Total queries`"/></a-col>
+            <a-col :span="8"
               ><Kpi :data="scannedBytesFormatted" :label="'Average scanned bytes per query'"
             /></a-col>
           </a-row>
@@ -57,8 +57,8 @@
               Average scanned bytes per query
             </h3>
             <Chart
-              :project-id="projectId"
-              :average-scanned-bytes="scannedBytes"
+              :project="project"
+              :average-scanned-bytes="-1"
               style="width: 100%"
               :fake="!isActivated"
             />
@@ -105,34 +105,12 @@ export default {
       }
       return optimizations
     })
-    const optimizeLoading = ref(false)
-    const projectId = computed(() => store.getters['projects/currentProjectId'])
-    const project = computed(() => store.getters['projects/currentProject'])
-    const projectLoading = computed(() => store.getters['projects/loading'])
-    const queryStatistics = computed(() => store.getters['projects/currentProjectQueryStatistics'])
-    const triggerOptimization = async () => {
-      optimizeLoading.value = true
-      await store.dispatch('optimizations/RUN_OPTIMIZE', projectId.value)
-      optimizeLoading.value = false
-    }
+    const project = computed(() => store.getters['selectedProject'])
     return {
       store,
       datasets,
       project,
-      projectId,
-      projectLoading,
-      queryStatistics,
       optimizations,
-      optimizeLoading,
-      triggerOptimization,
-    }
-  },
-  data() {
-    return {
-      projectPlan: {
-        planName: 'Startup Plan',
-        mmvCount: 2,
-      },
     }
   },
   computed: {

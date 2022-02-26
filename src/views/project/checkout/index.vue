@@ -62,7 +62,7 @@ export default {
         message.loading('Subscription...')
         // No one invoice to pay, redirect to overview
         this.loading = true
-        store.dispatch('projects/LOAD_CURRENT_PROJECT', { projectId: route.params.projectId })
+        store.dispatch('LOAD_PROJECT', { projectId: route.params.projectId })
         setTimeout(() => {
           router.push(`/projects`)
           message.destroy()

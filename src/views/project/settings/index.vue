@@ -101,12 +101,10 @@ const deleteLoading = ref(false)
 const saveLoading = ref(false)
 onMounted(async () => {
   loading.value = true
-  store
-    .dispatch('projects/LOAD_CURRENT_PROJECT', { projectId: route.params.projectId })
-    .then(() => {
-      refreshSettings()
-      loading.value = false
-    })
+  store.dispatch('LOAD_PROJECT', { projectId: route.params.projectId }).then(() => {
+    refreshSettings()
+    loading.value = false
+  })
 })
 
 const refreshSettings = () => {
@@ -144,7 +142,7 @@ const saveSettings = async () => {
         saveLoading.value = false
         message.success('Settings saved')
       }, 1000)
-      store.dispatch('projects/LOAD_CURRENT_PROJECT', { projectId: projectId.value }).then(() => {
+      store.dispatch('LOAD_PROJECT', { projectId: projectId.value }).then(() => {
         refreshSettings()
       })
     })

@@ -37,10 +37,10 @@ export default {
   setup() {
     const store = useStore()
     const settings = computed(() => store.getters.settings)
-    const user = computed(() => store.getters['user/user'])
-    const authorized = computed(() => store.getters['user/user'].authorized)
+    const user = computed(() => store.getters['user'])
+    const authorized = computed(() => store.getters['user'].authorized)
     const projects = computed(() => store.getters['projects/projectNames'])
-    const projectLoading = computed(() => store.getters['projects/loading'])
+    const projectLoading = computed(() => store.getters['LOADing'])
 
     const loginForm = reactive({})
 
@@ -48,7 +48,7 @@ export default {
       store.commit('CHANGE_SETTING', { setting: 'authProvider', value })
     }
     const handleFinish = values => {
-      store.dispatch('user/LOGIN', { payload: values })
+      store.dispatch('LOGIN', { payload: values })
     }
     const handleFinishFailed = errors => {
       console.log(errors)

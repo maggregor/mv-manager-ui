@@ -4,18 +4,17 @@
 
 <script>
 import Plan from '@/components/Plan'
-import { useStore } from 'vuex'
-import { computed, onMounted } from '@vue/runtime-core'
+import { mapGetters, useStore } from 'vuex'
+import { onMounted } from '@vue/runtime-core'
 export default {
   components: { Plan },
   setup() {
-    const store = useStore()
-    const plans = computed(() => store.getters['plans/plans'])
-    const projectId = store.getters['projects/currentProjectId']
     onMounted(() => {
-      store.dispatch('plans/LOAD_PLANS', { projectId })
+      useStore().dispatch('plans/LOAD_PLANS', store.getters['selectedProjectId'])
     })
-    return { plans }
+  },
+  computed: {
+    ...mapGetters('plans'),
   },
 }
 </script>
