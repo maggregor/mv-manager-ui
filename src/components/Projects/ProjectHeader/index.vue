@@ -7,7 +7,7 @@
       {{ project.projectName }}
       <span class="path" v-if="breadcrumb"> / {{ breadcrumb }}</span>
     </h1>
-    <div v-if="plan" class="project-plan">
+    <div class="project-plan">
       <p class="name">To be defined</p>
       <a class="manage" @click="$router.push(`/projects/${selectedProject.projectId}/plan`)"
         >Manage plan</a

@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div :style="`${isActivated ? '' : 'filter: blur(7px)'}`">
+    <div :style="`${project.activated ? '' : 'filter: blur(7px)'}`">
       <a-row class="mt-3">
         <a-col :span="7">
           <h3>
@@ -27,7 +27,7 @@
           </a-skeleton>
           <h3 style="margin-top:30px; display: block;">
             Last optimizations
-            <a-button :loading="loading" type="link">
+            <a-button type="link">
               <span
                 class="text-dark"
                 @click="$router.push(`/projects/${$project.projectId}/optimizations`)"
@@ -45,11 +45,14 @@
         <a-col :span="17">
           <a-row style="height:120px; margin-top: 90px;">
             <a-col :span="8"
-              ><Kpi :data="MmvCount" :label="'Queries in Materialized Views<br/>managed by Achilio'"
+              ><Kpi
+                percent
+                :data="kpiPercentQueriesInMV"
+                :label="'Queries in Materialized Views<br/>managed by Achilio'"
             /></a-col>
-            <a-col :span="8"><Kpi :data="selectCount" :label="`Total queries`"/></a-col>
+            <a-col :span="8"><Kpi :data="kpiTotalQueries" :label="`Total queries`"/></a-col>
             <a-col :span="8"
-              ><Kpi :data="scannedBytesFormatted" :label="'Average scanned bytes per query'"
+              ><Kpi bytes :data="kpiAverageScannedBytes" :label="'Average scanned bytes per query'"
             /></a-col>
           </a-row>
           <a-row style="margin-top: 65px">
@@ -60,19 +63,19 @@
               :project="project"
               :average-scanned-bytes="-1"
               style="width: 100%"
-              :fake="!isActivated"
+              :fake="false"
             />
           </a-row>
         </a-col>
       </a-row>
     </div>
-    <NotActivatedProject v-if="!isActivated" />
+    <NotActivatedProject v-if="!project.activated" />
   </div>
 </template>
 
 <script>
-import { computed, ref } from 'vue'
-import { useStore } from 'vuex'
+import { computed } from 'vue'
+import { mapGetters, useStore } from 'vuex'
 
 import Kpi from '@/components/KPI'
 
@@ -80,8 +83,6 @@ import DatasetCard from '@/components/Projects/DatasetCard'
 import OptimizationHeader from '@/components/Optimization/OptimizationHeader'
 import Chart from '@/components/Chart'
 import NotActivatedProject from '@/components/Projects/NotActivatedProject'
-
-const prettyBytes = require('pretty-bytes')
 
 export default {
   name: 'Overview',
@@ -114,66 +115,19 @@ export default {
     }
   },
   computed: {
-    isProjectLoading: function() {
-      return !this.project
-    },
-    selectCount: function() {
-      if (!this.project.activated) {
-        return this.abbr(Math.random() * 100000)
-      }
-      if (this.project.queryStatistics) {
-        let stats = this.project.queryStatistics
-
-        return this.abbr(stats.global.totalQueries - stats.details.cached.totalQueries)
-      }
-      return -1
-    },
-    MmvCount: function() {
-      if (!this.project.activated) {
-        return Math.floor(Math.random() * 50) + 50 + '%'
-      }
-      if (this.project.queryStatistics) {
-        let totalOptimized = this.project.queryStatistics.details.in.totalQueries
-        let totalQueries =
-          this.project.queryStatistics.global.totalQueries -
-          this.project.queryStatistics.details.cached.totalQueries
-        return Math.round((totalOptimized * 100) / totalQueries) + '%'
-      }
-      return -1
-    },
-    scannedBytes: function() {
-      if (this.project.queryStatistics && this.project.queryStatistics.global.totalQueries) {
-        return (
-          this.project.queryStatistics.global.totalProcessedBytes /
-          this.project.queryStatistics.global.totalQueries
-        )
-      }
-      return -1
-    },
-    scannedBytesFormatted: function() {
-      if (!this.project.activated) {
-        return prettyBytes(Math.round(Math.random() * 10))
-      }
-      if (this.project.queryStatistics && this.project.queryStatistics.global.totalQueries) {
-        return prettyBytes(this.scannedBytes)
-      }
-      return -1
-    },
-    isActivated: function() {
-      return !this.isProjectLoading && this.project.activated
-    },
+    ...mapGetters(['kpiTotalQueries', 'kpiPercentQueriesInMV', 'kpiAverageScannedBytes']),
   },
-  methods: {
-    abbr(num) {
-      if (num < 1000) {
-        return num
-      } else if (num < 1000000) {
-        return (num / 1000).toFixed(1) + 'K'
-      } else {
-        return Math.floor(num / 1000000) + 'M'
-      }
-    },
-  },
+  // methods: {
+  //   abbr(num) {
+  //     if (num < 1000) {
+  //       return num
+  //     } else if (num < 1000000) {
+  //       return (num / 1000).toFixed(1) + 'K'
+  //     } else {
+  //       return Math.floor(num / 1000000) + 'M'
+  //     }
+  //   },
+  // },
 }
 </script>
 

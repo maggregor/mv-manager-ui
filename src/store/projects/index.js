@@ -1,7 +1,7 @@
 import {
   getProjects,
   getProject,
-  getQueryStatistics,
+  getKPIStatistics,
   getChartsStatistics,
   deleteAllMaterializedViews,
 } from '@/services/axios/backendApi'
@@ -31,6 +31,7 @@ export default {
       let projectId = payload.projectId
       delete payload.projectId
       Object.assign(state.projects[projectId], { ...payload })
+      console.log(state.projects[projectId])
     },
     RESET_STATE(state) {
       Object.assign(state, getDefaultState())
@@ -73,11 +74,11 @@ export default {
     LOAD_PROJECT_STATISTICS({ commit }, payload) {
       let projectId = payload.projectId
       let timeframe = payload.timeframe
-      getQueryStatistics(projectId, timeframe).then(queryStatistics =>
-        commit('SET_PROJECT_STATE', { projectId, queryStatistics }),
+      getKPIStatistics(projectId, timeframe).then(kpi =>
+        commit('SET_PROJECT_STATE', { projectId, kpi }),
       )
-      getChartsStatistics(projectId, timeframe).then(dailyStatistics =>
-        commit('SET_PROJECT_STATE', { projectId, dailyStatistics }),
+      getChartsStatistics(projectId, timeframe).then(chartsStatistics =>
+        commit('SET_PROJECT_STATE', { projectId, chartsStatistics }),
       )
     },
     /**
@@ -131,5 +132,18 @@ export default {
       }
       throw Error('No selected project id defined')
     },
+    hasSelectedProjectKpi: (state, getters) =>
+      getters.hasSelectedProject && getters.selectedProject.kpi !== undefined,
+    hasSelectedProjectCharts: (state, getters) =>
+      getters.hasSelectedProject && getters.selectedProject.chartsStatistics !== undefined,
+    selectedProjectKpi: (state, getters) => getters.selectedProject.kpi,
+    kpiTotalQueries: (state, getters) =>
+      getters.hasSelectedProjectKpi ? getters.selectedProjectKpi.totalQueries : -1,
+    kpiPercentQueriesInMV: (state, getters) =>
+      getters.hasSelectedProjectKpi ? getters.selectedProjectKpi.percentQueriesIn : -1,
+    kpiAverageScannedBytes: (state, getters) =>
+      getters.hasSelectedProjectKpi ? getters.selectedProjectKpi.averageScannedBytes : -1,
+    chartsStatistics: (state, getters) =>
+      getters.hasSelectedProjectCharts ? getters.selectedProject.chartsStatistics : [],
   },
 }

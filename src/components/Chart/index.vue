@@ -66,17 +66,15 @@ export default {
   },
   computed: {
     statistics() {
-      const project = this.$store.getters['selectedProject']
-      let statistics = []
+      const statistics = this.$store.getters['chartsStatistics']
       if (this.fake) {
         statistics = this.getFakeData(28)
-      } else {
-        statistics = project.dailyStatistics
       }
       if (!statistics) {
         // Not yet initialized
         return []
       }
+      console.log(statistics)
       statistics.forEach(entry => {
         // Find min/max to correctly scale the chart
         if (entry.value > this.maxValue) this.maxValue = entry.value
