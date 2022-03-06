@@ -1,7 +1,7 @@
 <template>
   <div class="dataset-card">
     <a-row type="flex" justify="space-between" style="height: 25px">
-      <a-col class="p-1" :span="18">{{ datasetName }}</a-col>
+      <a-col class="p-1" :span="18">{{ dataset.datasetName }}</a-col>
       <a-switch
         checked-children="On"
         un-checked-children="Off"
@@ -14,7 +14,9 @@
   </div>
 </template>
 <script>
-import { updateDatasetMetadata } from '@/services/axios/backendApi'
+import { ref } from '@vue/reactivity'
+import { useStore } from 'vuex'
+import { watch } from '@vue/runtime-core'
 export default {
   name: 'DatasetCard',
   components: {},
@@ -22,32 +24,34 @@ export default {
     projectId: {
       type: String,
     },
-    datasetName: {
-      type: String,
-    },
-    defaultActivated: {
-      type: Boolean,
+    dataset: {
+      type: Object,
     },
   },
-  data() {
-    return {
-      loading: false,
-      activated: this.defaultActivated,
+  setup(props) {
+    const store = useStore()
+    const loading = ref(false)
+    const projectId = ref(props.projectId)
+    const datasetName = ref(props.dataset.datasetName)
+    const activated = ref(props.dataset.activated)
+    const toggleActivate = async () => {
+      loading.value = true
+      await store.dispatch('ACTIVATE_DATASET', {
+        projectId: projectId.value,
+        datasetName: datasetName.value,
+        activated: !activated.value,
+      })
+      loading.value = false
     }
-  },
-  methods: {
-    toggleActivate() {
-      this.loading = true
-      let newValue = !this.activated
-
-      updateDatasetMetadata(this.projectId, this.datasetName, { activated: newValue })
-        .then(() => {
-          this.activated = newValue
-        })
-        .finally(() => {
-          this.loading = false
-        })
-    },
+    watch(props.dataset, dataset => {
+      activated.value = dataset.activated
+    })
+    return {
+      store,
+      loading,
+      activated,
+      toggleActivate,
+    }
   },
 }
 </script>

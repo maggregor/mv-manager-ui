@@ -6,7 +6,6 @@
 
 <script>
 import { watch, computed, ref } from 'vue'
-import { useStore } from 'vuex'
 import { createI18n, useI18n } from 'vue-i18n/dist/vue-i18n.esm-browser.prod'
 
 import english from '@/locales/en-US'
@@ -22,7 +21,6 @@ const locales = {
 }
 
 export const i18n = createI18n({
-  // legacy: false,
   locale: 'en-US',
   fallbackLocale: 'en-US',
   messages: {
@@ -36,9 +34,8 @@ export const i18n = createI18n({
 export default {
   name: 'Localization',
   setup() {
-    const store = useStore()
     const { locale } = useI18n()
-    const settingsLocale = computed(() => store.state.settings.locale)
+    const settingsLocale = computed(() => 'en-US')
     const localeAntd = ref(locales[settingsLocale.value].localeAntd)
 
     // set locale from settings on app load

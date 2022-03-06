@@ -1,21 +1,14 @@
 <template>
-  <div class="container"><Plan v-if="plans" :plans="plans" /></div>
+  <div class="container"><Plan v-if="selectedProject.plans" :plans="selectedProject.plans" /></div>
 </template>
 
 <script>
 import Plan from '@/components/Plan'
-import { useStore } from 'vuex'
-import { computed, onMounted } from '@vue/runtime-core'
+import { mapGetters } from 'vuex'
 export default {
   components: { Plan },
-  setup() {
-    const store = useStore()
-    const plans = computed(() => store.getters['plans/plans'])
-    const projectId = store.getters['projects/currentProjectId']
-    onMounted(() => {
-      store.dispatch('plans/LOAD_PLANS', { projectId })
-    })
-    return { plans }
+  computed: {
+    ...mapGetters(['selectedProject']),
   },
 }
 </script>

@@ -26,18 +26,8 @@ export async function login() {
   window.location = `${googleAuthUrl}?${urlParams}`
 }
 
-export async function currentAccount() {
-  return (
-    authApi
-      .getUserInfo()
-      .then(response => {
-        return response ? response.data : false
-      })
-      // TODO Notification ?
-      .catch(err => {
-        console.log(err)
-      })
-  )
+export function currentAccount() {
+  return authApi.getUserInfo()
 }
 
 export async function logout() {

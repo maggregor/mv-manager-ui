@@ -18,22 +18,15 @@ export default {
   components: {
     PlanCard,
   },
-  props: {
-    plans: {
-      type: Array,
-    },
-  },
-  setup(props) {
+  setup() {
     const store = useStore()
     const interval = ref('month')
-    const loading = computed(() => store.getters['plans/loading'])
-    const plansRef = computed(() => props.plans)
+    const project = store.getters['selectedProject']
     const sortedPlans = computed(() =>
-      plansRef.value.sort((a, b) => a.prices[0].amount - b.prices[0].amount),
+      project.plans.sort((a, b) => a.prices[0].amount - b.prices[0].amount),
     )
-    return { interval, loading, sortedPlans, plansRef }
+    return { interval, sortedPlans }
   },
-  methods: {},
 }
 </script>
 

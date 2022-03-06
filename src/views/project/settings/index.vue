@@ -4,7 +4,7 @@
       <a-col :span="18">
         <h1 class="mb-5">Optimization parameters</h1>
       </a-col>
-      <a-col :span="auto"
+      <a-col
         ><CTA
           v-if="!loading && hasChanged"
           :loading="saveLoading"
@@ -83,50 +83,48 @@
 </template>
 
 <script setup>
+import CTA from '@/components/CTA'
 import { message } from 'ant-design-vue'
 import { computed, onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
-import { useRoute } from 'vue-router'
 import { updateProject } from '@/services/axios/backendApi'
 
 import CTA from '@/components/CTA'
 
 const loading = ref(false)
 const store = useStore()
-const route = useRoute()
 const automatic = ref(false)
 const analysisTimeframe = ref(0)
 const mvMaxPerTable = ref(0)
 const settingsDefault = ref({})
-const projectId = computed(() => store.getters['projects/currentProjectId'])
+const projectId = store.getters['selectedProjectId']
+let project = store.getters['selectedProject']
 const deleteLoading = ref(false)
 const saveLoading = ref(false)
 onMounted(async () => {
   loading.value = true
-  store
-    .dispatch('projects/LOAD_CURRENT_PROJECT', { projectId: route.params.projectId })
-    .then(() => {
-      refreshSettings()
-      loading.value = false
-    })
+  store.dispatch('LOAD_PROJECT', project.projectId).then(() => {
+    project = store.getters['selectedProject']
+    refreshSettings()
+    loading.value = false
+  })
 })
 
 const refreshSettings = () => {
-  settingsDefault.value.automatic = store.getters['projects/currentProjectIsAutomatic']
-  settingsDefault.value.analysisTimeframe =
-    store.getters['projects/currentProjectAnalysisTimeframe']
-  settingsDefault.value.mvMaxPerTable = store.getters['projects/currentProjectMvMaxPerTable']
+  settingsDefault.value.automatic = project.automatic
+  settingsDefault.value.analysisTimeframe = project.analysisTimeframe
+  settingsDefault.value.mvMaxPerTable = project.mvMaxPerTable
   // Mutables
-  automatic.value = store.getters['projects/currentProjectIsAutomatic']
-  analysisTimeframe.value = store.getters['projects/currentProjectAnalysisTimeframe']
-  mvMaxPerTable.value = store.getters['projects/currentProjectMvMaxPerTable']
+  automatic.value = project.automatic
+  analysisTimeframe.value = project.analysisTimeframe
+  mvMaxPerTable.value = project.mvMaxPerTable
 }
 
 const deleteAll = () => {
-  let timeout = 7
+  const timeout = 7
   message.loading('Materialized Views deletion requesting...', timeout)
   deleteLoading.value = true
-  store.dispatch('projects/DELETE_ALL_MATERIALIZED_VIEWS').finally(() => {
+  store.dispatch('DELETE_ALL_MATERIALIZED_VIEWS').finally(() => {
     setTimeout(() => {
       deleteLoading.value = false
       message.success('Materialized Views deletion request sent', timeout)
@@ -136,7 +134,7 @@ const deleteAll = () => {
 
 const saveSettings = async () => {
   saveLoading.value = true
-  await updateProject(projectId.value, {
+  await updateProject(projectId, {
     automatic: automatic.value,
     analysisTimeframe: analysisTimeframe.value,
     mvMaxPerTable: mvMaxPerTable.value,
@@ -146,11 +144,11 @@ const saveSettings = async () => {
         saveLoading.value = false
         message.success('Settings saved')
       }, 1000)
-      store.dispatch('projects/LOAD_CURRENT_PROJECT', { projectId: projectId.value }).then(() => {
+      store.dispatch('LOAD_PROJECT', projectId).then(() => {
         refreshSettings()
       })
     })
-    .catch(error => {
+    .catch(() => {
       setTimeout(() => {
         saveLoading.value = false
         refreshSettings()
