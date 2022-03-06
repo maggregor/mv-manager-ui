@@ -9,7 +9,7 @@
             secondary
             style="width: 150px; margin-top: 100px; margin-right: 10px;"
             label="Settings"
-            @click="router.push(`/projects/${selectedProject.projectId}/settings`)"
+            :url="`/projects/${selectedProject.projectId}/settings`"
           ></cta>
           <cta
             v-else
@@ -26,7 +26,9 @@
         </a-row>
       </a-col>
       <router-view v-slot="{ Component }">
+        <!-- <transition name="zoom-fadein" mode="out-in"> -->
         <component :is="Component" />
+        <!-- </transition> -->
       </router-view>
     </a-row>
   </div>
@@ -53,14 +55,13 @@ export default {
     const projectId = route.params.projectId
     onMounted(async () => {
       store.dispatch('SET_SELECTED_PROJECT_ID', projectId)
-      store.dispatch('plans/LOAD_PLANS', projectId)
-      store.dispatch('datasets/LOAD_DATASETS', { projectId })
-      store.dispatch('optimizations/LOAD_OPTIMIZATIONS', { projectId })
+      store.dispatch('LOAD_DATASETS', { projectId })
+      store.dispatch('LOAD_OPTIMIZATIONS', { projectId })
       store.dispatch('LOAD_PROJECT_STATISTICS', { projectId, timeframe: 28 })
     })
     const triggerOptimization = async () => {
       router.push(`/projects/${projectId}/overview`)
-      await store.dispatch('optimizations/RUN_OPTIMIZE', projectId)
+      await store.dispatch('RUN_OPTIMIZE', projectId)
     }
     const isOverview = computed(() => route.fullPath.includes('overview'))
     return {

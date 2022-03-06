@@ -54,8 +54,7 @@ export default {
     }
     const triggerCancel = () => {
       return cancelSubscription({ subscriptionId: props.plan.subscription.id }).then(async () => {
-        await store.dispatch('plans/LOAD_PLANS', projectId)
-        await store.dispatch('plans/LOAD_CURRENT_PLAN')
+        await store.dispatch('LOAD_PLANS', projectId)
         router.push(`/projects`)
       })
     }

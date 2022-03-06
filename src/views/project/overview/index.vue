@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div :style="`${project.activated ? '' : 'filter: blur(7px)'}`">
+    <div :style="`${selectedProject.activated ? '' : 'filter: blur(7px)'}`">
       <a-row class="mt-3">
         <a-col :span="7">
           <h3>
@@ -16,31 +16,31 @@
       </a-row>
       <a-row class="p-1">
         <a-col class="pr-5" :span="7">
-          <a-skeleton :paragraph="true" active :loading="!datasets.length">
+          <a-skeleton
+            :paragraph="true"
+            active
+            :loading="allDatasets === undefined && isDatasetsLoading"
+          >
             <DatasetCard
-              v-for="dataset in datasets"
+              v-for="dataset in allDatasets"
               :key="dataset.datasetName"
-              :project-id="project.projectId"
-              :dataset-name="dataset.datasetName"
-              :default-activated="dataset.activated"
+              :project-id="selectedProjectId"
+              :dataset="dataset"
             />
           </a-skeleton>
           <h3 style="margin-top:30px; display: block;">
-            Last optimizations
+            Optimisations
             <a-button type="link">
               <span
                 class="text-dark"
-                @click="$router.push(`/projects/${$project.projectId}/optimizations`)"
-                >All</span
+                @click="$router.push(`/projects/${selectedProjectId}/optimizations`)"
+                >See all</span
               >
             </a-button>
           </h3>
-          <OptimizationHeader
-            small
-            v-for="optimization in optimizations"
-            :key="optimization.id"
-            :optimization="optimization"
-          />
+          <div v-for="(optimization, index) in allOptimizations" :key="optimization.id">
+            <OptimizationHeader small v-if="index < 3" :optimization="optimization" />
+          </div>
         </a-col>
         <a-col :span="17">
           <a-row style="height:120px; margin-top: 90px;">
@@ -59,26 +59,19 @@
             <h3>
               Average scanned bytes per query
             </h3>
-            <Chart
-              :project="project"
-              :average-scanned-bytes="-1"
-              style="width: 100%"
-              :fake="false"
-            />
+            <Chart style="width: 90%; height: 200px; margin: auto" :fake="false" />
           </a-row>
         </a-col>
       </a-row>
     </div>
-    <NotActivatedProject v-if="!project.activated" />
+    <NotActivatedProject v-if="!selectedProject.activated" />
   </div>
 </template>
 
 <script>
-import { computed } from 'vue'
-import { mapGetters, useStore } from 'vuex'
-
+import { mapGetters } from 'vuex'
+import _ from 'lodash'
 import Kpi from '@/components/KPI'
-
 import DatasetCard from '@/components/Projects/DatasetCard'
 import OptimizationHeader from '@/components/Optimization/OptimizationHeader'
 import Chart from '@/components/Chart'
@@ -93,41 +86,18 @@ export default {
     Chart,
     NotActivatedProject,
   },
-  setup() {
-    const store = useStore()
-    const datasets = computed(() => store.getters['datasets/datasets'])
-    const optimizations = computed(() => {
-      let optimizations = store.getters['optimizations/optimizations']
-      optimizations = optimizations.sort(
-        (a, b) => new Date(b.createdDate) - new Date(a.createdDate),
-      )
-      if (optimizations.length >= 3) {
-        optimizations.length = 3
-      }
-      return optimizations
-    })
-    const project = computed(() => store.getters['selectedProject'])
-    return {
-      store,
-      datasets,
-      project,
-      optimizations,
-    }
-  },
   computed: {
-    ...mapGetters(['kpiTotalQueries', 'kpiPercentQueriesInMV', 'kpiAverageScannedBytes']),
+    ...mapGetters([
+      'kpiTotalQueries',
+      'kpiPercentQueriesInMV',
+      'kpiAverageScannedBytes',
+      'selectedProject',
+      'selectedProjectId',
+      'allOptimizations',
+      'allDatasets',
+      'isDatasetsLoading',
+    ]),
   },
-  // methods: {
-  //   abbr(num) {
-  //     if (num < 1000) {
-  //       return num
-  //     } else if (num < 1000000) {
-  //       return (num / 1000).toFixed(1) + 'K'
-  //     } else {
-  //       return Math.floor(num / 1000000) + 'M'
-  //     }
-  //   },
-  // },
 }
 </script>
 

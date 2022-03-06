@@ -1,17 +1,13 @@
 <template>
-  <div
-    :class="{
-      vb__layout__grayBackground: settings.isGrayBackground,
-    }"
-  >
+  <div>
     <a-layout
       :class="{
         vb__layout: true,
-        vb__layout__contentMaxWidth: settings.isContentMaxWidth,
-        vb__layout__appMaxWidth: settings.isAppMaxWidth,
-        vb__layout__squaredBorders: settings.isSquaredBorders,
-        vb__layout__cardsShadow: settings.isCardShadow,
-        vb__layout__borderless: settings.isBorderless,
+        vb__layout__contentMaxWidth: true,
+        vb__layout__appMaxWidth: true,
+        vb__layout__squaredBorders: false,
+        vb__layout__cardsShadow: true,
+        vb__layout__borderless: true,
       }"
     >
       <a-layout>
@@ -20,9 +16,9 @@
         </a-layout-header>
         <a-layout-content class="vb__layout__content">
           <router-view v-slot="{ Component }">
-            <transition :name="settings.routerAnimation" mode="out-in">
-              <component :is="Component" />
-            </transition>
+            <!-- <transition name="zoom-fadein" mode="out-in"> -->
+            <component :is="Component" />
+            <!-- </transition> -->
           </router-view>
         </a-layout-content>
         <a-layout-footer>

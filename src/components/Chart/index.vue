@@ -15,21 +15,17 @@
             {{ moment(entry.timestamp * 1000).format('DD-MM-YYYY') }}
           </th>
           <td :style="`--size:${heightRatio(entry.value)};`">
-            <span v-if="entry.value == maxValue" class="max-data"
+            <span v-if="entry.value == maxValue && entry.value !== 0" class="max-data"
               >Higgest {{ entry.valueFormatted }}</span
             >
           </td>
         </tr>
       </tbody>
-      <div
-        class="average-line"
-        v-if="
-          averageScannedBytes > 0 && dailyStatistics !== undefined && dailyStatistics.length > 0
-        "
-        :style="`bottom: ${heightAverage(averageScannedBytes)}px`"
-      >
+      <div class="average-line" v-if="hasSelectedProjectKpi" :style="`bottom: ${heightAverage}px`">
         <div class="description">
-          <span> Average {{ prettyBytes(averageScannedBytes) }} </span>
+          <span v-if="kpiAverageScannedBytes">
+            Average {{ prettyBytes(kpiAverageScannedBytes) }}
+          </span>
         </div>
       </div>
     </table>
@@ -38,6 +34,7 @@
 
 <script>
 import { ref } from '@vue/reactivity'
+import { mapGetters } from 'vuex'
 const moment = require('moment')
 const prettyBytes = require('pretty-bytes')
 export default {
@@ -62,9 +59,11 @@ export default {
       minValue,
       maxValue,
       moment,
+      prettyBytes,
     }
   },
   computed: {
+    ...mapGetters(['hasSelectedProjectKpi', 'kpiAverageScannedBytes']),
     statistics() {
       const statistics = this.$store.getters['chartsStatistics']
       if (this.fake) {
@@ -74,7 +73,6 @@ export default {
         // Not yet initialized
         return []
       }
-      console.log(statistics)
       statistics.forEach(entry => {
         // Find min/max to correctly scale the chart
         if (entry.value > this.maxValue) this.maxValue = entry.value
@@ -84,13 +82,13 @@ export default {
       })
       return statistics
     },
+    heightAverage() {
+      return 15 + (this.kpiAverageScannedBytes * 330) / this.maxValue / 1.35
+    },
   },
   methods: {
     heightRatio(value) {
       return value / this.maxValue / 1.2
-    },
-    heightAverage() {
-      return 15 + (this.averageScannedBytes * 330) / this.maxValue / 1.35
     },
     getFakeData(timeframe) {
       let arr = []
@@ -112,9 +110,9 @@ export default {
   .description {
     margin-top: -25px;
     span {
-      font-weight: 600;
-      color: white;
-      background-color: #505050;
+      font-size: 16px;
+      font-weight: 500;
+      color: rgb(63, 63, 63);
       padding: 2px 5px 2px 5px;
       border-radius: 8px;
     }
@@ -131,7 +129,7 @@ export default {
 }
 #column-example-13 td {
   width: 10px;
-  background-color: rgb(194, 190, 255);
+  background-color: rgb(133, 133, 133);
   border-radius: 8px 8px 0 0;
   .max-data {
     white-space: nowrap;

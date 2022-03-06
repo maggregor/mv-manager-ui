@@ -8,15 +8,17 @@
       <span class="path" v-if="breadcrumb"> / {{ breadcrumb }}</span>
     </h1>
     <div class="project-plan">
-      <p class="name">To be defined</p>
-      <a class="manage" @click="$router.push(`/projects/${selectedProject.projectId}/plan`)"
-        >Manage plan</a
-      >
+      <p v-if="hasSelectedProjectPlan" class="plan-name">
+        {{ selectedProjectPlan.name }}
+      </p>
+      <p v-else class="no-plan-name">No subscription</p>
+      <a class="manage" @click="$router.push(`/projects/${project.projectId}/plan`)">Manage plan</a>
     </div>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name: 'ProjectHeader',
   props: {
@@ -29,6 +31,7 @@ export default {
     },
   },
   computed: {
+    ...mapGetters(['selectedProjectPlan', 'hasSelectedProjectPlan']),
     breadcrumb() {
       let optimizationId = this.$route.params.optimizationId
       if (optimizationId) {

@@ -59,12 +59,12 @@ const router = createRouter({
               },
             },
             {
-              path: 'optimizations',
-              name: 'Optimizations',
+              path: 'allOptimizations',
+              name: 'allOptimizations',
               component: () => import('./views/project/optimizations'),
               meta: {
-                title: 'Optimizations',
-                breadcrumb: 'Optimizations',
+                title: 'allOptimizations',
+                breadcrumb: 'allOptimizations',
               },
               children: [
                 {
@@ -145,10 +145,6 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  NProgress.start()
-  setTimeout(() => {
-    NProgress.done()
-  }, 50)
   if (to.matched.some(record => record.meta.authRequired)) {
     if (!store.state.user.authorized) {
       next({

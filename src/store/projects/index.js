@@ -1,9 +1,16 @@
+import { message } from 'ant-design-vue'
+import _ from 'lodash'
 import {
   getProjects,
   getProject,
+  getDatasets,
+  getPlans,
   getKPIStatistics,
   getChartsStatistics,
   deleteAllMaterializedViews,
+  getOptimizations,
+  optimizeProject,
+  updateDatasetMetadata,
 } from '@/services/axios/backendApi'
 
 const getDefaultState = () => {
@@ -25,13 +32,26 @@ export default {
       })
     },
     ADD_PROJECT(state, project) {
-      state.projects[project.projectId] = { ...project }
+      let projectId = project.projectId
+      if (state.projects.hasOwnProperty(projectId)) {
+        // Update project fields on existing loaded project
+        Object.assign(state.projects[projectId], { ...project })
+      } else {
+        // Add a new project entry
+        state.projects[projectId] = { ...project }
+      }
     },
     SET_PROJECT_STATE(state, payload) {
       let projectId = payload.projectId
       delete payload.projectId
       Object.assign(state.projects[projectId], { ...payload })
-      console.log(state.projects[projectId])
+    },
+    SET_DATASET_STATE(state, payload) {
+      let projectId = payload.projectId
+      let datasetName = payload.datasetName
+      delete payload.projectId
+      delete payload.datasetName
+      Object.assign(state.projects[projectId].datasets[datasetName], { ...payload })
     },
     RESET_STATE(state) {
       Object.assign(state, getDefaultState())
@@ -48,17 +68,29 @@ export default {
      * Converts to a project map
      *
      */
-    async LOAD_ALL_PROJECTS({ commit }) {
+    async LOAD_ALL_PROJECTS({ commit, dispatch }) {
       commit('SET_STATE', { loading: true })
       const projects = await getProjects()
-      projects.forEach(project => commit('ADD_PROJECT', project))
+      projects.forEach(project => {
+        commit('ADD_PROJECT', project)
+        dispatch('LOAD_PLANS', project.projectId)
+      })
       commit('SET_STATE', { loading: false })
+    },
+    /**
+     * Load a plan
+     *
+     * @param { projectId }
+     */
+    async LOAD_PLANS({ commit }, projectId) {
+      commit('SET_PROJECT_STATE', { projectId, planLoading: true })
+      commit('SET_PROJECT_STATE', { projectId, plans: await getPlans(projectId) })
+      commit('SET_PROJECT_STATE', { projectId, planLoading: false })
     },
     /**
      * Load a project
      *
      * @param { projectId }
-     * @param {*} payload
      */
     async LOAD_PROJECT({ commit }, projectId) {
       commit('SET_STATE', { loading: true })
@@ -69,7 +101,6 @@ export default {
      * Load statistics (KPI, charts) of a project
      *
      * @param { projectId }
-     * @param {*} payload
      */
     LOAD_PROJECT_STATISTICS({ commit }, payload) {
       let projectId = payload.projectId
@@ -89,30 +120,80 @@ export default {
      */
     DELETE_ALL_MATERIALIZED_VIEWS({ getters }) {
       return new Promise((resolve, reject) =>
-        deleteAllMaterializedViews(getters.currentProjectId)
+        deleteAllMaterializedViews(getters.selectedProjectId)
           .then(() => resolve())
           .catch(() => reject()),
       )
     },
+    /**
+     *
+     *
+     * @param {*} payload
+     */
+    async LOAD_OPTIMIZATIONS({ commit }, payload) {
+      let projectId = payload.projectId
+      commit('SET_PROJECT_STATE', { projectId, optimizationsLoading: true })
+      commit('SET_PROJECT_STATE', {
+        projectId,
+        optimizations: await getOptimizations({ projectId }),
+        optimizationsLoading: false,
+      })
+    },
+    /**
+     *
+     * @param {*} payload
+     */
+    async LOAD_SELECTED_OPTIMIZATION({ state, commit }, payload) {
+      let projectId = payload.projectId
+      let optimizationId = payload.optimizationId
+      commit('SET_PROJECT_STATE', { projectId, selectedOptimizationLoading: true })
+      commit('SET_PROJECT_STATE', {
+        projectId,
+        selectedOptimization: await getOptimizations({ projectId, optimizationId }),
+        selectedOptimizationLoading: false,
+      })
+    },
+    /**
+     *
+     * @param {*} projectId
+     */
+    async RUN_OPTIMIZE({ dispatch }, projectId) {
+      message.loading(`Optimization in progress...`, 10)
+      await optimizeProject(projectId, { days: 28 })
+        .then(() => {
+          message.success(`Optimization done !`, 5)
+          dispatch('LOAD_OPTIMIZATIONS', { projectId: projectId })
+        })
+        .catch(() => message.error(`Optimization error.`, 5))
+    },
+    /**
+     *
+     * @param { projectId } payload
+     */
+    async LOAD_DATASETS({ commit }, payload) {
+      let projectId = payload.projectId
+      commit('SET_PROJECT_STATE', { projectId, datasetsLoading: true })
+      commit('SET_PROJECT_STATE', {
+        projectId,
+        datasets: await getDatasets({ projectId }),
+        datasetsLoading: false,
+      })
+    },
+    /**
+     * TODO: Enable dataset in the store
+     */
+    async ACTIVATE_DATASET({ commit }, payload) {
+      let projectId = payload.projectId
+      let datasetName = payload.datasetName
+      let activated = payload.activated
+      console.log(projectId + ' ' + datasetName + ' ' + activated)
+      await updateDatasetMetadata(projectId, datasetName, { activated }).then(() =>
+        commit('SET_DATASET_STATE', { projectId, datasetName, activated }),
+      )
+    },
   },
   getters: {
-    projectNames: state => Object.keys(state.projects).map(key => state.projects[key]),
     loading: state => state.loading,
-    getProjectById: state => projectId => state.projects[projectId],
-    hasCurrentProject: state => state.currentProject.projectId !== undefined,
-    currentProjectId: state => (state.currentProject ? state.currentProject.projectId : null),
-    currentProjectName: state => (state.currentProject ? state.currentProject.projectName : null),
-    currentProject: state => state.currentProject,
-    currentProjectTables: state => state.currentProject.tables,
-    currentProjectQueryStatistics: state => state.currentProject.queryStatistics,
-    currentProjectDailyStatistics: state => state.currentProject.dailyStatistics,
-    currentProjectIsAutomatic: state =>
-      state.currentProject ? state.currentProject.automatic : false,
-    currentProjectAnalysisTimeframe: state =>
-      state.currentProject ? state.currentProject.analysisTimeframe : false,
-    currentProjectMvMaxPerTable: state =>
-      state.currentProject ? state.currentProject.mvMaxPerTable : false,
-
     // Returns projects as array of project
     allProjects: state => Object.values(state.projects),
     // Returns projects as array of project
@@ -132,6 +213,7 @@ export default {
       }
       throw Error('No selected project id defined')
     },
+    // Statistics / KPI
     hasSelectedProjectKpi: (state, getters) =>
       getters.hasSelectedProject && getters.selectedProject.kpi !== undefined,
     hasSelectedProjectCharts: (state, getters) =>
@@ -145,5 +227,27 @@ export default {
       getters.hasSelectedProjectKpi ? getters.selectedProjectKpi.averageScannedBytes : -1,
     chartsStatistics: (state, getters) =>
       getters.hasSelectedProjectCharts ? getters.selectedProject.chartsStatistics : [],
+    // Plans
+    hasSelectedProjectPlan: (state, getters) =>
+      getters.hasSelectedProject &&
+      getters.selectedProject.plans &&
+      getters.selectedProject.plans.some(p => p.subscription !== null),
+    selectedProjectPlan: (state, getters) =>
+      getters.selectedProject.plans.find(p => p.subscription !== null),
+    isSelectedProjectPlanLoading: (state, getters) => getters.selectedProject.planLoading,
+    // Optimizations
+    allOptimizations: (state, getters) =>
+      _.orderBy(getters.selectedProject.optimizations, 'createdDate', 'desc'),
+    isOptimizationsLoading: (state, getters) => getters.selectedProject.optimizationsLoading,
+    selectedOptimization: (state, getters) => getters.selectedProject.selectedOptimization,
+    isSelectedOptimizationLoading: (state, getters) =>
+      getters.selectedProject.selectedOptimizationLoading,
+    selectedOptimizationAppliedResults: (state, getters) =>
+      _.filter(getters.selectedOptimization.results, r => r.status === 'APPLY'),
+    selectedOptimizationNotAppliedResults: (state, getters) =>
+      _.filter(getters.selectedOptimization.results, r => r.status === 'PLAN_LIMIT_REACHED'),
+    // Datasets
+    allDatasets: (state, getters) => Object.values(getters.selectedProject.datasets),
+    isDatasetsLoading: (state, getters) => getters.selectedProject.datasetsLoading,
   },
 }

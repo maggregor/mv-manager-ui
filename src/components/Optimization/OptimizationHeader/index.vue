@@ -99,9 +99,6 @@ export default {
     },
     optimization: {
       type: Object,
-      default: () => ({
-        createdDate: 0,
-      }),
     },
   },
   setup() {

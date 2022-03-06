@@ -31,16 +31,12 @@
 
 <script>
 import ProjectCard from '@/components/Projects/ProjectCard'
-import { onMounted } from 'vue'
-import { mapGetters, useStore } from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'Home',
   components: {
     ProjectCard,
-  },
-  setup() {
-    onMounted(() => useStore().dispatch('LOAD_ALL_PROJECTS'))
   },
   computed: {
     ...mapGetters(['username', 'activatedProjects', 'deactivatedProjects', 'loading']),

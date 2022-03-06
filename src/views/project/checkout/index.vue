@@ -27,6 +27,7 @@ import { useStore } from 'vuex'
 import CTA from '@/components/CTA'
 import { useRoute, useRouter } from 'vue-router'
 import { getLatestIntentClientSecret } from '@/services/axios/backendApi'
+import { onMounted } from '@vue/runtime-core'
 export default {
   name: 'ElementsCheckout',
   components: {
@@ -53,7 +54,7 @@ export default {
     const router = useRouter()
     const route = useRoute()
     const subscriptionId = route.params.subscriptionId
-    const projectId = store.getters['projects/currentProjectId']
+    const projectId = store.getters['selectedProjectId']
     getLatestIntentClientSecret({
       subscriptionId,
     }).then(response => {
@@ -62,7 +63,7 @@ export default {
         message.loading('Subscription...')
         // No one invoice to pay, redirect to overview
         this.loading = true
-        store.dispatch('LOAD_PROJECT', { projectId: route.params.projectId })
+        store.dispatch('LOAD_PLANS', projectId)
         setTimeout(() => {
           router.push(`/projects`)
           message.destroy()
@@ -79,7 +80,6 @@ export default {
   },
   methods: {
     async confirmPayment() {
-      const projectId = this.$route.params.projectId
       const { error } = await this.stripe.confirmPayment({
         // `Elements` instance that was used to create the Payment Element
         elements: this.elements,

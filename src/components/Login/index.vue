@@ -29,41 +29,26 @@
 import { computed, reactive } from 'vue'
 import { useStore } from 'vuex'
 
-import GoogleButton from '@/components/GoogleButton'
+import GoogleButton from '@/components/Login/GoogleButton'
 
 export default {
   name: 'VbLogin',
   components: { 'google-button': GoogleButton },
   setup() {
     const store = useStore()
-    const settings = computed(() => store.getters.settings)
-    const user = computed(() => store.getters['user'])
     const authorized = computed(() => store.getters['user'].authorized)
-    const projects = computed(() => store.getters['projects/projectNames'])
-    const projectLoading = computed(() => store.getters['LOADing'])
 
-    const loginForm = reactive({})
-
-    const changeAuthProvider = value => {
-      store.commit('CHANGE_SETTING', { setting: 'authProvider', value })
-    }
     const handleFinish = values => {
       store.dispatch('LOGIN', { payload: values })
     }
     const handleFinishFailed = errors => {
-      console.log(errors)
+      console.errors(errors)
     }
 
     return {
-      settings,
-      user,
-      loginForm,
-      changeAuthProvider,
       handleFinish,
       handleFinishFailed,
       authorized,
-      projects,
-      projectLoading,
     }
   },
 }

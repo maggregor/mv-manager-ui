@@ -9,7 +9,7 @@ const getDefaultState = () => {
     name: '',
     email: '',
     firstName: '',
-    accessToken: 'qweqwe',
+    accessToken: '',
     authorized: false,
     loading: false,
   }
@@ -50,7 +50,7 @@ export default {
         loading: true,
       })
 
-      const login = mapAuthProviders[rootState.settings.authProvider].login
+      const login = mapAuthProviders['oauth2'].login
       login().then(user => {
         if (user) {
           dispatch('LOAD_CURRENT_ACCOUNT')
@@ -66,12 +66,9 @@ export default {
         }
       })
     },
-    LOAD_CURRENT_ACCOUNT({ commit, rootState }) {
-      commit('SET_STATE', {
-        loading: true,
-      })
-      const currentAccount = mapAuthProviders[rootState.settings.authProvider].currentAccount
-      currentAccount().then(response => {
+    LOAD_CURRENT_ACCOUNT({ commit }) {
+      const currentAccount = mapAuthProviders['oauth2'].currentAccount
+      return currentAccount().then(response => {
         if (response) {
           const { id, email, name } = response
           const accessToken = response['access_token']
@@ -85,13 +82,10 @@ export default {
             authorized: true,
           })
         }
-        commit('SET_STATE', {
-          loading: false,
-        })
       })
     },
-    LOGOUT({ commit, rootState }) {
-      const logout = mapAuthProviders[rootState.settings.authProvider].logout
+    LOGOUT({ commit }) {
+      const logout = mapAuthProviders['oauth2'].logout
       logout().then(() => {
         commit('SET_STATE', { authorized: false })
         router.push('/login')
