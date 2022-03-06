@@ -7,9 +7,7 @@
       </a-col>
       <a-col span="17" class="pl-4">
         <router-view v-slot="{ Component }">
-          <!-- <transition name="zoom-fadein" mode="out-in"> -->
           <component :is="Component" />
-          <!-- </transition> -->
         </router-view>
       </a-col>
     </a-row>

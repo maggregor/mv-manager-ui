@@ -63,8 +63,8 @@ const router = createRouter({
               name: 'Optimizations',
               component: () => import('./views/project/optimizations'),
               meta: {
-                title: 'optimizations',
-                breadcrumb: 'optimizations',
+                title: 'Optimizations',
+                breadcrumb: 'Optimizations',
               },
               children: [
                 {
