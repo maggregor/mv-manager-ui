@@ -6,7 +6,7 @@
         checked-children="On"
         un-checked-children="Off"
         :loading="loading"
-        :checked="activated"
+        :checked="dataset.activated"
         @click="toggleActivate"
       />
       <br />
@@ -16,7 +16,6 @@
 <script>
 import { ref } from '@vue/reactivity'
 import { useStore } from 'vuex'
-import { watch } from '@vue/runtime-core'
 export default {
   name: 'DatasetCard',
   components: {},
@@ -35,23 +34,19 @@ export default {
     const loading = ref(false)
     const projectId = ref(props.projectId)
     const datasetName = ref(props.dataset.datasetName)
-    const activated = ref(props.dataset.activated)
     const toggleActivate = async () => {
       loading.value = true
       await store.dispatch('ACTIVATE_DATASET', {
         projectId: projectId.value,
         datasetName: datasetName.value,
-        activated: !activated.value,
+        activated: !props.dataset.activated,
       })
       loading.value = false
     }
-    watch(props.dataset, dataset => {
-      activated.value = dataset.activated
-    })
     return {
       store,
       loading,
-      activated,
+      activated: props.dataset.activated,
       toggleActivate,
     }
   },

@@ -1,34 +1,40 @@
 <template>
   <div>
-    <table
-      id="column-example-13"
-      class="charts-css column show-labels show-primary-axis data-spacing-3"
-    >
-      <thead>
-        <tr>
-          <th scope="col">Date</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(entry, index) in statistics" :key="entry.timestamp">
-          <th class="x-label" scope="row" v-if="index % 7 == 0">
-            {{ moment(entry.timestamp * 1000).format('DD-MM-YYYY') }}
-          </th>
-          <td :style="`--size:${heightRatio(entry.value)};`">
-            <span v-if="entry.value == maxValue && entry.value !== 0" class="max-data"
-              >Higgest {{ entry.valueFormatted }}</span
-            >
-          </td>
-        </tr>
-      </tbody>
-      <div class="average-line" v-if="hasSelectedProjectKpi" :style="`bottom: ${heightAverage}px`">
-        <div class="description">
-          <span v-if="kpiAverageScannedBytes">
-            Average {{ prettyBytes(kpiAverageScannedBytes) }}
-          </span>
+    <a-spin size="large" :spinning="isChartsStatisticsLoading">
+      <table
+        id="column-example-13"
+        class="charts-css column show-labels show-primary-axis data-spacing-3"
+      >
+        <thead>
+          <tr>
+            <th scope="col">Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(entry, index) in statistics" :key="entry.timestamp">
+            <th class="x-label" scope="row" v-if="index % 7 == 0">
+              {{ moment(entry.timestamp * 1000).format('DD-MM-YYYY') }}
+            </th>
+            <td :style="`--size:${heightRatio(entry.value)};`">
+              <span v-if="entry.value == maxValue && entry.value !== 0" class="max-data"
+                >Higgest {{ entry.valueFormatted }}</span
+              >
+            </td>
+          </tr>
+        </tbody>
+        <div
+          class="average-line"
+          v-if="hasSelectedProjectKpi"
+          :style="`bottom: ${heightAverage}px`"
+        >
+          <div class="description">
+            <span v-if="kpiAverageScannedBytes">
+              Average {{ prettyBytes(kpiAverageScannedBytes) }}
+            </span>
+          </div>
         </div>
-      </div>
-    </table>
+      </table>
+    </a-spin>
   </div>
 </template>
 
@@ -64,7 +70,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['hasSelectedProjectKpi', 'kpiAverageScannedBytes']),
+    ...mapGetters(['hasSelectedProjectKpi', 'kpiAverageScannedBytes', 'isChartsStatisticsLoading']),
     statistics() {
       const statistics = this.$store.getters['chartsStatistics']
       if (this.fake) {
@@ -89,7 +95,11 @@ export default {
   },
   methods: {
     heightRatio(value) {
-      return value / this.maxValue / 1.2
+      if (value === 0 || this.maxValue === 0) {
+        return 0
+      }
+      const heightRatio = 1.2
+      return value / this.maxValue / heightRatio
     },
     getFakeData(timeframe) {
       let arr = []

@@ -110,11 +110,20 @@ export default {
     LOAD_PROJECT_STATISTICS({ commit }, payload) {
       let projectId = payload.projectId
       let timeframe = payload.timeframe
+      commit('SET_PROJECT_STATE', {
+        projectId,
+        kpiStatisticsLoading: true,
+        chartsStatisticsLoading: true,
+      })
       getKPIStatistics(projectId, timeframe).then(kpi =>
-        commit('SET_PROJECT_STATE', { projectId, kpi }),
+        commit('SET_PROJECT_STATE', { projectId, kpi, kpiStatisticsLoading: false }),
       )
       getChartsStatistics(projectId, timeframe).then(chartsStatistics =>
-        commit('SET_PROJECT_STATE', { projectId, chartsStatistics }),
+        commit('SET_PROJECT_STATE', {
+          projectId,
+          chartsStatistics,
+          chartsStatisticsLoading: false,
+        }),
       )
     },
     /**
@@ -165,14 +174,15 @@ export default {
      *
      * @param { projectId } projectId
      */
-    async RUN_OPTIMIZE({ dispatch }, projectId) {
-      message.loading(`Optimization in progress...`, 10)
+    async RUN_OPTIMIZE({ commit, dispatch }, projectId) {
+      commit('SET_STATE', { loading: true })
       await optimizeProject(projectId, { days: 28 })
         .then(() => {
           message.success(`Optimization done !`, 5)
           dispatch('LOAD_OPTIMIZATIONS', { projectId: projectId })
         })
         .catch(() => message.error(`Optimization error.`, 5))
+        .finally(() => commit('SET_STATE', { loading: false }))
     },
     /**
      * Load all datasets as map
@@ -237,6 +247,7 @@ export default {
       getters.hasSelectedProjectKpi ? getters.selectedProjectKpi.averageScannedBytes : -1,
     chartsStatistics: (state, getters) =>
       getters.hasSelectedProjectCharts ? getters.selectedProject.chartsStatistics : [],
+    isChartsStatisticsLoading: (state, getters) => getters.selectedProject.chartsStatisticsLoading,
     // Plans
     hasSelectedProjectPlan: (state, getters) =>
       getters.hasSelectedProject &&

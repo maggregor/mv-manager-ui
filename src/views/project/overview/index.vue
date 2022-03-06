@@ -48,7 +48,7 @@
               ><Kpi
                 percent
                 :data="kpiPercentQueriesInMV"
-                :label="'Queries in Materialized Views<br/>managed by Achilio'"
+                :label="'Queries in Materialized Views managed by Achilio'"
             /></a-col>
             <a-col :span="8"><Kpi :data="kpiTotalQueries" :label="`Total queries`"/></a-col>
             <a-col :span="8"
