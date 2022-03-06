@@ -67,7 +67,6 @@ export default {
       })
     },
     LOAD_CURRENT_ACCOUNT({ commit }) {
-      console.log('load current account')
       const currentAccount = mapAuthProviders['oauth2'].currentAccount
       return currentAccount()
         .then(response => {
@@ -82,7 +81,6 @@ export default {
           })
         })
         .catch(() => {
-          console.log(' non authorized')
           commit('SET_STATE', { authorized: false })
         })
     },
