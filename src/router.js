@@ -59,12 +59,12 @@ const router = createRouter({
               },
             },
             {
-              path: 'allOptimizations',
-              name: 'allOptimizations',
+              path: 'optimizations',
+              name: 'Optimizations',
               component: () => import('./views/project/optimizations'),
               meta: {
-                title: 'allOptimizations',
-                breadcrumb: 'allOptimizations',
+                title: 'optimizations',
+                breadcrumb: 'optimizations',
               },
               children: [
                 {

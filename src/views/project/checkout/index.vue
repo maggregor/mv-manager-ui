@@ -27,7 +27,6 @@ import { useStore } from 'vuex'
 import CTA from '@/components/CTA'
 import { useRoute, useRouter } from 'vue-router'
 import { getLatestIntentClientSecret } from '@/services/axios/backendApi'
-import { onMounted } from '@vue/runtime-core'
 export default {
   name: 'ElementsCheckout',
   components: {

@@ -16,6 +16,7 @@
 <script>
 import { ref } from '@vue/reactivity'
 import { useStore } from 'vuex'
+import { watch } from '@vue/runtime-core'
 export default {
   name: 'DatasetCard',
   components: {},
@@ -42,6 +43,9 @@ export default {
       })
       loading.value = false
     }
+    watch(props.dataset, dataset => {
+      activated.value = dataset.activated
+    })
     return {
       store,
       loading,

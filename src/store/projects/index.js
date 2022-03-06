@@ -175,18 +175,18 @@ export default {
       commit('SET_PROJECT_STATE', { projectId, datasetsLoading: true })
       commit('SET_PROJECT_STATE', {
         projectId,
-        datasets: await getDatasets({ projectId }),
+        datasets: _.keyBy(await getDatasets({ projectId }), 'datasetName'),
         datasetsLoading: false,
       })
     },
     /**
-     * TODO: Enable dataset in the store
+     *
+     * @param { projectId, datasetName } payload
      */
     async ACTIVATE_DATASET({ commit }, payload) {
       let projectId = payload.projectId
       let datasetName = payload.datasetName
       let activated = payload.activated
-      console.log(projectId + ' ' + datasetName + ' ' + activated)
       await updateDatasetMetadata(projectId, datasetName, { activated }).then(() =>
         commit('SET_DATASET_STATE', { projectId, datasetName, activated }),
       )
@@ -247,7 +247,10 @@ export default {
     selectedOptimizationNotAppliedResults: (state, getters) =>
       _.filter(getters.selectedOptimization.results, r => r.status === 'PLAN_LIMIT_REACHED'),
     // Datasets
-    allDatasets: (state, getters) => Object.values(getters.selectedProject.datasets),
+    allDatasets: (state, getters) =>
+      getters.selectedProject.datasets === undefined
+        ? []
+        : Object.values(getters.selectedProject.datasets),
     isDatasetsLoading: (state, getters) => getters.selectedProject.datasetsLoading,
   },
 }
