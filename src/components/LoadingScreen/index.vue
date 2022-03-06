@@ -1,8 +1,8 @@
 <template>
   <div :class="{ loader: true, fadeout: !isLoading }">
     <svg
-      width="20vw"
-      height="20vh"
+      width="15vw"
+      height="15vh"
       viewBox="0 0 1103 413"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -32,6 +32,8 @@ export default {
 
 <style>
 .loader {
+  width: 100vw;
+  height: 100vh;
   background-color: #ffffff;
   bottom: 0;
   color: rgb(0, 0, 0);
@@ -46,7 +48,7 @@ export default {
   top: 0;
 }
 .fadeout {
-  animation: fadeout 0.05s forwards;
+  animation: fadeout 0s forwards;
 }
 
 @keyframes fadeout {

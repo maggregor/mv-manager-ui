@@ -26,9 +26,9 @@
         </a-row>
       </a-col>
       <router-view v-slot="{ Component }">
-        <!-- <transition name="zoom-fadein" mode="out-in"> -->
-        <component :is="Component" />
-        <!-- </transition> -->
+        <transition name="zoom-fadein" mode="out-in">
+          <component :is="Component" />
+        </transition>
       </router-view>
     </a-row>
   </div>

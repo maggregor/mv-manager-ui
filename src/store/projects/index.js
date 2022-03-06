@@ -58,6 +58,11 @@ export default {
     },
   },
   actions: {
+    /**
+     * Define the selected project
+     *
+     * @param projectId
+     */
     async SET_SELECTED_PROJECT_ID({ commit }, projectId) {
       commit('SET_STATE', { selectedProjectId: projectId })
     },
@@ -140,10 +145,11 @@ export default {
       })
     },
     /**
+     * Load an optimization and set as selected.
      *
-     * @param {*} payload
+     * @param { projectId, optimizationId } payload
      */
-    async LOAD_SELECTED_OPTIMIZATION({ state, commit }, payload) {
+    async LOAD_SELECTED_OPTIMIZATION({ commit }, payload) {
       let projectId = payload.projectId
       let optimizationId = payload.optimizationId
       commit('SET_PROJECT_STATE', { projectId, selectedOptimizationLoading: true })
@@ -154,8 +160,10 @@ export default {
       })
     },
     /**
+     * Run an sync optimization.
+     * TODO: Allow payload with optimize paramaters (ie: timeframe)
      *
-     * @param {*} projectId
+     * @param { projectId } projectId
      */
     async RUN_OPTIMIZE({ dispatch }, projectId) {
       message.loading(`Optimization in progress...`, 10)
@@ -167,6 +175,7 @@ export default {
         .catch(() => message.error(`Optimization error.`, 5))
     },
     /**
+     * Load all datasets as map
      *
      * @param { projectId } payload
      */
@@ -180,6 +189,7 @@ export default {
       })
     },
     /**
+     * Update the activated property on a dataset
      *
      * @param { projectId, datasetName } payload
      */

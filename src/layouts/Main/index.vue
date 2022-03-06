@@ -16,9 +16,9 @@
         </a-layout-header>
         <a-layout-content class="vb__layout__content">
           <router-view v-slot="{ Component }">
-            <!-- <transition name="zoom-fadein" mode="out-in"> -->
-            <component :is="Component" />
-            <!-- </transition> -->
+            <transition name="zoom-fadein" mode="out-in">
+              <component :is="Component" />
+            </transition>
           </router-view>
         </a-layout-content>
         <a-layout-footer>

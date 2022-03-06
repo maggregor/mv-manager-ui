@@ -1,6 +1,6 @@
 <template>
   <div :class="$style.container">
-    <h1 class="text-black text-weight-700 font-size-50">Hello {{ username }},</h1>
+    <h1 class="text-black text-weight-700 font-size-50">Hello {{ firstName }},</h1>
     <h2 class="mb-5 text-gray-7 text-weight-300 font-size-24">
       You are connected to your
       <span class="google-font text-weight-500 mr-2">Google Cloud Platform</span>
@@ -39,7 +39,7 @@ export default {
     ProjectCard,
   },
   computed: {
-    ...mapGetters(['username', 'activatedProjects', 'deactivatedProjects', 'loading']),
+    ...mapGetters(['firstName', 'activatedProjects', 'deactivatedProjects', 'loading']),
   },
 }
 </script>

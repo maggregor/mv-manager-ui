@@ -54,8 +54,11 @@ export default {
     }
     const triggerCancel = () => {
       return cancelSubscription({ subscriptionId: props.plan.subscription.id }).then(async () => {
-        await store.dispatch('LOAD_PLANS', projectId)
-        router.push(`/projects`)
+        await setTimeout(async () => {
+          await store.dispatch('LOAD_ALL_PROJECTS')
+          await store.dispatch('LOAD_PLANS', projectId)
+          router.push(`/projects`)
+        }, 3000)
       })
     }
     const getAvailableFreeTrialDays = computed(() =>

@@ -10,7 +10,7 @@ const getDefaultState = () => {
     email: '',
     firstName: '',
     accessToken: '',
-    authorized: false,
+    authorized: null,
     loading: false,
   }
 }
@@ -67,22 +67,24 @@ export default {
       })
     },
     LOAD_CURRENT_ACCOUNT({ commit }) {
+      console.log('load current account')
       const currentAccount = mapAuthProviders['oauth2'].currentAccount
-      return currentAccount().then(response => {
-        if (response) {
-          const { id, email, name } = response
-          const accessToken = response['access_token']
-          const firstName = response['first_name']
+      return currentAccount()
+        .then(response => {
+          const { id, email, name, access_token, first_name } = response.data
           commit('SET_STATE', {
             id,
             name,
             email,
-            firstName,
-            accessToken,
+            firstName: first_name,
+            accessToken: access_token,
             authorized: true,
           })
-        }
-      })
+        })
+        .catch(() => {
+          console.log(' non authorized')
+          commit('SET_STATE', { authorized: false })
+        })
     },
     LOGOUT({ commit }) {
       const logout = mapAuthProviders['oauth2'].logout
@@ -95,7 +97,7 @@ export default {
   getters: {
     user: state => state,
     accessToken: state => state.accessToken,
-    username: state => state.name.split(' ')[0],
+    firstName: state => state.firstName,
     userIsLoaded: state => state.userIsLoaded,
   },
 }

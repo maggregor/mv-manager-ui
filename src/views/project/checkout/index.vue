@@ -56,14 +56,15 @@ export default {
     const projectId = store.getters['selectedProjectId']
     getLatestIntentClientSecret({
       subscriptionId,
-    }).then(response => {
+    }).then(async response => {
       let clientSecret = response.clientSecret
       if (clientSecret === null) {
         message.loading('Subscription...')
         // No one invoice to pay, redirect to overview
         this.loading = true
-        store.dispatch('LOAD_PLANS', projectId)
-        setTimeout(() => {
+        setTimeout(async () => {
+          await store.dispatch('LOAD_ALL_PROJECTS')
+          await store.dispatch('LOAD_PLANS', projectId)
           router.push(`/projects`)
           message.destroy()
           message.success('Congratulations. Successfully subscribed.')
