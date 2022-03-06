@@ -33,7 +33,10 @@ export default {
     CTA,
   },
   props: {
-    priceId: String,
+    priceId: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {

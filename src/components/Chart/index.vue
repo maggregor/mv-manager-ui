@@ -42,6 +42,7 @@ export default {
   props: {
     projectId: {
       type: String,
+      default: '',
     },
     averageScannedBytes: {
       type: Number,

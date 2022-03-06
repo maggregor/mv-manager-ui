@@ -2,7 +2,7 @@
   <div class="kpi-card">
     <span class="value">{{ formattedValue }}</span>
     <br />
-    <span class="label" v-html="label" />
+    <span class="label">{{ label }}</span>
   </div>
 </template>
 
@@ -14,6 +14,7 @@ export default {
   props: {
     data: {
       type: [Number, String],
+      default: -1,
     },
     label: {
       type: String,

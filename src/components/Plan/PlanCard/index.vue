@@ -36,9 +36,11 @@ export default {
   props: {
     plan: {
       type: Object,
+      default: () => {},
     },
     interval: {
       type: String,
+      default: '',
     },
   },
   setup(props) {

@@ -89,8 +89,6 @@ import { computed, onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
 import { updateProject } from '@/services/axios/backendApi'
 
-import CTA from '@/components/CTA'
-
 const loading = ref(false)
 const store = useStore()
 const automatic = ref(false)

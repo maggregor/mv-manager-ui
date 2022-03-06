@@ -99,6 +99,7 @@ export default {
     },
     optimization: {
       type: Object,
+      default: () => {},
     },
   },
   setup() {

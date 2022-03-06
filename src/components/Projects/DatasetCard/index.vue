@@ -23,9 +23,11 @@ export default {
   props: {
     projectId: {
       type: String,
+      default: '',
     },
     dataset: {
       type: Object,
+      default: () => {},
     },
   },
   setup(props) {
