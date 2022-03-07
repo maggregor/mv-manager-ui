@@ -1,33 +1,13 @@
 <template>
   <div>
     <div
-      :class="{ 'project-card': true, 'mb-4': true, 'project-activated': isActivated }"
-      @click="$router.push(`/projects/${projectId}/overview`)"
+      :class="{ 'project-card': true, 'project-activated': project.activated }"
+      @click="$router.push(`/projects/${project.projectId}/overview`)"
     >
       <a-row>
         <a-col :span="12" :style="{ top: '10px' }">
-          <ProjectNameBlock
-            :key="projectId"
-            :project-id="projectId"
-            :project-name="projectName"
-            :dataset-count="datasetCount"
-          />
-        </a-col>
-        <!-- Activated project -->
-        <a-col :span="12" :style="{ top: '15px' }">
-          <div v-if="isActivated">
-            <a-row type="flex" justify="space-between" align="bottom">
-              <a-col :span="8"> </a-col>
-            </a-row>
-          </div>
-          <div v-else>
-            <a-row type="flex" justify="space-between" align="bottom">
-              <a-col :span="8"> </a-col>
-              <a-col :span="16">
-                <!-- <cta :trigger="activateProject" :label="'Try 14-days now'" /> -->
-              </a-col>
-            </a-row>
-          </div>
+          <p class="project-name">{{ project.projectName }}</p>
+          <p class="project-id text-gray-6">{{ project.projectId }}</p>
         </a-col>
       </a-row>
     </div>
@@ -35,44 +15,28 @@
 </template>
 
 <script>
-import ProjectNameBlock from '@/components/Projects/ProjectName'
 import { updateProject } from '@/services/axios/backendApi'
 export default {
   name: 'ProjectCard',
-  components: {
-    ProjectNameBlock,
-  },
   props: {
-    projectId: {
-      type: String,
-      default: '',
-    },
-    projectName: {
-      type: String,
-      default: '',
-    },
-    datasetCount: {
-      type: Number,
-      default: -1,
-    },
-    isActivated: {
-      type: Boolean,
-      default: false,
+    project: {
+      type: Object,
+      default: () => {},
     },
   },
   methods: {
     async activateProject() {
-      const email = this.$store.getters['user/user'].email
+      const email = this.$store.getters['user'].email
       await updateProject(this.projectId, {
         activated: true,
         username: email,
       })
-      await this.$store.dispatch('projects/LOAD_PROJECTS')
+      await this.$store.dispatch('LOAD_ALL_PROJECTS')
       this.$message.success(`${this.projectName} is activated !`, 3)
     },
     async deactivateProject() {
       await updateProject(this.projectId, { activated: false })
-      await this.$store.dispatch('projects/LOAD_PROJECTS')
+      await this.$store.dispatch('LOAD_ALL_PROJECTS')
       this.$message.success(`${this.projectName} is deactivated !`, 3)
     },
   },

@@ -37,7 +37,7 @@
   align-items: center;
   width: 300px;
   margin-top: -15px;
-  p {
+  .plan-name {
     margin: 0;
     font-size: 28px;
     font-weight: 800;
@@ -51,5 +51,12 @@
     font-weight: 500;
     font-size: 12px;
     text-decoration: underline;
+  }
+  .no-plan-name {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 800;
+    color: rgb(89, 89, 89);
+    margin-right: 10px;
   }
 }

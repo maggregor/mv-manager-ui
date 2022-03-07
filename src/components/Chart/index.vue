@@ -1,51 +1,54 @@
 <template>
   <div>
-    <table
-      id="column-example-13"
-      class="charts-css column show-labels show-primary-axis data-spacing-3"
-    >
-      <thead>
-        <tr>
-          <th scope="col">Date</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(entry, index) in dailyStatistics" :key="entry.timestamp">
-          <th class="x-label" scope="row" v-if="index % 7 == 0">
-            {{ moment(entry.timestamp * 1000).format('DD-MM-YYYY') }}
-          </th>
-          <td :style="`--size:${heightRatio(entry.value)};`">
-            <span v-if="entry.value == maxValue" class="max-data"
-              >Higgest {{ entry.valueFormatted }}</span
-            >
-          </td>
-        </tr>
-      </tbody>
-      <div
-        class="average-line"
-        v-if="
-          averageScannedBytes > 0 && dailyStatistics !== undefined && dailyStatistics.length > 0
-        "
-        :style="`bottom: ${heightAverage(averageScannedBytes)}px`"
+    <a-spin size="large" :spinning="isChartsStatisticsLoading">
+      <table
+        id="column-example-13"
+        class="charts-css column show-labels show-primary-axis data-spacing-3"
       >
-        <div class="description">
-          <span> Average {{ prettyBytes(averageScannedBytes) }} </span>
+        <thead>
+          <tr>
+            <th scope="col">Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(entry, index) in statistics" :key="entry.timestamp">
+            <th class="x-label" scope="row" v-if="index % 7 == 0">
+              {{ moment(entry.timestamp * 1000).format('DD-MM-YYYY') }}
+            </th>
+            <td :style="`--size:${heightRatio(entry.value)};`">
+              <span v-if="entry.value == maxValue && entry.value !== 0" class="max-data"
+                >Higgest {{ entry.valueFormatted }}</span
+              >
+            </td>
+          </tr>
+        </tbody>
+        <div
+          class="average-line"
+          v-if="hasSelectedProjectKpi"
+          :style="`bottom: ${heightAverage}px`"
+        >
+          <div class="description">
+            <span v-if="kpiAverageScannedBytes">
+              Average {{ prettyBytes(kpiAverageScannedBytes) }}
+            </span>
+          </div>
         </div>
-      </div>
-    </table>
+      </table>
+    </a-spin>
   </div>
 </template>
 
 <script>
-import { useStore } from 'vuex'
-import { ref, computed } from 'vue'
-import moment from 'moment'
+import { ref } from '@vue/reactivity'
+import { mapGetters } from 'vuex'
+const moment = require('moment')
 const prettyBytes = require('pretty-bytes')
 export default {
   components: {},
   props: {
     projectId: {
       type: String,
+      default: '',
     },
     averageScannedBytes: {
       type: Number,
@@ -56,48 +59,54 @@ export default {
       default: false,
     },
   },
-  setup(props) {
-    const store = useStore()
-    const maxValue = ref(0)
+  setup() {
     const minValue = ref(0)
-    const dailyStatistics = computed(() => {
-      const getFakeData = () => {
-        let arr = []
-        for (let i = 0; i < 28; i++) {
-          arr.push({ timestamp: i, value: Math.random() * 50 + 50, valueFormatted: '' })
-        }
-        return arr
-      }
-      const statistics = props.fake
-        ? getFakeData()
-        : store.getters['projects/currentProjectDailyStatistics']
-      if (statistics === null) {
-        // Not initialized
-        return []
-      }
-      statistics.forEach(entry => {
-        // Find min/max to correctly scale the chart
-        if (entry.value > maxValue.value) maxValue.value = entry.value
-        if (entry.value < minValue.value || minValue.value == 0) minValue.value = entry.value
-        // Make human-readabledaily processed bytes
-        entry.valueFormatted = entry.value == 0 ? '' : prettyBytes(entry.value)
-      })
-      return statistics
-    })
+    const maxValue = ref(0)
     return {
-      dailyStatistics,
-      maxValue,
       minValue,
+      maxValue,
       moment,
       prettyBytes,
     }
   },
-  methods: {
-    heightRatio(value) {
-      return value / this.maxValue / 1.2
+  computed: {
+    ...mapGetters(['hasSelectedProjectKpi', 'kpiAverageScannedBytes', 'isChartsStatisticsLoading']),
+    statistics() {
+      const statistics = this.$store.getters['chartsStatistics']
+      if (this.fake) {
+        statistics = this.getFakeData(28)
+      }
+      if (!statistics) {
+        // Not yet initialized
+        return []
+      }
+      statistics.forEach(entry => {
+        // Find min/max to correctly scale the chart
+        if (entry.value > this.maxValue) this.maxValue = entry.value
+        if (entry.value < this.minValue || this.minValue == 0) this.minValue = entry.value
+        // Make human-readabledaily processed bytes
+        entry.valueFormatted = entry.value == 0 ? '' : prettyBytes(entry.value)
+      })
+      return statistics
     },
     heightAverage() {
-      return 15 + (this.averageScannedBytes * 330) / this.maxValue / 1.35
+      return 15 + (this.kpiAverageScannedBytes * 330) / this.maxValue / 1.35
+    },
+  },
+  methods: {
+    heightRatio(value) {
+      if (value === 0 || this.maxValue === 0) {
+        return 0
+      }
+      const heightRatio = 1.2
+      return value / this.maxValue / heightRatio
+    },
+    getFakeData(timeframe) {
+      let arr = []
+      for (let i = 0; i < timeframe; i++) {
+        arr.push({ timestamp: i, value: Math.random() * 50 + 50, valueFormatted: '' })
+      }
+      return arr
     },
   },
 }
@@ -112,9 +121,9 @@ export default {
   .description {
     margin-top: -25px;
     span {
-      font-weight: 600;
-      color: white;
-      background-color: #505050;
+      font-size: 16px;
+      font-weight: 500;
+      color: rgb(63, 63, 63);
       padding: 2px 5px 2px 5px;
       border-radius: 8px;
     }
@@ -131,7 +140,7 @@ export default {
 }
 #column-example-13 td {
   width: 10px;
-  background-color: rgb(194, 190, 255);
+  background-color: rgb(133, 133, 133);
   border-radius: 8px 8px 0 0;
   .max-data {
     white-space: nowrap;

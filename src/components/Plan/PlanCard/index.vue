@@ -36,16 +36,18 @@ export default {
   props: {
     plan: {
       type: Object,
+      default: () => {},
     },
     interval: {
       type: String,
+      default: '',
     },
   },
   setup(props) {
     const store = useStore()
     const router = useRouter()
     const route = useRoute()
-    const projectId = store.getters['projects/currentProjectId']
+    const projectId = store.getters['selectedProjectId']
     const triggerPay = () => {
       return createSubscription({ projectId, priceId: price.id }).then(response => {
         let subscriptionId = response.data.id
@@ -54,8 +56,9 @@ export default {
     }
     const triggerCancel = () => {
       return cancelSubscription({ subscriptionId: props.plan.subscription.id }).then(async () => {
-        await store.dispatch('plans/LOAD_PLANS', { projectId })
-        await store.dispatch('plans/LOAD_CURRENT_PLAN')
+        await new Promise(resolve => setTimeout(resolve, 2000))
+        await store.dispatch('LOAD_ALL_PROJECTS')
+        await store.dispatch('LOAD_PLANS', projectId)
         router.push(`/projects`)
       })
     }

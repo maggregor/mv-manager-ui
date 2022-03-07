@@ -21,7 +21,6 @@
 import moment from 'moment'
 import OptimizationHeader from '@/components/Optimization/OptimizationHeader'
 import { computed, ref } from '@vue/reactivity'
-import _ from 'lodash'
 export default {
   name: 'OptimizationHeaderList',
   components: { OptimizationHeader },

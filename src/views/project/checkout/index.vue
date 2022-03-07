@@ -33,7 +33,10 @@ export default {
     CTA,
   },
   props: {
-    priceId: String,
+    priceId: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {
@@ -53,17 +56,18 @@ export default {
     const router = useRouter()
     const route = useRoute()
     const subscriptionId = route.params.subscriptionId
-    const projectId = store.getters['projects/currentProjectId']
+    const projectId = store.getters['selectedProjectId']
     getLatestIntentClientSecret({
       subscriptionId,
-    }).then(response => {
+    }).then(async response => {
       let clientSecret = response.clientSecret
       if (clientSecret === null) {
         message.loading('Subscription...')
         // No one invoice to pay, redirect to overview
         this.loading = true
-        store.dispatch('projects/LOAD_CURRENT_PROJECT', { projectId: route.params.projectId })
-        setTimeout(() => {
+        setTimeout(async () => {
+          await store.dispatch('LOAD_ALL_PROJECTS')
+          await store.dispatch('LOAD_PLANS', projectId)
           router.push(`/projects`)
           message.destroy()
           message.success('Congratulations. Successfully subscribed.')
@@ -79,7 +83,6 @@ export default {
   },
   methods: {
     async confirmPayment() {
-      const projectId = this.$route.params.projectId
       const { error } = await this.stripe.confirmPayment({
         // `Elements` instance that was used to create the Payment Element
         elements: this.elements,

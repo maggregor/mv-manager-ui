@@ -145,10 +145,6 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  NProgress.start()
-  setTimeout(() => {
-    NProgress.done()
-  }, 50)
   if (to.matched.some(record => record.meta.authRequired)) {
     if (!store.state.user.authorized) {
       next({

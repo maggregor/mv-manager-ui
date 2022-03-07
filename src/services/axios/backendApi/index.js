@@ -1,20 +1,24 @@
-import backendClient from '@/services/axios/backendClient'
+import client from '@/services/axios/backendClient'
 
 export async function getProjects() {
-  const { data } = await backendClient.get('/project')
+  const { data } = await client.get('/project')
   return data
 }
 
 export async function getDatasets(payload) {
   let projectId = payload.projectId
-  const { data } = await backendClient.get(`/project/${projectId}/dataset`)
+  const { data } = await client.get(`/project/${projectId}/dataset`)
   return data
 }
 
-export async function getProject(payload) {
-  // Return id, name, planName
-  let projectId = payload.projectId
-  const { data } = await backendClient.get(`/project/${projectId}`)
+/**
+ * Returns a project
+ *
+ * @param {*} projectId
+ * @returns
+ */
+export async function getProject(projectId) {
+  const { data } = await client.get(`/project/${projectId}`)
   return data
 }
 
@@ -22,27 +26,30 @@ export async function getDatasetTables(payload) {
   // Return list of table in a single dataset
   let projectId = payload.projectId
   let datasetId = payload.datasetId
-  return ({ data } = await backendClient.get(`project/${projectId}/dataset/${datasetId}/table`))
+  return ({ data } = await client.get(`project/${projectId}/dataset/${datasetId}/table`))
 }
 
-export async function getQueryStatistics(payload) {
-  let projectId = payload.projectId
-  let lastDays = payload.lastDays
-  const { data } = await backendClient.get(`/project/${projectId}/queries/${lastDays}/statistics`)
+export async function getQueryStatistics(projectId, timeframe) {
+  const { data } = await client.get(`/project/${projectId}/queries/${timeframe}/statistics`)
+  return data
+}
+
+export async function getKPIStatistics(projectId, timeframe) {
+  const { data } = await client.get(`/project/${projectId}/queries/${timeframe}/statistics/kpi`)
   return data
 }
 
 export function optimizeProject(projectId) {
-  return backendClient.post(`/optimize/${projectId}`)
+  return client.post(`/optimize/${projectId}`)
 }
 
 export async function updateProject(projectId, payload) {
-  const { data } = await backendClient.post(`/project/${projectId}`, payload)
+  const { data } = await client.post(`/project/${projectId}`, payload)
   return data
 }
 
 export function updateDatasetMetadata(projectId, datasetName, payload) {
-  return backendClient.post(`/project/${projectId}/dataset/${datasetName}`, payload)
+  return client.post(`/project/${projectId}/dataset/${datasetName}`, payload)
 }
 
 export async function getOptimizations(payload) {
@@ -52,19 +59,17 @@ export async function getOptimizations(payload) {
   if (optimizationId) {
     resource += `/${optimizationId}`
   }
-  const { data } = await backendClient.get(resource)
+  const { data } = await client.get(resource)
   return data
 }
 
-export async function getDailyStatistics(projectId, days) {
-  const { data } = await backendClient.get(
-    `/project/${projectId}/queries/${days}/statistics/series`,
-  )
+export async function getChartsStatistics(projectId, timeframe) {
+  const { data } = await client.get(`/project/${projectId}/queries/${timeframe}/statistics/series`)
   return data
 }
 
 export function deleteAllMaterializedViews(projectId) {
-  return backendClient.delete(`/optimize/${projectId}`)
+  return client.delete(`/optimize/${projectId}`)
 }
 
 /**
@@ -76,7 +81,7 @@ export function deleteAllMaterializedViews(projectId) {
  * @returns
  */
 export function createSubscription(payload) {
-  return backendClient.post(`/subscription`, payload)
+  return client.post(`/subscription`, payload)
 }
 
 /**
@@ -86,7 +91,7 @@ export function createSubscription(payload) {
  */
 export function getSubscription(payload) {
   let subscriptionId = payload.subscriptionId
-  return backendClient.get(`/subscription/${subscriptionId}`, payload)
+  return client.get(`/subscription/${subscriptionId}`, payload)
 }
 
 /**
@@ -96,7 +101,7 @@ export function getSubscription(payload) {
  */
 export function cancelSubscription(payload) {
   let subscriptionId = payload.subscriptionId
-  return backendClient.delete(`/subscription/${subscriptionId}`, payload)
+  return client.delete(`/subscription/${subscriptionId}`, payload)
 }
 
 /**
@@ -106,18 +111,16 @@ export function cancelSubscription(payload) {
  */
 export function updateSubscription(payload) {
   let subscriptionId = payload.subscriptionId
-  return backendClient.post(`/subscription/${subscriptionId}`, payload)
+  return client.post(`/subscription/${subscriptionId}`, payload)
 }
 
 /**
  *
- * @param { projectId } payload
+ * @param { projectId }
  * @returns
  */
-export async function getPlans(payload) {
-  const { data } = await backendClient.get(`/plan`, {
-    params: { projectId: payload.projectId },
-  })
+export async function getPlans(projectId) {
+  const { data } = await client.get(`/plan`, { params: { projectId } })
   return data
 }
 
@@ -128,8 +131,6 @@ export async function getPlans(payload) {
  */
 export async function getLatestIntentClientSecret(payload) {
   let subscriptionId = payload.subscriptionId
-  const { data } = await backendClient.get(
-    `/subscription/${subscriptionId}/latestIntentClientSecret`,
-  )
+  const { data } = await client.get(`/subscription/${subscriptionId}/latestIntentClientSecret`)
   return data
 }
