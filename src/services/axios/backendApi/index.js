@@ -44,12 +44,12 @@ export function optimizeProject(projectId) {
 }
 
 export async function updateProject(projectId, payload) {
-  const { data } = await client.post(`/project/${projectId}`, payload)
+  const { data } = await client.patch(`/project/${projectId}`, payload)
   return data
 }
 
-export function updateDatasetMetadata(projectId, datasetName, payload) {
-  return client.post(`/project/${projectId}/dataset/${datasetName}`, payload)
+export function updateDataset(projectId, datasetName, payload) {
+  return client.put(`/project/${projectId}/dataset/${datasetName}`, payload)
 }
 
 export async function getOptimizations(payload) {

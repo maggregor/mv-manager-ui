@@ -10,7 +10,7 @@ import {
   deleteAllMaterializedViews,
   getOptimizations,
   optimizeProject,
-  updateDatasetMetadata,
+  updateDataset,
 } from '@/services/axios/backendApi'
 
 const getDefaultState = () => {
@@ -207,7 +207,7 @@ export default {
       let projectId = payload.projectId
       let datasetName = payload.datasetName
       let activated = payload.activated
-      await updateDatasetMetadata(projectId, datasetName, { activated }).then(() =>
+      await updateDataset(projectId, datasetName, { activated }).then(() =>
         commit('SET_DATASET_STATE', { projectId, datasetName, activated }),
       )
     },
