@@ -74,12 +74,14 @@ export default {
      *
      */
     async LOAD_ALL_PROJECTS({ commit, dispatch }) {
-      commit('SET_STATE', { loading: true })
-      const projects = await getProjects()
-      projects.forEach(project => {
-        commit('ADD_PROJECT', project)
-        dispatch('LOAD_PLANS', project.projectId)
-      })
+      commit('SET_USER_STATE', { loading: true })
+      try {
+        let projects = await getProjects()
+        projects.forEach(project => {
+          commit('ADD_PROJECT', project)
+          dispatch('LOAD_PLANS', project.projectId)
+        })
+      } catch (e) {}
       commit('SET_STATE', { loading: false })
     },
     /**
@@ -249,6 +251,9 @@ export default {
       getters.hasSelectedProjectCharts ? getters.selectedProject.chartsStatistics : [],
     isChartsStatisticsLoading: (state, getters) => getters.selectedProject.chartsStatisticsLoading,
     // Plans
+    // Get plan by project id
+    plan: state => projectId =>
+      state.projects[projectId].plans.find(p => p.subscription !== undefined),
     hasSelectedProjectPlan: (state, getters) =>
       getters.hasSelectedProject &&
       getters.selectedProject.plans &&
