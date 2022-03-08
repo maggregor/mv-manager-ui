@@ -11,7 +11,7 @@ const getDefaultState = () => {
     firstName: '',
     accessToken: '',
     authorized: null,
-    insufficientPermissions: false,
+    insufficientPermissions: true,
     loading: false,
   }
 }

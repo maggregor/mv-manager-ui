@@ -19,7 +19,7 @@ backendClient.interceptors.request.use(request => {
 
 backendClient.interceptors.response.use(
   response => {
-    if (response.config.url === '/project' && response.status === 403) {
+    if (response.config.url === '/project') {
       store.commit('SET_USER_STATE', { insufficientPermissions: false })
     }
     return response

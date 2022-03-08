@@ -33,7 +33,6 @@ const params = {
 export async function login() {
   params.scope = basicScopes
   const urlParams = new URLSearchParams(params).toString()
-  console.log(params)
   window.location = `${googleAuthUrl}?${urlParams}`
 }
 

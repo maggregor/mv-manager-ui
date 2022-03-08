@@ -2,7 +2,9 @@
   <div class="container">
     <h1>Grant access to your BigQuery</h1>
     <a-row class="mt-5 mb-4" type="flex" justify="space-around">
-      <a-col class="mb-2" :span="20"> <h2>Achilio have to performs theses actions:</h2></a-col>
+      <a-col class="mb-2" :span="20">
+        <h2>In order to work properly, Achilio has to perform these actions:</h2></a-col
+      >
       <a-col class="illustration" v-for="(action, index) in actions" :key="index" span="6">
         <div>
           <img :src="getImageUrl(action.image)" />
@@ -12,13 +14,13 @@
     </a-row>
     <a-row type="flex" justify="space-around">
       <a-col :span="6">
-        <CTA label="Grant the access" :trigger="grantBigQueryAccess" />
+        <CTA label="Grant access" :trigger="grantBigQueryAccess" />
       </a-col>
     </a-row>
     <a-row class="mt-2" type="flex" justify="space-around">
       <a-col :span="24">
         <p>
-          By grant the access, you agree to Achilio’s
+          By granting access mentionned above, you agree to Achilio’s
           <a href="https://achilio.com/privacy-terms" target="_blank">
             <span class="text-dark">Privacy Policy</span>
           </a>
