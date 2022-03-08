@@ -4,8 +4,6 @@ import { notification } from 'ant-design-vue'
 
 const apiClient = axios.create({
   baseURL: `${process.env.VUE_APP_API_BASE_URL}/api/v1`,
-  // timeout: 1000,
-  // headers: { 'X-Custom-Header': 'foobar' }
 })
 
 apiClient.interceptors.request.use(request => {
@@ -17,7 +15,7 @@ apiClient.interceptors.request.use(request => {
   return request
 })
 
-apiClient.interceptors.response.use(undefined, error => {
+apiClient.interceptors.response.use(error => {
   // Errors handling
   const { response } = error
   const { data } = response

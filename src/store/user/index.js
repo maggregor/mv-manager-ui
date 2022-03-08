@@ -1,7 +1,7 @@
 import router from '@/router'
 import { notification } from 'ant-design-vue'
 
-import * as oauth2 from '@/services/oauth2'
+import { login, logout, currentAccount, grantAccessBigQuery } from '@/services/oauth2'
 
 const getDefaultState = () => {
   return {
@@ -11,24 +11,17 @@ const getDefaultState = () => {
     firstName: '',
     accessToken: '',
     authorized: null,
+    insufficientPermissions: false,
     loading: false,
   }
 }
 
 const state = getDefaultState()
 
-const mapAuthProviders = {
-  oauth2: {
-    login: oauth2.login,
-    currentAccount: oauth2.currentAccount,
-    logout: oauth2.logout,
-  },
-}
-
 export default {
   state,
   mutations: {
-    SET_STATE(state, payload) {
+    SET_USER_STATE(state, payload) {
       Object.assign(state, {
         ...payload,
       })
@@ -46,11 +39,9 @@ export default {
   },
   actions: {
     LOGIN({ commit, dispatch, rootState }) {
-      commit('SET_STATE', {
+      commit('SET_USER_STATE', {
         loading: true,
       })
-
-      const login = mapAuthProviders['oauth2'].login
       login().then(user => {
         if (user) {
           dispatch('LOAD_CURRENT_ACCOUNT')
@@ -60,18 +51,17 @@ export default {
           })
         }
         if (!user) {
-          commit('SET_STATE', {
+          commit('SET_USER_STATE', {
             loading: false,
           })
         }
       })
     },
     LOAD_CURRENT_ACCOUNT({ commit }) {
-      const currentAccount = mapAuthProviders['oauth2'].currentAccount
       return currentAccount()
         .then(response => {
           const { id, email, name, access_token, first_name } = response.data
-          commit('SET_STATE', {
+          commit('SET_USER_STATE', {
             id,
             name,
             email,
@@ -81,14 +71,29 @@ export default {
           })
         })
         .catch(() => {
-          commit('SET_STATE', { authorized: false })
+          commit('SET_USER_STATE', { authorized: false })
         })
     },
     LOGOUT({ commit }) {
-      const logout = mapAuthProviders['oauth2'].logout
       logout().then(() => {
-        commit('SET_STATE', { authorized: false })
+        commit('SET_USER_STATE', { authorized: false })
         router.push('/login')
+      })
+    },
+    GRANT_BIGQUERY_ACCESS({ commit }) {
+      grantAccessBigQuery().then(user => {
+        if (user) {
+          dispatch('LOAD_CURRENT_ACCOUNT')
+          notification.success({
+            message: 'Successfully',
+            description: 'Granted with success !',
+          })
+        }
+        if (!user) {
+          commit('SET_USER_STATE', {
+            loading: false,
+          })
+        }
       })
     },
   },
@@ -97,5 +102,6 @@ export default {
     accessToken: state => state.accessToken,
     firstName: state => state.firstName,
     userIsLoaded: state => state.userIsLoaded,
+    hasInsufficientPermissions: state => state.insufficientPermissions,
   },
 }

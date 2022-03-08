@@ -1,45 +1,58 @@
 <template>
   <div :class="$style.container">
     <h1 class="text-black text-weight-700 font-size-50">Hello {{ firstName }},</h1>
-    <h2 class="mb-5 text-gray-7 text-weight-300 font-size-24">
-      You are connected to your
-      <span class="google-font text-weight-500 mr-2">Google Cloud Platform</span>
-      <img :style="{ height: '2rem' }" src="@/assets/google/google-cloud-platform_logo.svg" />
-    </h2>
-    <a-skeleton :loading="loading">
-      <ProjectCard
-        v-for="project in activatedProjects"
-        :key="project.projectId"
-        :project="project"
-      />
-    </a-skeleton>
-    <div
-      v-if="deactivatedProjects.length"
-      class="mb-3 mt-5 text-black text-weight-300 font-size-24"
-    >
-      Projects without <span class="text-weight-600">achilio</span>
+
+    <InsufficientPermissions v-if="hasInsufficientPermissions" />
+    <div v-else>
+      <h2 class="mb-5 text-gray-7 text-weight-300 font-size-24">
+        You are connected to your
+        <span class="google-font text-weight-500 mr-2">Google Cloud Platform</span>
+        <img :style="{ height: '2rem' }" src="@/assets/google/google-cloud-platform_logo.svg" />
+      </h2>
+      <a-skeleton :loading="loading">
+        <ProjectCard
+          v-for="project in activatedProjects"
+          :key="project.projectId"
+          :project="project"
+        />
+      </a-skeleton>
+      <div
+        v-if="deactivatedProjects.length"
+        class="mb-3 mt-5 text-black text-weight-300 font-size-24"
+      >
+        Projects without <span class="text-weight-600">achilio</span>
+      </div>
+      <a-skeleton :loading="loading">
+        <ProjectCard
+          v-for="project in deactivatedProjects"
+          :key="project.projectId"
+          :project="project"
+        />
+      </a-skeleton>
     </div>
-    <a-skeleton :loading="loading">
-      <ProjectCard
-        v-for="project in deactivatedProjects"
-        :key="project.projectId"
-        :project="project"
-      />
-    </a-skeleton>
   </div>
 </template>
 
 <script>
+import InsufficientPermissions from '@/components/InsufficientPermissions'
 import ProjectCard from '@/components/Projects/ProjectCard'
+
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'Home',
   components: {
+    InsufficientPermissions,
     ProjectCard,
   },
   computed: {
-    ...mapGetters(['firstName', 'activatedProjects', 'deactivatedProjects', 'loading']),
+    ...mapGetters([
+      'firstName',
+      'activatedProjects',
+      'deactivatedProjects',
+      'loading',
+      'hasInsufficientPermissions',
+    ]),
   },
 }
 </script>
