@@ -20,7 +20,7 @@
     <a-row class="mt-2" type="flex" justify="space-around">
       <a-col :span="24">
         <p>
-          By granting access mentionned above, you agree to Achilio’s
+          By granting the access mentionned above, you agree to Achilio’s
           <a href="https://achilio.com/privacy-terms" target="_blank">
             <span class="text-dark">Privacy Policy</span>
           </a>
