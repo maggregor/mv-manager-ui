@@ -11,3 +11,10 @@
     font-size: 15px;
   }
 }
+
+.p-1 {
+  overflow: hidden;
+  .p-1:hover {
+    overflow: visible;
+  }
+}
