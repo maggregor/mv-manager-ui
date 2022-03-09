@@ -57,7 +57,7 @@ export default {
       store.dispatch('SET_SELECTED_PROJECT_ID', projectId)
       store.dispatch('LOAD_DATASETS', { projectId })
       store.dispatch('LOAD_OPTIMIZATIONS', { projectId })
-      store.dispatch('LOAD_PROJECT_STATISTICS', { projectId, timeframe: 28 })
+      store.dispatch('LOAD_PROJECT_STATISTICS', { projectId, timeframe: 7 })
     })
     const triggerOptimization = async () => {
       router.push(`/projects/${projectId}/overview`)
