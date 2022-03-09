@@ -10,13 +10,16 @@ import {
   deleteAllMaterializedViews,
   getOptimizations,
   optimizeProject,
-  updateDatasetMetadata,
+  updateDataset,
 } from '@/services/axios/backendApi'
 
 const getDefaultState = () => {
   return {
-    projects: [],
+    // Project map
+    projects: {},
+    // Global project loading
     loading: false,
+    // Selected project on /project/:projectId
     selectedProjectId: '',
   }
 }
@@ -74,12 +77,14 @@ export default {
      *
      */
     async LOAD_ALL_PROJECTS({ commit, dispatch }) {
-      commit('SET_STATE', { loading: true })
-      const projects = await getProjects()
-      projects.forEach(project => {
-        commit('ADD_PROJECT', project)
-        dispatch('LOAD_PLANS', project.projectId)
-      })
+      commit('SET_USER_STATE', { loading: true })
+      try {
+        let projects = await getProjects()
+        projects.forEach(project => {
+          commit('ADD_PROJECT', project)
+          dispatch('LOAD_PLANS', project.projectId)
+        })
+      } catch (e) {}
       commit('SET_STATE', { loading: false })
     },
     /**
@@ -207,7 +212,7 @@ export default {
       let projectId = payload.projectId
       let datasetName = payload.datasetName
       let activated = payload.activated
-      await updateDatasetMetadata(projectId, datasetName, { activated }).then(() =>
+      await updateDataset(projectId, datasetName, { activated }).then(() =>
         commit('SET_DATASET_STATE', { projectId, datasetName, activated }),
       )
     },
@@ -249,6 +254,9 @@ export default {
       getters.hasSelectedProjectCharts ? getters.selectedProject.chartsStatistics : [],
     isChartsStatisticsLoading: (state, getters) => getters.selectedProject.chartsStatisticsLoading,
     // Plans
+    // Get plan by project id
+    plan: state => projectId =>
+      state.projects[projectId].plans.find(p => p.subscription !== undefined),
     hasSelectedProjectPlan: (state, getters) =>
       getters.hasSelectedProject &&
       getters.selectedProject.plans &&
