@@ -15,8 +15,11 @@ import {
 
 const getDefaultState = () => {
   return {
-    projects: [],
+    // Project map
+    projects: {},
+    // Global project loading
     loading: false,
+    // Selected project on /project/:projectId
     selectedProjectId: '',
   }
 }
