@@ -11,7 +11,8 @@ export default createStore({
   mutations: {},
   actions: {
     clearAll({ commit }) {
-      commit('RESET_STATE')
+      // Wait 1s before reset value: time to back to the login page.
+      setTimeout(() => commit('RESET_STATE'), 1000)
     },
   },
   getters: {},
