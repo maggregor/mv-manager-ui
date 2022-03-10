@@ -32,6 +32,7 @@
             Optimisations
             <a-button type="link">
               <span
+                v-if="allOptimizations.length > 0"
                 class="text-dark"
                 @click="$router.push(`/projects/${selectedProjectId}/optimizations`)"
                 >See all</span
