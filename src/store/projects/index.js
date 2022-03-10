@@ -168,16 +168,6 @@ export default {
       })
     },
     /**
-     * Pulling every x seconds the optimizations
-     *
-     * @param payload
-     */
-    async START_OPTIMIZATION_PULLING({ commit, getters }) {
-      if (!getters.selectedProject) {
-        throw new Error("Can't start optimization pulling selected project")
-      }
-    },
-    /**
      * Load an optimization and set as selected.
      *
      * @param { projectId, optimizationId } payload
@@ -202,7 +192,7 @@ export default {
       commit('SET_STATE', { loading: true })
       await optimizeProject(projectId, { days: 28 })
         .then(() => {
-          message.loading(`Optimization started...`, 5)
+          message.loading(`Optimization strated...`, 5)
           dispatch('LOAD_OPTIMIZATIONS', { projectId: projectId })
         })
         .catch(() => message.error(`Optimization error.`, 5))
