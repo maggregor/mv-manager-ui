@@ -1,6 +1,6 @@
 <template>
   <!-- Popover displayed if the button is disabled -->
-  <Popper :hover="true" :disabled="!disabled" placement="top">
+  <Popper :hover="true" :disabled="!disabled && popoverText !== ''" placement="top">
     <a-button
       :class="{ 'cta-disabled': disabled, 'cta-secondary': secondary, 'cta-primary': !secondary }"
       @click="triggerAction()"
@@ -10,7 +10,7 @@
     </a-button>
     <template #content>
       <div>
-        <b>{{ popoverText }}</b>
+        {{ popoverText }}
       </div>
     </template>
   </Popper>
@@ -59,12 +59,14 @@ export default {
   },
   methods: {
     async triggerAction() {
-      if (this.trigger != undefined) {
-        this.loading = true
-        await this.trigger()
-        this.loading = false
-      } else {
-        this.changeRoute()
+      if (!this.disabled) {
+        if (this.trigger != undefined) {
+          this.loading = true
+          await this.trigger()
+          this.loading = false
+        } else {
+          this.changeRoute()
+        }
       }
     },
     changeRoute() {
