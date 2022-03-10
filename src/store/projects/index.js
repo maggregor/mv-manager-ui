@@ -123,13 +123,15 @@ export default {
       getKPIStatistics(projectId, timeframe).then(kpi =>
         commit('SET_PROJECT_STATE', { projectId, kpi, kpiStatisticsLoading: false }),
       )
-      getChartsStatistics(projectId, timeframe).then(chartsStatistics =>
-        commit('SET_PROJECT_STATE', {
-          projectId,
-          chartsStatistics,
-          chartsStatisticsLoading: false,
-        }),
-      )
+      // Series chart is deactivated for now.
+      // It will be reactivated when we implement a project setup  process that persist the stats
+      // getChartsStatistics(projectId, timeframe).then(chartsStatistics =>
+      //   commit('SET_PROJECT_STATE', {
+      //     projectId,
+      //     chartsStatistics,
+      //     chartsStatisticsLoading: false,
+      //   }),
+      // )
     },
     /**
      * Delete all the materialized views created by Achilio
