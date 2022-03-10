@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1>Active some datasets, and start a first optimization</h1>
+    <h1>No optimization</h1>
   </div>
 </template>
 <script>

@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1>No optimizations triggered</h1>
+    <h1>No optimization</h1>
   </div>
 </template>
 <script>
