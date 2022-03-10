@@ -9,7 +9,7 @@
         </a-col>
         <a-col :span="17">
           <h3>
-            Last 28 days performance
+            Last 7 days performance
             <h6>(Excluding cached queries)</h6>
           </h3>
         </a-col>
