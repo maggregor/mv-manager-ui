@@ -66,7 +66,8 @@ export default {
      *
      * @param projectId
      */
-    async SET_SELECTED_PROJECT_ID({ commit }, projectId) {
+    async SET_SELECTED_PROJECT_ID({ commit, dispatch }, projectId) {
+      dispatch('LOAD_PLANS', projectId)
       commit('SET_STATE', { selectedProjectId: projectId })
     },
     /**
@@ -82,7 +83,9 @@ export default {
         let projects = await getProjects()
         projects.forEach(project => {
           commit('ADD_PROJECT', project)
-          dispatch('LOAD_PLANS', project.projectId)
+          if (project.activated) {
+            dispatch('LOAD_PLANS', project.projectId)
+          }
         })
       } catch (e) {}
       commit('SET_STATE', { loading: false })
@@ -92,9 +95,13 @@ export default {
      *
      * @param { projectId }
      */
-    async LOAD_PLANS({ commit }, projectId) {
+    async LOAD_PLANS({ commit, getters }, projectId) {
+      let customerId = getters.project(projectId).stripeCustomerId
+      if (!customerId) {
+        throw new Error(`customerId not found for ${projectId}`)
+      }
       commit('SET_PROJECT_STATE', { projectId, planLoading: true })
-      commit('SET_PROJECT_STATE', { projectId, plans: await getPlans(projectId) })
+      commit('SET_PROJECT_STATE', { projectId, plans: await getPlans(customerId) })
       commit('SET_PROJECT_STATE', { projectId, planLoading: false })
     },
     /**
@@ -123,13 +130,15 @@ export default {
       getKPIStatistics(projectId, timeframe).then(kpi =>
         commit('SET_PROJECT_STATE', { projectId, kpi, kpiStatisticsLoading: false }),
       )
-      getChartsStatistics(projectId, timeframe).then(chartsStatistics =>
-        commit('SET_PROJECT_STATE', {
-          projectId,
-          chartsStatistics,
-          chartsStatisticsLoading: false,
-        }),
-      )
+      // Series chart is deactivated for now.
+      // It will be reactivated when we implement a project setup  process that persist the stats
+      // getChartsStatistics(projectId, timeframe).then(chartsStatistics =>
+      //   commit('SET_PROJECT_STATE', {
+      //     projectId,
+      //     chartsStatistics,
+      //     chartsStatisticsLoading: false,
+      //   }),
+      // )
     },
     /**
      * Delete all the materialized views created by Achilio
@@ -183,7 +192,7 @@ export default {
       commit('SET_STATE', { loading: true })
       await optimizeProject(projectId, { days: 28 })
         .then(() => {
-          message.success(`Optimization done !`, 5)
+          message.loading(`Optimization started...`, 5)
           dispatch('LOAD_OPTIMIZATIONS', { projectId: projectId })
         })
         .catch(() => message.error(`Optimization error.`, 5))
@@ -238,6 +247,9 @@ export default {
       }
       throw Error('No selected project id defined')
     },
+    // Returns the selected customer id
+    selectedCustomerId: (state, getters) =>
+      getters.hasSelectedProject ? getters.selectedProject.stripeCustomerId : null,
     // Statistics / KPI
     hasSelectedProjectKpi: (state, getters) =>
       getters.hasSelectedProject && getters.selectedProject.kpi !== undefined,
@@ -254,9 +266,16 @@ export default {
       getters.hasSelectedProjectCharts ? getters.selectedProject.chartsStatistics : [],
     isChartsStatisticsLoading: (state, getters) => getters.selectedProject.chartsStatisticsLoading,
     // Plans
+    //
+    plans: state => projectId => state.projects[projectId].plans,
     // Get plan by project id
-    plan: state => projectId =>
-      state.projects[projectId].plans.find(p => p.subscription !== undefined),
+    activePlanName: (state, getters) => projectId => {
+      let plan = null
+      if (getters.plans) {
+        plan = state.projects[projectId].plans.find(p => p.subscription !== null)
+      }
+      return plan ? plan.name : null
+    },
     hasSelectedProjectPlan: (state, getters) =>
       getters.hasSelectedProject &&
       getters.selectedProject.plans &&
@@ -275,11 +294,14 @@ export default {
       _.filter(getters.selectedOptimization.results, r => r.status === 'APPLY'),
     selectedOptimizationNotAppliedResults: (state, getters) =>
       _.filter(getters.selectedOptimization.results, r => r.status === 'PLAN_LIMIT_REACHED'),
+    lastOptimization: (state, getters) =>
+      getters.allOptimizations.length > 0 ? getters.allOptimizations[0] : null,
     // Datasets
     allDatasets: (state, getters) =>
       getters.selectedProject.datasets === undefined
         ? []
         : Object.values(getters.selectedProject.datasets),
+    atLeastOneDatasetIsActivated: (state, getters) => getters.allDatasets.some(d => d.activated),
     isDatasetsLoading: (state, getters) => getters.selectedProject.datasetsLoading,
   },
 }

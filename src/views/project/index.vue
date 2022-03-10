@@ -7,21 +7,23 @@
           <cta
             v-if="isOverview"
             secondary
-            style="width: 150px; margin-top: 100px; margin-right: 10px;"
+            style="width: 160px; margin-top: 100px; margin-right: 10px;"
             label="Settings"
             :url="`/projects/${selectedProject.projectId}/settings`"
           ></cta>
           <cta
             v-else
             secondary
-            style="width: 150px; margin-top: 100px;margin-right: 10px;"
+            style="width: 160px; margin-top: 100px;margin-right: 10px;"
             :url="`/projects/${selectedProject.projectId}/overview`"
             label="Back to overview"
           ></cta>
           <cta
-            style="width: 50%; margin-top: 100px; "
+            style="width: 55%; margin-top: 100px;"
             label="Start optimization"
+            popover-text="You have to enable at least one dataset"
             :trigger="triggerOptimization"
+            :disabled="!atLeastOneDatasetIsActivated"
           ></cta>
         </a-row>
       </a-col>
@@ -41,12 +43,14 @@ import { useRoute, useRouter } from 'vue-router'
 
 import ProjectHeader from '@/components/Projects/ProjectHeader'
 import CTA from '@/components/CTA'
+import Popper from 'vue3-popper'
 
 export default {
   name: 'Overview',
   components: {
     ProjectHeader,
     cta: CTA,
+    Popper,
   },
   setup() {
     const store = useStore()
@@ -71,7 +75,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['hasSelectedProject', 'selectedProject']),
+    ...mapGetters(['hasSelectedProject', 'selectedProject', 'atLeastOneDatasetIsActivated']),
   },
 }
 </script>

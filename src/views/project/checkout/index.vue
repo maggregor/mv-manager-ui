@@ -9,7 +9,7 @@
       </a-spin>
 
       <CTA
-        style="width:300px; margin: auto; margin-top: 50px;"
+        extra-style="width:300px; margin: auto; margin-top: 50px;"
         text="Subscribe"
         label="Pay"
         :trigger="confirmPayment"

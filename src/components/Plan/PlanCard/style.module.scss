@@ -55,3 +55,13 @@
   min-width: 200px;
   max-width: 200px;
 }
+
+.plan-name {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 800;
+  background: linear-gradient(45deg, rgb(255, 109, 109), rgb(74, 74, 255) 50%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-right: 10px;
+}

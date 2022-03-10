@@ -5,12 +5,7 @@
         <h1 class="mb-5">Optimization parameters</h1>
       </a-col>
       <a-col
-        ><CTA
-          v-if="!loading && hasChanged"
-          :loading="saveLoading"
-          @click="saveSettings"
-          label="Save changes"
-        ></CTA>
+        ><CTA :disabled="loading || !hasChanged" :trigger="saveSettings" label="Save changes"></CTA>
       </a-col>
     </a-row>
     <div class="setting">
@@ -98,7 +93,6 @@ const settingsDefault = ref({})
 const projectId = store.getters['selectedProjectId']
 let project = store.getters['selectedProject']
 const deleteLoading = ref(false)
-const saveLoading = ref(false)
 onMounted(async () => {
   loading.value = true
   store.dispatch('LOAD_PROJECT', project.projectId).then(() => {
@@ -131,7 +125,6 @@ const deleteAll = () => {
 }
 
 const saveSettings = async () => {
-  saveLoading.value = true
   await updateProject(projectId, {
     automatic: automatic.value,
     analysisTimeframe: analysisTimeframe.value,
@@ -139,7 +132,6 @@ const saveSettings = async () => {
   })
     .then(() => {
       setTimeout(() => {
-        saveLoading.value = false
         message.success('Settings saved')
       }, 1000)
       store.dispatch('LOAD_PROJECT', projectId).then(() => {
@@ -148,7 +140,6 @@ const saveSettings = async () => {
     })
     .catch(() => {
       setTimeout(() => {
-        saveLoading.value = false
         refreshSettings()
       }, 1000)
     })
