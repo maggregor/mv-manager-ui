@@ -100,7 +100,6 @@ export default {
       if (!customerId) {
         throw new Error(`customerId not found for ${projectId}`)
       }
-      console.log('Load plan for customer ' + customerId)
       commit('SET_PROJECT_STATE', { projectId, planLoading: true })
       commit('SET_PROJECT_STATE', { projectId, plans: await getPlans(customerId) })
       commit('SET_PROJECT_STATE', { projectId, planLoading: false })
