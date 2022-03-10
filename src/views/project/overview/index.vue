@@ -55,12 +55,17 @@
               ><Kpi bytes :data="kpiAverageScannedBytes" :label="'Average scanned bytes per query'"
             /></a-col>
           </a-row>
-          <a-row style="margin-top: 65px">
+          <!--
+            Series chart is deactivated for now.
+            It will be reactivated when we implement a project setup  process that persist the stats
+            -->
+          <!-- <a-row style="margin-top: 65px">
+            
             <h3>
               Average scanned bytes per query
             </h3>
             <Chart style="width: 90%; height: 200px; margin: auto" :fake="false" />
-          </a-row>
+          </a-row> -->
         </a-col>
       </a-row>
     </div>
@@ -74,7 +79,7 @@ import _ from 'lodash'
 import Kpi from '@/components/KPI'
 import DatasetCard from '@/components/Projects/DatasetCard'
 import OptimizationHeader from '@/components/Optimization/OptimizationHeader'
-import Chart from '@/components/Chart'
+// import Chart from '@/components/Chart'
 import NotActivatedProject from '@/components/Projects/NotActivatedProject'
 
 export default {
@@ -83,7 +88,7 @@ export default {
     Kpi,
     DatasetCard,
     OptimizationHeader,
-    Chart,
+    // Chart,
     NotActivatedProject,
   },
   computed: {
