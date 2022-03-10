@@ -122,7 +122,7 @@ export default {
      */
     LOAD_PROJECT_STATISTICS({ commit }, payload) {
       let projectId = payload.projectId
-      let timeframe = 28
+      let timeframe = payload.timeframe
       commit('SET_PROJECT_STATE', {
         projectId,
         kpiStatisticsLoading: true,
