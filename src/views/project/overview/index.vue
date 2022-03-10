@@ -38,8 +38,11 @@
               >
             </a-button>
           </h3>
-          <div v-for="(optimization, index) in allOptimizations" :key="optimization.id">
-            <OptimizationHeader small v-if="index < 3" :optimization="optimization" />
+          <div v-if="allOptimizations.length === 0"><EmptyOptimizationList /></div>
+          <div v-else>
+            <div v-for="(optimization, index) in allOptimizations" :key="optimization.id">
+              <OptimizationHeader small v-if="index < 3" :optimization="optimization" />
+            </div>
           </div>
         </a-col>
         <a-col :span="17">
@@ -81,6 +84,7 @@ import DatasetCard from '@/components/Projects/DatasetCard'
 import OptimizationHeader from '@/components/Optimization/OptimizationHeader'
 // import Chart from '@/components/Chart'
 import NotActivatedProject from '@/components/Projects/NotActivatedProject'
+import EmptyOptimizationList from '@/components/Projects/EmptyOptimizationList'
 
 export default {
   name: 'Overview',
@@ -88,6 +92,7 @@ export default {
     Kpi,
     DatasetCard,
     OptimizationHeader,
+    EmptyOptimizationList,
     // Chart,
     NotActivatedProject,
   },

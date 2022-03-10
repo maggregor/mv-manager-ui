@@ -1,0 +1,18 @@
+@import '@/mixins.scss';
+
+.container {
+  padding: 20px 10px 10px 10px;
+  border: 1px dotted #e6e6e6;
+  border-radius: 12px;
+  margin: auto;
+  justify-content: center;
+  text-align: center;
+  height: 80px;
+}
+
+h1 {
+  letter-spacing: -0.05em;
+  font-weight: 500;
+  font-size: 18px;
+  color: #c5c1d8;
+}
