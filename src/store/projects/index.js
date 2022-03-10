@@ -168,6 +168,16 @@ export default {
       })
     },
     /**
+     * Pulling every x seconds the optimizations
+     *
+     * @param payload
+     */
+    async START_OPTIMIZATION_PULLING({ commit, getters }) {
+      if (!getters.selectedProject) {
+        throw new Error("Can't start optimization pulling selected project")
+      }
+    },
+    /**
      * Load an optimization and set as selected.
      *
      * @param { projectId, optimizationId } payload
@@ -294,6 +304,8 @@ export default {
       _.filter(getters.selectedOptimization.results, r => r.status === 'APPLY'),
     selectedOptimizationNotAppliedResults: (state, getters) =>
       _.filter(getters.selectedOptimization.results, r => r.status === 'PLAN_LIMIT_REACHED'),
+    lastOptimization: (state, getters) =>
+      getters.allOptimizations.length > 0 ? getters.allOptimizations[0] : null,
     // Datasets
     allDatasets: (state, getters) =>
       getters.selectedProject.datasets === undefined

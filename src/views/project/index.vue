@@ -7,19 +7,19 @@
           <cta
             v-if="isOverview"
             secondary
-            style="width: 150px; margin-top: 100px; margin-right: 10px;"
+            style="width: 160px; margin-top: 100px; margin-right: 10px;"
             label="Settings"
             :url="`/projects/${selectedProject.projectId}/settings`"
           ></cta>
           <cta
             v-else
             secondary
-            style="width: 150px; margin-top: 100px;margin-right: 10px;"
+            style="width: 160px; margin-top: 100px;margin-right: 10px;"
             :url="`/projects/${selectedProject.projectId}/overview`"
             label="Back to overview"
           ></cta>
           <cta
-            style="width: 50%; margin-top: 100px; "
+            style="width: 55%; margin-top: 100px;"
             label="Start optimization"
             popover-text="You have to enable at least one dataset"
             :trigger="triggerOptimization"
