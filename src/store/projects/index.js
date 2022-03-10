@@ -193,7 +193,7 @@ export default {
       commit('SET_STATE', { loading: true })
       await optimizeProject(projectId, { days: 28 })
         .then(() => {
-          message.success(`Optimization done !`, 5)
+          message.loading(`Optimization starting !`, 5)
           dispatch('LOAD_OPTIMIZATIONS', { projectId: projectId })
         })
         .catch(() => message.error(`Optimization error.`, 5))
