@@ -1,5 +1,11 @@
 @import '@/mixins.scss';
 
+.cta-disabled {
+  background: #e4e9f0 !important;
+  color: white !important;
+  cursor: not-allowed !important;
+}
+
 .cta-primary {
   /* cta / Primary */
 

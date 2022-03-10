@@ -192,7 +192,7 @@ export default {
       commit('SET_STATE', { loading: true })
       await optimizeProject(projectId, { days: 28 })
         .then(() => {
-          message.success(`Optimization done !`, 5)
+          message.loading(`Optimization started...`, 5)
           dispatch('LOAD_OPTIMIZATIONS', { projectId: projectId })
         })
         .catch(() => message.error(`Optimization error.`, 5))
@@ -294,11 +294,14 @@ export default {
       _.filter(getters.selectedOptimization.results, r => r.status === 'APPLY'),
     selectedOptimizationNotAppliedResults: (state, getters) =>
       _.filter(getters.selectedOptimization.results, r => r.status === 'PLAN_LIMIT_REACHED'),
+    lastOptimization: (state, getters) =>
+      getters.allOptimizations.length > 0 ? getters.allOptimizations[0] : null,
     // Datasets
     allDatasets: (state, getters) =>
       getters.selectedProject.datasets === undefined
         ? []
         : Object.values(getters.selectedProject.datasets),
+    atLeastOneDatasetIsActivated: (state, getters) => getters.allDatasets.some(d => d.activated),
     isDatasetsLoading: (state, getters) => getters.selectedProject.datasetsLoading,
   },
 }

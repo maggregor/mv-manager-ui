@@ -29,17 +29,21 @@
             />
           </a-skeleton>
           <h3 style="margin-top:30px; display: block;">
-            Optimisations
+            History
             <a-button type="link">
               <span
+                v-if="allOptimizations.length > 0"
                 class="text-dark"
                 @click="$router.push(`/projects/${selectedProjectId}/optimizations`)"
                 >See all</span
               >
             </a-button>
           </h3>
-          <div v-for="(optimization, index) in allOptimizations" :key="optimization.id">
-            <OptimizationHeader small v-if="index < 3" :optimization="optimization" />
+          <div v-if="allOptimizations.length === 0"><EmptyOptimizationList /></div>
+          <div v-else>
+            <div v-for="(optimization, index) in allOptimizations" :key="optimization.id">
+              <OptimizationHeader small v-if="index < 3" :optimization="optimization" />
+            </div>
           </div>
         </a-col>
         <a-col :span="17">
@@ -55,6 +59,15 @@
               ><Kpi bytes :data="kpiAverageScannedBytes" :label="'Average scanned bytes per query'"
             /></a-col>
           </a-row>
+          <h3 class="mb-2 mt-5">
+            Last optimization
+          </h3>
+          <div v-if="lastOptimization">
+            <OptimizationHeader standalone :index="index" :optimization="lastOptimization" />
+          </div>
+          <div v-else>
+            <NoLastOptimization />
+          </div>
           <!--
             Series chart is deactivated for now.
             It will be reactivated when we implement a project setup  process that persist the stats
@@ -81,6 +94,8 @@ import DatasetCard from '@/components/Projects/DatasetCard'
 import OptimizationHeader from '@/components/Optimization/OptimizationHeader'
 // import Chart from '@/components/Chart'
 import NotActivatedProject from '@/components/Projects/NotActivatedProject'
+import EmptyOptimizationList from '@/components/Projects/EmptyOptimizationList'
+import NoLastOptimization from '@/components/Projects/NoLastOptimization'
 
 export default {
   name: 'Overview',
@@ -88,6 +103,8 @@ export default {
     Kpi,
     DatasetCard,
     OptimizationHeader,
+    EmptyOptimizationList,
+    NoLastOptimization,
     // Chart,
     NotActivatedProject,
   },
@@ -101,6 +118,7 @@ export default {
       'allOptimizations',
       'allDatasets',
       'isDatasetsLoading',
+      'lastOptimization',
     ]),
   },
 }

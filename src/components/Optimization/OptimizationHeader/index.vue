@@ -5,9 +5,11 @@
       'header-container-small': isSmall,
       'selected-container': isSmall && $route.params.optimizationId == optimization.id,
     }"
-    @click="$router.push(`/projects/${$route.params.projectId}/optimizations/${optimization.id}`)"
   >
-    <div v-if="isSmall">
+    <div
+      v-if="isSmall"
+      @click="$router.push(`/projects/${$route.params.projectId}/optimizations/${optimization.id}`)"
+    >
       <a-row>
         <a-col :span="14">
           <div>
@@ -15,18 +17,8 @@
               {{ optimization.mvAppliedCount }} Materialized Views
             </div>
             <Check class="check" :color="statusColor" />
-            <p v-if="partiallyApplied" class="title">
-              <b>Partially: </b>
-              <span class="font-size-18">
-                {{ optimization.mvAppliedCount }} / {{ optimization.mvProposalCount }}</span
-              >
-            </p>
-
-            <p v-else class="title">
-              <b>Applied: </b>
-              <span class="font-size-18">
-                {{ optimization.mvAppliedCount }} / {{ optimization.mvProposalCount }}</span
-              >
+            <p class="title">
+              <b>{{ optimization.status }}</b>
             </p>
           </div>
         </a-col>
@@ -47,7 +39,13 @@
           </div>
           <div>
             <Check class="check" :color="statusColor" />
-            <p v-if="partiallyApplied" class="title">
+            <h1 v-if="optimization.status !== 'Finished'" class="title">
+              <b>{{ optimization.status }}</b>
+            </h1>
+            <p v-else-if="optimization.mvAppliedCount <= 0" class="title">
+              <b>No Materialized Views found</b>
+            </p>
+            <p v-else-if="partiallyApplied" class="title">
               <b>Partially applied:</b> {{ optimization.mvAppliedCount }} /
               {{ optimization.mvProposalCount }} Materialized views
             </p>
@@ -64,7 +62,7 @@
           </h1>
         </a-col>
       </a-row>
-      <a-row class="bar">
+      <a-row class="bar" v-if="optimization.mvAppliedCount > 0">
         <p>
           {{ percentApplied }}% Managed Materialized Views created
           <span v-if="percentApplied < 100" class="limit"
@@ -82,18 +80,35 @@
           :show-info="false"
         />
       </a-row>
+      <a-row
+        v-if="standalone && optimization.mvAppliedCount > 0 && optimization.status === 'Finished'"
+        type="flex"
+        justify="center"
+        ><a-col :span="6">
+          <CTA
+            secondary
+            class="mt-1"
+            :url="`/projects/${$route.params.projectId}/optimizations/${optimization.id}`"
+            label="Go to results"/></a-col
+      ></a-row>
     </div>
   </div>
 </template>
 <script>
+import CTA from '@/components/CTA'
 import { Modal } from 'ant-design-vue'
 import moment from 'moment'
 import Check from '@/components/Check'
 export default {
   name: 'OptimizationHeader',
-  components: { Check },
+  components: { Check, CTA },
   props: {
     small: {
+      type: Boolean,
+      default: false,
+    },
+    // If true display an access to the result list
+    standalone: {
       type: Boolean,
       default: false,
     },
@@ -125,7 +140,16 @@ export default {
       return this.percentApplied < 100
     },
     statusColor() {
-      return this.partiallyApplied ? '#ECAD4F' : '#62d493'
+      switch (this.optimization.status) {
+        case 'Error':
+          return '#ec2c43'
+        case 'Finished':
+          return '#62d493'
+        case 'Unknown':
+        case 'Pending':
+        default:
+          return '#a0a0a0'
+      }
     },
     isSmall() {
       return this.small

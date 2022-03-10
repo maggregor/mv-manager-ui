@@ -22,17 +22,8 @@ export default {
     CTA,
   },
   setup() {
-    const getImageUrl = pic => require(`@/assets/illustrations/${pic}.svg`)
-    // Achilio have to perform theses actions
-    const actions = [
-      { desc: 'List your projects', image: 'list_project_action' },
-      { desc: 'Get the SQL history', image: 'get_history_action' },
-      { desc: 'Create Materialized Views', image: 'create_mv_action' },
-    ]
     return {
       ...mapActions({ grantBigQueryAccess: 'GRANT_BIGQUERY_ACCESS' }),
-      getImageUrl,
-      actions,
     }
   },
   computed: {
