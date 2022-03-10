@@ -46,12 +46,12 @@ export default {
   setup(props) {
     const store = useStore()
     const router = useRouter()
-    const route = useRoute()
     const projectId = store.getters['selectedProjectId']
+    const customerId = store.getters['selectedCustomerId']
     const triggerPay = () => {
-      return createSubscription({ projectId, priceId: price.id }).then(response => {
+      return createSubscription({ customerId, priceId: price.id }).then(response => {
         let subscriptionId = response.data.id
-        router.push(`/projects/${route.params.projectId}/checkout/${subscriptionId}`)
+        router.push(`/projects/${projectId}/checkout/${subscriptionId}`)
       })
     }
     const triggerCancel = () => {
