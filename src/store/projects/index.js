@@ -66,7 +66,8 @@ export default {
      *
      * @param projectId
      */
-    async SET_SELECTED_PROJECT_ID({ commit }, projectId) {
+    async SET_SELECTED_PROJECT_ID({ commit, dispatch }, projectId) {
+      dispatch('LOAD_PLANS', projectId)
       commit('SET_STATE', { selectedProjectId: projectId })
     },
     /**
@@ -82,7 +83,9 @@ export default {
         let projects = await getProjects()
         projects.forEach(project => {
           commit('ADD_PROJECT', project)
-          dispatch('LOAD_PLANS', project.projectId)
+          if (project.activated) {
+            dispatch('LOAD_PLANS', project.projectId)
+          }
         })
       } catch (e) {}
       commit('SET_STATE', { loading: false })
