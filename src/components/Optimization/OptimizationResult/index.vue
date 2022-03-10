@@ -50,9 +50,11 @@ export default {
   props: {
     index: {
       type: Number,
+      default: 0,
     },
     result: {
       type: Object,
+      default: () => null,
     },
   },
   setup(props) {

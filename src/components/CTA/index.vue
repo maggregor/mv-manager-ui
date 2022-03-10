@@ -1,16 +1,29 @@
 <template>
-  <a-button
-    :class="{ 'cta-primary': !secondary, 'cta-secondary': secondary }"
-    @click="triggerAction()"
-    :loading="loading"
-  >
-    <p class="label">{{ label }}</p>
-  </a-button>
+  <!-- Popover displayed if the button is disabled -->
+  <Popper :hover="true" :disabled="!disabled" placement="top">
+    <a-button
+      :class="{ 'cta-disabled': disabled, 'cta-secondary': secondary, 'cta-primary': !secondary }"
+      @click="triggerAction()"
+      :loading="loading"
+    >
+      <p class="label">{{ label }}</p>
+    </a-button>
+    <template #content>
+      <div>
+        <b>{{ popoverText }}</b>
+      </div>
+    </template>
+  </Popper>
 </template>
 
 <script>
+import Popper from 'vue3-popper'
+
 export default {
   name: 'Cta',
+  components: {
+    Popper,
+  },
   props: {
     url: {
       type: String,
@@ -20,12 +33,20 @@ export default {
       type: String,
       default: '',
     },
+    popoverText: {
+      type: String,
+      default: '',
+    },
     trigger: {
       type: Function,
       default: undefined,
     },
     secondary: {
       type: Boolean,
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {
@@ -46,7 +67,6 @@ export default {
         this.changeRoute()
       }
     },
-    executePost() {},
     changeRoute() {
       if (this.isExternal) {
         window.open(this.url)

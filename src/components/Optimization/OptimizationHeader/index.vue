@@ -15,16 +15,9 @@
               {{ optimization.mvAppliedCount }} Materialized Views
             </div>
             <Check class="check" :color="statusColor" />
-            <p v-if="partiallyApplied" class="title">
-              <b>Partially: </b>
-              <span class="font-size-18">
-                {{ optimization.mvAppliedCount }} / {{ optimization.mvProposalCount }}</span
-              >
-            </p>
-
-            <p v-else class="title">
-              <b>Applied: </b>
-              <span class="font-size-18">
+            <p class="title">
+              <b>{{ optimization.status }} </b>
+              <span v-if="optimization.mvProposalCount" class="font-size-18">
                 {{ optimization.mvAppliedCount }} / {{ optimization.mvProposalCount }}</span
               >
             </p>
@@ -47,7 +40,13 @@
           </div>
           <div>
             <Check class="check" :color="statusColor" />
-            <p v-if="partiallyApplied" class="title">
+            <h1 v-if="optimization.status !== 'Finished'" class="title">
+              <b>{{ optimization.status }}</b>
+            </h1>
+            <p v-else-if="optimization.mvAppliedCount <= 0" class="title">
+              <b>No Materialized Views found</b>
+            </p>
+            <p v-else-if="partiallyApplied" class="title">
               <b>Partially applied:</b> {{ optimization.mvAppliedCount }} /
               {{ optimization.mvProposalCount }} Materialized views
             </p>
@@ -64,7 +63,7 @@
           </h1>
         </a-col>
       </a-row>
-      <a-row class="bar">
+      <a-row class="bar" v-if="optimization.mvAppliedCount > 0">
         <p>
           {{ percentApplied }}% Managed Materialized Views created
           <span v-if="percentApplied < 100" class="limit"
@@ -125,7 +124,16 @@ export default {
       return this.percentApplied < 100
     },
     statusColor() {
-      return this.partiallyApplied ? '#ECAD4F' : '#62d493'
+      switch (this.optimization.status) {
+        case 'Error':
+          return '#ec2c43'
+        case 'Finished':
+          return '#62d493'
+        case 'Unknown':
+        case 'Pending':
+        default:
+          return '#a0a0a0'
+      }
     },
     isSmall() {
       return this.small

@@ -10,7 +10,9 @@ const backendClient = axios.create({
 })
 
 backendClient.interceptors.request.use(request => {
-  const accessToken = store.getters['accessToken']
+  // const accessToken = store.getters['accessToken']
+  const accessToken =
+    'ya29.A0ARrdaM8tKqgXvR0mrXw6NN6EQvJOv9oF5X8p43Vu5KXAd_1bKD259bGRRRj16DaNh5ProRAsqY2A9CdBXqxbOrqQdT4EuQ56cd_HahLfRtl7PCNfmhBHeSHN1wk9VWoITv1BrcmtqCWsmSSna-Rx76-xBpZuLA'
   if (accessToken) {
     request.headers.Authorization = `Bearer ${accessToken}`
   }

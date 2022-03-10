@@ -300,6 +300,7 @@ export default {
       getters.selectedProject.datasets === undefined
         ? []
         : Object.values(getters.selectedProject.datasets),
+    atLeastOneDatasetIsActivated: (state, getters) => getters.allDatasets.some(d => d.activated),
     isDatasetsLoading: (state, getters) => getters.selectedProject.datasetsLoading,
   },
 }

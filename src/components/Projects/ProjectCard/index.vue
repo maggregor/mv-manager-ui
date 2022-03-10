@@ -30,6 +30,9 @@ export default {
       default: () => {},
     },
   },
+  computed: {
+    ...mapGetters(['plans', 'activePlanName']),
+  },
   methods: {
     async activateProject() {
       const email = this.$store.getters['user'].email
@@ -45,9 +48,6 @@ export default {
       await this.$store.dispatch('LOAD_ALL_PROJECTS')
       this.$message.success(`${this.projectName} is deactivated !`, 3)
     },
-  },
-  computed: {
-    ...mapGetters(['plans', 'activePlanName']),
   },
 }
 </script>
