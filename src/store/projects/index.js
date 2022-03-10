@@ -95,9 +95,14 @@ export default {
      *
      * @param { projectId }
      */
-    async LOAD_PLANS({ commit }, projectId) {
+    async LOAD_PLANS({ commit, getters }, projectId) {
+      let customerId = getters.project(projectId).stripeCustomerId
+      if (!customerId) {
+        throw new Error(`customerId not found for ${projectId}`)
+      }
+      console.log('Load plan for customer ' + customerId)
       commit('SET_PROJECT_STATE', { projectId, planLoading: true })
-      commit('SET_PROJECT_STATE', { projectId, plans: await getPlans(projectId) })
+      commit('SET_PROJECT_STATE', { projectId, plans: await getPlans(customerId) })
       commit('SET_PROJECT_STATE', { projectId, planLoading: false })
     },
     /**
@@ -243,6 +248,9 @@ export default {
       }
       throw Error('No selected project id defined')
     },
+    // Returns the selected customer id
+    selectedCustomerId: (state, getters) =>
+      getters.hasSelectedProject ? getters.selectedProject.stripeCustomerId : null,
     // Statistics / KPI
     hasSelectedProjectKpi: (state, getters) =>
       getters.hasSelectedProject && getters.selectedProject.kpi !== undefined,
@@ -259,9 +267,16 @@ export default {
       getters.hasSelectedProjectCharts ? getters.selectedProject.chartsStatistics : [],
     isChartsStatisticsLoading: (state, getters) => getters.selectedProject.chartsStatisticsLoading,
     // Plans
+    //
+    plans: state => projectId => state.projects[projectId].plans,
     // Get plan by project id
-    plan: state => projectId =>
-      state.projects[projectId].plans.find(p => p.subscription !== undefined),
+    activePlanName: (state, getters) => projectId => {
+      let plan = null
+      if (getters.plans) {
+        plan = state.projects[projectId].plans.find(p => p.subscription !== null)
+      }
+      return plan ? plan.name : null
+    },
     hasSelectedProjectPlan: (state, getters) =>
       getters.hasSelectedProject &&
       getters.selectedProject.plans &&
