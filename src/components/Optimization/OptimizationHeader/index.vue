@@ -55,30 +55,6 @@
             <p>Triggered by {{ optimization.username }}</p>
           </div>
         </a-col>
-        <a-col :span="4">
-          <h1 class="percent">
-            {{ eligiblePercentFormatted() }}%
-            <p>Eligible queries</p>
-          </h1>
-        </a-col>
-      </a-row>
-      <a-row class="bar" v-if="optimization.mvAppliedCount > 0">
-        <p>
-          {{ percentApplied }}% Managed Materialized Views created
-          <span v-if="percentApplied < 100" class="limit"
-            >Plan limit reached: {{ mvPlanMax }} (<a
-              class="upgrade"
-              @click="$router.push(`/projects/${$route.params.projectId}/subscription`)"
-              >Upgrade</a
-            >)
-          </span>
-        </p>
-        <a-progress
-          :stroke-color="statusColor"
-          :percent="percentApplied"
-          size="small"
-          :show-info="false"
-        />
       </a-row>
       <a-row
         v-if="standalone && optimization.mvAppliedCount > 0 && optimization.status === 'Finished'"
@@ -157,7 +133,7 @@ export default {
   },
   methods: {
     eligiblePercentFormatted() {
-      const percent = this.optimization.queryEligiblePercentage
+      const percent = this.optimization.eligiblePercent
       return isNaN(percent) ? 0 : (percent * 100).toFixed()
     },
     showModal() {
