@@ -2,8 +2,8 @@
   <div class="container">
     <a-row type="flex" justify="space-around" align="middle">
       <a-col class="details_container" :span="10">
-        <h1>With Achilio</h1>
         <h2>Automatically improve your performance</h2>
+        <h1>With Achilio</h1>
         <!-- <div class="strengh_container">
           <h3 class="strengh_item">✅ Ca va très vite</h3>
           <h3 class="strengh_item">✅ En plus c'est automatique</h3>
