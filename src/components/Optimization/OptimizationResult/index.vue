@@ -17,15 +17,10 @@
         <p class="label">Table</p>
         <a-tag class="value">{{ result.tableName }}</a-tag>
       </a-col>
-      <!-- Processed bytes -->
-      <a-col flex="auto" class="property">
-        <p class="label">Processed bytes</p>
-        <p class="value principal">{{ prettyBytes(result.totalProcessedBytes) }}</p>
-      </a-col>
       <!-- Queries -->
       <a-col flex="auto" class="property">
-        <p class="label">Queries</p>
-        <p class="value">{{ result.queries }}</p>
+        <p class="label">Hits</p>
+        <p class="value">{{ result.hits }}</p>
       </a-col>
       <!-- Statement -->
       <a-col flex="auto" class="property">

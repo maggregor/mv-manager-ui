@@ -33,9 +33,7 @@ export default {
   setup(props) {
     const pageSize = ref(5)
     const currentPage = ref(1)
-    const sortedResults = computed(() =>
-      [...props.results].sort((a, b) => b.totalProcessedBytes - a.totalProcessedBytes),
-    )
+    const sortedResults = computed(() => [...props.results].sort((a, b) => b.hits - a.hits))
     const onChangePage = newPageNumber => (currentPage.value = newPageNumber)
     const minIndex = computed(() => (currentPage.value - 1) * pageSize.value)
     const maxIndex = computed(() => currentPage.value * pageSize.value - 1)
