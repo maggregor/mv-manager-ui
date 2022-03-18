@@ -157,7 +157,7 @@ export default {
   },
   methods: {
     eligiblePercentFormatted() {
-      const percent = this.optimization.queryEligiblePercentage
+      const percent = this.optimization.eligiblePercent
       return isNaN(percent) ? 0 : (percent * 100).toFixed()
     },
     showModal() {
