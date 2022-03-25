@@ -98,7 +98,6 @@ export default {
      *
      */
     async SYNCHRONIZE_PROJECTS({ commit, dispatch }) {
-      console.log('1')
       commit('SET_STATE', { synchronizeLoading: true })
       await synchronizeProjects()
       dispatch('LOAD_ALL_PROJECTS')
