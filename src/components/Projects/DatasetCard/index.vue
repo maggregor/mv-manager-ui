@@ -1,7 +1,9 @@
 <template>
-  <div class="dataset-card">
+  <div :class="{ 'dataset-card': true, activated: dataset.activated }">
     <a-row type="flex" justify="space-between">
-      <a-col class="p-1" :span="18">{{ dataset.datasetName }}</a-col>
+      <a-col class="p-1" :span="18"
+        ><h6>{{ dataset.datasetName }}</h6></a-col
+      >
       <a-col>
         <a-switch
           large
