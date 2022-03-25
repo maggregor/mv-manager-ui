@@ -1,0 +1,9 @@
+@import '@/mixins.scss';
+
+.container {
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+}

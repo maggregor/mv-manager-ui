@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import InsufficientPermissions from '@/components/InsufficientPermissions'
+import InsufficientPermissions from '@/components/Errors/InsufficientPermissions'
 import ProjectList from '@/components/Projects/ProjectList'
 
 import { mapGetters } from 'vuex'
