@@ -2,7 +2,7 @@
   <div class="settings">
     <a-row type="flex">
       <a-col :span="18">
-        <h1 class="mb-5">Parameters</h1>
+        <h1 class="mb-5">Optimization parameters</h1>
       </a-col>
       <a-col
         ><CTA :disabled="loading || !hasChanged" :trigger="saveSettings" label="Save changes"></CTA>

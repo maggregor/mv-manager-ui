@@ -1,8 +1,8 @@
 <template>
   <div class="container">
     <a-row v-if="allOptimizations.length" type="flex">
-      <a-col span="7">
-        <h1>History</h1>
+      <a-col span="7" class="pr-4">
+        <h1 class="mb-4">History</h1>
         <OptimizationHeaderList :optimizations="allOptimizations" />
       </a-col>
       <a-col span="17" class="pl-4">

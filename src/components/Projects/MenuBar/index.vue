@@ -9,7 +9,6 @@
 import { ref } from '@vue/reactivity'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
-import { computed } from '@vue/runtime-core'
 export default {
   setup() {
     const router = useRouter()
@@ -17,9 +16,11 @@ export default {
     const store = useStore()
     const projectId = store.getters['selectedProjectId']
     const changeRoute = o => {
-      router.push({ path: o.key.path.replace(':projectId', projectId) })
+      console.log(o.key)
+      let path = o.key.path.replace(':projectId', projectId)
+      router.push({ path })
     }
-    const currentItem = computed(() => route)
+    const currentItem = ref(route.meta.title)
     return {
       changeRoute,
       currentItem,

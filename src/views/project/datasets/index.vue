@@ -1,8 +1,7 @@
 <template>
   <div class="container-datasets">
-    <a-spin size="large" :spinning="isDatasetsLoading">
-      <h1 v-if="allEnabledDatasets.length">{{ allEnabledDatasets.length }} datasets enabled</h1>
-      <h1 v-else>No dataset enabled</h1>
+    <h3>{{ allDatasets.filter(o => o.activated).length }} datasets enabled</h3>
+    <a-spin size="large" :spinning="allDatasets === undefined && isDatasetsLoading">
       <DatasetCard
         v-for="dataset in allDatasets"
         :key="dataset.datasetName"
@@ -19,7 +18,7 @@ import DatasetCard from '@/components/Projects/DatasetCard'
 export default {
   components: { DatasetCard },
   computed: {
-    ...mapGetters(['allDatasets', 'allEnabledDatasets', 'isDatasetsLoading', 'selectedProjectId']),
+    ...mapGetters(['allDatasets', 'isDatasetsLoading', 'selectedProjectId']),
   },
 }
 </script>
