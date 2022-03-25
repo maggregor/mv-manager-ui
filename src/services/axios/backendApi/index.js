@@ -77,7 +77,7 @@ export function deleteAllMaterializedViews(projectId) {
  *
  * Create an new subscription based on the priceId
  *
- * @param { customerId, priceId }
+ * @param { customerId, priceId, projectId }
  * @returns
  */
 export function createSubscription(payload) {
@@ -116,11 +116,11 @@ export function updateSubscription(payload) {
 
 /**
  *
- * @param { customerId }
+ * @param { projectId }
  * @returns
  */
-export async function getPlans(customerId) {
-  const { data } = await client.get(`/plan`, { params: { customerId } })
+export async function getPlans(projectId) {
+  const { data } = await client.get(`/plan`, { params: { projectId } })
   return data
 }
 
@@ -132,5 +132,13 @@ export async function getPlans(customerId) {
 export async function getLatestIntentClientSecret(payload) {
   let subscriptionId = payload.subscriptionId
   const { data } = await client.get(`/subscription/${subscriptionId}/latestIntentClientSecret`)
+  return data
+}
+
+/**
+ *
+ */
+export async function getOrganizations() {
+  const { data } = await client.get(`/organization`)
   return data
 }

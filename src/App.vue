@@ -46,6 +46,7 @@ export default {
     // redirect if authorized and current page is login
     watch(authorized, async authorized => {
       if (authorized) {
+        await store.dispatch('LOAD_ALL_ORGANIZATIONS')
         await store.dispatch('LOAD_ALL_PROJECTS')
         const query = qs.parse(currentRoute.value.fullPath.split('?')[1], {
           ignoreQueryPrefix: true,
