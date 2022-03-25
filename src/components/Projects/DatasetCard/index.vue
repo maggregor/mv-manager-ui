@@ -1,17 +1,15 @@
 <template>
   <div class="dataset-card">
-    <a-row type="flex" justify="space-between">
+    <a-row type="flex" justify="space-between" style="height: 25px">
       <a-col class="p-1" :span="18">{{ dataset.datasetName }}</a-col>
-      <a-col>
-        <a-switch
-          large
-          checked-children="On"
-          un-checked-children="Off"
-          :loading="loading"
-          :checked="dataset.activated"
-          @click="toggleActivate"
-        />
-      </a-col>
+      <a-switch
+        checked-children="On"
+        un-checked-children="Off"
+        :loading="loading"
+        :checked="dataset.activated"
+        @click="toggleActivate"
+      />
+      <br />
     </a-row>
   </div>
 </template>

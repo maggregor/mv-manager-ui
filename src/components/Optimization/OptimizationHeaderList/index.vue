@@ -31,7 +31,7 @@ export default {
     },
   },
   setup(props) {
-    const pageSize = ref(8)
+    const pageSize = ref(10)
     const currentPage = ref(1)
     const sortedOptimizations = computed(() => [...props.optimizations])
     const onChangePage = newPageNumber => (currentPage.value = newPageNumber)

@@ -1,6 +1,5 @@
 <template>
-  <div class="container-datasets">
-    <h3>{{ allDatasets.filter(o => o.activated).length }} datasets enabled</h3>
+  <div class="container">
     <a-spin size="large" :spinning="allDatasets === undefined && isDatasetsLoading">
       <DatasetCard
         v-for="dataset in allDatasets"

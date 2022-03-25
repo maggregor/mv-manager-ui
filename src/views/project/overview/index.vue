@@ -23,7 +23,7 @@
               </a-button>
             </h3>
             <div class="section-content">
-              <div v-if="allOptimizations.length === 0"><OptimizationEmpty /></div>
+              <div v-if="allOptimizations.length === 0"><EmptyOptimization /></div>
               <div v-else>
                 <div v-for="(optimization, index) in allOptimizations" :key="optimization.id">
                   <OptimizationHeader small v-if="index < 3" :optimization="optimization" />
@@ -40,16 +40,14 @@
             (Excluding cached queries)
             <a-row>
               <a-col :span="8"
-                ><ProjectKPI
+                ><Kpi
                   percent
                   :data="kpiPercentQueriesInMV"
                   :label="'Queries in MV managed by Achilio'"
               /></a-col>
+              <a-col :span="8"><Kpi :data="kpiTotalQueries" :label="`Total queries`"/></a-col>
               <a-col :span="8"
-                ><ProjectKPI :data="kpiTotalQueries" :label="`Total queries`"
-              /></a-col>
-              <a-col :span="8"
-                ><ProjectKPI
+                ><Kpi
                   bytes
                   :data="kpiAverageScannedBytes"
                   :label="'Average scanned bytes per query'"
@@ -65,7 +63,7 @@
                 <OptimizationHeader standalone :index="index" :optimization="lastOptimization" />
               </div>
               <div v-else>
-                <OptimizationEmpty />
+                <EmptyOptimization />
               </div>
             </div>
           </div>
@@ -79,17 +77,17 @@
 <script>
 import { mapGetters } from 'vuex'
 import _ from 'lodash'
-import ProjectKPI from '@/components/Projects/ProjectKPI'
+import Kpi from '@/components/KPI'
 import OptimizationHeader from '@/components/Optimization/OptimizationHeader'
 import NotActivatedProject from '@/components/Projects/NotActivatedProject'
-import OptimizationEmpty from '@/components/Optimization/OptimizationEmpty'
+import EmptyOptimization from '@/components/Projects/EmptyOptimization'
 
 export default {
   name: 'Overview',
   components: {
-    ProjectKPI,
+    Kpi,
     OptimizationHeader,
-    OptimizationEmpty,
+    EmptyOptimization,
     NotActivatedProject,
   },
   computed: {

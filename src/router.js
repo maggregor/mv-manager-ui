@@ -56,7 +56,6 @@ const router = createRouter({
                 title: 'Overview',
                 breadcrumb: '',
                 projectActivatedRequired: true,
-                projectMenuBar: true,
               },
             },
             {
@@ -67,7 +66,6 @@ const router = createRouter({
                 title: 'Optimizations',
                 breadcrumb: 'Optimizations',
                 projectActivatedRequired: true,
-                projectMenuBar: true,
               },
               children: [
                 {
@@ -80,17 +78,7 @@ const router = createRouter({
                 },
               ],
             },
-            {
-              path: 'datasets',
-              name: 'Datasets',
-              component: () => import('./views/project/datasets'),
-              meta: {
-                breadcrumb: 'Datasets',
-                title: 'Datasets',
-                projectActivatedRequired: true,
-                projectMenuBar: true,
-              },
-            },
+
             {
               path: 'settings',
               name: 'Settings',
@@ -99,7 +87,6 @@ const router = createRouter({
                 breadcrumb: 'Settings',
                 title: 'Settings',
                 projectActivatedRequired: true,
-                projectMenuBar: true,
               },
             },
             {
