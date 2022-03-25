@@ -12,13 +12,13 @@
   }
 }
 
-.activated {
-  background: rgb(251, 251, 255);
-}
-
 h6 {
   overflow: hidden;
   h6:hover {
     overflow: visible;
   }
+}
+
+.toggle {
+  background-color: #4b7cf3 !important;
 }

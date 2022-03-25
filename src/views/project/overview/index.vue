@@ -1,20 +1,7 @@
 <template>
   <div class="container">
     <div :style="`${selectedProject.activated ? '' : 'filter: blur(7px)'}`">
-      <a-row class="mt-3">
-        <a-col :span="7">
-          <h3>
-            Datasets
-          </h3>
-        </a-col>
-        <a-col :span="17">
-          <h3>
-            Last 7 days performance
-            <h6>(Excluding cached queries)</h6>
-          </h3>
-        </a-col>
-      </a-row>
-      <a-row class="p-1">
+      <a-row>
         <a-col class="pr-5" :span="7">
           <!-- Datasets section -->
           <div class="section">
@@ -54,38 +41,42 @@
           </div>
         </a-col>
         <a-col :span="17">
-          <a-row style="height:120px; margin-top: 90px;">
-            <a-col :span="8"
-              ><Kpi
-                percent
-                :data="kpiPercentQueriesInMV"
-                :label="'Queries in Materialized Views managed by Achilio'"
-            /></a-col>
-            <a-col :span="8"><Kpi :data="kpiTotalQueries" :label="`Total queries`"/></a-col>
-            <a-col :span="8"
-              ><Kpi bytes :data="kpiAverageScannedBytes" :label="'Average scanned bytes per query'"
-            /></a-col>
-          </a-row>
-          <h3 class="mb-2 mt-5">
-            Last optimization
-          </h3>
-          <div v-if="lastOptimization">
-            <OptimizationHeader standalone :index="index" :optimization="lastOptimization" />
-          </div>
-          <div v-else>
-            <NoLastOptimization />
-          </div>
-          <!--
-            Series chart is deactivated for now.
-            It will be reactivated when we implement a project setup  process that persist the stats
-            -->
-          <!-- <a-row style="margin-top: 65px">
-            
+          <div class="section">
             <h3>
-              Average scanned bytes per query
+              Last 7 days performance
             </h3>
-            <Chart style="width: 90%; height: 200px; margin: auto" :fake="false" />
-          </a-row> -->
+            (Excluding cached queries)
+            <a-row>
+              <a-col :span="8"
+                ><ProjectKPI
+                  percent
+                  :data="kpiPercentQueriesInMV"
+                  :label="'Queries in MV managed by Achilio'"
+              /></a-col>
+              <a-col :span="8"
+                ><ProjectKPI :data="kpiTotalQueries" :label="`Total queries`"
+              /></a-col>
+              <a-col :span="8"
+                ><ProjectKPI
+                  bytes
+                  :data="kpiAverageScannedBytes"
+                  :label="'Average scanned bytes per query'"
+              /></a-col>
+            </a-row>
+          </div>
+          <div class="section">
+            <h3>
+              Last optimization
+            </h3>
+            <div>
+              <div v-if="lastOptimization">
+                <OptimizationHeader standalone :index="index" :optimization="lastOptimization" />
+              </div>
+              <div v-else>
+                <OptimizationEmpty />
+              </div>
+            </div>
+          </div>
         </a-col>
       </a-row>
     </div>
@@ -96,17 +87,16 @@
 <script>
 import { mapGetters } from 'vuex'
 import _ from 'lodash'
-import Kpi from '@/components/KPI'
-import DatasetCard from '@/components/Projects/DatasetCard'
+import ProjectKPI from '@/components/Projects/ProjectKPI'
 import OptimizationHeader from '@/components/Optimization/OptimizationHeader'
 import OptimizationEmpty from '@/components/Optimization/OptimizationEmpty'
 import NotActivatedProject from '@/components/Projects/NotActivatedProject'
+import DatasetCard from '@/components/Projects/DatasetCard'
 
 export default {
   name: 'Overview',
   components: {
-    Kpi,
-    DatasetCard,
+    ProjectKPI,
     OptimizationHeader,
     OptimizationEmpty,
     NotActivatedProject,
