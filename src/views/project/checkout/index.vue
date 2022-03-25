@@ -8,12 +8,7 @@
         </div>
       </a-spin>
 
-      <CTA
-        extra-style="width:300px; margin: auto; margin-top: 50px;"
-        text="Subscribe"
-        label="Pay"
-        :trigger="confirmPayment"
-      />
+      <CTA text="Subscribe" label="Pay" :trigger="confirmPayment" />
       <div id="error-message">
         <!-- Display error message to your customers here -->
       </div>

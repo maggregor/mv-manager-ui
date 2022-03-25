@@ -1,7 +1,7 @@
 <template>
-  <div class="container">
+  <a-row type="flex" justify="space-around" class="container">
     <h1>No optimization</h1>
-  </div>
+  </a-row>
 </template>
 <script>
 export default {}

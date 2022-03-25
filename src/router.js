@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import NProgress from 'nprogress'
 import MainLayout from '@/layouts/Main'
 import store from '@/store'
 
@@ -56,6 +55,7 @@ const router = createRouter({
               meta: {
                 title: 'Overview',
                 breadcrumb: '',
+                projectActivatedRequired: true,
               },
             },
             {
@@ -65,6 +65,7 @@ const router = createRouter({
               meta: {
                 title: 'Optimizations',
                 breadcrumb: 'Optimizations',
+                projectActivatedRequired: true,
               },
               children: [
                 {
@@ -85,6 +86,7 @@ const router = createRouter({
               meta: {
                 breadcrumb: 'Settings',
                 title: 'Settings',
+                projectActivatedRequired: true,
               },
             },
             {
@@ -153,6 +155,13 @@ router.beforeEach((to, from, next) => {
       })
       return
     }
+  }
+  const requireActivatedProject = to.matched.some(record => record.meta.projectActivatedRequired)
+  const projectId = to.params.projectId
+  if (requireActivatedProject && projectId && !store.getters['project'](projectId).activated) {
+    next({
+      path: `/projects/${projectId}/plan`,
+    })
   }
   next()
 })
