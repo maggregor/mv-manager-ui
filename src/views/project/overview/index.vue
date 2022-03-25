@@ -1,86 +1,81 @@
 <template>
   <div class="container">
-    <div :style="`${selectedProject.activated ? '' : 'filter: blur(7px)'}`">
-      <a-row>
-        <a-col class="pr-5" :span="7">
-          <!-- Datasets section -->
-          <div class="section">
-            <h3>
-              Datasets
-            </h3>
-            <div class="section-content" style="overflow: scroll">
-              <DatasetCard
-                v-for="dataset in allDatasets"
-                :key="dataset.datasetName"
-                :project-id="selectedProjectId"
-                :dataset="dataset"
-              />
-            </div>
-          </div>
-          <!-- Optimization history section -->
-          <div class="section">
-            <h3>
-              History
-              <a-button type="link">
-                <span
-                  v-if="allOptimizations.length"
-                  class="text-dark"
-                  @click="$router.push(`/projects/${selectedProjectId}/optimizations`)"
-                  >See all</span
-                >
-              </a-button>
-            </h3>
-            <div class="section-content">
-              <div v-if="allOptimizations.length === 0"><OptimizationEmpty /></div>
-              <div v-else>
-                <div v-for="(optimization, index) in allOptimizations" :key="optimization.id">
-                  <OptimizationHeader small v-if="index < 3" :optimization="optimization" />
-                </div>
+    <a-row>
+      <a-col class="pr-5" :span="7">
+        <!-- Datasets section -->
+        <div class="section">
+          <h3>
+            Datasets
+          </h3>
+          <a-col class="section-content" :span="24">
+            <DatasetCard
+              v-for="dataset in allDatasets"
+              :key="dataset.datasetName"
+              :project-id="selectedProjectId"
+              :dataset="dataset"
+            />
+          </a-col>
+        </div>
+        <!-- Optimization history section -->
+        <div class="section">
+          <h3>
+            History
+            <a-button type="link">
+              <span
+                v-if="allOptimizations.length"
+                class="text-dark"
+                @click="$router.push(`/projects/${selectedProjectId}/optimizations`)"
+                >See all</span
+              >
+            </a-button>
+          </h3>
+          <div class="section-content">
+            <div v-if="allOptimizations.length === 0"><OptimizationEmpty /></div>
+            <div v-else>
+              <div v-for="(optimization, index) in allOptimizations" :key="optimization.id">
+                <OptimizationHeader small v-if="index < 3" :optimization="optimization" />
               </div>
             </div>
           </div>
-        </a-col>
-        <a-col :span="17">
-          <div class="section">
-            <h3>
-              Last 7 days performance
-            </h3>
-            (Excluding cached queries)
-            <a-row>
-              <a-col :span="8"
-                ><ProjectKPI
-                  percent
-                  :data="kpiPercentQueriesInMV"
-                  :label="'Queries in MV managed by Achilio'"
-              /></a-col>
-              <a-col :span="8"
-                ><ProjectKPI :data="kpiTotalQueries" :label="`Total queries`"
-              /></a-col>
-              <a-col :span="8"
-                ><ProjectKPI
-                  bytes
-                  :data="kpiAverageScannedBytes"
-                  :label="'Average scanned bytes per query'"
-              /></a-col>
-            </a-row>
-          </div>
-          <div class="section">
-            <h3>
-              Last optimization
-            </h3>
-            <div>
-              <div v-if="lastOptimization">
-                <OptimizationHeader standalone :index="index" :optimization="lastOptimization" />
-              </div>
-              <div v-else>
-                <OptimizationEmpty />
-              </div>
+        </div>
+      </a-col>
+      <a-col :span="17">
+        <div class="section">
+          <h3>
+            Last 7 days performance
+          </h3>
+          (Excluding cached queries)
+          <a-row>
+            <a-col :span="8"
+              ><ProjectKPI
+                percent
+                :data="kpiPercentQueriesInMV"
+                :label="'Queries in MV managed by Achilio'"
+            /></a-col>
+            <a-col :span="8"><ProjectKPI :data="kpiTotalQueries" :label="`Total queries`"/></a-col>
+            <a-col :span="8"
+              ><ProjectKPI
+                bytes
+                :data="kpiAverageScannedBytes"
+                :label="'Average scanned bytes per query'"
+            /></a-col>
+          </a-row>
+        </div>
+        <div class="section">
+          <h3>
+            Last optimization
+          </h3>
+          <div>
+            <div v-if="lastOptimization">
+              <OptimizationHeader standalone :index="index" :optimization="lastOptimization" />
+            </div>
+            <div v-else>
+              <OptimizationEmpty />
             </div>
           </div>
-        </a-col>
-      </a-row>
-    </div>
-    <NotActivatedProject v-if="!selectedProject.activated" />
+        </div>
+      </a-col>
+    </a-row>
   </div>
 </template>
 
@@ -90,7 +85,6 @@ import _ from 'lodash'
 import ProjectKPI from '@/components/Projects/ProjectKPI'
 import OptimizationHeader from '@/components/Optimization/OptimizationHeader'
 import OptimizationEmpty from '@/components/Optimization/OptimizationEmpty'
-import NotActivatedProject from '@/components/Projects/NotActivatedProject'
 import DatasetCard from '@/components/Projects/DatasetCard'
 
 export default {
@@ -99,7 +93,6 @@ export default {
     ProjectKPI,
     OptimizationHeader,
     OptimizationEmpty,
-    NotActivatedProject,
     DatasetCard,
   },
   computed: {
