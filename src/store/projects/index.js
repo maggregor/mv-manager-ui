@@ -6,18 +6,15 @@ import {
   getDatasets,
   getPlans,
   getKPIStatistics,
-  // getChartsStatistics, Disabled
+  getChartsStatistics,
   deleteAllMaterializedViews,
   getOptimizations,
   optimizeProject,
   updateDataset,
-  getOrganizations,
 } from '@/services/axios/backendApi'
 
 const getDefaultState = () => {
   return {
-    // Organization map
-    organizations: {},
     // Project map
     projects: {},
     // Global project loading
@@ -38,22 +35,6 @@ export default {
       })
     },
     ADD_PROJECT(state, project) {
-      // TEMPORARY OVERRIDE BACKEND
-      if (Object.keys(state.projects).length < 5) {
-        project.organization = {
-          id: 'organizations/654437733821',
-          name: 'achilio.com',
-          stripeCustomerId: 'cus_LNAF7W5iUojzjb',
-          googleWorkspaceId: 'C01shvmvg',
-        }
-      } else {
-        project.organization = {
-          id: 'organizations/6544243231',
-          name: 'calixa.io',
-          stripeCustomerId: 'cus_LNAF7W5iUojzjb',
-          googleWorkspaceId: 'C01shvmvg',
-        }
-      }
       let projectId = project.projectId
       if (state.projects.hasOwnProperty(projectId)) {
         // Update project fields on existing loaded project
@@ -90,25 +71,6 @@ export default {
       commit('SET_STATE', { selectedProjectId: projectId })
     },
     /**
-     * Load all organizations
-     *
-     * Retrieve all organizations as array from the API
-     * Converts to a organization map
-     *
-     */
-    async LOAD_ALL_ORGANIZATIONS({ commit, dispatch }) {
-      commit('SET_STATE', { loading: true })
-      let organizations = _.keyBy(await getOrganizations(), 'id')
-      organizations[1] = {
-        id: 'organizations/6544243231',
-        name: 'calixa.io',
-        stripeCustomerId: 'cus_LNAF7W5iUojzjb',
-        googleWorkspaceId: 'C01shvmvg',
-      }
-      commit('SET_STATE', { organizations })
-      commit('SET_STATE', { loading: false })
-    },
-    /**
      * Load all projects
      *
      * Retrieve all projects as array from the API
@@ -116,7 +78,7 @@ export default {
      *
      */
     async LOAD_ALL_PROJECTS({ commit, dispatch }) {
-      commit('SET_STATE', { loading: true })
+      commit('SET_USER_STATE', { loading: true })
       try {
         let projects = await getProjects()
         projects.forEach(project => {
@@ -133,9 +95,13 @@ export default {
      *
      * @param { projectId }
      */
-    async LOAD_PLANS({ commit }, projectId) {
+    async LOAD_PLANS({ commit, getters }, projectId) {
+      let customerId = getters.project(projectId).stripeCustomerId
+      if (!customerId) {
+        throw new Error(`customerId not found for ${projectId}`)
+      }
       commit('SET_PROJECT_STATE', { projectId, planLoading: true })
-      commit('SET_PROJECT_STATE', { projectId, plans: await getPlans(projectId) })
+      commit('SET_PROJECT_STATE', { projectId, plans: await getPlans(customerId) })
       commit('SET_PROJECT_STATE', { projectId, planLoading: false })
     },
     /**
@@ -261,11 +227,6 @@ export default {
     },
   },
   getters: {
-    // Returns organizations as array
-    allOrganizations: state => _.orderBy(Object.values(state.organizations), 'name', 'asc'),
-    // Returns organization object by id
-    organization: state => id => state.organizations[id],
-    // Global app loading
     loading: state => state.loading,
     // Returns projects as array of project
     allProjects: state => Object.values(state.projects),
@@ -288,9 +249,7 @@ export default {
     },
     // Returns the selected customer id
     selectedCustomerId: (state, getters) =>
-      getters.hasSelectedProject ? getters.customerIdOf(getters.selectedProject.projectId) : null,
-    customerIdOf: (state, getters) => projectId =>
-      getters.project(projectId).organization.stripeCustomerId,
+      getters.hasSelectedProject ? getters.selectedProject.stripeCustomerId : null,
     // Statistics / KPI
     hasSelectedProjectKpi: (state, getters) =>
       getters.hasSelectedProject && getters.selectedProject.kpi !== undefined,
@@ -310,29 +269,19 @@ export default {
     //
     plans: state => projectId => state.projects[projectId].plans,
     // Get plan by project id
-    activePlan: (state, getters) => projectId => {
+    activePlanName: (state, getters) => projectId => {
       let plan = null
       if (getters.plans) {
-        plan = state.projects[projectId].plans.find(
-          p => p.subscription !== null && p.subscription.active,
-        )
+        plan = state.projects[projectId].plans.find(p => p.subscription !== null)
       }
-      return plan ? plan : null
-    },
-    activePlanName: (state, getters) => projectId => {
-      let plan = getters.activePlan(projectId)
       return plan ? plan.name : null
-    },
-    selectedProjectPlan: (state, getters) => {
-      return getters.activePlan(getters.selectedProjectId)
-    },
-    selectedProjectPlanName: (state, getters) => {
-      return getters.activePlanName(getters.selectedProjectId)
     },
     hasSelectedProjectPlan: (state, getters) =>
       getters.hasSelectedProject &&
       getters.selectedProject.plans &&
-      getters.activePlanName(getters.selectedProjectId),
+      getters.selectedProject.plans.some(p => p.subscription !== null),
+    selectedProjectPlan: (state, getters) =>
+      getters.selectedProject.plans.find(p => p.subscription !== null),
     isSelectedProjectPlanLoading: (state, getters) => getters.selectedProject.planLoading,
     // Optimizations
     allOptimizations: (state, getters) =>
