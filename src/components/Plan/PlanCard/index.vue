@@ -49,7 +49,7 @@ export default {
     const projectId = store.getters['selectedProjectId']
     const customerId = store.getters['selectedCustomerId']
     const triggerPay = () => {
-      return createSubscription({ customerId, priceId: price.id }).then(response => {
+      return createSubscription({ customerId, priceId: price.id, projectId }).then(response => {
         let subscriptionId = response.data.id
         router.push(`/projects/${projectId}/checkout/${subscriptionId}`)
       })
