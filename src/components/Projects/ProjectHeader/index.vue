@@ -9,7 +9,7 @@
     </h1>
     <div class="project-plan">
       <p v-if="hasSelectedProjectPlan" class="plan-name">
-        {{ selectedProjectPlanName }}
+        {{ selectedProjectPlan.name }}
       </p>
       <p v-else class="no-plan-name">No subscription</p>
       <a class="manage" @click="$router.push(`/projects/${project.projectId}/plan`)">Manage plan</a>
@@ -31,7 +31,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(['selectedProjectPlanName', 'hasSelectedProjectPlan']),
+    ...mapGetters(['selectedProjectPlan', 'hasSelectedProjectPlan']),
     breadcrumb() {
       let optimizationId = this.$route.params.optimizationId
       if (optimizationId) {

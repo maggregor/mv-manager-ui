@@ -1,20 +1,33 @@
 <template>
   <div class="container">
-    <a-row v-if="hasSelectedProject" align="bottom">
-      <a-col :span="10"><ProjectHeader :project="selectedProject"/></a-col>
-      <a-col :span="10">
-        <MenuBar />
+    <a-row v-if="hasSelectedProject">
+      <a-col :span="12"><ProjectHeader :project="selectedProject"/></a-col>
+      <a-col :span="12">
+        <a-row style="float:right;">
+          <cta
+            v-if="isOverview"
+            secondary
+            style="width: 160px; margin-top: 100px; margin-right: 10px;"
+            label="Settings"
+            :url="`/projects/${selectedProject.projectId}/settings`"
+          ></cta>
+          <cta
+            v-else
+            secondary
+            style="width: 160px; margin-top: 100px;margin-right: 10px;"
+            :url="`/projects/${selectedProject.projectId}/overview`"
+            label="Back to overview"
+          ></cta>
+          <cta
+            style="width: 55%; margin-top: 100px;"
+            label="Start optimization"
+            popover-text="You have to enable at least one dataset"
+            :trigger="triggerOptimization"
+            :disabled="!atLeastOneDatasetIsActivated"
+          ></cta>
+        </a-row>
       </a-col>
-      <a-col :span="4" style="display:flex; justify-content: end;">
-        <cta
-          label="Start optimization"
-          popover-text="You have to enable at least one dataset"
-          :trigger="triggerOptimization"
-          :disabled="!atLeastOneDatasetIsActivated"
-        ></cta>
-      </a-col>
-      <a-divider style="padding: 0px" />
-      <router-view class="mt-4" v-slot="{ Component }">
+      <router-view v-slot="{ Component }">
         <transition name="zoom-fadein" mode="out-in">
           <component :is="Component" />
         </transition>
@@ -30,7 +43,6 @@ import { useRoute, useRouter } from 'vue-router'
 
 import ProjectHeader from '@/components/Projects/ProjectHeader'
 import CTA from '@/components/CTA'
-import MenuBar from '@/components/Projects/MenuBar'
 import Popper from 'vue3-popper'
 
 export default {
@@ -38,7 +50,6 @@ export default {
   components: {
     ProjectHeader,
     cta: CTA,
-    MenuBar,
     Popper,
   },
   setup() {
@@ -48,7 +59,6 @@ export default {
     const projectId = route.params.projectId
     onMounted(async () => {
       store.dispatch('SET_SELECTED_PROJECT_ID', projectId)
-      //TODO: Check permissions
       store.dispatch('LOAD_DATASETS', { projectId })
       store.dispatch('LOAD_OPTIMIZATIONS', { projectId })
       store.dispatch('LOAD_PROJECT_STATISTICS', { projectId, timeframe: 7 })

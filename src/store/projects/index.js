@@ -98,7 +98,6 @@ export default {
      *
      */
     async SYNCHRONIZE_PROJECTS({ commit, dispatch }) {
-      console.log('1')
       commit('SET_STATE', { synchronizeLoading: true })
       await synchronizeProjects()
       dispatch('LOAD_ALL_PROJECTS')
@@ -335,7 +334,6 @@ export default {
       getters.selectedProject.datasets === undefined
         ? []
         : Object.values(getters.selectedProject.datasets),
-    allEnabledDatasets: (state, getters) => getters.allDatasets.filter(o => o.activated),
     atLeastOneDatasetIsActivated: (state, getters) => getters.allDatasets.some(d => d.activated),
     isDatasetsLoading: (state, getters) => getters.selectedProject.datasetsLoading,
   },

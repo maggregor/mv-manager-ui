@@ -29,7 +29,7 @@
       </a-row>
     </div>
     <div v-else>
-      <a-row align="middle">
+      <a-row>
         <a-col :span="20">
           <div>
             <p>

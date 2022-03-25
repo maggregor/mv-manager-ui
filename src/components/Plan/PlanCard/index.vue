@@ -26,7 +26,7 @@
 import CTA from '@/components/CTA'
 import { computed } from '@vue/reactivity'
 import { useStore } from 'vuex'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { createSubscription, cancelSubscription } from '@/services/axios/backendApi'
 export default {
   name: 'PlanCard',
@@ -49,7 +49,7 @@ export default {
     const projectId = store.getters['selectedProjectId']
     const customerId = store.getters['selectedCustomerId']
     const triggerPay = () => {
-      return createSubscription({ customerId, priceId: price.id, projectId }).then(response => {
+      return createSubscription({ customerId, priceId: price.id }).then(response => {
         let subscriptionId = response.data.id
         router.push(`/projects/${projectId}/checkout/${subscriptionId}`)
       })

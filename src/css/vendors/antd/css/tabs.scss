@@ -3,8 +3,7 @@
 
 .ant-tabs-nav .ant-tabs-tab {
   margin-right: rem(20) !important;
-  font-size: 16px;
-  font-weight: 600;
+
   &:last-child,
   &:last-of-type {
     margin-right: 0 !important;
@@ -71,13 +70,6 @@
 .vb-tabs-pills {
   .ant-tabs-ink-bar {
     display: none !important;
-  }
-
-  .ant-tabs-nav {
-    .ant-tabs-tab {
-      padding-left: 0;
-      padding-right: 0;
-    }
   }
 }
 
