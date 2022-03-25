@@ -18,7 +18,7 @@ const basicScopes = [
 const fullScopes = [
   basicScopes,
   'https://www.googleapis.com/auth/bigquery',
-  'https://www.googleapis.com/auth/cloudplatformprojects.readonly',
+  'https://www.googleapis.com/auth/cloud-platform.read-only',
 ].join(' ')
 
 const params = {
