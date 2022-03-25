@@ -138,7 +138,7 @@ export async function getLatestIntentClientSecret(payload) {
 /**
  *
  */
-export async function getOrganizations() {
-  const { data } = await client.get(`/organization`)
+export async function synchronizeProjects() {
+  const { data } = await client.post(`/organization/project`)
   return data
 }

@@ -3,11 +3,19 @@
     <div :style="`${selectedProject.activated ? '' : 'filter: blur(7px)'}`">
       <a-row>
         <a-col class="pr-5" :span="7">
-          <!-- Materialized view section -->
+          <!-- Datasets section -->
           <div class="section">
             <h3>
-              Materialized Views
+              Datasets
             </h3>
+            <div class="section-content" style="overflow: scroll">
+              <DatasetCard
+                v-for="dataset in allDatasets"
+                :key="dataset.datasetName"
+                :project-id="selectedProjectId"
+                :dataset="dataset"
+              />
+            </div>
           </div>
           <!-- Optimization history section -->
           <div class="section">
@@ -81,8 +89,9 @@ import { mapGetters } from 'vuex'
 import _ from 'lodash'
 import ProjectKPI from '@/components/Projects/ProjectKPI'
 import OptimizationHeader from '@/components/Optimization/OptimizationHeader'
-import NotActivatedProject from '@/components/Projects/NotActivatedProject'
 import OptimizationEmpty from '@/components/Optimization/OptimizationEmpty'
+import NotActivatedProject from '@/components/Projects/NotActivatedProject'
+import DatasetCard from '@/components/Projects/DatasetCard'
 
 export default {
   name: 'Overview',
@@ -91,6 +100,7 @@ export default {
     OptimizationHeader,
     OptimizationEmpty,
     NotActivatedProject,
+    DatasetCard,
   },
   computed: {
     ...mapGetters([

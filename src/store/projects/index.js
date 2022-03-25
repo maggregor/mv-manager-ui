@@ -6,18 +6,15 @@ import {
   getDatasets,
   getPlans,
   getKPIStatistics,
-  // getChartsStatistics, Disabled
+  synchronizeProjects,
   deleteAllMaterializedViews,
   getOptimizations,
   optimizeProject,
   updateDataset,
-  getOrganizations,
 } from '@/services/axios/backendApi'
 
 const getDefaultState = () => {
   return {
-    // Organization map
-    organizations: {},
     // Project map
     projects: {},
     // Global project loading
@@ -38,22 +35,6 @@ export default {
       })
     },
     ADD_PROJECT(state, project) {
-      // TEMPORARY OVERRIDE BACKEND
-      if (Object.keys(state.projects).length < 5) {
-        project.organization = {
-          id: 'organizations/654437733821',
-          name: 'achilio.com',
-          stripeCustomerId: 'cus_LNAF7W5iUojzjb',
-          googleWorkspaceId: 'C01shvmvg',
-        }
-      } else {
-        project.organization = {
-          id: 'organizations/6544243231',
-          name: 'calixa.io',
-          stripeCustomerId: 'cus_LNAF7W5iUojzjb',
-          googleWorkspaceId: 'C01shvmvg',
-        }
-      }
       let projectId = project.projectId
       if (state.projects.hasOwnProperty(projectId)) {
         // Update project fields on existing loaded project
@@ -90,25 +71,6 @@ export default {
       commit('SET_STATE', { selectedProjectId: projectId })
     },
     /**
-     * Load all organizations
-     *
-     * Retrieve all organizations as array from the API
-     * Converts to a organization map
-     *
-     */
-    async LOAD_ALL_ORGANIZATIONS({ commit, dispatch }) {
-      commit('SET_STATE', { loading: true })
-      let organizations = _.keyBy(await getOrganizations(), 'id')
-      organizations[1] = {
-        id: 'organizations/6544243231',
-        name: 'calixa.io',
-        stripeCustomerId: 'cus_LNAF7W5iUojzjb',
-        googleWorkspaceId: 'C01shvmvg',
-      }
-      commit('SET_STATE', { organizations })
-      commit('SET_STATE', { loading: false })
-    },
-    /**
      * Load all projects
      *
      * Retrieve all projects as array from the API
@@ -127,6 +89,20 @@ export default {
         })
       } catch (e) {}
       commit('SET_STATE', { loading: false })
+    },
+    /**
+     * Load all projects
+     *
+     * Retrieve all projects as array from the API
+     * Converts to a project map
+     *
+     */
+    async SYNCHRONIZE_PROJECTS({ commit, dispatch }) {
+      console.log('1')
+      commit('SET_STATE', { synchronizeLoading: true })
+      await synchronizeProjects()
+      dispatch('LOAD_ALL_PROJECTS')
+      commit('SET_STATE', { synchronizeLoading: false })
     },
     /**
      * Load a plan
@@ -261,10 +237,17 @@ export default {
     },
   },
   getters: {
+    // Returns true a synchronize projects is pending
+    isSynchronizing: state => state.synchronizeLoading,
     // Returns organizations as array
-    allOrganizations: state => _.orderBy(Object.values(state.organizations), 'name', 'asc'),
+    allOrganizations: (state, getters) =>
+      _(getters.allProjects.filter(p => p.organization))
+        .map(({ organization }) => organization)
+        .uniqBy('id')
+        .value(),
+
     // Returns organization object by id
-    organization: state => id => state.organizations[id],
+    organization: (state, getters) => id => getters.allOrganizations.find(o => o.id === id),
     // Global app loading
     loading: state => state.loading,
     // Returns projects as array of project
@@ -312,7 +295,7 @@ export default {
     // Get plan by project id
     activePlan: (state, getters) => projectId => {
       let plan = null
-      if (getters.plans) {
+      if (getters.plans(projectId)) {
         plan = state.projects[projectId].plans.find(
           p => p.subscription !== null && p.subscription.active,
         )

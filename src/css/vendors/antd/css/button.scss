@@ -39,6 +39,11 @@
   }
 }
 
+[data-vb-theme='default'] {
+  .ant-btn {
+    padding: 0px;
+  }
+}
 ////////////////////////////////////////////////////////////////////////////////////////////
 // DARK THEME STYLES
 [data-vb-theme='dark'] {

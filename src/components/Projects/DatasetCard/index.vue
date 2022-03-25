@@ -1,6 +1,6 @@
 <template>
   <div :class="{ 'dataset-card': true, activated: dataset.activated }">
-    <a-row type="flex" justify="space-between">
+    <a-row type="flex" justify="space-between" align="middle">
       <a-col class="p-1" :span="18"
         ><h6>{{ dataset.datasetName }}</h6></a-col
       >

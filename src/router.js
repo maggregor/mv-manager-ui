@@ -88,7 +88,7 @@ const router = createRouter({
                 breadcrumb: 'Datasets',
                 title: 'Datasets',
                 projectActivatedRequired: true,
-                projectMenuBar: true,
+                // projectMenuBar: true,
               },
             },
             {

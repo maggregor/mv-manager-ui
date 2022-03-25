@@ -19,7 +19,7 @@ backendClient.interceptors.request.use(request => {
 
 backendClient.interceptors.response.use(
   response => {
-    if (response.config.url === '/project') {
+    if (response.config.url === '/project' || response.config.url === '/organization') {
       store.commit('SET_USER_STATE', { insufficientPermissions: false })
     }
     return response
@@ -27,7 +27,10 @@ backendClient.interceptors.response.use(
   error => {
     // Errors handling
     const { response } = error
-    if (response.config.url === '/project' && response.status === 403) {
+    if (
+      (response.config.url === '/project' || response.config.url === '/organization') &&
+      response.status === 403
+    ) {
       store.commit('SET_USER_STATE', { insufficientPermissions: true })
     } else if (response && response.data) {
       const { data } = response
