@@ -1,6 +1,7 @@
 @import '@/mixins.scss';
 
 .container {
-  max-width: 900px;
+  max-width: 1000px;
+  padding: rem(0) rem(30) rem(30) rem(30);
   margin: auto;
 }

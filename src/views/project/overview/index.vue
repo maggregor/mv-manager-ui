@@ -23,7 +23,7 @@
               </a-button>
             </h3>
             <div class="section-content">
-              <div v-if="allOptimizations.length === 0"><EmptyOptimization /></div>
+              <div v-if="allOptimizations.length === 0"><EmptyOptimizationList /></div>
               <div v-else>
                 <div v-for="(optimization, index) in allOptimizations" :key="optimization.id">
                   <OptimizationHeader small v-if="index < 3" :optimization="optimization" />
@@ -63,7 +63,7 @@
                 <OptimizationHeader standalone :index="index" :optimization="lastOptimization" />
               </div>
               <div v-else>
-                <EmptyOptimization />
+                <NoLastOptimization />
               </div>
             </div>
           </div>
@@ -79,15 +79,19 @@ import { mapGetters } from 'vuex'
 import _ from 'lodash'
 import Kpi from '@/components/KPI'
 import OptimizationHeader from '@/components/Optimization/OptimizationHeader'
+// import Chart from '@/components/Chart'
 import NotActivatedProject from '@/components/Projects/NotActivatedProject'
-import EmptyOptimization from '@/components/Projects/EmptyOptimization'
+import EmptyOptimizationList from '@/components/Projects/EmptyOptimizationList'
+import NoLastOptimization from '@/components/Projects/NoLastOptimization'
 
 export default {
   name: 'Overview',
   components: {
     Kpi,
     OptimizationHeader,
-    EmptyOptimization,
+    EmptyOptimizationList,
+    NoLastOptimization,
+    // Chart,
     NotActivatedProject,
   },
   computed: {
