@@ -3,3 +3,17 @@
 .container {
   max-width: 80vw;
 }
+
+.section {
+  width: 100%;
+  height: 320px;
+}
+
+.section-content {
+  height: 80%;
+  overflow: scroll;
+}
+
+.section-content::-webkit-scrollbar {
+  display: none;
+}

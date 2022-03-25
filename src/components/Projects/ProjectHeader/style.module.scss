@@ -6,7 +6,7 @@
   font-family: Poppins;
   font-style: normal;
   font-weight: 900;
-  font-size: 58px;
+  font-size: 38px;
   /* identical to box height, or 200% */
 
   align-items: center;
@@ -43,6 +43,7 @@
     font-weight: 800;
     background: linear-gradient(45deg, rgb(255, 109, 109), rgb(74, 74, 255) 50%);
     -webkit-background-clip: text;
+    background-clip: text; // For compatibility
     -webkit-text-fill-color: transparent;
     margin-right: 10px;
   }

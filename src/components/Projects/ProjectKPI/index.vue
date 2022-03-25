@@ -2,7 +2,7 @@
   <div class="kpi-card">
     <span class="value">{{ formattedValue }}</span>
     <br />
-    <span class="label">{{ label }}</span>
+    {{ label }}
   </div>
 </template>
 

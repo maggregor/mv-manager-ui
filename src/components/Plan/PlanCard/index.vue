@@ -16,7 +16,7 @@
         </a-col>
         <a-col class="mt-5" span="24">
           <CTA v-if="plan.enabled" secondary :trigger="triggerCancel" :label="`Cancel`" />
-          <CTA v-else :trigger="triggerPay" :label="`Subscribe`" />
+          <CTA v-else :trigger="triggerSubscribe" :label="`Subscribe`" />
         </a-col>
       </a-row>
     </div>
@@ -26,7 +26,7 @@
 import CTA from '@/components/CTA'
 import { computed } from '@vue/reactivity'
 import { useStore } from 'vuex'
-import { useRoute, useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { createSubscription, cancelSubscription } from '@/services/axios/backendApi'
 export default {
   name: 'PlanCard',
@@ -48,7 +48,7 @@ export default {
     const router = useRouter()
     const projectId = store.getters['selectedProjectId']
     const customerId = store.getters['selectedCustomerId']
-    const triggerPay = () => {
+    const triggerSubscribe = () => {
       return createSubscription({ customerId, priceId: price.id, projectId }).then(response => {
         let subscriptionId = response.data.id
         router.push(`/projects/${projectId}/checkout/${subscriptionId}`)
@@ -80,7 +80,7 @@ export default {
       }
     })
     return {
-      triggerPay,
+      triggerSubscribe,
       triggerCancel,
       getAvailableFreeTrialDays,
       formattedAmount,

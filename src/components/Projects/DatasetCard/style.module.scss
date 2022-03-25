@@ -3,7 +3,7 @@
 .dataset-card {
   border: 1px solid rgba(226, 226, 226, 1);
   border-radius: 10px;
-  padding: 8px;
+  padding: 5px;
   margin-bottom: 7px;
   a {
     color: #136bf5;
@@ -12,9 +12,9 @@
   }
 }
 
-.p-1 {
+h6 {
   overflow: hidden;
-  .p-1:hover {
+  h6:hover {
     overflow: visible;
   }
 }
