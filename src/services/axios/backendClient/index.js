@@ -19,6 +19,7 @@ backendClient.interceptors.request.use(request => {
 
 backendClient.interceptors.response.use(
   response => {
+    // Response handling
     if (response.config.url === '/project') {
       store.commit('SET_USER_STATE', { insufficientPermissions: false })
     }
@@ -27,13 +28,14 @@ backendClient.interceptors.response.use(
   error => {
     // Errors handling
     const { response } = error
-    if (response.config.url === '/project' && response.status === 403) {
+    if (!response) {
+      // Backend server is unreachable
+      store.dispatch('UNREACHABLE_BACKEND_SERVER')
+    } else if (response.config.url === '/project' && response.status === 403) {
       store.commit('SET_USER_STATE', { insufficientPermissions: true })
     } else if (response && response.data) {
       const { data } = response
       message.error(data.message, 5)
-    } else {
-      message.error('Achilio API is unreachable.', 8)
     }
   },
 )

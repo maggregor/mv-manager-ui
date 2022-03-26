@@ -1,6 +1,7 @@
 <template>
   <LoadingScreen :is-loading="isAccountLoading" />
-  <div v-if="!isAccountLoading">
+  <Unreachable v-if="isUnreachable" />
+  <div v-else-if="!isAccountLoading">
     <styleLoader />
     <localization />
   </div>
@@ -14,10 +15,11 @@ import qs from 'qs'
 import Localization from '@/localization'
 import StyleLoader from '@/styleLoader'
 import LoadingScreen from '@/components/LoadingScreen'
+import Unreachable from '@/components/Errors/Unreachable'
 import NProgress from 'nprogress'
 export default {
   name: 'App',
-  components: { Localization, StyleLoader, LoadingScreen },
+  components: { Localization, StyleLoader, LoadingScreen, Unreachable },
   setup() {
     const route = useRoute()
     const router = useRouter()
@@ -62,7 +64,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['loading']),
+    ...mapGetters(['loading', 'isUnreachable']),
   },
 }
 </script>
