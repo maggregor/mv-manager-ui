@@ -18,12 +18,33 @@ const router = createRouter({
         authRequired: true,
         hidden: true,
       },
-      redirect: '/projects',
+      redirect: '/home/projects',
       children: [
         {
-          path: 'projects',
-          name: 'home',
+          path: 'home',
+          name: 'Home',
           component: () => import('./views/home'),
+          redirect: '/projects',
+          children: [
+            {
+              path: 'projects',
+              name: 'Projects',
+              component: () => import('./views/home/project-list'),
+              meta: {
+                title: 'Project List',
+                authRequired: true,
+              },
+            },
+            {
+              path: 'connection',
+              name: 'Connection',
+              component: () => import('./views/home/connection'),
+              meta: {
+                title: 'Connection',
+                authRequired: true,
+              },
+            },
+          ],
           meta: {
             title: 'Projects',
             authRequired: true,

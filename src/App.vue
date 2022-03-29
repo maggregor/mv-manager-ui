@@ -17,6 +17,7 @@ import StyleLoader from '@/styleLoader'
 import LoadingScreen from '@/components/LoadingScreen'
 import Unreachable from '@/components/Errors/Unreachable'
 import NProgress from 'nprogress'
+import { useCookies } from 'vue3-cookies'
 export default {
   name: 'App',
   components: { Localization, StyleLoader, LoadingScreen, Unreachable },
@@ -29,6 +30,7 @@ export default {
     const authorized = computed(() => store.getters['user'].authorized)
     const loading = computed(() => store.getters.loading)
     const isAccountLoading = ref(true)
+    const { cookies } = useCookies()
     // watch page title change
     watch([routeTitle], ([routeTitle]) => (document.title = `Achilio | ${routeTitle}` || `Achilio`))
 
@@ -48,7 +50,10 @@ export default {
     // redirect if authorized and current page is login
     watch(authorized, async authorized => {
       if (authorized) {
-        await store.dispatch('LOAD_ALL_PROJECTS')
+        await store.dispatch('LOAD_CONNECTION')
+        if (store.getters['hasConnection']) {
+          await store.dispatch('LOAD_ALL_PROJECTS')
+        }
         const query = qs.parse(currentRoute.value.fullPath.split('?')[1], {
           ignoreQueryPrefix: true,
         })

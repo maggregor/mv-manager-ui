@@ -1,6 +1,5 @@
 import router from '@/router'
 import { notification } from 'ant-design-vue'
-
 import { login, logout, currentAccount, grantAccessBigQuery } from '@/services/oauth2'
 
 const getDefaultState = () => {
@@ -9,7 +8,7 @@ const getDefaultState = () => {
     name: '',
     email: '',
     firstName: '',
-    accessToken: '',
+    idToken: '',
     authorized: null,
     insufficientPermissions: false,
     loading: false,
@@ -31,7 +30,7 @@ export default {
       state.name = payload.name
       state.email = payload.email
       state.firstName = payload.firstName
-      state.accessToken = payload.accessToken
+      state.idToken = payload.idToken
     },
     RESET_STATE(state) {
       Object.assign(state, getDefaultState())
@@ -60,18 +59,18 @@ export default {
     LOAD_CURRENT_ACCOUNT({ commit }) {
       return currentAccount()
         .then(response => {
-          const { id, email, name, access_token, first_name } = response.data
+          const { id, email, name, first_name } = response.data
           commit('SET_USER_STATE', {
             id,
             name,
             email,
             firstName: first_name,
-            accessToken: access_token,
             authorized: true,
           })
         })
-        .catch(() => {
+        .catch(e => {
           commit('SET_USER_STATE', { authorized: false })
+          throw e
         })
     },
     LOGOUT({ commit }) {
@@ -99,7 +98,7 @@ export default {
   },
   getters: {
     user: state => state,
-    accessToken: state => state.accessToken,
+    idToken: state => state.idToken,
     firstName: state => state.firstName,
     userIsLoaded: state => state.userIsLoaded,
     hasInsufficientPermissions: state => state.insufficientPermissions,

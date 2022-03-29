@@ -2,17 +2,20 @@ import axios from 'axios'
 import store from '@/store'
 import { message } from 'ant-design-vue'
 
+axios.defaults.withCredentials = true
 const backendClient = axios.create({
   baseURL: `${process.env.VUE_APP_API_BASE_URL}/api/v1`,
   // We currently have a synchronous call on optimize
   // and we don't know how long time it might take
   timeout: 180000, // 30-min
+
+  origin: 'http://localhost:8081',
 })
 
 backendClient.interceptors.request.use(request => {
-  const accessToken = store.getters['accessToken']
-  if (accessToken) {
-    request.headers.Authorization = `Bearer ${accessToken}`
+  const idToken = store.getters['idToken']
+  if (idToken) {
+    request.headers.Authorization = `Bearer ${idToken}`
   }
   return request
 })

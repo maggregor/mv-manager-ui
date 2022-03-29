@@ -1,13 +1,5 @@
 <template>
   <div class="container">
-    <h2 class="text-gray-7 text-weight-300 font-size-24">
-      You are connected to your
-      <span class="google-font text-weight-500 mr-2">Google Cloud Platform</span>
-      <img :style="{ height: '2rem' }" src="@/assets/google/google-cloud-platform_logo.svg" />
-    </h2>
-    Cannot find your project or organization ? Try
-    <a-button type="link" :loading="isSynchronizing" @click="synchronize">re-syncing</a-button>
-    or check the access.
     <EmptyProjectList v-if="!allProjects.length" />
     <div v-else>
       <div class="mt-5">
@@ -45,12 +37,11 @@ export default {
     const isFromCurrentOrg = computed(() => project =>
       project.organization ? currentOrganizationId.value === project.organization.id : false,
     )
-    const synchronize = async () => store.dispatch('SYNCHRONIZE_PROJECTS')
     const changeTab = organizationId => {
       currentOrganizationId.value = organizationId
     }
 
-    return { synchronize, isFromCurrentOrg, currentOrganizationId, changeTab }
+    return { isFromCurrentOrg, currentOrganizationId, changeTab }
   },
   computed: {
     ...mapGetters([
