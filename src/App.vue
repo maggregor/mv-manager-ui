@@ -17,7 +17,6 @@ import StyleLoader from '@/styleLoader'
 import LoadingScreen from '@/components/LoadingScreen'
 import Unreachable from '@/components/Errors/Unreachable'
 import NProgress from 'nprogress'
-import { useCookies } from 'vue3-cookies'
 export default {
   name: 'App',
   components: { Localization, StyleLoader, LoadingScreen, Unreachable },
@@ -30,7 +29,6 @@ export default {
     const authorized = computed(() => store.getters['user'].authorized)
     const loading = computed(() => store.getters.loading)
     const isAccountLoading = ref(true)
-    const { cookies } = useCookies()
     // watch page title change
     watch([routeTitle], ([routeTitle]) => (document.title = `Achilio | ${routeTitle}` || `Achilio`))
 

@@ -10015,13 +10015,6 @@ vue-types@^3.0.0:
   dependencies:
     is-plain-object "3.0.1"
 
-vue3-cookies@^1.0.6:
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/vue3-cookies/-/vue3-cookies-1.0.6.tgz#c1da41f1f3d6bbea8e75157d49d09dfc2a18ca8a"
-  integrity sha512-a1UvVD0qIgxyOqjlSOwnLnqAnz8ASltugEv8yX+96i/WGZAN9fEDci7xO4HIWZE1uToUnRq9JnFhvfDCSo45OA==
-  dependencies:
-    vue "^3.0.0"
-
 vue3-perfect-scrollbar@^1.5.5:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/vue3-perfect-scrollbar/-/vue3-perfect-scrollbar-1.6.0.tgz#06a9f5e2bdde993bee1695a6ef33dcb41d37216e"
