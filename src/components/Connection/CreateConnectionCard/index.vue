@@ -3,14 +3,14 @@
     <a-col :span="24">
       <a-row class="mb-3" justify="space-between">
         <a-col>
-          <p class="card-title">New connection</p>
+          <p class="card-name">New connection</p>
         </a-col>
         <a-col> <a-button type="link" @click="close">Close</a-button></a-col>
       </a-row>
     </a-col>
     <a-col class="field" :span="24">
-      <p>Connection title</p>
-      <input v-model="title" />
+      <p>Connection name</p>
+      <input v-model="name" />
     </a-col>
     <a-col class="field" :span="24">
       <p>Service account</p>
@@ -40,19 +40,20 @@ export default {
   setup() {
     const connectionType = 'service_account'
     const store = useStore()
-    const title = ref('Connection to BigQuery')
+    const name = ref('Connection to BigQuery')
     const serviceAccount = ref('')
     const createConnection = async () => {
       await store.dispatch('CREATE_CONNECTION', {
         type: connectionType,
-        content: serviceAccount.value,
+        serviceAccountKey: serviceAccount.value,
+        name: name.value,
       })
       store.dispatch('SET_CREATING', false)
     }
     const close = () => store.dispatch('SET_CREATING', false)
 
     return {
-      title,
+      name,
       serviceAccount,
       createConnection,
       close,

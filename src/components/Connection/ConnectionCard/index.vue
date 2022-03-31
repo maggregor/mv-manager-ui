@@ -1,9 +1,9 @@
 <template>
   <a-row class="connectionCard" type="flex" align="middle" justify="space-between">
-    <a-col :span="4" class="card-title"
+    <a-col :span="1" class="card-title"
       ><img :style="{ height: '4rem' }" src="@/assets/google/google_bigquery.svg"
     /></a-col>
-    <a-col class="card-title" :span="14">{{ connection.name }}#{{ connection.id }}</a-col>
+    <a-col class="card-title" :span="19">{{ connection.name }}#{{ connection.id }}</a-col>
     <a-col>
       <a-popconfirm
         placement="left"
