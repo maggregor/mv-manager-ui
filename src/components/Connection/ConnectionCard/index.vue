@@ -1,10 +1,16 @@
 <template>
-  <a-row class="connectionCard" type="flex" align="middle" justify="space-between">
+  <a-row
+    v-if="!connection.editing"
+    class="connectionCard"
+    type="flex"
+    align="middle"
+    justify="space-between"
+  >
     <a-col :span="1" class="card-title"
       ><img :style="{ height: '3rem' }" src="@/assets/google/google_bigquery.svg"
     /></a-col>
     <a-col :span="19"
-      ><span class="card-title">{{ connection.name }}#{{ connection.id }}</span>
+      ><span @click="goToEditingMode" class="card-title">{{ connection.name }}</span>
       <p>
         Created by {{ connection.ownerUsername }}
         <span v-if="connection.lastModifiedAt">
@@ -28,15 +34,18 @@
     </a-col>
     <!-- <a-col>#{{ connection.id }}</a-col> -->
   </a-row>
+  <CreateEditConnectionCard editing v-else :connection="connection" />
 </template>
 
 <script>
 import moment from 'moment'
 import { DeleteOutlined } from '@ant-design/icons-vue'
+import CreateEditConnectionCard from '@/components/Connection/CreateEditConnectionCard'
 import { mapGetters, useStore } from 'vuex'
 export default {
   name: 'ConnectionCard',
   components: {
+    CreateEditConnectionCard,
     DeleteOutlined,
   },
   props: {
@@ -48,7 +57,8 @@ export default {
   setup(props) {
     const store = useStore()
     const deleteConnection = () => store.dispatch('DELETE_CONNECTION', props.connection.id)
-    return { deleteConnection, moment }
+    const goToEditingMode = () => store.dispatch('START_EDITING', props.connection.id)
+    return { deleteConnection, moment, goToEditingMode }
   },
   computed: {
     ...mapGetters([]),

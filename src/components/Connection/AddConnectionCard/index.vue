@@ -11,15 +11,15 @@
       <a>Create a connection to BigQuery </a>
     </div>
   </a-row>
-  <CreateConnectionCard v-else />
+  <CreateEditConnectionCard v-else />
 </template>
 <script>
-import CreateConnectionCard from '@/components/Connection/CreateConnectionCard'
+import CreateEditConnectionCard from '@/components/Connection/CreateEditConnectionCard'
 import { ref } from '@vue/reactivity'
 import { mapActions, mapGetters } from 'vuex'
 export default {
   components: {
-    CreateConnectionCard,
+    CreateEditConnectionCard,
   },
   setup() {
     const creating = ref(false)

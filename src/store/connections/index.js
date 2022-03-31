@@ -10,15 +10,7 @@ import { message } from 'ant-design-vue'
 
 const getDefaultState = () => {
   return {
-    connections: [
-      {
-        id: -1,
-        name: null,
-        type: null,
-        content: null,
-        connectionLoading: false,
-      },
-    ],
+    connections: {},
     creating: false,
   }
 }
@@ -34,10 +26,25 @@ export default {
       })
     },
     ADD_CONNECTION(state, connection) {
-      state.connections.push(connection)
+      connection.editing = false
+      let id = connection.id
+      if (state.connections.hasOwnProperty(id)) {
+        // Update project fields on existing loaded project
+        Object.assign(state.connections[id], { ...connection })
+      } else {
+        // Add a new project entry
+        state.connections[id] = { ...connection }
+      }
+    },
+    START_EDITING(state, id) {
+      state.connections[id].editing = true
+    },
+    FINISH_EDITING(state, id) {
+      console.log(state.connections[id])
+      state.connections[id].editing = false
     },
     REMOVE_CONNECTION(state, id) {
-      _.remove(state.connections, c => c.id === id)
+      delete state.connections[id]
     },
     RESET_CONNECTION_STATE(state) {
       Object.assign(state, getDefaultState())
@@ -47,7 +54,7 @@ export default {
     async LOAD_CONNECTION({ commit }) {
       commit('SET_CONNECTION_STATE', { connectionLoading: true })
       const connections = await getAllConnections()
-      commit('SET_CONNECTION_STATE', { connections })
+      connections.forEach(c => commit('ADD_CONNECTION', c))
       commit('SET_CONNECTION_STATE', { connectionLoading: false })
     },
     async CREATE_CONNECTION({ commit }, payload) {
@@ -59,7 +66,8 @@ export default {
       let id = payload.id
       delete payload.id
       const connection = await updateConnection(id, payload)
-      commit('SET_CONNECTION_STATE', { connection })
+      commit('ADD_CONNECTION', connection)
+      message.success('Successfully updated!')
     },
     async DELETE_CONNECTION({ commit }, id) {
       await deleteConnection(id)
@@ -68,6 +76,12 @@ export default {
     },
     SET_CREATING({ commit }, creating) {
       commit('SET_CONNECTION_STATE', { creating })
+    },
+    START_EDITING({ commit }, id) {
+      commit('START_EDITING', id)
+    },
+    FINISH_EDITING({ commit }, id) {
+      commit('FINISH_EDITING', id)
     },
   },
   getters: {

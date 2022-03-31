@@ -1,10 +1,7 @@
 <template>
   <a-row class="container" type="flex" justify="space-around" align="middle">
     <div>
-      <a
-        >Register a BigQuery project
-        <img :style="{ height: '2rem' }" src="@/assets/google/google_bigquery.svg" />
-      </a>
+      <a>Register a BigQuery project </a>
     </div>
   </a-row>
 </template>

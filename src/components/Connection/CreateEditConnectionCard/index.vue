@@ -20,7 +20,13 @@
       <a-row class="mb-3" justify="end">
         <a-col>
           <CTA
-            :disabled="serviceAccount === ''"
+            v-if="editing"
+            :disabled="serviceAccount === defaultServiceAccount && name === defaultName"
+            :trigger="saveConnection"
+            label="Update connection"
+          /><CTA
+            v-else
+            :disabled="serviceAccount == null"
             :trigger="createConnection"
             label="Create connection"
           />
@@ -38,11 +44,28 @@ export default {
   components: {
     CTA,
   },
-  setup() {
+  props: {
+    editing: {
+      type: Boolean,
+      default: false,
+    },
+    // If editing = true, connection to edit
+    connection: {
+      type: Object,
+      default: null,
+    },
+  },
+  setup(props) {
     const connectionType = 'service_account'
     const store = useStore()
-    const name = ref('Connection to BigQuery')
-    const serviceAccount = ref('')
+    let defaultName = ref('Connection to BigQuery')
+    let defaultServiceAccount = ref(null)
+    if (props.connection !== null) {
+      defaultName = ref(props.connection.name)
+      defaultServiceAccount = ref(props.connection.content)
+    }
+    const name = ref(defaultName.value)
+    const serviceAccount = ref(defaultServiceAccount.value)
     const inputNameSize = computed(() => (name.value.length > 50 ? 50 : name.value.length))
     const createConnection = async () => {
       await store.dispatch('CREATE_CONNECTION', {
@@ -53,14 +76,32 @@ export default {
       })
       store.dispatch('SET_CREATING', false)
     }
-    const close = () => store.dispatch('SET_CREATING', false)
+    const saveConnection = async () => {
+      await store.dispatch('UPDATE_CONNECTION', {
+        id: props.connection.id,
+        type: connectionType,
+        serviceAccountKey: serviceAccount.value,
+        sourceType: 'bigquery',
+        name: name.value,
+      })
+      store.dispatch('FINISH_EDITING', props.connection.id)
+    }
+    const close = () => {
+      store.dispatch('SET_CREATING', false)
+      if (props.editing) {
+        store.dispatch('FINISH_EDITING', props.connection.id)
+      }
+    }
 
     return {
-      name,
+      defaultServiceAccount,
       serviceAccount,
-      createConnection,
-      close,
+      defaultName,
+      name,
       inputNameSize,
+      createConnection,
+      saveConnection,
+      close,
     }
   },
 }
