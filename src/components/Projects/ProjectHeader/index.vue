@@ -1,8 +1,6 @@
 <template>
   <div>
-    <a @click="$router.push('/projects')" class="text-weight-600 font-size-18">{{
-      'Back to projects'
-    }}</a>
+    <a @click="$router.push('/')" class="text-weight-600 font-size-18">{{ 'Back to projects' }}</a>
     <h1 class="project-path">
       {{ project.projectName }}
       <span class="path" v-if="breadcrumb"> / {{ breadcrumb }}</span>

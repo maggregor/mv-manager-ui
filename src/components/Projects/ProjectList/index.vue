@@ -1,7 +1,6 @@
 <template>
   <div class="container">
-    <EmptyProjectList v-if="!allProjects.length" />
-    <div v-else>
+    <div v-if="allProjects.length">
       <div class="mt-5">
         <a-tabs type="card" @change="changeTab">
           <a-tab-pane v-for="o in allOrganizations" :key="o.id" :tab="o.name" />
@@ -16,18 +15,19 @@
         </div>
       </div>
     </div>
+    <AddProjectCard />
   </div>
 </template>
 <script>
 import { ref } from '@vue/reactivity'
-import { mapActions, mapGetters, useStore } from 'vuex'
+import { mapGetters, useStore } from 'vuex'
 import { computed } from '@vue/runtime-core'
 import ProjectCard from '@/components/Projects/ProjectCard'
-import EmptyProjectList from '@/components/Projects/EmptyProjectList'
+import AddProjectCard from '@/components/Projects/AddProjectCard'
 export default {
   components: {
     ProjectCard,
-    EmptyProjectList,
+    AddProjectCard,
   },
   setup() {
     const store = useStore()

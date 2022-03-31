@@ -168,3 +168,15 @@ strong {
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
+input {
+  border: 1px solid rgb(235, 235, 235);
+  border-radius: 5px;
+  padding: 10px;
+}
+
+textarea {
+  border: 1px solid rgb(235, 235, 235);
+  border-radius: 5px;
+  padding: 10px;
+}

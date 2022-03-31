@@ -99,8 +99,10 @@ export default {
      */
     async SYNCHRONIZE_PROJECTS({ commit, dispatch }) {
       commit('SET_STATE', { synchronizeLoading: true })
-      await synchronizeProjects()
-      dispatch('LOAD_ALL_PROJECTS')
+      try {
+        await synchronizeProjects()
+        dispatch('LOAD_ALL_PROJECTS')
+      } catch (e) {}
       commit('SET_STATE', { synchronizeLoading: false })
     },
     /**

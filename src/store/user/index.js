@@ -7,6 +7,7 @@ const getDefaultState = () => {
     id: '',
     name: '',
     email: '',
+    teamName: '',
     firstName: '',
     idToken: '',
     authorized: null,
@@ -30,6 +31,7 @@ export default {
       state.name = payload.name
       state.email = payload.email
       state.firstName = payload.firstName
+      state.teamname = payload.teamname
       state.idToken = payload.idToken
     },
     RESET_STATE(state) {
@@ -59,12 +61,13 @@ export default {
     LOAD_CURRENT_ACCOUNT({ commit }) {
       return currentAccount()
         .then(response => {
-          const { id, email, name, first_name } = response.data
+          const { id, email, name, first_name, team_name } = response.data
           commit('SET_USER_STATE', {
             id,
             name,
             email,
             firstName: first_name,
+            teamName: team_name,
             authorized: true,
           })
         })
