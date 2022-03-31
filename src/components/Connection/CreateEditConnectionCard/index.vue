@@ -14,19 +14,19 @@
     </a-col>
     <a-col class="field mt-4" :span="24">
       <p>Service account</p>
-      <textarea v-model="serviceAccount" />
+      <textarea v-model="serviceAccount" :placeholder="defaultServiceAccount" />
     </a-col>
     <a-col :span="24">
       <a-row class="mb-3" justify="end">
         <a-col>
           <CTA
             v-if="editing"
-            :disabled="serviceAccount === defaultServiceAccount && name === defaultName"
+            :disabled="(serviceAccount === null || serviceAccount === '') && name === defaultName"
             :trigger="saveConnection"
             label="Update connection"
           /><CTA
             v-else
-            :disabled="serviceAccount == null"
+            :disabled="serviceAccount === null || serviceAccount === '' || name.length === 0"
             :trigger="createConnection"
             label="Create connection"
           />
@@ -65,7 +65,7 @@ export default {
       defaultServiceAccount = ref(props.connection.content)
     }
     const name = ref(defaultName.value)
-    const serviceAccount = ref(defaultServiceAccount.value)
+    const serviceAccount = ref(null)
     const inputNameSize = computed(() => (name.value.length > 50 ? 50 : name.value.length))
     const createConnection = async () => {
       await store.dispatch('CREATE_CONNECTION', {
