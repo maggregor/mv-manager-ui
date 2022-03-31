@@ -1,18 +1,18 @@
 <template>
   <a-row class="connectionCard" type="flex">
     <a-col :span="24">
-      <a-row class="mb-3" justify="space-between">
-        <a-col>
-          <p class="card-name">New connection</p>
+      <a-row type="flex" justify="space-between" align="middle">
+        <a-col :span="1">
+          <img :style="{ height: '3em' }" src="@/assets/google/google_bigquery.svg" />
+        </a-col>
+        <a-col class="field" :span="20">
+          <p>Connection name</p>
+          <input :size="inputNameSize" class="input-title" v-model="name" />
         </a-col>
         <a-col> <a-button type="link" @click="close">Close</a-button></a-col>
       </a-row>
     </a-col>
-    <a-col class="field" :span="24">
-      <p>Connection name</p>
-      <input v-model="name" />
-    </a-col>
-    <a-col class="field" :span="24">
+    <a-col class="field mt-4" :span="24">
       <p>Service account</p>
       <textarea v-model="serviceAccount" />
     </a-col>
@@ -33,6 +33,7 @@
 import { ref } from '@vue/reactivity'
 import CTA from '@/components/CTA'
 import { useStore } from 'vuex'
+import { computed } from '@vue/runtime-core'
 export default {
   components: {
     CTA,
@@ -42,10 +43,12 @@ export default {
     const store = useStore()
     const name = ref('Connection to BigQuery')
     const serviceAccount = ref('')
+    const inputNameSize = computed(() => (name.value.length > 50 ? 50 : name.value.length))
     const createConnection = async () => {
       await store.dispatch('CREATE_CONNECTION', {
         type: connectionType,
         serviceAccountKey: serviceAccount.value,
+        sourceType: 'bigquery',
         name: name.value,
       })
       store.dispatch('SET_CREATING', false)
@@ -57,6 +60,7 @@ export default {
       serviceAccount,
       createConnection,
       close,
+      inputNameSize,
     }
   },
 }

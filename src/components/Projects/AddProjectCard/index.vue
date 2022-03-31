@@ -3,7 +3,7 @@
     <div>
       <a
         >Register a BigQuery project
-        <img :style="{ height: '3rem' }" src="@/assets/google/google_bigquery.svg" />
+        <img :style="{ height: '2rem' }" src="@/assets/google/google_bigquery.svg" />
       </a>
     </div>
   </a-row>

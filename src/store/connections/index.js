@@ -71,7 +71,7 @@ export default {
     },
   },
   getters: {
-    allConnections: state => _.orderBy(state.connections, 'id', 'desc'),
+    allConnections: state => _.orderBy(Object.values(state.connections), 'id', 'desc'),
     isCreating: state => state.creating,
   },
 }

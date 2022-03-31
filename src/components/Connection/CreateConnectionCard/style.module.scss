@@ -16,14 +16,19 @@
   color: $gray-6;
 }
 
+
+
 .field {
-  margin-bottom: 15px;
   p {
     color: $gray-5;
     font-size: 14px;
     height: 7px;
   }
-  input,
+  .input-title {
+    font-size: 20px;
+    padding: 0px 10px 0px 10px;
+    min-width: 100px;
+  }
   textarea {
     font-size: 18px;
     color: rgb(58, 58, 58);

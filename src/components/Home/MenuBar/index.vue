@@ -15,8 +15,8 @@ export default {
         route: '/home/projects',
       },
       connection: {
-        title: 'Connection',
-        route: '/home/connection',
+        title: 'Connections',
+        route: '/home/connections',
       },
     }
     const changeRoute = o => router.push({ path: routes[o.key].route })

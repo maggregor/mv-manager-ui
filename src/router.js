@@ -36,9 +36,9 @@ const router = createRouter({
               },
             },
             {
-              path: 'connection',
-              name: 'Connection',
-              component: () => import('./views/home/connection'),
+              path: 'connections',
+              name: 'Connections',
+              component: () => import('./views/home/connections'),
               meta: {
                 title: 'Connection',
                 authRequired: true,
