@@ -40,7 +40,6 @@ export default {
       state.connections[id].editing = true
     },
     FINISH_EDITING(state, id) {
-      console.log(state.connections[id])
       state.connections[id].editing = false
     },
     REMOVE_CONNECTION(state, id) {
