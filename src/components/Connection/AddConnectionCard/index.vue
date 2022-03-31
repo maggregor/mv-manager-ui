@@ -8,7 +8,8 @@
     align="middle"
   >
     <div>
-      <a>Create a connection to BigQuery </a>
+      <a v-if="allConnections.length">Create a new connection to BigQuery</a>
+      <a v-else>Create your first connection to BigQuery</a>
     </div>
   </a-row>
   <CreateEditConnectionCard v-else />
@@ -26,7 +27,7 @@ export default {
     return { creating, ...mapActions({ setEditing: 'SET_CREATING' }) }
   },
   computed: {
-    ...mapGetters(['isCreating']),
+    ...mapGetters(['isCreating', 'allConnections']),
   },
 }
 </script>
