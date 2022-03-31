@@ -1,8 +1,8 @@
 <template>
   <div :class="$style.container">
     <a-row type="flex">
-      <AddConnectionCard />
       <ConnectionCard v-for="c in allConnections" :key="c.id" :connection="c" />
+      <AddConnectionCard />
       <!-- <a-col :span="24">
         <textarea v-model="input" :placeholder="placeholder"></textarea>
       </a-col>
@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, useStore } from 'vuex'
+import { mapGetters, useStore } from 'vuex'
 import AddConnectionCard from '@/components/Connection/AddConnectionCard'
 import ConnectionCard from '@/components/Connection/ConnectionCard'
 import { ref } from '@vue/reactivity'
