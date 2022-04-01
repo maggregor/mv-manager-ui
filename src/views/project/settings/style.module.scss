@@ -5,51 +5,55 @@
   margin-top: 50px;
   padding: 50px 70px 50px 70px !important;
   min-width: rem(900);
-  max-width: 50vw;
+  max-width: 800px;
   background-color: rgb(251, 251, 255);
   border: 1px solid #e6e6e6;
   border-radius: 10px;
+
   .setting {
     margin-bottom: 30px;
+
     h1 {
-      font-size: 26px;
+      font-size: 20px;
       font-weight: 700;
       color: rgb(15, 26, 84);
     }
+
     h2 {
-      font-size: 22px;
+      font-size: 20px;
       font-weight: 500;
       color: rgb(15, 26, 84);
     }
+
     h3 {
       font-size: 16px;
       font-weight: 300;
       color: rgb(162, 162, 162);
     }
+
     p {
-      font-style: italic;
+      height: 10px;
+
+      .description-value {
+        font-style: italic;
+      }
     }
   }
+
   .delete {
     border-radius: 8px;
     border: 1px solid rgb(255, 116, 116);
     padding: 20px 30px 20px 30px;
-    h1 {
-      font-size: 18px;
-      color: rgb(15, 26, 84);
-    }
-    h2 {
-      font-size: 14px;
-      font-weight: 400;
-      color: rgb(15, 26, 84);
-    }
+
     .delete-btn {
       color: rgb(255, 87, 87);
       font-weight: 600;
       width: 150px;
+
       &:hover {
         border: 1px solid red;
       }
+
       &:focus {
         border: 1px solid red;
       }

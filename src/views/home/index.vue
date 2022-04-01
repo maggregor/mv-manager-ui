@@ -1,14 +1,7 @@
 <template>
   <div :class="$style.container">
     <h1 class="text-black text-weight-700 font-size-50">Hello {{ firstName }},</h1>
-    <!-- <h2 class="text-gray-7 text-weight-300 font-size-24">
-      You are connected to your
-      <span class="google-font text-weight-500 mr-2">Google Cloud Platform</span>
-      <img :style="{ height: '2rem' }" src="@/assets/google/google-cloud-platform_logo.svg" />
-    </h2> -->
-    Cannot find your project or organization ? Try
-    <a-button type="link" :loading="isSynchronizing" @click="synchronize">re-syncing</a-button>
-    or check the access.
+    Vous êtes là pour passer un très bon moment avec nous.
     <MenuBar />
     <router-view class="mt-5" v-slot="{ Component }">
       <transition name="zoom-fadein" mode="out-in">

@@ -10,45 +10,37 @@
   box-shadow: 0 0 5px 0 rgba(130, 130, 130, 0.5);
 }
 
-.card-title {
+.title {
   font-size: 20px;
-  font-weight: 400;
-  color: $gray-6;
 }
 
-p {
-  font-size: 20px;
-  font-weight: 500;
-  height: 20px;
+.sub-title {
+  font-size: 14px;
+  height: 2px;
+  color: rgb(197, 197, 197);
 }
 
-.input-title {
-  font-size: 20px;
-  padding: 0px;
-  min-width: 50px;
-  border: 0px;
-  border-bottom: 2px dotted rgb(213, 213, 213);
-  text-align: center;
-}
 .field {
-  p {
+  .description {
     color: $gray-5;
     font-size: 14px;
     height: 7px;
   }
-  .input-title {
+  .input-project-name {
     font-size: 20px;
     padding: 0px;
-    min-width: 100px;
+    min-width: 200px;
     border: 0px;
     border-bottom: 2px dotted rgb(213, 213, 213);
+    text-align: center;
   }
   textarea {
     font-size: 18px;
     color: rgb(58, 58, 58);
   }
-}
-
-a-tag {
-  font-size: 30px !important;
+  .dropdown-connections {
+    span {
+      padding: 10px;
+    }
+  }
 }
