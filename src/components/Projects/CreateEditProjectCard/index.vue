@@ -10,7 +10,7 @@
         <input
           :size="inputNameSize"
           class="input-project-name"
-          placeholder="google-project-id"
+          placeholder="gcp-project-id"
           v-model="projectId"
         />
       </a-col>
@@ -24,7 +24,7 @@
         <p class="sub-title">Connection</p>
         <a-dropdown-button class="dropdown-connections  mt-2" :trigger="['click']">
           <p style="cursor:pointer;" large @click.prevent>
-            <span v-if="!selectedConnection">select a connection</span>
+            <span v-if="!selectedConnection">Select a connection</span>
             <a-row v-else type="flex" justify="space-between" align="middle">
               {{ selectedConnection.name }}
               <img :style="{ height: '1em' }" src="@/assets/google/google_bigquery.svg" />
@@ -56,7 +56,11 @@
       <a-col class="mt-5" :span="24">
         <a-row class="mb-3" justify="space-around">
           <a-col>
-            <CTA label="Synchronize with Achilio" :trigger="registerProject" />
+            <CTA
+              label="Synchronize with Achilio"
+              :trigger="registerProject"
+              :disabled="selectedConnection === null || projectId === ''"
+            />
           </a-col>
         </a-row>
       </a-col>
@@ -84,10 +88,10 @@ export default {
       let connection = allConnections.find(c => c.id == event.key)
       selectedConnection.value = connection
     }
-    let defaultName = ref('achilio-dev')
+    let defaultName = ref('')
     const projectId = ref(defaultName.value)
     const inputNameSize = computed(() =>
-      projectId.value.length > 50 ? 50 : projectId.value.length,
+      projectId.value.length > 50 ? 50 : projectId.value.length + 1,
     )
     const registerProject = async () => {
       await store.dispatch('REGISTER_PROJECT', {

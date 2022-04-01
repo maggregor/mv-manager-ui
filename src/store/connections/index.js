@@ -58,7 +58,6 @@ export default {
     },
     async CREATE_CONNECTION({ commit }, payload) {
       const connection = await createConnection(payload)
-      console.log(connection)
       commit('ADD_CONNECTION', connection)
       message.success('A new connection to BigQuery just created!"')
     },

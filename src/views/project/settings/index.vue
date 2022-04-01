@@ -13,7 +13,7 @@
       <p>
         Achilio will continuously optimize your datasets
       </p>
-      <a-skeleton style="width: 10%" :loading="loading" :paragraph="false">
+      <a-skeleton :loading="loading" :paragraph="false">
         <a-switch
           class="mt-2 mb-2"
           checked-children="On"
@@ -30,7 +30,7 @@
       <p>
         The query history timeframe used during the usage analysis
       </p>
-      <a-skeleton style="width: 10%" :loading="loading" :paragraph="false">
+      <a-skeleton :loading="loading" :paragraph="false">
         <!-- DROPDOWN DAYS TIMEFRAME -->
         <a-select
           style="width: 110px"
@@ -84,9 +84,7 @@
             This will de-synchronize {{ projectId }} with Achilio.
           </a-col>
           <a-col span="auto">
-            <a-button class="delete-btn" :loading="under" @click="unregisterProject"
-              >Remove</a-button
-            >
+            <a-button class="delete-btn" @click="unregisterProject">Remove</a-button>
           </a-col>
         </a-row>
       </div>
@@ -168,8 +166,8 @@ const saveSettings = async () => {
 }
 
 const unregisterProject = async () => {
-  await store.dispatch('UNREGISTER_PROJECT', projectId)
   router.push('/home/projects')
+  await store.dispatch('UNREGISTER_PROJECT', projectId)
 }
 
 const hasChanged = computed(() => {

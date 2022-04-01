@@ -39,7 +39,6 @@ export default {
       })
     },
     ADD_PROJECT(state, project) {
-      console.log(project)
       let projectId = project.projectId
       if (state.projects.hasOwnProperty(projectId)) {
         // Update project fields on existing loaded project
