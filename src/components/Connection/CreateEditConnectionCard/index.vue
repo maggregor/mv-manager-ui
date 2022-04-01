@@ -6,18 +6,27 @@
           <img :style="{ height: '3em' }" src="@/assets/google/google_bigquery.svg" />
         </a-col>
         <a-col class="field" :span="20">
-          <p>Connection name</p>
-          <input :size="inputNameSize" class="input-title" v-model="name" />
+          <p class="sub-title">Connection name *</p>
+          <input :size="inputNameSize" class="input-connection-name" v-model="name" />
         </a-col>
         <a-col> <a-button type="link" @click="close">Close</a-button></a-col>
       </a-row>
     </a-col>
     <a-col class="field mt-4" :span="24">
-      <p>Service account</p>
+      <span class="title">Credentials *</span>
+      <p>
+        The credentials (JSON) that Achilio will use to manage your BigQuery materialized views.
+        <br />Create a service account just for Achilio to use.
+      </p>
+    </a-col>
+    <a-col :span="24">
       <textarea v-model="serviceAccount" :placeholder="defaultServiceAccount" />
     </a-col>
     <a-col :span="24">
-      <a-row class="mb-3" justify="end">
+      <a-row justify="space-between">
+        <a-col>
+          <p>Consultez les <a href="">permissions minimum requises</a> par Achilio.</p>
+        </a-col>
         <a-col>
           <CTA
             v-if="editing"
@@ -74,7 +83,7 @@ export default {
         sourceType: 'bigquery',
         name: name.value,
       })
-      store.dispatch('SET_CREATING', false)
+      store.dispatch('SET_CONNECTION_CREATING', false)
     }
     const saveConnection = async () => {
       await store.dispatch('UPDATE_CONNECTION', {
@@ -84,12 +93,12 @@ export default {
         sourceType: 'bigquery',
         name: name.value,
       })
-      store.dispatch('FINISH_EDITING', props.connection.id)
+      store.dispatch('FINISH_CONNECTION_EDITING', props.connection.id)
     }
     const close = () => {
-      store.dispatch('SET_CREATING', false)
+      store.dispatch('SET_CONNECTION_CREATING', false)
       if (props.editing) {
-        store.dispatch('FINISH_EDITING', props.connection.id)
+        store.dispatch('FINISH_CONNECTION_EDITING', props.connection.id)
       }
     }
 

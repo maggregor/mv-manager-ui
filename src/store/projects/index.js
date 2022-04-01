@@ -11,6 +11,8 @@ import {
   getOptimizations,
   optimizeProject,
   updateDataset,
+  createProject,
+  deleteProject,
 } from '@/services/axios/backendApi'
 
 const getDefaultState = () => {
@@ -21,6 +23,8 @@ const getDefaultState = () => {
     loading: false,
     // Selected project on /project/:projectId
     selectedProjectId: '',
+    // True when a registering project is in progress
+    registering: false,
   }
 }
 
@@ -35,6 +39,7 @@ export default {
       })
     },
     ADD_PROJECT(state, project) {
+      console.log(project)
       let projectId = project.projectId
       if (state.projects.hasOwnProperty(projectId)) {
         // Update project fields on existing loaded project
@@ -43,6 +48,9 @@ export default {
         // Add a new project entry
         state.projects[projectId] = { ...project }
       }
+    },
+    REMOVE_PROJECT(state, id) {
+      delete state.projects[id]
     },
     SET_PROJECT_STATE(state, payload) {
       let projectId = payload.projectId
@@ -104,6 +112,24 @@ export default {
         dispatch('LOAD_ALL_PROJECTS')
       } catch (e) {}
       commit('SET_STATE', { synchronizeLoading: false })
+    },
+    /**
+     *
+     * @param {*} param0
+     * @param {*} projectId
+     */
+    async REGISTER_PROJECT({ commit }, payload) {
+      const project = await createProject(payload)
+      commit('ADD_PROJECT', project)
+    },
+    /**
+     *
+     * @param {*} param0
+     * @param {*} projectId
+     */
+    async UNREGISTER_PROJECT({ commit }, id) {
+      await deleteProject(id)
+      commit('REMOVE_PROJECT', id)
     },
     /**
      * Load a plan
@@ -236,8 +262,17 @@ export default {
         commit('SET_DATASET_STATE', { projectId, datasetName, activated }),
       )
     },
+    /**
+     *
+     *
+     */
+    async SET_PROJECT_REGISTERING({ commit }, registering) {
+      commit('SET_STATE', { registering })
+    },
   },
   getters: {
+    //
+    isRegisteringProject: state => state.registering,
     // Returns true a synchronize projects is pending
     isSynchronizing: state => state.synchronizeLoading,
     // Returns organizations as array

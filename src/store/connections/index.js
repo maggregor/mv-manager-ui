@@ -36,10 +36,10 @@ export default {
         state.connections[id] = { ...connection }
       }
     },
-    START_EDITING(state, id) {
+    START_CONNECTION_EDITING(state, id) {
       state.connections[id].editing = true
     },
-    FINISH_EDITING(state, id) {
+    FINISH_CONNECTION_EDITING(state, id) {
       state.connections[id].editing = false
     },
     REMOVE_CONNECTION(state, id) {
@@ -58,6 +58,7 @@ export default {
     },
     async CREATE_CONNECTION({ commit }, payload) {
       const connection = await createConnection(payload)
+      console.log(connection)
       commit('ADD_CONNECTION', connection)
       message.success('A new connection to BigQuery just created!"')
     },
@@ -71,20 +72,20 @@ export default {
     async DELETE_CONNECTION({ commit }, id) {
       await deleteConnection(id)
       commit('REMOVE_CONNECTION', id)
-      message.success('The connection has been deleted')
+      message.success(`The connection ${id} has been deleted`)
     },
-    SET_CREATING({ commit }, creating) {
+    SET_CONNECTION_CREATING({ commit }, creating) {
       commit('SET_CONNECTION_STATE', { creating })
     },
-    START_EDITING({ commit }, id) {
-      commit('START_EDITING', id)
+    START_CONNECTION_EDITING({ commit }, id) {
+      commit('START_CONNECTION_EDITING', id)
     },
-    FINISH_EDITING({ commit }, id) {
-      commit('FINISH_EDITING', id)
+    FINISH_CONNECTION_EDITING({ commit }, id) {
+      commit('FINISH_CONNECTION_EDITING', id)
     },
   },
   getters: {
     allConnections: state => _.orderBy(Object.values(state.connections), 'id', 'desc'),
-    isCreating: state => state.creating,
+    isConnectionCreating: state => state.creating,
   },
 }

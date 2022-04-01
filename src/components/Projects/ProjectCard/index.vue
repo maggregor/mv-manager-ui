@@ -1,18 +1,13 @@
 <template>
   <div>
-    <div
-      :class="{ 'project-card': true, 'project-activated': project.activated }"
-      @click="$router.push(`/projects/${project.projectId}/overview`)"
-    >
+    <div :class="{ 'project-card': true, 'project-activated': project.activated }">
       <a-row type="flex" justify="space-between">
         <a-col :span="12" :style="{ top: '10px' }">
           <p class="project-name">{{ project.projectName }}</p>
           <p class="project-id text-gray-6">{{ project.projectId }}</p>
         </a-col>
         <a-col style="text-align: end;" :span="6" :style="{ top: '10px' }">
-          <p v-if="plans(project.projectId)" class="plan-name">
-            {{ activePlanName(project.projectId) }}
-          </p>
+          <a-button type="link" @click="unregisterProject">Unregister</a-button>
         </a-col>
       </a-row>
     </div>
@@ -20,8 +15,8 @@
 </template>
 
 <script>
-import { updateProject } from '@/services/axios/backendApi'
-import { mapGetters } from 'vuex'
+import { ref } from '@vue/reactivity'
+import { mapGetters, useStore } from 'vuex'
 export default {
   name: 'ProjectCard',
   props: {
@@ -30,24 +25,20 @@ export default {
       default: () => {},
     },
   },
+  setup(props) {
+    const store = useStore()
+    const loading = ref(false)
+    const unregisterProject = async () => {
+      loading.value = true
+      await store.dispatch('UNREGISTER_PROJECT', props.project.projectId)
+      loading.value = false
+    }
+    return {
+      unregisterProject,
+    }
+  },
   computed: {
     ...mapGetters(['plans', 'activePlanName']),
-  },
-  methods: {
-    async activateProject() {
-      const email = this.$store.getters['user'].email
-      await updateProject(this.projectId, {
-        activated: true,
-        username: email,
-      })
-      await this.$store.dispatch('LOAD_ALL_PROJECTS')
-      this.$message.success(`${this.projectName} is activated !`, 3)
-    },
-    async deactivateProject() {
-      await updateProject(this.projectId, { activated: false })
-      await this.$store.dispatch('LOAD_ALL_PROJECTS')
-      this.$message.success(`${this.projectName} is deactivated !`, 3)
-    },
   },
 }
 </script>

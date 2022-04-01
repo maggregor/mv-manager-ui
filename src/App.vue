@@ -49,9 +49,7 @@ export default {
     watch(authorized, async authorized => {
       if (authorized) {
         await store.dispatch('LOAD_CONNECTION')
-        if (store.getters['hasConnection']) {
-          await store.dispatch('LOAD_ALL_PROJECTS')
-        }
+        await store.dispatch('LOAD_ALL_PROJECTS')
         const query = qs.parse(currentRoute.value.fullPath.split('?')[1], {
           ignoreQueryPrefix: true,
         })

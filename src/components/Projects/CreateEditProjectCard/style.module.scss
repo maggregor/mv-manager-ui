@@ -16,20 +16,27 @@
   color: $gray-6;
 }
 
+p {
+  font-size: 20px;
+  font-weight: 500;
+  height: 20px;
+}
+
+.input-title {
+  font-size: 20px;
+  padding: 0px;
+  min-width: 50px;
+  border: 0px;
+  border-bottom: 2px dotted rgb(213, 213, 213);
+  text-align: center;
+}
 .field {
-  .title {
-    font-size: 20px;
-  }
-  .sub-title {
-    font-size: 14px;
-    height: 2px;
-  }
-  .description {
+  p {
     color: $gray-5;
     font-size: 14px;
     height: 7px;
   }
-  .input-connection-name {
+  .input-title {
     font-size: 20px;
     padding: 0px;
     min-width: 100px;
@@ -40,4 +47,8 @@
     font-size: 18px;
     color: rgb(58, 58, 58);
   }
+}
+
+a-tag {
+  font-size: 30px !important;
 }

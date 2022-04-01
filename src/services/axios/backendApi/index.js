@@ -5,6 +5,27 @@ export async function getProjects() {
   return data
 }
 
+/**
+ * Create project
+ * @param {*} payload
+ * @returns
+ */
+export async function createProject(payload) {
+  let projectId = payload.projectId
+  let connectionId = payload.connectionId
+  const { data } = await client.post('/project', { projectId, connectionId })
+  return data
+}
+
+/**
+ * Delete project
+ * @param {*} payload
+ * @returns
+ */
+export async function deleteProject(projectId) {
+  await client.delete(`/project/${projectId}`)
+}
+
 export async function getDatasets(payload) {
   let projectId = payload.projectId
   const { data } = await client.get(`/project/${projectId}/dataset`)

@@ -1,7 +1,7 @@
 <template>
   <a-row
-    v-if="!isCreating"
-    @click="setEditing(true)"
+    v-if="!isConnectionCreating"
+    @click="setCreating(true)"
     class="container"
     type="flex"
     justify="space-around"
@@ -24,10 +24,10 @@ export default {
   },
   setup() {
     const creating = ref(false)
-    return { creating, ...mapActions({ setEditing: 'SET_CREATING' }) }
+    return { creating, ...mapActions({ setCreating: 'SET_CONNECTION_CREATING' }) }
   },
   computed: {
-    ...mapGetters(['isCreating', 'allConnections']),
+    ...mapGetters(['isConnectionCreating', 'allConnections']),
   },
 }
 </script>
