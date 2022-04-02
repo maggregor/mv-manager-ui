@@ -1,7 +1,7 @@
 <template>
   <div :class="$style.container">
     <h1 class="text-black text-weight-700 font-size-50">Hello {{ firstName }},</h1>
-    Vous êtes là pour passer un très bon moment avec nous.
+    <!-- Description -->
     <MenuBar />
     <router-view class="mt-5" v-slot="{ Component }">
       <transition name="zoom-fadein" mode="out-in">

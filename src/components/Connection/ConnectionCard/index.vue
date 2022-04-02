@@ -16,10 +16,8 @@
         <span v-if="connection.lastModifiedAt">
           - Updated {{ moment(connection.lastModifiedAt).fromNow() }}</span
         >
-      </p>
-
-      <p></p
-    ></a-col>
+      </p></a-col
+    >
 
     <a-col>
       <a-popconfirm
@@ -32,7 +30,6 @@
         <a-button type="link"><DeleteOutlined />Delete</a-button>
       </a-popconfirm>
     </a-col>
-    <!-- <a-col>#{{ connection.id }}</a-col> -->
   </a-row>
   <CreateEditConnectionCard editing v-else :connection="connection" />
 </template>

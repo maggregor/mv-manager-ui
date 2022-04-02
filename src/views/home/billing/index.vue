@@ -23,8 +23,8 @@
         />
       </a-col>
 
-      <a-col :span="1"> </a-col>
-      <a-col :span="10">
+      <a-col :span="2"> </a-col>
+      <a-col :span="11">
         <PricingTable
           contact
           name="> 5 projects"

@@ -8,8 +8,6 @@ const backendClient = axios.create({
   // We currently have a synchronous call on optimize
   // and we don't know how long time it might take
   timeout: 180000, // 30-min
-
-  origin: 'http://localhost:8081',
 })
 
 backendClient.interceptors.request.use(request => {
