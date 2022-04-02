@@ -347,10 +347,6 @@ export default {
     selectedProjectPlanName: (state, getters) => {
       return getters.activePlanName(getters.selectedProjectId)
     },
-    // hasSelectedProjectPlan: (state, getters) =>
-    //   getters.hasSelectedProject &&
-    //   getters.selectedProject.plans &&
-    //   getters.activePlanName(getters.selectedProjectId),
     isSelectedProjectPlanLoading: (state, getters) => getters.selectedProject.planLoading,
     // Optimizations
     allOptimizations: (state, getters) =>

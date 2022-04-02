@@ -16,10 +16,8 @@
         <span v-if="connection.lastModifiedAt">
           - Updated {{ moment(connection.lastModifiedAt).fromNow() }}</span
         >
-      </p>
-
-      <p></p
-    ></a-col>
+      </p></a-col
+    >
 
     <a-col>
       <a-popconfirm
