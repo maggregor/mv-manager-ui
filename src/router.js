@@ -23,6 +23,7 @@ const router = createRouter({
         {
           path: 'home',
           name: 'Home',
+          redirect: '/home/projects',
           component: () => import('./views/home'),
           redirect: '/projects',
           children: [
@@ -44,12 +45,16 @@ const router = createRouter({
                 authRequired: true,
               },
             },
+            {
+              path: 'billing',
+              name: 'Billing',
+              component: () => import('./views/home/billing'),
+              meta: {
+                title: 'Billing',
+                authRequired: true,
+              },
+            },
           ],
-          meta: {
-            title: 'Projects',
-            authRequired: true,
-            hidden: true,
-          },
         },
       ],
     },

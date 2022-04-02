@@ -49,7 +49,8 @@ export default {
     watch(authorized, async authorized => {
       if (authorized) {
         await store.dispatch('LOAD_CONNECTION')
-        await store.dispatch('LOAD_ALL_PROJECTS')
+        store.dispatch('LOAD_ALL_BILLING')
+        store.dispatch('LOAD_ALL_PROJECTS')
         const query = qs.parse(currentRoute.value.fullPath.split('?')[1], {
           ignoreQueryPrefix: true,
         })

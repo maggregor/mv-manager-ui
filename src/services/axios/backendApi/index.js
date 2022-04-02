@@ -106,13 +106,21 @@ export function createSubscription(payload) {
 }
 
 /**
- *
- * @param { subscriptionId } payload
- * @returns
  */
-export function getSubscription(payload) {
-  let subscriptionId = payload.subscriptionId
-  return client.get(`/subscription/${subscriptionId}`, payload)
+export async function getSubscription() {
+  const { data } = await client.get(`/subscription`)
+  return data
+}
+/**
+ */
+export async function getAllProducts() {
+  const { data } = await client.get(`/products`)
+  return data
+}
+
+export async function getAllPrices() {
+  const { data } = await client.get(`/prices`)
+  return data
 }
 
 /**
@@ -186,5 +194,15 @@ export async function updateConnection(id, payload) {
 
 export async function createConnection(payload) {
   const { data } = await client.post(`/connection`, payload)
+  return data
+}
+
+export async function createPortalSession(payload) {
+  const { data } = await client.get(`/create-customer-portal-session`)
+  return data
+}
+
+export async function createCheckoutSession(payload) {
+  const { data } = await client.get(`/create-customer-checkout-session`)
   return data
 }

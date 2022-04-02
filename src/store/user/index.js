@@ -101,6 +101,7 @@ export default {
   },
   getters: {
     user: state => state,
+    isAuthorized: state => state.authorized,
     idToken: state => state.idToken,
     firstName: state => state.firstName,
     userIsLoaded: state => state.userIsLoaded,

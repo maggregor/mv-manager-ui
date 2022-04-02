@@ -9,10 +9,11 @@
       <a-col :span="10"> </a-col>
       <a-col :span="8">
         <div :class="$style.logoutContainer">
-          <div v-if="authorized">
+          <div v-if="isAuthorized">
             <b class="text-gray-6">{{ user.name }} </b>
             <a class="pl-4 text-primary text-weight-600" @click="logout">Logout</a>
             <p style="height: 8px">{{ user.email }}</p>
+            <a-button type="link" @click="openManageSubscription">Manage subscription</a-button>
             <a-tag>Team {{ user.teamName }}</a-tag>
           </div>
         </div>
@@ -22,23 +23,28 @@
 </template>
 
 <script>
-import { useStore } from 'vuex'
-import { computed } from 'vue'
+import { mapActions, mapGetters } from 'vuex'
 import Logo from '@/components/Logo'
+import { createPortalSession, createCheckoutSession } from '@/services/axios/backendApi'
 export default {
   components: { Logo },
   setup() {
-    const store = useStore()
-    const user = computed(() => store.getters['user'])
-    const authorized = computed(() => store.getters['user'].authorized)
-    const logout = () => {
-      store.dispatch('LOGOUT')
+    const openManageSubscription = async () => {
+      const portalSessionUrl = await createPortalSession()
+      window.location = portalSessionUrl
+    }
+    const openCheckoutSubscription = async () => {
+      const checkoutSessionUrl = await createCheckoutSession()
+      window.location = checkoutSessionUrl
     }
     return {
-      user,
-      logout,
-      authorized,
+      openManageSubscription,
+      openCheckoutSubscription,
+      ...mapActions({ logout: 'LOGOUT' }),
     }
+  },
+  computed: {
+    ...mapGetters(['user', 'isAuthorized']),
   },
 }
 </script>

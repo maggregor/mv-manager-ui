@@ -18,6 +18,10 @@ export default {
         title: 'Connections',
         route: '/home/connections',
       },
+      billing: {
+        title: 'Billing',
+        route: '/home/billing',
+      },
     }
     const changeRoute = o => router.push({ path: routes[o.key].route })
     return {
