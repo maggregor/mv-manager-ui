@@ -25,7 +25,7 @@
     <a-col :span="24">
       <a-row justify="space-between">
         <a-col>
-          <p>Consultez les <a href="">permissions minimum requises</a> par Achilio.</p>
+          <p>Consult our documentation for the minimum permissions required.</p>
         </a-col>
         <a-col>
           <CTA
