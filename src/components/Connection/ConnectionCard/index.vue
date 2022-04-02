@@ -30,7 +30,6 @@
         <a-button type="link"><DeleteOutlined />Delete</a-button>
       </a-popconfirm>
     </a-col>
-    <!-- <a-col>#{{ connection.id }}</a-col> -->
   </a-row>
   <CreateEditConnectionCard editing v-else :connection="connection" />
 </template>
