@@ -5,6 +5,27 @@ export async function getProjects() {
   return data
 }
 
+/**
+ * Create project
+ * @param {*} payload
+ * @returns
+ */
+export async function createProject(payload) {
+  let projectId = payload.projectId
+  let connectionId = payload.connectionId
+  const { data } = await client.post('/project', { projectId, connectionId })
+  return data
+}
+
+/**
+ * Delete project
+ * @param {*} payload
+ * @returns
+ */
+export async function deleteProject(projectId) {
+  await client.delete(`/project/${projectId}`)
+}
+
 export async function getDatasets(payload) {
   let projectId = payload.projectId
   const { data } = await client.get(`/project/${projectId}/dataset`)
@@ -140,5 +161,30 @@ export async function getLatestIntentClientSecret(payload) {
  */
 export async function synchronizeProjects() {
   const { data } = await client.post(`/organization/project`)
+  return data
+}
+
+export async function getAllConnections() {
+  const { data } = await client.get(`/connection`)
+  return data
+}
+
+export async function getConnection(id) {
+  const { data } = await client.get(`/connection/${id}`)
+  return data
+}
+
+export async function deleteConnection(id) {
+  const { data } = await client.delete(`/connection/${id}`)
+  return data
+}
+
+export async function updateConnection(id, payload) {
+  const { data } = await client.patch(`/connection/${id}`, payload)
+  return data
+}
+
+export async function createConnection(payload) {
+  const { data } = await client.post(`/connection`, payload)
   return data
 }

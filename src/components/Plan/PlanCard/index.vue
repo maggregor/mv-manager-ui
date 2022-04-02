@@ -59,7 +59,7 @@ export default {
         await new Promise(resolve => setTimeout(resolve, 2000))
         await store.dispatch('LOAD_ALL_PROJECTS')
         await store.dispatch('LOAD_PLANS', projectId)
-        router.push(`/projects`)
+        router.push(`/home/projects`)
       })
     }
     const getAvailableFreeTrialDays = computed(() =>

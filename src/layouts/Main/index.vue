@@ -30,28 +30,11 @@
 </template>
 
 <script>
-import { useStore } from 'vuex'
-import { computed } from 'vue'
-import { mapState } from 'vuex'
 import Topbar from '@/components/Topbar'
 import Footer from '@/components/Footer'
 export default {
   name: 'MainLayout',
   components: { Topbar, Footer },
-  setup() {
-    const store = useStore()
-    const user = computed(() => store.getters['user'])
-    const authorized = computed(() => store.getters['user'].authorized)
-    const logout = () => {
-      store.dispatch('LOGOUT')
-    }
-    return {
-      user,
-      logout,
-      authorized,
-    }
-  },
-  computed: mapState(['settings']),
 }
 </script>
 

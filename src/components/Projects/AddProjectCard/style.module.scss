@@ -1,0 +1,13 @@
+@import '@/mixins.scss';
+
+.container {
+  padding: 10px 20px 10px 20px;
+  border: 1px dashed rgb(205, 205, 205);
+  border-radius: 5px;
+  text-align: center;
+  min-height: 70px;
+  margin-top: 10px;
+  &:hover {
+    cursor: pointer;
+  }
+}

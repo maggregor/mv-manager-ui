@@ -1,12 +1,14 @@
 import { createStore } from 'vuex'
 import user from './user'
 import projects from './projects'
+import connections from './connections'
 import errors from './errors'
 
 export default createStore({
   modules: {
     user,
     projects,
+    connections,
     errors,
   },
   state: {},

@@ -6,13 +6,14 @@
           <Logo />
         </a>
       </a-col>
-      <a-col :span="12"> </a-col>
-      <a-col :span="6">
+      <a-col :span="10"> </a-col>
+      <a-col :span="8">
         <div :class="$style.logoutContainer">
           <div v-if="authorized">
             <b class="text-gray-6">{{ user.name }} </b>
             <a class="pl-4 text-primary text-weight-600" @click="logout">Logout</a>
-            <p>{{ user.email }}</p>
+            <p style="height: 8px">{{ user.email }}</p>
+            <a-tag>Team {{ user.teamName }}</a-tag>
           </div>
         </div>
       </a-col>

@@ -36,7 +36,6 @@ export default {
   components: { 'google-button': GoogleButton },
   setup() {
     const store = useStore()
-    const authorized = computed(() => store.getters['user'].authorized)
 
     const handleFinish = values => {
       store.dispatch('LOGIN', { payload: values })
@@ -48,7 +47,6 @@ export default {
     return {
       handleFinish,
       handleFinishFailed,
-      authorized,
     }
   },
 }

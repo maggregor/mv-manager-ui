@@ -1,8 +1,8 @@
 <template>
   <div class="settings">
-    <a-row type="flex">
-      <a-col :span="18">
-        <h1 class="mb-5">Optimization parameters</h1>
+    <a-row type="flex" justify="space-between">
+      <a-col>
+        <h1 class="mb-4">Project parameters</h1>
       </a-col>
       <a-col
         ><CTA :disabled="loading || !hasChanged" :trigger="saveSettings" label="Save changes"></CTA>
@@ -10,10 +10,10 @@
     </a-row>
     <div class="setting">
       <h2>Automatic generation</h2>
-      <h3>
+      <p>
         Achilio will continuously optimize your datasets
-      </h3>
-      <a-skeleton style="width: 10%" :loading="loading" :paragraph="false">
+      </p>
+      <a-skeleton :loading="loading" :paragraph="false">
         <a-switch
           class="mt-2 mb-2"
           checked-children="On"
@@ -21,15 +21,16 @@
           :checked="automatic"
           @click="automatic = !automatic"
         />
-        <p>Automatic mode is {{ automatic ? 'enabled' : 'disabled' }}</p>
+
+        <p class="description-value">Automatic mode is {{ automatic ? 'enabled' : 'disabled' }}</p>
       </a-skeleton>
     </div>
     <div class="setting">
       <h2>Range of history analysis</h2>
-      <h3>
+      <p>
         The query history timeframe used during the usage analysis
-      </h3>
-      <a-skeleton style="width: 10%" :loading="loading" :paragraph="false">
+      </p>
+      <a-skeleton :loading="loading" :paragraph="false">
         <!-- DROPDOWN DAYS TIMEFRAME -->
         <a-select
           style="width: 110px"
@@ -44,9 +45,9 @@
     </div>
     <div class="setting">
       <h2>Maximum Materialized Views per table</h2>
-      <h3>
+      <p class="description-value">
         The maximum number of materialized view per table
-      </h3>
+      </p>
       <div>
         <a-skeleton :loading="loading" :paragraph="false">
           <a-slider
@@ -60,19 +61,33 @@
       </div>
       <p>Maximum per table: {{ mvMaxPerTable }}</p>
     </div>
-    <div class="delete">
-      <a-row type="flex" align="middle">
-        <a-col span="18">
-          <h1>Delete all managed materialized views</h1>
-          <h2>This will delete all materialized views created by Achilio on this project</h2>
-          <h2>If automatic mode is enabled, they will be re-created.</h2>
-        </a-col>
-        <a-col span="auto">
-          <a-button class="delete-btn" :loading="deleteLoading" @click="deleteAll"
-            >Delete all</a-button
-          >
-        </a-col>
-      </a-row>
+    <a-divider />
+    <div class="setting">
+      <h2>Danger zone</h2>
+      <div class="delete">
+        <a-row class="mb-3" type="flex" align="middle">
+          <a-col span="18">
+            <h2>Delete all managed materialized views</h2>
+            <p>This will delete all materialized views created by Achilio on this project</p>
+            <p>If automatic mode is enabled, they will be re-created.</p>
+          </a-col>
+          <a-col span="auto">
+            <a-button class="delete-btn" :loading="deleteLoading" @click="deleteAll"
+              >Delete all</a-button
+            >
+          </a-col>
+        </a-row>
+        <a-divider />
+        <a-row type="flex" align="middle">
+          <a-col span="18">
+            <h2>Remove {{ projectId }}</h2>
+            This will de-synchronize {{ projectId }} with Achilio.
+          </a-col>
+          <a-col span="auto">
+            <a-button class="delete-btn" @click="unregisterProject">Remove</a-button>
+          </a-col>
+        </a-row>
+      </div>
     </div>
   </div>
 </template>
@@ -83,7 +98,9 @@ import { message } from 'ant-design-vue'
 import { computed, onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
 import { updateProject } from '@/services/axios/backendApi'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const loading = ref(false)
 const store = useStore()
 const automatic = ref(false)
@@ -116,12 +133,15 @@ const deleteAll = () => {
   const timeout = 7
   message.loading('Materialized Views deletion requesting...', timeout)
   deleteLoading.value = true
-  store.dispatch('DELETE_ALL_MATERIALIZED_VIEWS').finally(() => {
-    setTimeout(() => {
-      deleteLoading.value = false
-      message.success('Materialized Views deletion request sent', timeout)
-    }, timeout * 1000)
-  })
+  store
+    .dispatch('DELETE_ALL_MATERIALIZED_VIEWS')
+    .then(() => {
+      setTimeout(() => {
+        deleteLoading.value = false
+        message.success('Materialized Views deletion request sent', timeout)
+      }, timeout * 1000)
+    })
+    .finally(() => (deleteLoading.value = false))
 }
 
 const saveSettings = async () => {
@@ -143,6 +163,11 @@ const saveSettings = async () => {
         refreshSettings()
       }, 1000)
     })
+}
+
+const unregisterProject = async () => {
+  router.push('/home/projects')
+  await store.dispatch('UNREGISTER_PROJECT', projectId)
 }
 
 const hasChanged = computed(() => {

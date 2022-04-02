@@ -62,7 +62,9 @@ export default {
       if (!this.disabled) {
         if (this.trigger != undefined) {
           this.loading = true
-          await this.trigger()
+          try {
+            await this.trigger()
+          } catch (e) {}
           this.loading = false
         } else {
           this.changeRoute()
