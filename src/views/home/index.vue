@@ -1,7 +1,11 @@
 <template>
   <div :class="$style.container">
     <h1 class="text-black text-weight-700 font-size-50">Hello {{ firstName }},</h1>
-    <!-- Description -->
+    To start using Achilio, first
+    <a-button type="link" class="small-button" @click="$router.push('/home/connections')"
+      >create a connection</a-button
+    >
+    to your Datasource and then register a project
     <MenuBar />
     <router-view class="mt-5" v-slot="{ Component }">
       <transition name="zoom-fadein" mode="out-in">
@@ -20,15 +24,8 @@ export default {
   components: {
     MenuBar,
   },
-  setup() {
-    const store = useStore()
-    const synchronize = async () => store.dispatch('SYNCHRONIZE_PROJECTS')
-    return {
-      synchronize,
-    }
-  },
   computed: {
-    ...mapGetters(['firstName', 'synchronize', 'isSynchronizing']),
+    ...mapGetters(['firstName', 'allConnections']),
   },
 }
 </script>

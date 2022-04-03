@@ -40,8 +40,8 @@
           url-image="https://files.stripe.com/links/MDB8YWNjdF8xSThvTDFLejNUVjhYQmJkfGZsX3Rlc3RfMzNGSGtjVFVtTklYcng0MU5JTXZpbXo40087wHsIVd"
           description="Enterprise scaling custom plan"
           :pricing-arguments="[
-            'Custom pricing',
             'Advantages of By Projects',
+            'Custom pricing',
             'Custom integrations',
             'Dedicated slack channel',
           ]"
