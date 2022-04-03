@@ -38,10 +38,10 @@
           contact
           name="> 5 projects"
           url-image="https://files.stripe.com/links/MDB8YWNjdF8xSThvTDFLejNUVjhYQmJkfGZsX3Rlc3RfMzNGSGtjVFVtTklYcng0MU5JTXZpbXo40087wHsIVd"
-          description="We are gonna give the best sizing"
+          description="Enterprise scaling custom plan"
           :pricing-arguments="[
             'Custom pricing',
-            'Automatic MV management',
+            'Advantages of By Projects',
             'Custom integrations',
             'Dedicated slack channel',
           ]"
