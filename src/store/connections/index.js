@@ -59,19 +59,19 @@ export default {
     async CREATE_CONNECTION({ commit }, payload) {
       const connection = await createConnection(payload)
       commit('ADD_CONNECTION', connection)
-      message.success('A new connection to BigQuery just created!"')
+      message.success('New connection to BigQuery created')
     },
     async UPDATE_CONNECTION({ commit }, payload) {
       let id = payload.id
       delete payload.id
       const connection = await updateConnection(id, payload)
       commit('ADD_CONNECTION', connection)
-      message.success('Successfully updated!')
+      message.success(`Connection {id} has been updated`)
     },
     async DELETE_CONNECTION({ commit }, id) {
       await deleteConnection(id)
       commit('REMOVE_CONNECTION', id)
-      message.success(`The connection ${id} has been deleted`)
+      message.success(`Connection ${id} has been deleted`)
     },
     SET_CONNECTION_CREATING({ commit }, creating) {
       commit('SET_CONNECTION_STATE', { creating })
