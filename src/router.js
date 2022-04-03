@@ -142,11 +142,20 @@ const router = createRouter({
       },
       children: [
         {
+          path: '/404',
+          name: 'route404',
+          meta: {
+            title: 'Error 404',
+          },
+          component: () => import('./views/auth/404'),
+        },
+        {
           path: '/login',
           name: 'login',
           meta: {
             title: 'Login',
           },
+
           component: () => import('./views/auth/login'),
         },
       ],
