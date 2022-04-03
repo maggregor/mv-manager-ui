@@ -136,12 +136,7 @@ export async function createConnection(payload) {
   return data
 }
 
-export async function createPortalSession(payload) {
+export async function createPortalSession() {
   const { data } = await client.get(`/create-customer-portal-session`)
-  return data
-}
-
-export async function createCheckoutSession(payload) {
-  const { data } = await client.post(`/create-customer-checkout-session`, payload)
   return data
 }
