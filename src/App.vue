@@ -1,5 +1,5 @@
 <template>
-  <LoadingScreen :is-loading="isAccountLoading" />
+  <LoadingScreen :is-loading="isAccountLoading && !isUnreachable" />
   <Unreachable v-if="isUnreachable" />
   <div v-else-if="!isAccountLoading">
     <styleLoader />

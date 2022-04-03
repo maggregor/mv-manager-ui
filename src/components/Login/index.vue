@@ -17,8 +17,7 @@
         <google-button class="mb-4" @click="handleFinish" />
         <p>
           By signing up, you agree to Achilio’s
-          <a href="https://achilio.com"><b>Terms of Service</b></a> and
-          <a href="https://achilio.com"><b>Privacy Policy</b></a
+          <a href="https://www.achilio.com/privacy-terms"><b>Privacy Terms.</b></a
           >.
         </p>
       </a-col>
