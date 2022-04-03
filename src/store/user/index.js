@@ -1,6 +1,6 @@
 import router from '@/router'
 import { notification } from 'ant-design-vue'
-import { login, logout, currentAccount, grantAccessBigQuery } from '@/services/oauth2'
+import { login, logout, currentAccount } from '@/services/oauth2'
 
 const getDefaultState = () => {
   return {
@@ -11,7 +11,6 @@ const getDefaultState = () => {
     firstName: '',
     idToken: '',
     authorized: null,
-    insufficientPermissions: false,
     loading: false,
   }
 }
@@ -82,28 +81,12 @@ export default {
         router.push('/login')
       })
     },
-    GRANT_BIGQUERY_ACCESS({ commit }) {
-      grantAccessBigQuery().then(user => {
-        if (user) {
-          dispatch('LOAD_CURRENT_ACCOUNT')
-          notification.success({
-            message: 'Successfully',
-            description: 'Granted with success !',
-          })
-        }
-        if (!user) {
-          commit('SET_USER_STATE', {
-            loading: false,
-          })
-        }
-      })
-    },
   },
   getters: {
     user: state => state,
+    isAuthorized: state => state.authorized,
     idToken: state => state.idToken,
     firstName: state => state.firstName,
     userIsLoaded: state => state.userIsLoaded,
-    hasInsufficientPermissions: state => state.insufficientPermissions,
   },
 }

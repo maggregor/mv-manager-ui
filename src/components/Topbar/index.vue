@@ -9,10 +9,18 @@
       <a-col :span="10"> </a-col>
       <a-col :span="8">
         <div :class="$style.logoutContainer">
-          <div v-if="authorized">
+          <div v-if="isAuthorized">
             <b class="text-gray-6">{{ user.name }} </b>
             <a class="pl-4 text-primary text-weight-600" @click="logout">Logout</a>
             <p style="height: 8px">{{ user.email }}</p>
+            <a-tag
+              v-if="trialDaysRemaining > 0"
+              :color="trialDaysRemaining > 7 ? 'green' : 'orange'"
+              >Trial period: {{ trialDaysRemaining }} days remaining</a-tag
+            >
+            <a-tag v-else-if="trialDaysRemaining === 0 && !hasActiveSubscription" color="red"
+              >Trial period has expired</a-tag
+            >
             <a-tag>Team {{ user.teamName }}</a-tag>
           </div>
         </div>
@@ -22,23 +30,17 @@
 </template>
 
 <script>
-import { useStore } from 'vuex'
-import { computed } from 'vue'
+import { mapActions, mapGetters } from 'vuex'
 import Logo from '@/components/Logo'
 export default {
   components: { Logo },
   setup() {
-    const store = useStore()
-    const user = computed(() => store.getters['user'])
-    const authorized = computed(() => store.getters['user'].authorized)
-    const logout = () => {
-      store.dispatch('LOGOUT')
-    }
     return {
-      user,
-      logout,
-      authorized,
+      ...mapActions({ logout: 'LOGOUT' }),
     }
+  },
+  computed: {
+    ...mapGetters(['user', 'isAuthorized', 'trialDaysRemaining', 'hasActiveSubscription']),
   },
 }
 </script>

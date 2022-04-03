@@ -1,12 +1,19 @@
 <template>
   <div class="billing">
-    <h3>Subscription</h3>
+    <h3>Pricings</h3>
     <a-row type="flex" class="mb-4" justify="center">
       <a-button-group>
-        <a-button :type="isIntervalEquals('month') ? 'primary' : ''" @click="interval = 'month'">
+        <a-button
+          :type="isIntervalEquals('month') ? 'primary' : 'default'"
+          @click="interval = 'month'"
+        >
           Monthly
         </a-button>
-        <a-button :type="isIntervalEquals('year') ? 'primary' : ''" @click="interval = 'year'">
+        <a-button
+          :disabled="true"
+          :type="isIntervalEquals('year') ? 'primary' : 'default'"
+          @click="interval = 'year'"
+        >
           Yearly
         </a-button>
       </a-button-group>
@@ -18,8 +25,10 @@
           :url-image="p.images[0]"
           :prices="getPricesOfProduct(p.id)"
           :description="p.description"
-          :includes="getIncludesOfProduct(p.id)"
+          :pricing-arguments="getProductArguments(p.id)"
           :interval="interval"
+          :activated="isProductActivated(p.id)"
+          :active-price="getActivePrice"
         />
       </a-col>
 
@@ -29,11 +38,11 @@
           contact
           name="> 5 projects"
           url-image="https://files.stripe.com/links/MDB8YWNjdF8xSThvTDFLejNUVjhYQmJkfGZsX3Rlc3RfMzNGSGtjVFVtTklYcng0MU5JTXZpbXo40087wHsIVd"
-          description="We are gonna to give the best sizing"
-          :includes="[
-            'Flexible pricing',
-            'Automatic generation',
-            'Custom SAML support',
+          description="Enterprise scaling custom plan"
+          :pricing-arguments="[
+            'Advantages of By Projects',
+            'Custom pricing',
+            'Custom integrations',
             'Dedicated slack channel',
           ]"
         />
@@ -64,7 +73,9 @@ export default {
       'allPrices',
       'subscription',
       'getPricesOfProduct',
-      'getIncludesOfProduct',
+      'getProductArguments',
+      'isProductActivated',
+      'getActivePrice',
     ]),
   },
 }

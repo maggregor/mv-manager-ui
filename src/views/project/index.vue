@@ -3,7 +3,7 @@
     <a-row v-if="hasSelectedProject" align="bottom">
       <a-col :span="10"><ProjectHeader :project="selectedProject"/></a-col>
       <a-col :span="10">
-        <MenuBar v-if="project.activated" />
+        <MenuBar />
       </a-col>
       <a-col :span="4" style="display:flex; justify-content: end;">
         <cta

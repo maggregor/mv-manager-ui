@@ -67,7 +67,6 @@ export default {
         this.loading = true
         setTimeout(async () => {
           await store.dispatch('LOAD_ALL_PROJECTS')
-          await store.dispatch('LOAD_PLANS', projectId)
           router.push(`/home/projects`)
           message.destroy()
           message.success('Congratulations. Successfully subscribed.')

@@ -7,18 +7,9 @@ const redirectUri = process.env.VUE_APP_SERVER_AUTH_REDIRECT
 /**
  * Non sensitive scopes
  */
-const basicScopes = [
+const nonSensitiveScopes = [
   'https://www.googleapis.com/auth/userinfo.email',
   'https://www.googleapis.com/auth/userinfo.profile',
-].join(' ')
-
-/**
- * Sensitives scopes
- */
-const fullScopes = [
-  basicScopes,
-  'https://www.googleapis.com/auth/bigquery',
-  'https://www.googleapis.com/auth/cloud-platform.read-only',
 ].join(' ')
 
 const params = {
@@ -26,18 +17,11 @@ const params = {
   client_id: `${process.env.VUE_APP_GOOGLE_OAUTH2_CLIENT_ID}`,
   redirect_uri: `${authServerUrl}/${redirectUri}`,
   prompt: 'consent',
-  include_granted_scopes: 'true',
   access_type: 'offline',
+  scope: nonSensitiveScopes,
 }
 
 export async function login() {
-  params.scope = basicScopes
-  const urlParams = new URLSearchParams(params).toString()
-  window.location = `${googleAuthUrl}?${urlParams}`
-}
-
-export async function grantAccessBigQuery() {
-  params.scope = fullScopes
   const urlParams = new URLSearchParams(params).toString()
   window.location = `${googleAuthUrl}?${urlParams}`
 }

@@ -1,5 +1,5 @@
 <template>
-  <LoadingScreen :is-loading="isAccountLoading" />
+  <LoadingScreen :is-loading="isAccountLoading && !isUnreachable" />
   <Unreachable v-if="isUnreachable" />
   <div v-else-if="!isAccountLoading">
     <styleLoader />
@@ -49,7 +49,8 @@ export default {
     watch(authorized, async authorized => {
       if (authorized) {
         await store.dispatch('LOAD_CONNECTION')
-        await store.dispatch('LOAD_ALL_PROJECTS')
+        store.dispatch('LOAD_ALL_BILLING')
+        store.dispatch('LOAD_ALL_PROJECTS')
         const query = qs.parse(currentRoute.value.fullPath.split('?')[1], {
           ignoreQueryPrefix: true,
         })
@@ -57,7 +58,7 @@ export default {
       } else {
         store.dispatch('clearAll', { root: true })
       }
-      setTimeout(() => (isAccountLoading.value = false), 20)
+      setTimeout(() => (isAccountLoading.value = false), 300)
     })
     return {
       loading,

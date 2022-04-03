@@ -2,6 +2,7 @@ import { createStore } from 'vuex'
 import user from './user'
 import projects from './projects'
 import connections from './connections'
+import billing from './billing'
 import errors from './errors'
 
 export default createStore({
@@ -9,6 +10,7 @@ export default createStore({
     user,
     projects,
     connections,
+    billing,
     errors,
   },
   state: {},

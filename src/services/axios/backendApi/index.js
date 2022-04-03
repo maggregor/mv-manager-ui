@@ -84,83 +84,30 @@ export async function getOptimizations(payload) {
   return data
 }
 
-export async function getChartsStatistics(projectId, timeframe) {
-  const { data } = await client.get(`/project/${projectId}/queries/${timeframe}/statistics/series`)
-  return data
-}
-
 export function deleteAllMaterializedViews(projectId) {
   return client.delete(`/optimize/${projectId}`)
 }
 
 /**
- * POST
- *
- * Create an new subscription based on the priceId
- *
- * @param { customerId, priceId, projectId }
- * @returns
  */
-export function createSubscription(payload) {
-  return client.post(`/subscription`, payload)
+export async function getSubscription() {
+  const { data } = await client.get(`/subscription`)
+  return data
 }
-
 /**
- *
- * @param { subscriptionId } payload
- * @returns
  */
-export function getSubscription(payload) {
-  let subscriptionId = payload.subscriptionId
-  return client.get(`/subscription/${subscriptionId}`, payload)
-}
-
-/**
- *
- * @param { subscriptionId } payload
- * @returns
- */
-export function cancelSubscription(payload) {
-  let subscriptionId = payload.subscriptionId
-  return client.delete(`/subscription/${subscriptionId}`, payload)
-}
-
-/**
- *
- * @param { subscriptionId } payload
- * @returns
- */
-export function updateSubscription(payload) {
-  let subscriptionId = payload.subscriptionId
-  return client.post(`/subscription/${subscriptionId}`, payload)
-}
-
-/**
- *
- * @param { projectId }
- * @returns
- */
-export async function getPlans(projectId) {
-  const { data } = await client.get(`/plan`, { params: { projectId } })
+export async function getAllProducts() {
+  const { data } = await client.get(`/products`)
   return data
 }
 
-/**
- *
- * @param { subscriptionId } payload
- * @returns
- */
-export async function getLatestIntentClientSecret(payload) {
-  let subscriptionId = payload.subscriptionId
-  const { data } = await client.get(`/subscription/${subscriptionId}/latestIntentClientSecret`)
+export async function getAllPrices() {
+  const { data } = await client.get(`/prices`)
   return data
 }
 
-/**
- *
- */
-export async function synchronizeProjects() {
-  const { data } = await client.post(`/organization/project`)
+export async function getSubscriptionChecks() {
+  const { data } = await client.get(`/subscription/checks`)
   return data
 }
 
@@ -186,5 +133,10 @@ export async function updateConnection(id, payload) {
 
 export async function createConnection(payload) {
   const { data } = await client.post(`/connection`, payload)
+  return data
+}
+
+export async function createPortalSession() {
+  const { data } = await client.get(`/create-customer-portal-session`)
   return data
 }
