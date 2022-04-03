@@ -4,7 +4,6 @@ import {
   getProjects,
   getProject,
   getDatasets,
-  getPlans,
   getKPIStatistics,
   synchronizeProjects,
   deleteAllMaterializedViews,
@@ -74,7 +73,6 @@ export default {
      * @param projectId
      */
     async SET_SELECTED_PROJECT_ID({ commit, dispatch }, projectId) {
-      dispatch('LOAD_PLANS', projectId)
       commit('SET_STATE', { selectedProjectId: projectId })
     },
     /**
@@ -90,27 +88,9 @@ export default {
         let projects = await getProjects()
         projects.forEach(project => {
           commit('ADD_PROJECT', project)
-          if (project.activated) {
-            dispatch('LOAD_PLANS', project.projectId)
-          }
         })
       } catch (e) {}
       commit('SET_STATE', { loading: false })
-    },
-    /**
-     * Load all projects
-     *
-     * Retrieve all projects as array from the API
-     * Converts to a project map
-     *
-     */
-    async SYNCHRONIZE_PROJECTS({ commit, dispatch }) {
-      commit('SET_STATE', { synchronizeLoading: true })
-      try {
-        await synchronizeProjects()
-        dispatch('LOAD_ALL_PROJECTS')
-      } catch (e) {}
-      commit('SET_STATE', { synchronizeLoading: false })
     },
     /**
      *
@@ -129,16 +109,6 @@ export default {
     async UNREGISTER_PROJECT({ commit }, id) {
       await deleteProject(id)
       commit('REMOVE_PROJECT', id)
-    },
-    /**
-     * Load a plan
-     *
-     * @param { projectId }
-     */
-    async LOAD_PLANS({ commit }, projectId) {
-      commit('SET_PROJECT_STATE', { projectId, planLoading: true })
-      commit('SET_PROJECT_STATE', { projectId, plans: await getPlans(projectId) })
-      commit('SET_PROJECT_STATE', { projectId, planLoading: false })
     },
     /**
      * Load a project
@@ -166,15 +136,6 @@ export default {
       getKPIStatistics(projectId, timeframe).then(kpi =>
         commit('SET_PROJECT_STATE', { projectId, kpi, kpiStatisticsLoading: false }),
       )
-      // Series chart is deactivated for now.
-      // It will be reactivated when we implement a project setup  process that persist the stats
-      // getChartsStatistics(projectId, timeframe).then(chartsStatistics =>
-      //   commit('SET_PROJECT_STATE', {
-      //     projectId,
-      //     chartsStatistics,
-      //     chartsStatisticsLoading: false,
-      //   }),
-      // )
     },
     /**
      * Delete all the materialized views created by Achilio
@@ -289,10 +250,6 @@ export default {
     allProjects: state => Object.values(state.projects),
     // Returns projects as array of project
     project: state => id => state.projects[id],
-    // Returns array of activated projects
-    activatedProjects: (state, getters) => getters.allProjects.filter(p => p.activated),
-    // Returns array of disabled projects
-    deactivatedProjects: (state, getters) => getters.allProjects.filter(p => !p.activated),
     // Returns the selected project id
     selectedProjectId: state => state.selectedProjectId,
     // Returns the selected project id
@@ -324,30 +281,6 @@ export default {
     chartsStatistics: (state, getters) =>
       getters.hasSelectedProjectCharts ? getters.selectedProject.chartsStatistics : [],
     isChartsStatisticsLoading: (state, getters) => getters.selectedProject.chartsStatisticsLoading,
-    // Plans
-    //
-    plans: state => projectId => state.projects[projectId].plans,
-    // Get plan by project id
-    activePlan: (state, getters) => projectId => {
-      let plan = null
-      if (getters.plans(projectId)) {
-        plan = state.projects[projectId].plans.find(
-          p => p.subscription !== null && p.subscription.active,
-        )
-      }
-      return plan ? plan : null
-    },
-    activePlanName: (state, getters) => projectId => {
-      let plan = getters.activePlan(projectId)
-      return plan ? plan.name : null
-    },
-    selectedProjectPlan: (state, getters) => {
-      return getters.activePlan(getters.selectedProjectId)
-    },
-    selectedProjectPlanName: (state, getters) => {
-      return getters.activePlanName(getters.selectedProjectId)
-    },
-    isSelectedProjectPlanLoading: (state, getters) => getters.selectedProject.planLoading,
     // Optimizations
     allOptimizations: (state, getters) =>
       _.orderBy(getters.selectedProject.optimizations, 'createdDate', 'desc'),

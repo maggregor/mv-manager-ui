@@ -58,7 +58,7 @@ export default {
       } else {
         store.dispatch('clearAll', { root: true })
       }
-      setTimeout(() => (isAccountLoading.value = false), 20)
+      setTimeout(() => (isAccountLoading.value = false), 300)
     })
     return {
       loading,

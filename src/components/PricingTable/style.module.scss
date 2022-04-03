@@ -6,11 +6,11 @@
   border-radius: 10px;
   border: 1px solid rgb(84, 78, 181);
   padding: 25px 15px 25px 15px;
-
+  text-align: center;
   transition: all 0.5s ease;
 
   .name {
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 600;
     ;
   }
@@ -39,11 +39,26 @@
     margin-bottom: 15px;
   }
 
-  .includes {
+  .arguments {
     min-height: 180px;
+    text-align: start;
   }
 }
 
+.activated {
+  border: 3px solid rgb(80, 70, 255);
+
+  .current-plan {
+    font-size: 16px;
+    font-weight: 600;
+    color: rgb(80, 70, 255);
+  }
+
+  .days-left {
+    font-size: 14px;
+    color: rgb(109, 105, 180);
+  }
+}
 
 .sub-title {
   font-size: 18px;

@@ -128,28 +128,10 @@ const router = createRouter({
                 projectMenuBar: true,
               },
             },
-            {
-              path: 'plan',
-              name: 'Plan',
-              component: () => import('./views/project/plan'),
-              meta: {
-                breadcrumb: 'Plan',
-                title: 'Plan',
-              },
-            },
-            {
-              path: 'checkout/:subscriptionId',
-              name: 'Checkout',
-              component: () => import('./views/project/checkout'),
-              meta: {
-                title: 'Checkout',
-              },
-            },
           ],
         },
       ],
     },
-    // System Pages
     {
       path: '/auth',
       component: MainLayout,
@@ -159,14 +141,6 @@ const router = createRouter({
         hidden: true,
       },
       children: [
-        {
-          path: '/404',
-          name: 'route404',
-          meta: {
-            title: 'Error 404',
-          },
-          component: () => import('./views/auth/404'),
-        },
         {
           path: '/login',
           name: 'login',
@@ -194,13 +168,6 @@ router.beforeEach((to, from, next) => {
       })
       return
     }
-  }
-  const requireActivatedProject = to.matched.some(record => record.meta.projectActivatedRequired)
-  const projectId = to.params.projectId
-  if (requireActivatedProject && projectId && !store.getters['project'](projectId).activated) {
-    next({
-      path: `/projects/${projectId}/plan`,
-    })
   }
   next()
 })
