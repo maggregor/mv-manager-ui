@@ -1,5 +1,8 @@
 <template>
-  <ProjectList />
+  <div>
+    <h3>Projects</h3>
+    <ProjectList />
+  </div>
 </template>
 
 <script>
@@ -17,3 +20,7 @@ export default {
   },
 }
 </script>
+
+<style lang="scss" scoped>
+@import './style.module.scss';
+</style>

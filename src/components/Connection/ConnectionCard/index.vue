@@ -22,7 +22,7 @@
     <a-col>
       <a-popconfirm
         placement="left"
-        title="Are you sure delete this connection?"
+        title="Are you sure?"
         ok-text="Yes, delete this connection"
         cancel-text="No"
         @confirm="deleteConnection"

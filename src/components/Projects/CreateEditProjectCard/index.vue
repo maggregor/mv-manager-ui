@@ -1,8 +1,9 @@
 <template>
   <div class="connectionCard">
     <!-- Choose a selection -->
-    <a-row type="flex" align="bottom">
-      <p class="title">Register a project</p>
+    <a-row type="flex" align="center" justify="space-between">
+      <a-col><p class="title">Register a project</p></a-col>
+      <a-col> <a-button type="link" @click="close">Close</a-button></a-col>
     </a-row>
     <a-row justify="space-around">
       <a-col class="field mt-2 mb-5">
@@ -100,7 +101,9 @@ export default {
       })
       await store.dispatch('SET_PROJECT_REGISTERING', false)
     }
-
+    const close = () => {
+      store.dispatch('SET_PROJECT_REGISTERING', false)
+    }
     return {
       selectedConnection,
       handleSelectConnection,
@@ -108,6 +111,7 @@ export default {
       defaultName,
       projectId,
       registerProject,
+      close,
     }
   },
   computed: {

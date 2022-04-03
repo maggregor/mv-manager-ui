@@ -81,7 +81,7 @@
         <a-row type="flex" align="middle">
           <a-col span="18">
             <h2>Remove {{ projectId }}</h2>
-            This will de-synchronize {{ projectId }} with Achilio.
+            This will unregister {{ projectId }} from Achilio.
           </a-col>
           <a-col span="auto">
             <a-button class="delete-btn" @click="unregisterProject">Remove</a-button>

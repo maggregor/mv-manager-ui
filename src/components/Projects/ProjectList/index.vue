@@ -1,10 +1,8 @@
 <template>
-  <div class="container">
-    <div v-for="project in allProjects" :key="project.projectId">
-      <ProjectCard class="mt-2" :project="project" />
-    </div>
-    <AddProjectCard />
+  <div v-for="project in allProjects" :key="project.projectId">
+    <ProjectCard class="mt-2" :project="project" />
   </div>
+  <AddProjectCard />
 </template>
 <script>
 import { mapGetters } from 'vuex'
