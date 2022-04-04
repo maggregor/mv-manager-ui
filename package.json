@@ -15,22 +15,16 @@
     "vb-seed": "node ./scripts/generate.js --config=config-seed.json"
   },
   "dependencies": {
-    "@ant-design/icons-vue": "^6.0.1",
-    "@stripe/stripe-js": "^1.23.0",
-    "@syncfusion/ej2-vue-buttons": "^19.3.44",
-    "@syncfusion/ej2-vue-navigations": "^19.3.46",
-    "ant-design-vue": "^2.0.0-rc.9",
-    "axios": "^0.21.1",
-    "axios-mock-adapter": "^1.19.0",
-    "axios-oauth-client": "^1.4.4",
-    "axios-token-interceptor": "^0.2.0",
+    "@ant-design/icons-vue": "^6.1.0",
+    "ant-design-vue": "^2.2.8",
+    "axios": "^0.26.1",
     "bootstrap": "^4.5.3",
     "chalk": "^4.1.0",
     "charts.css": "^0.9.0",
     "cli-select": "^1.1.2",
-    "core-js": "^3.6.5",
     "he-tree-vue": "3",
     "lodash": "^4.17.21",
+    "moment": "^2.29.2",
     "nprogress": "^0.2.0",
     "pretty-bytes": "^5.6.0",
     "qs": "^6.9.6",
@@ -38,22 +32,15 @@
     "register-service-worker": "^1.7.1",
     "store": "^2.0.12",
     "vue": "^3.0.0",
-    "vue-class-component": "8.0.0-rc.1",
     "vue-i18n": "^9.0.0-rc.5",
     "vue-router": "^4.0.13",
-    "vue-tour": "^1.5.0",
     "vue3-perfect-scrollbar": "^1.5.5",
     "vue3-popper": "^1.4.2",
-    "vue3-quill": "^0.2.2",
-    "vuedraggable": "^4.0.1",
+    "vue3-quill": "^0.2.6",
     "vuex": "^4.0.0-0"
   },
-  "devDependencies": {
-    "@vue/cli-plugin-babel": "~4.5.0",
+  "devDependencies": {    
     "@vue/cli-plugin-eslint": "~4.5.0",
-    "@vue/cli-plugin-pwa": "~4.5.0",
-    "@vue/cli-plugin-router": "~4.5.0",
-    "@vue/cli-plugin-vuex": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
     "@vue/compiler-sfc": "^3.0.0",
     "@vue/eslint-config-prettier": "^6.0.0",
@@ -67,7 +54,8 @@
     "node-sass": "^4.12.0",
     "prettier": "^1.19.1",
     "sass-loader": "^8.0.2",
-    "vue-stripe-js": "^1.0.0"
+    "vue-stripe-js": "^1.0.0",
+    "yorkie": "^2.0.0"
   },
   "gitHooks": {
     "pre-commit": "lint-staged"

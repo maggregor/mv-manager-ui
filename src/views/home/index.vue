@@ -6,7 +6,25 @@
       >create a connection</a-button
     >
     to your Datasource and then register a project
-    <MenuBar />
+    <MenuBar
+      :routes="[
+        {
+          key: 'projects',
+          title: 'Projects',
+          route: '/home/projects',
+        },
+        {
+          key: 'connection',
+          title: 'Connections',
+          route: '/home/connections',
+        },
+        {
+          key: 'billing',
+          title: 'Billing',
+          route: '/home/billing',
+        },
+      ]"
+    />
     <router-view class="mt-5" v-slot="{ Component }">
       <transition name="zoom-fadein" mode="out-in">
         <component :is="Component" />
@@ -16,8 +34,8 @@
 </template>
 
 <script>
-import { mapGetters, useStore } from 'vuex'
-import MenuBar from '@/components/Home/MenuBar'
+import { mapGetters } from 'vuex'
+import MenuBar from '@/components/Projects/MenuBar'
 
 export default {
   name: 'Home',

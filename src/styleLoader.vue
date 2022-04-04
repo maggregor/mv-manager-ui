@@ -6,7 +6,6 @@
 // antd core & themes styles
 import 'ant-design-vue/lib/style/index.less'
 import '@/css/vendors/antd/themes/default.less'
-import '@/css/vendors/antd/themes/dark.less'
 
 // third-party plugins styles
 import 'bootstrap/dist/css/bootstrap.min.css'

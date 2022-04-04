@@ -25,7 +25,13 @@
     <a-col :span="24">
       <a-row justify="space-between">
         <a-col>
-          <p>Consult our documentation for the minimum permissions required.</p>
+          <p>
+            Consult
+            <a-button class="small-button" type="link" @click="openSADocumentation">
+              our documentation</a-button
+            >
+            for the minimum permissions required.
+          </p>
         </a-col>
         <a-col>
           <CTA
@@ -102,7 +108,10 @@ export default {
       }
     }
 
+    const openSADocumentation = () =>
+      window.open('https://docs.achilio.com/google-service-account', '_blank')
     return {
+      openSADocumentation,
       defaultServiceAccount,
       serviceAccount,
       defaultName,
