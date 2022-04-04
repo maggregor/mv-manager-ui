@@ -3,6 +3,7 @@ import {
   getSubscriptionChecks,
   getAllProducts,
   getAllPrices,
+  createPortalSession,
 } from '@/services/axios/backendApi'
 const _ = require('lodash')
 const moment = require('moment')
@@ -60,6 +61,9 @@ export default {
       commit('SET_BILLING_STATE', { customerLoading: true })
       const checks = await getSubscriptionChecks()
       commit('SET_BILLING_STATE', { customerLoading: false, checks })
+    },
+    async OPEN_STRIPE_PORTAL() {
+      window.location = await createPortalSession()
     },
   },
   getters: {

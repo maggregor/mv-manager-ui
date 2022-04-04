@@ -58,7 +58,7 @@
           </div>
           <div v-else-if="checks.includes('NO_PAYMENT_METHOD')">
             <a-tag class="mt-3" color="red">No payment method found</a-tag>
-            <a-button type="link" @click="openManageSubscription">Setup a payment method</a-button>
+            <a-button type="link" @click="openStripePortal">Setup a payment method</a-button>
           </div>
         </div>
       </a-col>
@@ -70,7 +70,7 @@
         <CTA
           v-else-if="activated"
           secondary
-          @click="openManageSubscription"
+          @click="openStripePortal"
           :label="`Manage subscription`"
         />
         <CTA v-else :label="`Subscribe`" />
@@ -79,7 +79,6 @@
   </div>
 </template>
 <script>
-import { createPortalSession } from '@/services/axios/backendApi'
 import CTA from '@/components/CTA'
 import { computed } from '@vue/runtime-core'
 import { CheckCircleOutlined } from '@ant-design/icons-vue'
@@ -141,10 +140,6 @@ export default {
         return (price.amount / (props.interval === 'year' ? 12 : 1)).toFixed(0)
       }
     })
-    const openManageSubscription = async () => {
-      const portalSessionUrl = await createPortalSession()
-      window.location = portalSessionUrl
-    }
     const openContactUs = async () => {
       window.open(process.env.VUE_APP_URL_BOOK_A_MEETING, '_blank')
     }
@@ -152,12 +147,12 @@ export default {
       () => props.activated && props.activePrice.interval !== 'year' && props.interval === 'year',
     )
     return {
+      openStripePortal: () => store.dispatch('OPEN_STRIPE_PORTAL'),
       moment,
       trialDaysRemaining,
       status,
       checks,
       openContactUs,
-      openManageSubscription,
       selectedPrice,
       fmtPrice,
       offerYearlyPayment,

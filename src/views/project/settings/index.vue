@@ -15,6 +15,7 @@
       </p>
       <a-skeleton :loading="loading" :paragraph="false">
         <a-switch
+          :disabled="true"
           class="mt-2 mb-2"
           checked-children="On"
           un-checked-children="Off"
