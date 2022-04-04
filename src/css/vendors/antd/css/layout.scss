@@ -23,20 +23,20 @@
   background: transparent;
 }
 
-.ant-layout.ant-layout-has-sider > .ant-layout,
-.ant-layout.ant-layout-has-sider > .ant-layout-content {
+.ant-layout.ant-layout-has-sider>.ant-layout,
+.ant-layout.ant-layout-has-sider>.ant-layout-content {
   overflow-x: initial !important;
 }
 
-.ant-menu-horizontal > .ant-menu-item {
+.ant-menu-horizontal>.ant-menu-item {
   font-size: 16px;
   font-weight: 400;
 }
+
 .ant-menu-horizontal {
   border: none !important;
 }
 
 .ant-divider-horizontal {
   margin: 0px !important;
-  margin-bottom: 24px !important;
 }

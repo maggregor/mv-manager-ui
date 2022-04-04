@@ -3,7 +3,25 @@
     <a-row v-if="hasSelectedProject" align="bottom">
       <a-col :span="10"><ProjectHeader :project="selectedProject"/></a-col>
       <a-col :span="10">
-        <MenuBar />
+        <MenuBar
+          :routes="[
+            {
+              key: 'overview',
+              title: 'Overview',
+              route: `/projects/${selectedProjectId}/overview`,
+            },
+            {
+              key: 'optimizations',
+              title: 'Optimizations',
+              route: `/projects/${selectedProjectId}/optimizations`,
+            },
+            {
+              key: 'settings',
+              title: 'Settings',
+              route: `/projects/${selectedProjectId}/settings`,
+            },
+          ]"
+        />
       </a-col>
       <a-col :span="4" style="display:flex; justify-content: end;">
         <cta
@@ -67,7 +85,12 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['hasSelectedProject', 'selectedProject', 'atLeastOneDatasetIsActivated']),
+    ...mapGetters([
+      'hasSelectedProject',
+      'selectedProject',
+      'selectedProjectId',
+      'atLeastOneDatasetIsActivated',
+    ]),
   },
 }
 </script>
