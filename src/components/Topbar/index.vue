@@ -13,14 +13,7 @@
             <b class="text-gray-6">{{ user.name }} </b>
             <a class="pl-4 text-primary text-weight-600" @click="logout">Logout</a>
             <p style="height: 8px">{{ user.email }}</p>
-            <a-tag
-              v-if="trialDaysRemaining > 0"
-              :color="trialDaysRemaining > 7 ? 'green' : 'orange'"
-              >Trial period: {{ trialDaysRemaining }} days remaining</a-tag
-            >
-            <a-tag v-else-if="trialDaysRemaining === 0 && !hasActiveSubscription" color="red"
-              >Trial period has expired</a-tag
-            >
+            <trial-days-remaining-tag :days="trialDaysRemaining" />
             <a-tag>Team {{ user.teamName }}</a-tag>
           </div>
         </div>
@@ -32,8 +25,9 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import Logo from '@/components/Logo'
+import TrialDaysRemainingTag from '@/components/TrialDaysRemainingTag'
 export default {
-  components: { Logo },
+  components: { Logo, TrialDaysRemainingTag },
   setup() {
     return {
       ...mapActions({ logout: 'LOGOUT' }),
