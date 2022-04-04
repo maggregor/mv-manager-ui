@@ -13,7 +13,7 @@
             <b class="text-gray-6">{{ user.name }} </b>
             <a class="pl-4 text-primary text-weight-600" @click="logout">Logout</a>
             <p style="height: 8px">{{ user.email }}</p>
-            <trial-days-remaining-tag :days="trialDaysRemaining" />
+            <TrialDaysRemainingTag :days="trialDaysRemaining" />
             <a-tag>Team {{ user.teamName }}</a-tag>
           </div>
         </div>
