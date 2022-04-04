@@ -82,7 +82,7 @@
 import CTA from '@/components/CTA'
 import { computed } from '@vue/runtime-core'
 import { CheckCircleOutlined } from '@ant-design/icons-vue'
-import { mapActions, mapGetters, useStore } from 'vuex'
+import { mapGetters, useStore } from 'vuex'
 const moment = require('moment')
 export default {
   name: 'PlanCard',
