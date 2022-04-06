@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3>Pricings</h3>
+    <h3 class="mb-4">Pricings</h3>
     <div class="pricing-table-container">
       <a-row type="flex" class="mb-4" justify="center">
         <a-button-group>

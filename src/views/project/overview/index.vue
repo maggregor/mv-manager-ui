@@ -42,7 +42,7 @@
       <a-col :span="17">
         <div class="section">
           <h3>
-            Last 7 days performance
+            Last 14 days performance
           </h3>
           (Excluding cached queries)
           <a-row>
@@ -67,7 +67,7 @@
           </h3>
           <div>
             <div v-if="lastOptimization">
-              <OptimizationHeader standalone :index="index" :optimization="lastOptimization" />
+              <OptimizationHeader standalone :optimization="lastOptimization" />
             </div>
             <div v-else>
               <OptimizationEmpty />

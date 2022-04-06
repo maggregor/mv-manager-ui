@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { mapGetters, useStore } from 'vuex'
 import { useRoute, useRouter } from 'vue-router'
 
@@ -65,17 +65,34 @@ export default {
     const router = useRouter()
     const projectId = route.params.projectId
     const project = computed(() => store.getters.selectedProject)
-    onMounted(async () => {
+    const timeframe = ref(14)
+    onMounted(() => {
+      store.dispatch('STOP_POLLING')
       store.dispatch('SET_SELECTED_PROJECT_ID', projectId)
       //TODO: Check permissions
-      store.dispatch('LOAD_DATASETS', { projectId })
+      store.dispatch('LOAD_LAST_FETCHERS', projectId)
+      store.dispatch('LOAD_ALL_STRUCTS', { projectId })
       store.dispatch('LOAD_OPTIMIZATIONS', { projectId })
-      store.dispatch('LOAD_PROJECT_STATISTICS', { projectId, timeframe: 7 })
+      store.dispatch('LOAD_PROJECT_STATISTICS', { projectId, timeframe: timeframe.value })
     })
     const triggerOptimization = async () => {
       router.push(`/projects/${projectId}/overview`)
       await store.dispatch('RUN_OPTIMIZE', projectId)
     }
+    const lastFetcherQueryJob = computed(() => store.getters.isLastFetcherQueryJobPending)
+    watch(lastFetcherQueryJob, (current, old) => {
+      //When a synchronize just finish
+      if (!current && old) {
+        console.log('just finish, refresh all structs')
+        store.dispatch('STOP_POLLING')
+        store.dispatch('LOAD_ALL_STRUCTS', { projectId })
+        store.dispatch('LOAD_PROJECT_STATISTICS', { projectId, timeframe: timeframe.value })
+      }
+      //When a synchronize just started
+      else if (current && !old) {
+        store.dispatch('START_POLLING', projectId)
+      }
+    })
     const isOverview = computed(() => route.fullPath.includes('overview'))
     return {
       isOverview,

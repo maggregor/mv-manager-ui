@@ -5,18 +5,24 @@
       {{ project.projectName }}
       <span class="path" v-if="breadcrumb"> / {{ breadcrumb }}</span>
     </h1>
-    <!-- <div class="project-plan">
-      <p v-if="hasSelectedProjectPlan" class="plan-name">
-        {{ selectedProjectPlan.name }}
+    <div v-if="isSynchronizing">
+      <a-button :loading="true" type="link">Synchronizing</a-button>
+    </div>
+    <div v-else>
+      <p>
+        <a-button type="link" @click="synchronize">Synchronize</a-button> your project to start
+        using Achilio.
       </p>
-      <p v-else class="no-plan-name">No subscription</p>
-      <a class="manage" @click="$router.push(`/projects/${project.projectId}/plan`)">Manage plan</a>
-    </div> -->
+      <p v-if="lastFetcherQueryJob">
+        <i>Last update {{ moment(lastFetcherQueryJob.createdAt).fromNow() }}</i>
+      </p>
+    </div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+const moment = require('moment')
+import { mapGetters, useStore } from 'vuex'
 export default {
   name: 'ProjectHeader',
   props: {
@@ -28,8 +34,22 @@ export default {
       }),
     },
   },
+  setup() {
+    const store = useStore()
+    const projectId = store.getters['selectedProjectId']
+    const synchronize = () => store.dispatch('SYNC_ALL', projectId)
+    return {
+      synchronize,
+      moment,
+    }
+  },
   computed: {
-    ...mapGetters(['selectedProjectPlan', 'hasSelectedProjectPlan']),
+    ...mapGetters([
+      'selectedProjectPlan',
+      'hasSelectedProjectPlan',
+      'isSynchronizing',
+      'lastFetcherQueryJob',
+    ]),
     breadcrumb() {
       let optimizationId = this.$route.params.optimizationId
       if (optimizationId) {
@@ -43,4 +63,7 @@ export default {
 
 <style lang="scss" scoped>
 @import './style.module.scss';
+.ant-btn {
+  padding: 0px;
+}
 </style>

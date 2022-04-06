@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3>Connections</h3>
+    <h3 class="mb-4">Connections</h3>
     <a-row type="flex">
       <ConnectionCard v-for="c in allConnections" :key="c.id" :connection="c" />
       <AddConnectionCard />

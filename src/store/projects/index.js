@@ -195,13 +195,16 @@ export default {
         .catch(() => message.error(`Optimization error.`, 5))
         .finally(() => commit('SET_STATE', { loading: false }))
     },
+    LOAD_ALL_STRUCTS({ dispatch }, payload) {
+      const projectId = payload.projectId
+      dispatch('LOAD_DATASETS', projectId)
+    },
     /**
      * Load all datasets as map
      *
      * @param { projectId } payload
      */
-    async LOAD_DATASETS({ commit }, payload) {
-      let projectId = payload.projectId
+    async LOAD_DATASETS({ commit }, projectId) {
       commit('SET_PROJECT_STATE', { projectId, datasetsLoading: true })
       commit('SET_PROJECT_STATE', {
         projectId,
@@ -233,8 +236,6 @@ export default {
   getters: {
     //
     isRegisteringProject: state => state.registering,
-    // Returns true a synchronize projects is pending
-    isSynchronizing: state => state.synchronizeLoading,
     // Returns organizations as array
     allOrganizations: (state, getters) =>
       _(getters.allProjects.filter(p => p.organization))
