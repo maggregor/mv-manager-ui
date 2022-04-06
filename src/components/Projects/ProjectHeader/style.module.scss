@@ -12,18 +12,17 @@
   align-items: center;
   letter-spacing: -2px;
 
-  /* Inside Auto Layout */
-
-  // flex: none;
-  // order: 0;
-  // align-self: stretch;
-  // flex-grow: 0;
+  height: 35px;
 
   .path {
     font-size: 24px;
     font-weight: 500;
     letter-spacing: -0.5px;
   }
+}
+
+p {
+  height: 10px;
 }
 
 .project-id {

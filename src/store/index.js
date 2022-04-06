@@ -3,6 +3,8 @@ import user from './user'
 import projects from './projects'
 import connections from './connections'
 import billing from './billing'
+import polling from './polling'
+import synchronize from './synchronize'
 import errors from './errors'
 
 export default createStore({
@@ -11,6 +13,8 @@ export default createStore({
     projects,
     connections,
     billing,
+    polling,
+    synchronize,
     errors,
   },
   state: {},

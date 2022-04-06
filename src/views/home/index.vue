@@ -34,13 +34,20 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, useStore } from 'vuex'
 import MenuBar from '@/components/Projects/MenuBar'
+import { onMounted } from '@vue/runtime-core'
 
 export default {
   name: 'Home',
   components: {
     MenuBar,
+  },
+  setup() {
+    const store = useStore()
+    onMounted(() => {
+      store.dispatch('STOP_POLLING')
+    })
   },
   computed: {
     ...mapGetters(['firstName', 'allConnections']),
