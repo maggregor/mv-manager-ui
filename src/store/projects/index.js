@@ -5,7 +5,6 @@ import {
   getProject,
   getDatasets,
   getKPIStatistics,
-  synchronizeProjects,
   deleteAllMaterializedViews,
   getOptimizations,
   optimizeProject,
@@ -13,6 +12,13 @@ import {
   createProject,
   deleteProject,
 } from '@/services/axios/backendApi'
+
+import {
+  trackDatasetActivated,
+  trackOptimize,
+  trackDeleteAllMaterializedViews,
+  trackDeleteProject,
+} from '@/analyticsHelper'
 
 const getDefaultState = () => {
   return {
@@ -106,9 +112,10 @@ export default {
      * @param {*} param0
      * @param {*} projectId
      */
-    async UNREGISTER_PROJECT({ commit }, id) {
-      await deleteProject(id)
-      commit('REMOVE_PROJECT', id)
+    async UNREGISTER_PROJECT({ commit }, projectId) {
+      await deleteProject(projectId)
+      commit('REMOVE_PROJECT', projectId)
+      trackDeleteProject({ projectId })
     },
     /**
      * Load a project
@@ -144,8 +151,10 @@ export default {
      * @returns
      */
     DELETE_ALL_MATERIALIZED_VIEWS({ getters }) {
+      const projectId = getters.selectedProjectId
+      trackDeleteAllMaterializedViews({ projectId })
       return new Promise((resolve, reject) =>
-        deleteAllMaterializedViews(getters.selectedProjectId)
+        deleteAllMaterializedViews(projectId)
           .then(() => resolve())
           .catch(() => reject()),
       )
@@ -181,13 +190,13 @@ export default {
     },
     /**
      * Run an sync optimization.
-     * TODO: Allow payload with optimize paramaters (ie: timeframe)
      *
      * @param { projectId } projectId
      */
     async RUN_OPTIMIZE({ commit, dispatch }, projectId) {
+      trackOptimize({ projectId })
       commit('SET_STATE', { loading: true })
-      await optimizeProject(projectId, { days: 28 })
+      await optimizeProject(projectId)
         .then(() => {
           message.loading(`Optimization started...`, 5)
           dispatch('LOAD_OPTIMIZATIONS', { projectId: projectId })
@@ -224,6 +233,7 @@ export default {
       await updateDataset(projectId, datasetName, { activated }).then(() =>
         commit('SET_DATASET_STATE', { projectId, datasetName, activated }),
       )
+      trackDatasetActivated({ projectId, datasetName, activated })
     },
     /**
      *

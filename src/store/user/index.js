@@ -1,7 +1,7 @@
 import router from '@/router'
 import { notification } from 'ant-design-vue'
 import { login, logout, currentAccount } from '@/services/oauth2'
-
+import { trackIdentify } from '@/analyticsHelper'
 const getDefaultState = () => {
   return {
     id: '',
@@ -60,15 +60,18 @@ export default {
     LOAD_CURRENT_ACCOUNT({ commit }) {
       return currentAccount()
         .then(response => {
-          const { id, email, name, first_name, team_name } = response.data
+          const { id, email, name } = response.data
+          const firstName = response.data.first_name
+          const teamName = response.data.team_name
           commit('SET_USER_STATE', {
             id,
             name,
             email,
-            firstName: first_name,
-            teamName: team_name,
+            firstName,
+            teamName,
             authorized: true,
           })
+          trackIdentify({ id, name, email, teamName })
         })
         .catch(e => {
           commit('SET_USER_STATE', { authorized: false })

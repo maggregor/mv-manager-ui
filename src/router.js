@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import MainLayout from '@/layouts/Main'
 import store from '@/store'
+import { trackPage } from './analyticsHelper'
 
 const router = createRouter({
   base: process.env.BASE_URL,
@@ -178,6 +179,7 @@ router.beforeEach((to, from, next) => {
       return
     }
   }
+  trackPage(to.fullPath)
   next()
 })
 
