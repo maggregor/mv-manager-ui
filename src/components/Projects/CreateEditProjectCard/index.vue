@@ -1,7 +1,7 @@
 <template>
   <div class="connectionCard">
     <!-- Choose a selection -->
-    <a-row type="flex" align="center" justify="space-between">
+    <a-row type="flex" justify="space-between">
       <a-col><p class="title">Register a project</p></a-col>
       <a-col> <a-button type="link" @click="close">Close</a-button></a-col>
     </a-row>
