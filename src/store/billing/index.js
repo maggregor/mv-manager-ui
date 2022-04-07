@@ -5,6 +5,7 @@ import {
   getAllPrices,
   createPortalSession,
 } from '@/services/axios/backendApi'
+import { trackOpenStripePortal } from '@/analyticsHelper'
 const _ = require('lodash')
 const moment = require('moment')
 
@@ -64,6 +65,7 @@ export default {
     },
     async OPEN_STRIPE_PORTAL() {
       window.location = await createPortalSession()
+      trackOpenStripePortal()
     },
   },
   getters: {

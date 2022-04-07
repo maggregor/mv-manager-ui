@@ -4,6 +4,7 @@ import {
   createNewFetcherQueryJob,
   createNewFetcherStructJob,
 } from '@/services/axios/backendApi'
+import { trackSynchronize } from '@/analyticsHelper'
 const _ = require('lodash')
 
 const state = {
@@ -42,6 +43,7 @@ export default {
     async SYNC_ALL({ dispatch }, projectId) {
       dispatch('SYNC_QUERIES', { projectId, timeframe: 30 })
       dispatch('SYNC_STRUCTS', { projectId })
+      trackSynchronize({ projectId })
     },
     async SYNC_STRUCTS({ commit, dispatch }, payload) {
       const projectId = payload.projectId
