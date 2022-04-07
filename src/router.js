@@ -179,7 +179,7 @@ router.beforeEach((to, from, next) => {
       return
     }
   }
-  trackPage(to.name)
+  trackPage(to.fullPath)
   next()
 })
 

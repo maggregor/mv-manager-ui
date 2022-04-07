@@ -58,8 +58,9 @@ export function trackIdentify({ id, name, email, teamName }) {
   }
 }
 
-export function trackPage({ pageName }) {
+export function trackPage(path) {
   if (window.analytics) {
-    window.analytics.page(pageName)
+    const eventName = path
+    window.analytics.page(eventName)
   }
 }
