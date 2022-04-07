@@ -83,7 +83,6 @@ export default {
     watch(lastFetcherQueryJob, (current, old) => {
       //When a synchronize just finish
       if (!current && old) {
-        console.log('just finish, refresh all structs')
         store.dispatch('STOP_POLLING')
         store.dispatch('LOAD_ALL_STRUCTS', { projectId })
         store.dispatch('LOAD_PROJECT_STATISTICS', { projectId, timeframe: timeframe.value })
