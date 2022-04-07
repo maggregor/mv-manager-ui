@@ -1,112 +1,99 @@
 <template>
   <div class="container">
-    <div :style="`${selectedProject.activated ? '' : 'filter: blur(7px)'}`">
-      <a-row class="mt-3">
-        <a-col :span="7">
+    <a-row>
+      <a-col class="pr-5" :span="7">
+        <!-- Datasets section -->
+        <div class="section">
           <h3>
             Datasets
           </h3>
-        </a-col>
-        <a-col :span="17">
-          <h3>
-            Last 7 days performance
-            <h6>(Excluding cached queries)</h6>
-          </h3>
-        </a-col>
-      </a-row>
-      <a-row class="p-1">
-        <a-col class="pr-5" :span="7">
-          <a-skeleton
-            :paragraph="true"
-            active
-            :loading="allDatasets === undefined && isDatasetsLoading"
-          >
+          <a-col class="section-content" :span="24">
             <DatasetCard
               v-for="dataset in allDatasets"
               :key="dataset.datasetName"
               :project-id="selectedProjectId"
               :dataset="dataset"
             />
-          </a-skeleton>
-          <h3 style="margin-top:30px; display: block;">
+          </a-col>
+        </div>
+        <!-- Optimization history section -->
+        <div class="section">
+          <h3>
             History
             <a-button type="link">
               <span
-                v-if="allOptimizations.length > 0"
+                v-if="allOptimizations.length"
                 class="text-dark"
                 @click="$router.push(`/projects/${selectedProjectId}/optimizations`)"
                 >See all</span
               >
             </a-button>
           </h3>
-          <div v-if="allOptimizations.length === 0"><EmptyOptimizationList /></div>
-          <div v-else>
-            <div v-for="(optimization, index) in allOptimizations" :key="optimization.id">
-              <OptimizationHeader small v-if="index < 3" :optimization="optimization" />
+          <div class="section-content">
+            <div v-if="allOptimizations.length === 0"><OptimizationEmpty /></div>
+            <div v-else>
+              <div v-for="(optimization, index) in allOptimizations" :key="optimization.id">
+                <OptimizationHeader small v-if="index < 3" :optimization="optimization" />
+              </div>
             </div>
           </div>
-        </a-col>
-        <a-col :span="17">
-          <a-row style="height:120px; margin-top: 90px;">
+        </div>
+      </a-col>
+      <a-col :span="17">
+        <div class="section">
+          <h3>
+            Last 14 days performance
+          </h3>
+          (Excluding cached queries)
+          <a-row>
             <a-col :span="8"
-              ><Kpi
+              ><ProjectKPI
                 percent
                 :data="kpiPercentQueriesInMV"
-                :label="'Queries in Materialized Views managed by Achilio'"
+                :label="'Queries in MV managed by Achilio'"
             /></a-col>
-            <a-col :span="8"><Kpi :data="kpiTotalQueries" :label="`Total queries`"/></a-col>
+            <a-col :span="8"><ProjectKPI :data="kpiTotalQueries" :label="`Total queries`"/></a-col>
             <a-col :span="8"
-              ><Kpi bytes :data="kpiAverageScannedBytes" :label="'Average scanned bytes per query'"
+              ><ProjectKPI
+                bytes
+                :data="kpiAverageScannedBytes"
+                :label="'Average scanned bytes per query'"
             /></a-col>
           </a-row>
-          <h3 class="mb-2 mt-5">
+        </div>
+        <div class="section">
+          <h3>
             Last optimization
           </h3>
-          <div v-if="lastOptimization">
-            <OptimizationHeader standalone :index="index" :optimization="lastOptimization" />
+          <div>
+            <div v-if="lastOptimization">
+              <OptimizationHeader standalone :optimization="lastOptimization" />
+            </div>
+            <div v-else>
+              <OptimizationEmpty />
+            </div>
           </div>
-          <div v-else>
-            <NoLastOptimization />
-          </div>
-          <!--
-            Series chart is deactivated for now.
-            It will be reactivated when we implement a project setup  process that persist the stats
-            -->
-          <!-- <a-row style="margin-top: 65px">
-            
-            <h3>
-              Average scanned bytes per query
-            </h3>
-            <Chart style="width: 90%; height: 200px; margin: auto" :fake="false" />
-          </a-row> -->
-        </a-col>
-      </a-row>
-    </div>
-    <NotActivatedProject v-if="!selectedProject.activated" />
+        </div>
+      </a-col>
+    </a-row>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 import _ from 'lodash'
-import Kpi from '@/components/KPI'
-import DatasetCard from '@/components/Projects/DatasetCard'
+import ProjectKPI from '@/components/Projects/ProjectKPI'
 import OptimizationHeader from '@/components/Optimization/OptimizationHeader'
-// import Chart from '@/components/Chart'
-import NotActivatedProject from '@/components/Projects/NotActivatedProject'
-import EmptyOptimizationList from '@/components/Projects/EmptyOptimizationList'
-import NoLastOptimization from '@/components/Projects/NoLastOptimization'
+import OptimizationEmpty from '@/components/Optimization/OptimizationEmpty'
+import DatasetCard from '@/components/Projects/DatasetCard'
 
 export default {
   name: 'Overview',
   components: {
-    Kpi,
-    DatasetCard,
+    ProjectKPI,
     OptimizationHeader,
-    EmptyOptimizationList,
-    NoLastOptimization,
-    // Chart,
-    NotActivatedProject,
+    OptimizationEmpty,
+    DatasetCard,
   },
   computed: {
     ...mapGetters([

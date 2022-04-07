@@ -1,33 +1,38 @@
 <template>
   <div class="container">
-    <a-row v-if="hasSelectedProject">
-      <a-col :span="12"><ProjectHeader :project="selectedProject"/></a-col>
-      <a-col :span="12">
-        <a-row style="float:right;">
-          <cta
-            v-if="isOverview"
-            secondary
-            style="width: 160px; margin-top: 100px; margin-right: 10px;"
-            label="Settings"
-            :url="`/projects/${selectedProject.projectId}/settings`"
-          ></cta>
-          <cta
-            v-else
-            secondary
-            style="width: 160px; margin-top: 100px;margin-right: 10px;"
-            :url="`/projects/${selectedProject.projectId}/overview`"
-            label="Back to overview"
-          ></cta>
-          <cta
-            style="width: 55%; margin-top: 100px;"
-            label="Start optimization"
-            popover-text="You have to enable at least one dataset"
-            :trigger="triggerOptimization"
-            :disabled="!atLeastOneDatasetIsActivated"
-          ></cta>
-        </a-row>
+    <a-row v-if="hasSelectedProject" align="bottom">
+      <a-col :span="10"><ProjectHeader :project="selectedProject"/></a-col>
+      <a-col :span="10">
+        <MenuBar
+          :routes="[
+            {
+              key: 'overview',
+              title: 'Overview',
+              route: `/projects/${selectedProjectId}/overview`,
+            },
+            {
+              key: 'optimizations',
+              title: 'Optimizations',
+              route: `/projects/${selectedProjectId}/optimizations`,
+            },
+            {
+              key: 'settings',
+              title: 'Settings',
+              route: `/projects/${selectedProjectId}/settings`,
+            },
+          ]"
+        />
       </a-col>
-      <router-view v-slot="{ Component }">
+      <a-col :span="4" style="display:flex; justify-content: end;">
+        <cta
+          label="Start optimization"
+          popover-text="You have to enable at least one dataset"
+          :trigger="triggerOptimization"
+          :disabled="!atLeastOneDatasetIsActivated"
+        ></cta>
+      </a-col>
+      <a-divider style="padding: 0px" />
+      <router-view class="mt-4" v-slot="{ Component }">
         <transition name="zoom-fadein" mode="out-in">
           <component :is="Component" />
         </transition>
@@ -37,12 +42,13 @@
 </template>
 
 <script>
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { mapGetters, useStore } from 'vuex'
 import { useRoute, useRouter } from 'vue-router'
 
 import ProjectHeader from '@/components/Projects/ProjectHeader'
 import CTA from '@/components/CTA'
+import MenuBar from '@/components/Projects/MenuBar'
 import Popper from 'vue3-popper'
 
 export default {
@@ -50,6 +56,7 @@ export default {
   components: {
     ProjectHeader,
     cta: CTA,
+    MenuBar,
     Popper,
   },
   setup() {
@@ -57,25 +64,50 @@ export default {
     const route = useRoute()
     const router = useRouter()
     const projectId = route.params.projectId
-    onMounted(async () => {
+    const project = computed(() => store.getters.selectedProject)
+    const timeframe = ref(14)
+    onMounted(() => {
+      store.dispatch('STOP_POLLING')
       store.dispatch('SET_SELECTED_PROJECT_ID', projectId)
-      store.dispatch('LOAD_DATASETS', { projectId })
+      //TODO: Check permissions
+      store.dispatch('LOAD_LAST_FETCHERS', projectId)
+      store.dispatch('LOAD_ALL_STRUCTS', { projectId })
       store.dispatch('LOAD_OPTIMIZATIONS', { projectId })
-      store.dispatch('LOAD_PROJECT_STATISTICS', { projectId, timeframe: 7 })
+      store.dispatch('LOAD_PROJECT_STATISTICS', { projectId, timeframe: timeframe.value })
     })
     const triggerOptimization = async () => {
       router.push(`/projects/${projectId}/overview`)
       await store.dispatch('RUN_OPTIMIZE', projectId)
     }
+    const lastFetcherQueryJob = computed(() => store.getters.isLastFetcherQueryJobPending)
+    watch(lastFetcherQueryJob, (current, old) => {
+      //When a synchronize just finish
+      if (!current && old) {
+        console.log('just finish, refresh all structs')
+        store.dispatch('STOP_POLLING')
+        store.dispatch('LOAD_ALL_STRUCTS', { projectId })
+        store.dispatch('LOAD_PROJECT_STATISTICS', { projectId, timeframe: timeframe.value })
+      }
+      //When a synchronize just started
+      else if (current && !old) {
+        store.dispatch('START_POLLING', projectId)
+      }
+    })
     const isOverview = computed(() => route.fullPath.includes('overview'))
     return {
       isOverview,
       router,
       triggerOptimization,
+      project,
     }
   },
   computed: {
-    ...mapGetters(['hasSelectedProject', 'selectedProject', 'atLeastOneDatasetIsActivated']),
+    ...mapGetters([
+      'hasSelectedProject',
+      'selectedProject',
+      'selectedProjectId',
+      'atLeastOneDatasetIsActivated',
+    ]),
   },
 }
 </script>

@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import NProgress from 'nprogress'
 import MainLayout from '@/layouts/Main'
 import store from '@/store'
+import { trackPage } from './analyticsHelper'
 
 const router = createRouter({
   base: process.env.BASE_URL,
@@ -19,17 +19,43 @@ const router = createRouter({
         authRequired: true,
         hidden: true,
       },
-      redirect: '/projects',
+      redirect: '/home/projects',
       children: [
         {
-          path: 'projects',
-          name: 'home',
+          path: 'home',
+          name: 'Home',
+          redirect: '/home/projects',
           component: () => import('./views/home'),
-          meta: {
-            title: 'Projects',
-            authRequired: true,
-            hidden: true,
-          },
+          redirect: '/projects',
+          children: [
+            {
+              path: 'projects',
+              name: 'Projects',
+              component: () => import('./views/home/project-list'),
+              meta: {
+                title: 'Project List',
+                authRequired: true,
+              },
+            },
+            {
+              path: 'connections',
+              name: 'Connections',
+              component: () => import('./views/home/connections'),
+              meta: {
+                title: 'Connection',
+                authRequired: true,
+              },
+            },
+            {
+              path: 'billing',
+              name: 'Billing',
+              component: () => import('./views/home/billing'),
+              meta: {
+                title: 'Billing',
+                authRequired: true,
+              },
+            },
+          ],
         },
       ],
     },
@@ -56,6 +82,8 @@ const router = createRouter({
               meta: {
                 title: 'Overview',
                 breadcrumb: '',
+                projectActivatedRequired: true,
+                projectMenuBar: true,
               },
             },
             {
@@ -65,6 +93,8 @@ const router = createRouter({
               meta: {
                 title: 'Optimizations',
                 breadcrumb: 'Optimizations',
+                projectActivatedRequired: true,
+                projectMenuBar: true,
               },
               children: [
                 {
@@ -77,7 +107,17 @@ const router = createRouter({
                 },
               ],
             },
-
+            {
+              path: 'datasets',
+              name: 'Datasets',
+              component: () => import('./views/project/datasets'),
+              meta: {
+                breadcrumb: 'Datasets',
+                title: 'Datasets',
+                projectActivatedRequired: true,
+                // projectMenuBar: true,
+              },
+            },
             {
               path: 'settings',
               name: 'Settings',
@@ -85,30 +125,14 @@ const router = createRouter({
               meta: {
                 breadcrumb: 'Settings',
                 title: 'Settings',
-              },
-            },
-            {
-              path: 'plan',
-              name: 'Plan',
-              component: () => import('./views/project/plan'),
-              meta: {
-                breadcrumb: 'Plan',
-                title: 'Plan',
-              },
-            },
-            {
-              path: 'checkout/:subscriptionId',
-              name: 'Checkout',
-              component: () => import('./views/project/checkout'),
-              meta: {
-                title: 'Checkout',
+                projectActivatedRequired: true,
+                projectMenuBar: true,
               },
             },
           ],
         },
       ],
     },
-    // System Pages
     {
       path: '/auth',
       component: MainLayout,
@@ -132,6 +156,7 @@ const router = createRouter({
           meta: {
             title: 'Login',
           },
+
           component: () => import('./views/auth/login'),
         },
       ],
@@ -154,6 +179,7 @@ router.beforeEach((to, from, next) => {
       return
     }
   }
+  trackPage(to.fullPath)
   next()
 })
 

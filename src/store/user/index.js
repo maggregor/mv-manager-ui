@@ -1,17 +1,16 @@
 import router from '@/router'
 import { notification } from 'ant-design-vue'
-
-import { login, logout, currentAccount, grantAccessBigQuery } from '@/services/oauth2'
-
+import { login, logout, currentAccount } from '@/services/oauth2'
+import { trackIdentify } from '@/analyticsHelper'
 const getDefaultState = () => {
   return {
     id: '',
     name: '',
     email: '',
+    teamName: '',
     firstName: '',
-    accessToken: '',
+    idToken: '',
     authorized: null,
-    insufficientPermissions: true,
     loading: false,
   }
 }
@@ -31,7 +30,8 @@ export default {
       state.name = payload.name
       state.email = payload.email
       state.firstName = payload.firstName
-      state.accessToken = payload.accessToken
+      state.teamname = payload.teamname
+      state.idToken = payload.idToken
     },
     RESET_STATE(state) {
       Object.assign(state, getDefaultState())
@@ -60,18 +60,22 @@ export default {
     LOAD_CURRENT_ACCOUNT({ commit }) {
       return currentAccount()
         .then(response => {
-          const { id, email, name, access_token, first_name } = response.data
+          const { id, email, name } = response.data
+          const firstName = response.data.first_name
+          const teamName = response.data.team_name
           commit('SET_USER_STATE', {
             id,
             name,
             email,
-            firstName: first_name,
-            accessToken: access_token,
+            firstName,
+            teamName,
             authorized: true,
           })
+          trackIdentify({ id, name, email, teamName })
         })
-        .catch(() => {
+        .catch(e => {
           commit('SET_USER_STATE', { authorized: false })
+          throw e
         })
     },
     LOGOUT({ commit }) {
@@ -80,28 +84,12 @@ export default {
         router.push('/login')
       })
     },
-    GRANT_BIGQUERY_ACCESS({ commit }) {
-      grantAccessBigQuery().then(user => {
-        if (user) {
-          dispatch('LOAD_CURRENT_ACCOUNT')
-          notification.success({
-            message: 'Successfully',
-            description: 'Granted with success !',
-          })
-        }
-        if (!user) {
-          commit('SET_USER_STATE', {
-            loading: false,
-          })
-        }
-      })
-    },
   },
   getters: {
     user: state => state,
-    accessToken: state => state.accessToken,
+    isAuthorized: state => state.authorized,
+    idToken: state => state.idToken,
     firstName: state => state.firstName,
     userIsLoaded: state => state.userIsLoaded,
-    hasInsufficientPermissions: state => state.insufficientPermissions,
   },
 }

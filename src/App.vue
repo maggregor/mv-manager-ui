@@ -1,6 +1,7 @@
 <template>
-  <LoadingScreen :is-loading="isAccountLoading" />
-  <div v-if="!isAccountLoading">
+  <LoadingScreen :is-loading="isAccountLoading && !isUnreachable" />
+  <Unreachable v-if="isUnreachable" />
+  <div v-else-if="!isAccountLoading">
     <styleLoader />
     <localization />
   </div>
@@ -14,10 +15,11 @@ import qs from 'qs'
 import Localization from '@/localization'
 import StyleLoader from '@/styleLoader'
 import LoadingScreen from '@/components/LoadingScreen'
+import Unreachable from '@/components/Errors/Unreachable'
 import NProgress from 'nprogress'
 export default {
   name: 'App',
-  components: { Localization, StyleLoader, LoadingScreen },
+  components: { Localization, StyleLoader, LoadingScreen, Unreachable },
   setup() {
     const route = useRoute()
     const router = useRouter()
@@ -46,7 +48,9 @@ export default {
     // redirect if authorized and current page is login
     watch(authorized, async authorized => {
       if (authorized) {
-        await store.dispatch('LOAD_ALL_PROJECTS')
+        await store.dispatch('LOAD_CONNECTION')
+        store.dispatch('LOAD_ALL_BILLING')
+        store.dispatch('LOAD_ALL_PROJECTS')
         const query = qs.parse(currentRoute.value.fullPath.split('?')[1], {
           ignoreQueryPrefix: true,
         })
@@ -54,7 +58,7 @@ export default {
       } else {
         store.dispatch('clearAll', { root: true })
       }
-      setTimeout(() => (isAccountLoading.value = false), 20)
+      setTimeout(() => (isAccountLoading.value = false), 300)
     })
     return {
       loading,
@@ -62,7 +66,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['loading']),
+    ...mapGetters(['loading', 'isUnreachable']),
   },
 }
 </script>

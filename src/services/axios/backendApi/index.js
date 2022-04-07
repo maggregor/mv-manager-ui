@@ -5,6 +5,27 @@ export async function getProjects() {
   return data
 }
 
+/**
+ * Create project
+ * @param {*} payload
+ * @returns
+ */
+export async function createProject(payload) {
+  let projectId = payload.projectId
+  let connectionId = payload.connectionId
+  const { data } = await client.post('/project', { projectId, connectionId })
+  return data
+}
+
+/**
+ * Delete project
+ * @param {*} payload
+ * @returns
+ */
+export async function deleteProject(projectId) {
+  await client.delete(`/project/${projectId}`)
+}
+
 export async function getDatasets(payload) {
   let projectId = payload.projectId
   const { data } = await client.get(`/project/${projectId}/dataset`)
@@ -63,74 +84,120 @@ export async function getOptimizations(payload) {
   return data
 }
 
-export async function getChartsStatistics(projectId, timeframe) {
-  const { data } = await client.get(`/project/${projectId}/queries/${timeframe}/statistics/series`)
-  return data
-}
-
 export function deleteAllMaterializedViews(projectId) {
   return client.delete(`/optimize/${projectId}`)
 }
 
 /**
- * POST
- *
- * Create an new subscription based on the priceId
- *
- * @param { customerId, priceId }
- * @returns
  */
-export function createSubscription(payload) {
-  return client.post(`/subscription`, payload)
+export async function getSubscription() {
+  const { data } = await client.get(`/subscription`)
+  return data
+}
+/**
+ */
+export async function getAllProducts() {
+  const { data } = await client.get(`/products`)
+  return data
 }
 
-/**
- *
- * @param { subscriptionId } payload
- * @returns
- */
-export function getSubscription(payload) {
-  let subscriptionId = payload.subscriptionId
-  return client.get(`/subscription/${subscriptionId}`, payload)
+export async function getAllPrices() {
+  const { data } = await client.get(`/prices`)
+  return data
 }
 
-/**
- *
- * @param { subscriptionId } payload
- * @returns
- */
-export function cancelSubscription(payload) {
-  let subscriptionId = payload.subscriptionId
-  return client.delete(`/subscription/${subscriptionId}`, payload)
+export async function getSubscriptionChecks() {
+  const { data } = await client.get(`/subscription/checks`)
+  return data
 }
 
-/**
- *
- * @param { subscriptionId } payload
- * @returns
- */
-export function updateSubscription(payload) {
-  let subscriptionId = payload.subscriptionId
-  return client.post(`/subscription/${subscriptionId}`, payload)
+export async function getAllConnections() {
+  const { data } = await client.get(`/connection`)
+  return data
 }
 
-/**
- *
- * @param { customerId }
- * @returns
- */
-export async function getPlans(customerId) {
-  const { data } = await client.get(`/plan`, { params: { customerId } })
+export async function getConnection(id) {
+  const { data } = await client.get(`/connection/${id}`)
+  return data
+}
+
+export async function deleteConnection(id) {
+  const { data } = await client.delete(`/connection/${id}`)
+  return data
+}
+
+export async function updateConnection(id, payload) {
+  const { data } = await client.patch(`/connection/${id}`, payload)
+  return data
+}
+
+export async function createConnection(payload) {
+  const { data } = await client.post(`/connection`, payload)
+  return data
+}
+
+export async function createPortalSession() {
+  const { data } = await client.get(`/create-customer-portal-session`)
   return data
 }
 
 /**
- *
- * @param { subscriptionId } payload
- * @returns
+ * Fetcher job query
  */
-export async function getLatestIntentClientSecret(payload) {
-  let subscriptionId = payload.subscriptionId
-  const { data } = await client.get(`/subscription/${subscriptionId}/latestIntentClientSecret`)
+
+// List all fetcher query job for a given projectId.
+export async function getAllFetcherQueryJobs(payload) {
+  const projectId = payload.projectId
+  const last = payload.last
+  const status = payload.status
+  const { data } = await client.get(`/fetcher/job/query`, { params: { projectId, last, status } })
+  return data
+}
+
+// Get a fetcher query job for a the given fetcherQueryJobId.
+export async function getFetcherQueryJob(payload) {
+  const projectId = payload.projectId
+  const fetcherQueryJobId = payload.fetcherQueryJobId
+  const { data } = await client.get(`/fetcher/job/query/${fetcherQueryJobId}`, {
+    params: { projectId },
+  })
+  return data
+}
+
+// Create and start a new query fetching job
+export async function createNewFetcherQueryJob(payload) {
+  const projectId = payload.projectId
+  const timeframe = payload.timeframe
+  const { data } = await client.post(`/fetcher/job/query`, { projectId, timeframe })
+  return data
+}
+
+/**
+ * Fetcher job struct
+ */
+
+// List all fetcher query struct for a given projectId.
+export async function getAllFetcherStructJobs(payload) {
+  const projectId = payload.projectId
+  const last = payload.last
+  const status = payload.status
+  const { data } = await client.get(`/fetcher/job/struct`, { params: { projectId, last, status } })
+  return data
+}
+
+// Get a fetcher struct job for a given id.
+export async function getFetcherStructJob(payload) {
+  const projectId = payload.projectId
+  const fetcherStructJobId = payload.fetcherStructJobId
+  const { data } = await client.get(`/fetcher/job/struct/${fetcherStructJobId}`, {
+    params: { projectId },
+  })
+  return data
+}
+
+// Create and start a new struct fetching job
+export async function createNewFetcherStructJob(payload) {
+  const projectId = payload.projectId
+  const { data } = await client.post(`/fetcher/job/struct`, { projectId })
   return data
 }

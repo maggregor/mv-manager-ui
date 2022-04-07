@@ -7,10 +7,13 @@
 
 html {
   font-size: 14px;
+
   @media (max-width: $sm-max-width) {
     font-size: 13px;
   }
-  font-family: 'Poppins', sans-serif;
+
+  font-family: 'Poppins',
+  sans-serif;
 }
 
 body {
@@ -30,6 +33,7 @@ a {
   text-decoration: none;
   color: $text;
   @include transition-color();
+
   &:hover,
   &:active,
   &:focus {
@@ -109,6 +113,7 @@ strong {
 
   a {
     color: $dark-gray-1;
+
     &:hover,
     &:active,
     &:focus {
@@ -167,4 +172,16 @@ strong {
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+input {
+  border: 1px solid rgb(235, 235, 235);
+  border-radius: 5px;
+  padding: 10px;
+}
+
+textarea {
+  border: 1px solid rgb(235, 235, 235);
+  border-radius: 5px;
+  padding: 10px;
 }

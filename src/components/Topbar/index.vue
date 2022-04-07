@@ -1,44 +1,40 @@
 <template>
-  <div
-    :class="{
-      [$style.menuSimply]: true,
-      [$style.menuSimply__white]: true,
-      [$style.menuSimply__gray]: false,
-    }"
-  >
-    <a @click="$router.push('/')" :class="$style.menuSimply__logo" class="d-none d-md-block">
-      <div :class="$style.menuSimply__logo__name">
-        achilio <span class="text-weight-400 font-size-18">beta</span>
-      </div>
-      <div :class="$style.menuSimply__logo__descr">FOR BIGQUERY</div>
-    </a>
-    <div :class="$style.logoutContainer">
-      <div v-if="authorized">
-        <b class="text-gray-6">{{ user.name }} </b>
-        <a class="pl-4 text-primary text-weight-600" @click="logout">Logout</a>
-        <p>{{ user.email }}</p>
-      </div>
-    </div>
+  <div class="menuSimply">
+    <a-row type="flex" align="middle">
+      <a-col :span="6">
+        <a @click="$router.push('/')" class="d-none d-md-block">
+          <Logo />
+        </a>
+      </a-col>
+      <a-col :span="10"> </a-col>
+      <a-col :span="8">
+        <div :class="$style.logoutContainer">
+          <div v-if="isAuthorized">
+            <b class="text-gray-6">{{ user.name }} </b>
+            <a class="pl-4 text-primary text-weight-600" @click="logout">Logout</a>
+            <p style="height: 8px">{{ user.email }}</p>
+            <TrialDaysRemainingTag :days="trialDaysRemaining" />
+            <a-tag>Team {{ user.teamName }}</a-tag>
+          </div>
+        </div>
+      </a-col>
+    </a-row>
   </div>
 </template>
 
 <script>
-import { useStore } from 'vuex'
-import { computed } from 'vue'
+import { mapActions, mapGetters } from 'vuex'
+import Logo from '@/components/Logo'
+import TrialDaysRemainingTag from '@/components/TrialDaysRemainingTag'
 export default {
-  components: {},
+  components: { Logo, TrialDaysRemainingTag },
   setup() {
-    const store = useStore()
-    const user = computed(() => store.getters['user'])
-    const authorized = computed(() => store.getters['user'].authorized)
-    const logout = () => {
-      store.dispatch('LOGOUT')
-    }
     return {
-      user,
-      logout,
-      authorized,
+      ...mapActions({ logout: 'LOGOUT' }),
     }
+  },
+  computed: {
+    ...mapGetters(['user', 'isAuthorized', 'trialDaysRemaining', 'hasActiveSubscription']),
   },
 }
 </script>

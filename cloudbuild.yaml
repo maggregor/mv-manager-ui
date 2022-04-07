@@ -14,14 +14,20 @@ steps:
       - VUE_APP_GOOGLE_OAUTH2_CLIENT_ID=${_VUE_APP_GOOGLE_OAUTH2_CLIENT_ID}
       - VUE_APP_SERVER_AUTH_REDIRECT=${_VUE_APP_SERVER_AUTH_REDIRECT}
       - VUE_APP_STRIPE_PUBLIC_KEY=${_VUE_APP_STRIPE_PUBLIC_KEY}
+      - VUE_APP_URL_BOOK_A_MEETING=${_VUE_APP_URL_BOOK_A_MEETING}
+      - VUE_APP_SEGMENTIO_WRITE_KEY=${_VUE_APP_SEGMENTIO_WRITE_KEY}
   - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
     entrypoint: gcloud
     args: ["app", "deploy"]
 substitutions:
-  _VUE_APP_API_BASE_URL: "https://beta.api.achilio.com"
-  _VUE_APP_AUTH_BASE_URL: "https://beta.auth.achilio.com"
+  _VUE_APP_API_BASE_URL: ""
+  _VUE_APP_AUTH_BASE_URL: ""
   _VUE_APP_GOOGLE_OAUTH2_URL: "https://accounts.google.com/o/oauth2/v2/auth"
   _VUE_APP_SERVER_AUTH_REDIRECT: "api/v1/auth/login/google/"
-  _VUE_APP_GOOGLE_OAUTH2_CLIENT_ID: "89406741005-70j6p16eu6u53u28fufgf3b318ghuoj9.apps.googleusercontent.com"
-  _VUE_APP_STRIPE_PUBLIC_KEY: "pk_test_51I8oL1Kz3TV8XBbdR4RDihqTano7JKggDQRkj6bX2ZEezDe8K2WbvvfbdsdXRa67QmWAuLHUHjpnz3Xdpa0M72Gs005vktIlHN"
+  _VUE_APP_GOOGLE_OAUTH2_CLIENT_ID: ""
+  _VUE_APP_STRIPE_PUBLIC_KEY: ""
+  _VUE_APP_URL_BOOK_A_MEETING: "https://calendly.com/achilio/15min"
+  _VUE_APP_SEGMENTIO_WRITE_KEY: ""
 timeout: 1200s
+options:
+  machineType: N1_HIGHCPU_8
