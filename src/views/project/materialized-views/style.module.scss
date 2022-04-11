@@ -1,8 +1,22 @@
 @import '@/mixins.scss';
 
+body {
+
+  overflow-y: hidden;
+  /* Hide vertical scrollbar */
+  overflow-x: hidden;
+  /* Hide horizontal scrollbar */
+}
+
 .container {
   max-width: 80vw;
+  /* Hide scrollbars */
 }
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
 
 .leaf {
   border-radius: 5px;

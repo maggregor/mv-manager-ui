@@ -1,42 +1,50 @@
 <template>
   <a-row class="container" type="flex">
     <a-col :span="6">
-      <a-tree :default-expand-all="false" :auto-expand-parent="false" :tree-data="tree">
-        <template #title="{ dataRef }">
-          <div class="leaf">
-            <span v-if="!dataRef.mvName">{{ dataRef.title }}</span>
-            <span v-else :class="`leaf leaf-${dataRef.status.toLowerCase()}`">
-              <a-row class="leaf-mv" type="flex">
-                <a-col :span="2">
-                  <icon :style="{ color: 'hotpink' }">
-                    <template #component>
-                      <img
-                        style="height: 100%; width: 100%"
-                        src="@/assets/illustrations/materialized_view.svg"
-                      />
-                    </template>
-                  </icon>
-                </a-col>
-                <a-col :span="1" />
-                <a-col :span="19">
-                  <a-anchor :affix="false">
-                    <a-anchor-link
-                      :href="`#${dataRef.mvDisplayName}`"
-                      :title="dataRef.mvDisplayName"
-                    >
-                      <!-- <p>{{ dataRef.mvDisplayName }}</p> -->
-                    </a-anchor-link>
-                  </a-anchor>
-                </a-col>
-                <a-col class="icon" :span="2">
-                  <plus-square-outlined v-if="true" />
-                </a-col>
-              </a-row>
-            </span>
-          </div>
-        </template>
-        <template #switcherIcon><caret-down-outlined class="icon"/></template>
-      </a-tree>
+      <a-anchor>
+        <h4>Materialized Views</h4>
+
+        <a-tree
+          @select="onSelect"
+          :default-expand-all="false"
+          :auto-expand-parent="false"
+          :tree-data="tree"
+        >
+          <template #title="{ dataRef }">
+            <div class="leaf">
+              <span v-if="!dataRef.mvName">{{ dataRef.title }}</span>
+              <span v-else :class="`leaf leaf-${dataRef.status.toLowerCase()}`">
+                <a-row class="leaf-mv" type="flex">
+                  <a-col :span="2">
+                    <icon :style="{ color: 'hotpink' }">
+                      <template #component>
+                        <img
+                          style="height: 100%; width: 100%"
+                          src="@/assets/illustrations/materialized_view.svg"
+                        />
+                      </template>
+                    </icon>
+                  </a-col>
+                  <a-col :span="1" />
+                  <a-col :span="19">
+                    <a-anchor :affix="false">
+                      <a-anchor-link
+                        :href="`#${dataRef.mvDisplayName}`"
+                        :title="dataRef.mvDisplayName"
+                      >
+                      </a-anchor-link>
+                    </a-anchor>
+                  </a-col>
+                  <a-col class="icon" :span="2">
+                    <plus-square-outlined v-if="true" />
+                  </a-col>
+                </a-row>
+              </span>
+            </div>
+          </template>
+          <template #switcherIcon><caret-down-outlined class="icon"/></template>
+        </a-tree>
+      </a-anchor>
     </a-col>
     <a-col :span="1" />
     <a-col :span="17">
@@ -45,6 +53,7 @@
         :key="mv"
         :id="mv.mvDisplayName"
         :mv="mv"
+        :selected="mv.mvUniqueName === selectedMvUniqueName"
       />
     </a-col>
   </a-row>
@@ -52,7 +61,7 @@
 
 <script>
 import Icon, { CaretDownOutlined, PlusSquareOutlined } from '@ant-design/icons-vue'
-import { computed, defineComponent, onMounted } from 'vue'
+import { computed, defineComponent, onMounted, ref } from 'vue'
 import { mapGetters, useStore } from 'vuex'
 import MaterializedViewCard from '@/components/MaterializedViews/MaterializedViewCard'
 const _ = require('lodash')
@@ -67,6 +76,7 @@ export default defineComponent({
     const store = useStore()
     const projectId = store.getters['selectedProjectId']
     const materializedViews = computed(() => store.getters['allMaterializedViews'])
+    const selectedMvUniqueName = ref('')
     onMounted(async () => await store.dispatch('LOAD_MATERIALIZED_VIEWS', projectId))
     /**
      * Build the tree from the materialized views array
@@ -109,12 +119,13 @@ export default defineComponent({
     })
 
     const onSelect = (selectedKeys, info) => {
-      console.log('selected', selectedKeys, info)
+      selectedMvUniqueName.value = selectedKeys[0]
     }
     return {
       onSelect,
       tree,
       materializedViews,
+      selectedMvUniqueName,
     }
   },
   computed: {

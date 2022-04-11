@@ -6,15 +6,27 @@
   border: 1px solid rgba(226, 226, 226, 1);
   border-radius: 8px;
 
-  &:active {
-    background-color: red;
-  }
 }
+
+
+.selected-header {
+  border-top: 1px solid rgb(86, 57, 255);
+  border-left: 1px solid rgb(86, 57, 255);
+  border-right: 1px solid rgb(86, 57, 255);
+}
+
 
 .mv-content {
   border: 1px solid rgba(226, 226, 226, 1);
   min-height: 100px;
   padding: 30px;
+}
+
+
+.selected-content {
+  border-bottom: 1px solid rgb(86, 57, 255);
+  border-left: 1px solid rgb(86, 57, 255);
+  border-right: 1px solid rgb(86, 57, 255);
 }
 
 .closed {

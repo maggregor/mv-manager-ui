@@ -1,6 +1,6 @@
 <template>
   <div class="mb-3">
-    <div :class="{ 'mv-card': true, closed: opened }">
+    <div :class="{ 'mv-card': true, closed: opened, 'selected-header': selected }">
       <a-row type="flex" justify="space-between" align="middle">
         <a-col style="text-align: center" :span="1">
           <div class="icon-open" @click="opened = !opened">
@@ -31,7 +31,7 @@
         </a-col>
       </a-row>
     </div>
-    <div class="mv-content" v-if="opened">
+    <div :class="{ 'mv-content': true, 'selected-content': selected }" v-if="opened">
       {{ mv.statement }}
     </div>
   </div>
@@ -50,6 +50,10 @@ export default {
     mv: {
       type: Object,
       default: () => {},
+    },
+    selected: {
+      type: Boolean,
+      default: false,
     },
   },
   setup(props) {
