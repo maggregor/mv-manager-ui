@@ -1,0 +1,35 @@
+@import '@/mixins.scss';
+
+.mv-card {
+  padding: 8px;
+  background-color: #f6f8fa;
+  border: 1px solid rgba(226, 226, 226, 1);
+  border-radius: 8px;
+}
+
+.mv-content {
+  border: 1px solid rgba(226, 226, 226, 1);
+  min-height: 100px;
+  padding: 30px;
+}
+
+.closed {
+  border-radius: 8px 8px 0px 0px;
+}
+
+.actions-container {
+  display: flex;
+  justify-content: flex-end;
+  margin: auto;
+}
+
+.check {
+  transform: scale(0.55);
+}
+
+.icon-open {
+  &:hover {
+    cursor: pointer;
+    color: blue;
+  }
+}

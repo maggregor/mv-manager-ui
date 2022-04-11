@@ -201,3 +201,31 @@ export async function createNewFetcherStructJob(payload) {
   const { data } = await client.post(`/job/fetcher/struct`, { projectId })
   return data
 }
+
+export async function getAllMaterializedViews(payload) {
+  const projectId = payload.projectId
+  const { data } = await client.get(`/mv`, { projectId })
+  return data
+}
+
+export async function getMaterializedView(payload) {
+  const id = payload.id
+  const projectId = payload.projectId
+  const { data } = await client.get(`/mv/${id}`, { projectId })
+  return data
+}
+
+export async function actionMaterializedView(payload) {
+  const id = payload.id
+  const projectId = payload.projectId
+  const action = payload.action
+  const { data } = await client.patch(`/mv/${id}`, { projectId, action })
+  return data
+}
+
+export async function deleteMaterializedView(payload) {
+  const id = payload.id
+  const projectId = payload.projectId
+  const { data } = await client.patch(`/mv/${id}`, { projectId })
+  return data
+}

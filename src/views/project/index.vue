@@ -11,6 +11,11 @@
               route: `/projects/${selectedProjectId}/overview`,
             },
             {
+              key: 'materialized-views',
+              title: 'Materialized Views',
+              route: `/projects/${selectedProjectId}/materialized-views`,
+            },
+            {
               key: 'optimizations',
               title: 'Optimizations',
               route: `/projects/${selectedProjectId}/optimizations`,
@@ -25,7 +30,7 @@
       </a-col>
       <a-col :span="4" style="display:flex; justify-content: end;">
         <cta
-          label="Start optimization"
+          label="Find Materialized Views"
           popover-text="You have to enable at least one dataset"
           :trigger="triggerOptimization"
           :disabled="!atLeastOneDatasetIsActivated"

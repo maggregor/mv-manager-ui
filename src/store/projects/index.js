@@ -11,6 +11,9 @@ import {
   updateDataset,
   createProject,
   deleteProject,
+  getAllMaterializedViews,
+  actionMaterializedView,
+  deleteMaterializedView,
 } from '@/services/axios/backendApi'
 
 import {
@@ -30,6 +33,8 @@ const getDefaultState = () => {
     selectedProjectId: '',
     // True when a registering project is in progress
     registering: false,
+    // Current materialized views loaded in /project/:projectId/materialized-views
+    materializedViews: [],
   }
 }
 
@@ -242,19 +247,17 @@ export default {
     async SET_PROJECT_REGISTERING({ commit }, registering) {
       commit('SET_STATE', { registering })
     },
+    /**
+     *
+     */
+    async LOAD_MATERIALIZED_VIEWS({ commit }, projectId) {
+      console.log(projectId)
+      commit('SET_STATE', { materializedViews: getAllMaterializedViews({ projectId }) })
+    },
   },
   getters: {
     //
     isRegisteringProject: state => state.registering,
-    // Returns organizations as array
-    allOrganizations: (state, getters) =>
-      _(getters.allProjects.filter(p => p.organization))
-        .map(({ organization }) => organization)
-        .uniqBy('id')
-        .value(),
-
-    // Returns organization object by id
-    organization: (state, getters) => id => getters.allOrganizations.find(o => o.id === id),
     // Global app loading
     loading: state => state.loading,
     // Returns projects as array of project
@@ -280,8 +283,6 @@ export default {
     // Statistics / KPI
     hasSelectedProjectKpi: (state, getters) =>
       getters.hasSelectedProject && getters.selectedProject.kpi !== undefined,
-    hasSelectedProjectCharts: (state, getters) =>
-      getters.hasSelectedProject && getters.selectedProject.chartsStatistics !== undefined,
     selectedProjectKpi: (state, getters) => getters.selectedProject.kpi,
     kpiTotalQueries: (state, getters) =>
       getters.hasSelectedProjectKpi ? getters.selectedProjectKpi.totalQueries : -1,
@@ -289,9 +290,6 @@ export default {
       getters.hasSelectedProjectKpi ? getters.selectedProjectKpi.percentQueriesIn : -1,
     kpiAverageScannedBytes: (state, getters) =>
       getters.hasSelectedProjectKpi ? getters.selectedProjectKpi.averageScannedBytes : -1,
-    chartsStatistics: (state, getters) =>
-      getters.hasSelectedProjectCharts ? getters.selectedProject.chartsStatistics : [],
-    isChartsStatisticsLoading: (state, getters) => getters.selectedProject.chartsStatisticsLoading,
     // Optimizations
     allOptimizations: (state, getters) =>
       _.orderBy(getters.selectedProject.optimizations, 'createdDate', 'desc'),
@@ -313,5 +311,7 @@ export default {
     allEnabledDatasets: (state, getters) => getters.allDatasets.filter(o => o.activated),
     atLeastOneDatasetIsActivated: (state, getters) => getters.allDatasets.some(d => d.activated),
     isDatasetsLoading: (state, getters) => getters.selectedProject.datasetsLoading,
+    // Materialized Views
+    allMaterializedViews: state => state.materializedViews,
   },
 }

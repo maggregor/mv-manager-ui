@@ -1,0 +1,14 @@
+@import '@/mixins.scss';
+
+.container {
+  max-width: 80vw;
+}
+
+.leaf {
+  padding: 0px 5px 0px 5px;
+  border-radius: 5px;
+}
+
+.leaf-outdated {
+  background-color: #fff7e6;
+}
