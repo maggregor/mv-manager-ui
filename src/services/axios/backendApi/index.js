@@ -60,8 +60,9 @@ export async function getKPIStatistics(projectId, timeframe) {
   return data
 }
 
-export function optimizeProject(projectId) {
-  return client.post(`/optimize/${projectId}`)
+export function findMvJob(payload) {
+  const projectId = payload.projectId
+  return client.post(`/job/mv`, { projectId, timeframe: 30 })
 }
 
 export async function updateProject(projectId, payload) {
@@ -204,7 +205,7 @@ export async function createNewFetcherStructJob(payload) {
 
 export async function getAllMaterializedViews(payload) {
   const projectId = payload.projectId
-  const { data } = await client.get(`/mv`, { projectId })
+  const { data } = await client.get(`/mv`, { params: { projectId } })
   return data
 }
 

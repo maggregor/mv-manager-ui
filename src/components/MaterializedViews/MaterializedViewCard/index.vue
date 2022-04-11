@@ -12,7 +12,7 @@
           <a v-if="mv.status === 'NOT_APPLIED'">
             <a-tag color="green">New Materialized View proposal</a-tag></a
           >
-          <a v-else> {{ mv.datasetName }}/{{ mv.tableName }}/{{ mv.mvName }}</a>
+          <a> {{ mv.datasetName }}/{{ mv.tableName }}/{{ mv.mvName }}</a>
         </a-col>
         <a-col class="actions-container" :span="9">
           <div v-if="mv.status === 'OUTDATED'">
@@ -28,7 +28,6 @@
           <div v-else-if="mv.status === 'APPLIED'">
             <a-button type="link">Delete</a-button>
           </div>
-          <!-- <Check class="check" /> -->
         </a-col>
       </a-row>
     </div>
@@ -41,13 +40,11 @@
 import { DownOutlined } from '@ant-design/icons-vue'
 import { RightOutlined } from '@ant-design/icons-vue'
 import { ref } from '@vue/reactivity'
-// import Check from '@/components/Check'
 export default {
   name: 'MaterializedViewCard',
   components: {
     DownOutlined,
     RightOutlined,
-    // Check,
   },
   props: {
     mv: {
@@ -55,8 +52,8 @@ export default {
       default: () => {},
     },
   },
-  setup() {
-    const opened = ref(true)
+  setup(props) {
+    const opened = ref(props.mv.status !== 'APPLIED')
     return {
       opened,
     }

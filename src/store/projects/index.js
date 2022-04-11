@@ -7,7 +7,7 @@ import {
   getKPIStatistics,
   deleteAllMaterializedViews,
   getOptimizations,
-  optimizeProject,
+  findMvJob,
   updateDataset,
   createProject,
   deleteProject,
@@ -198,10 +198,10 @@ export default {
      *
      * @param { projectId } projectId
      */
-    async RUN_OPTIMIZE({ commit, dispatch }, projectId) {
+    async FIND_MATERIALIZED_VIEWS({ commit, dispatch }, projectId) {
       trackOptimize({ projectId })
       commit('SET_STATE', { loading: true })
-      await optimizeProject(projectId)
+      await findMvJob({ projectId })
         .then(() => {
           message.loading(`Optimization started...`, 5)
           dispatch('LOAD_OPTIMIZATIONS', { projectId: projectId })
@@ -251,8 +251,7 @@ export default {
      *
      */
     async LOAD_MATERIALIZED_VIEWS({ commit }, projectId) {
-      console.log(projectId)
-      commit('SET_STATE', { materializedViews: getAllMaterializedViews({ projectId }) })
+      commit('SET_STATE', { materializedViews: await getAllMaterializedViews({ projectId }) })
     },
   },
   getters: {

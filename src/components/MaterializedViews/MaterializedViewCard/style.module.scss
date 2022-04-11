@@ -5,6 +5,10 @@
   background-color: #f6f8fa;
   border: 1px solid rgba(226, 226, 226, 1);
   border-radius: 8px;
+
+  &:active {
+    background-color: red;
+  }
 }
 
 .mv-content {

@@ -5,10 +5,46 @@
 }
 
 .leaf {
-  padding: 0px 5px 0px 5px;
   border-radius: 5px;
-}
+  height: 0px;
+  color: rgb(66, 64, 64);
 
-.leaf-outdated {
-  background-color: #fff7e6;
+  .icon {
+    font-size: 20px;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  p {
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 185px;
+  }
+
+  .leaf-outdated {
+    background-color: #fff7e6;
+
+    .icon {
+      color: #fff7e6;
+    }
+  }
+
+  .leaf-applied {
+    background-color: #fff7e6;
+
+    .icon {
+      color: #fff7e6;
+    }
+  }
+
+  .leaf-not_applied {
+    background-color: #ffb516;
+
+    .icon {
+      color: #379e0c;
+    }
+  }
+
 }

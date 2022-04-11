@@ -82,7 +82,7 @@ export default {
     })
     const triggerOptimization = async () => {
       router.push(`/projects/${projectId}/overview`)
-      await store.dispatch('RUN_OPTIMIZE', projectId)
+      await store.dispatch('FIND_MATERIALIZED_VIEWS', projectId)
     }
     const lastFetcherQueryJob = computed(() => store.getters.isLastFetcherQueryJobPending)
     watch(lastFetcherQueryJob, (current, old) => {
