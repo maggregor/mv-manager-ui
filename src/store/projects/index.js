@@ -338,6 +338,6 @@ export default {
     atLeastOneDatasetIsActivated: (state, getters) => getters.allDatasets.some(d => d.activated),
     isDatasetsLoading: (state, getters) => getters.selectedProject.datasetsLoading,
     // Materialized Views
-    allMaterializedViews: state => Object.values(state.materializedViews),
+    allMaterializedViews: state => _.orderBy(Object.values(state.materializedViews), 'tableName'),
   },
 }

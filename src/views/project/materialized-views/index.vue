@@ -3,13 +3,7 @@
     <a-col :span="6">
       <a-anchor>
         <h4>Materialized Views</h4>
-
-        <a-tree
-          @select="onSelect"
-          :default-expand-all="false"
-          :auto-expand-parent="false"
-          :tree-data="tree"
-        >
+        <a-tree @select="onSelect" :default-expand-all="true" :tree-data="tree">
           <template #title="{ dataRef }">
             <div class="leaf">
               <span v-if="!dataRef.mvName">{{ dataRef.title }}</span>
@@ -53,7 +47,7 @@
         :key="mv"
         :id="mv.mvDisplayName"
         :mv="mv"
-        :selected="mv.mvUniqueName === selectedMvUniqueName"
+        :selected="mv.id === selectedMvId"
       />
     </a-col>
   </a-row>
@@ -83,7 +77,8 @@ export default defineComponent({
     const store = useStore()
     const projectId = store.getters['selectedProjectId']
     const materializedViews = computed(() => store.getters['allMaterializedViews'])
-    const selectedMvUniqueName = ref('')
+    const expandedKeys = ref([])
+    const selectedMvId = ref('')
     onMounted(async () => await store.dispatch('LOAD_MATERIALIZED_VIEWS', projectId))
     /**
      * Build the tree from the materialized views array
@@ -96,7 +91,7 @@ export default defineComponent({
       }
       allMaterializedViews.forEach(mv => {
         mv.title = mv.mvName
-        mv.key = mv.mvUniqueName
+        mv.key = mv.id
         let datasetName = mv.datasetName
         let tableName = mv.tableName
         let existingDataset = root.find(d => d.key === datasetName)
@@ -126,13 +121,14 @@ export default defineComponent({
     })
 
     const onSelect = (selectedKeys, info) => {
-      selectedMvUniqueName.value = selectedKeys[0]
+      selectedMvId.value = selectedKeys[0]
     }
     return {
       onSelect,
       tree,
       materializedViews,
-      selectedMvUniqueName,
+      selectedMvId,
+      expandedKeys,
     }
   },
   computed: {
