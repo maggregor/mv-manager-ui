@@ -16,11 +16,6 @@
               route: `/projects/${selectedProjectId}/materialized-views`,
             },
             {
-              key: 'optimizations',
-              title: 'Optimizations',
-              route: `/projects/${selectedProjectId}/optimizations`,
-            },
-            {
               key: 'settings',
               title: 'Settings',
               route: `/projects/${selectedProjectId}/settings`,
@@ -71,7 +66,8 @@ export default {
     const projectId = route.params.projectId
     const project = computed(() => store.getters.selectedProject)
     const timeframe = ref(14)
-    onMounted(() => {
+    onMounted(async () => {
+      await store.dispatch('LOAD_MATERIALIZED_VIEWS', projectId)
       store.dispatch('STOP_POLLING')
       store.dispatch('SET_SELECTED_PROJECT_ID', projectId)
       //TODO: Check permissions

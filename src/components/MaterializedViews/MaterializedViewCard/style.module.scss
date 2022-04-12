@@ -19,6 +19,19 @@ p {
   border-right: 2px solid $main-purple;
 }
 
+.header-applied {
+  background-color: #f6f8fa;
+
+}
+
+.header-not_applied {
+  background-color: #f1fff1;
+}
+
+.header-outdated {
+  background-color: #fff9f0;
+}
+
 .selected-header-closed {
   border-bottom: 2px solid $main-purple;
   border-top: 2px solid $main-purple;

@@ -94,25 +94,6 @@ const router = createRouter({
               },
             },
             {
-              path: 'optimizations',
-              name: 'Optimizations',
-              component: () => import('./views/project/optimizations'),
-              meta: {
-                title: 'Optimizations',
-                breadcrumb: 'Optimizations',
-              },
-              children: [
-                {
-                  path: ':optimizationId',
-                  name: 'Optimization details',
-                  component: () => import('./views/project/optimizations/details'),
-                  meta: {
-                    title: 'Details',
-                  },
-                },
-              ],
-            },
-            {
               path: 'datasets',
               name: 'Datasets',
               component: () => import('./views/project/datasets'),

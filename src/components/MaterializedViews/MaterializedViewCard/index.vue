@@ -6,6 +6,9 @@
         'selected-header': selected,
         closed: !opened,
         'selected-header-closed': selected && !opened,
+        'header-applied': mv.status === 'APPLIED',
+        'header-not_applied': mv.status === 'NOT_APPLIED',
+        'header-outdated': mv.status === 'OUTDATED',
       }"
     >
       <a-row type="flex" justify="space-between" align="middle">
@@ -16,10 +19,14 @@
           </div>
         </a-col>
         <a-col class="p-1" :span="14">
-          <a-tag v-if="mv.status === 'NOT_APPLIED'" color="green">New</a-tag>
+          <a-tag
+            v-if="mv.status === 'NOT_APPLIED' && mv.lastJobId === mv.initialJobId"
+            color="green"
+            >New</a-tag
+          >
           <a> {{ mv.datasetName }}/{{ mv.tableName }}/{{ mv.mvDisplayName }}</a>
           <p>
-            <i>Generated {{ moment(mv.createdAt).fromNow() }}</i>
+            <i>Found by Achilio {{ moment(mv.createdAt).fromNow() }}</i>
           </p>
         </a-col>
         <a-col class="actions-container" :span="9">
@@ -27,7 +34,7 @@
 
           <div v-else-if="mv.status === 'OUTDATED'">
             <a-tag style="height: 20px" color="orange">Outdated</a-tag>
-            <a-button @click="action('UNAPPLY_MATERIALIZED_VIEW')" type="link">Unapply</a-button>
+            <a-button @click="action('UNAPPLY_MATERIALIZED_VIEW')" type="link">Trash</a-button>
           </div>
 
           <div v-else-if="mv.status === 'NOT_APPLIED'">

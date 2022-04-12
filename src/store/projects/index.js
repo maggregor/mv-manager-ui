@@ -339,5 +339,11 @@ export default {
     isDatasetsLoading: (state, getters) => getters.selectedProject.datasetsLoading,
     // Materialized Views
     allMaterializedViews: state => _.orderBy(Object.values(state.materializedViews), 'tableName'),
+    allAppliedMaterializedViews: (state, getters) =>
+      getters.allMaterializedViews.filter(mv => mv.status === 'APPLIED'),
+    allNotAppliedMaterializedViews: (state, getters) =>
+      getters.allMaterializedViews.filter(mv => mv.status === 'NOT_APPLIED'),
+    allOutdatedMaterializedViews: (state, getters) =>
+      getters.allMaterializedViews.filter(mv => mv.status === 'OUTDATED'),
   },
 }
