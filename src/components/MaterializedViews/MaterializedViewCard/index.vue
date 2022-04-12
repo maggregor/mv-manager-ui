@@ -1,6 +1,13 @@
 <template>
   <div class="mb-3">
-    <div :class="{ 'mv-card': true, closed: opened, 'selected-header': selected }">
+    <div
+      :class="{
+        'mv-card': true,
+        'selected-header': selected,
+        closed: !opened,
+        'selected-header-closed': selected && !opened,
+      }"
+    >
       <a-row type="flex" justify="space-between" align="middle">
         <a-col style="text-align: center" :span="1">
           <div class="icon-open" @click="opened = !opened">
@@ -9,24 +16,29 @@
           </div>
         </a-col>
         <a-col class="p-1" :span="14">
-          <a v-if="mv.status === 'NOT_APPLIED'">
-            <a-tag color="green">New Materialized View proposal</a-tag></a
-          >
-          <a> {{ mv.datasetName }}/{{ mv.tableName }}/{{ mv.mvName }}</a>
+          <a-tag v-if="mv.status === 'NOT_APPLIED'" color="green">New</a-tag>
+          <a> {{ mv.datasetName }}/{{ mv.tableName }}/{{ mv.mvDisplayName }}</a>
+          <p>
+            <i>Found by Achilio {{ moment(mv.createdAt).fromNow() }}</i>
+          </p>
         </a-col>
         <a-col class="actions-container" :span="9">
-          <div v-if="mv.status === 'OUTDATED'">
+          <a-button v-if="loading" :loading="true" type="link">Processing...</a-button>
+
+          <div v-else-if="mv.status === 'OUTDATED'">
             <a-tag style="height: 20px" color="orange">Outdated</a-tag>
-            <a-button type="link">Delete</a-button>
+            <a-button @click="action('UNAPPLY_MATERIALIZED_VIEW')" type="link">Unapply</a-button>
           </div>
 
           <div v-else-if="mv.status === 'NOT_APPLIED'">
-            <a-button type="link">Discard this proposal</a-button>
-            <a-button type="link">Apply</a-button>
+            <a-button @click="action('DISCARD_MATERIALIZED_VIEW')" type="link">
+              Discard this proposal
+            </a-button>
+            <a-button @click="action('APPLY_MATERIALIZED_VIEW')" type="link">Apply</a-button>
           </div>
 
           <div v-else-if="mv.status === 'APPLIED'">
-            <a-button type="link">Delete</a-button>
+            <a-button @click="action('UNAPPLY_MATERIALIZED_VIEW')" type="link">Unapply</a-button>
           </div>
         </a-col>
       </a-row>
@@ -37,9 +49,10 @@
   </div>
 </template>
 <script>
-import { DownOutlined } from '@ant-design/icons-vue'
-import { RightOutlined } from '@ant-design/icons-vue'
+import { DownOutlined, RightOutlined } from '@ant-design/icons-vue'
 import { ref } from '@vue/reactivity'
+import { useStore } from 'vuex'
+const moment = require('moment')
 export default {
   name: 'MaterializedViewCard',
   components: {
@@ -58,8 +71,19 @@ export default {
   },
   setup(props) {
     const opened = ref(props.mv.status !== 'APPLIED')
+    const store = useStore()
+    const projectId = store.getters['selectedProjectId']
+    const loading = ref(false)
+    const action = async actionName => {
+      loading.value = true
+      await store.dispatch(actionName, { projectId, id: props.mv.id })
+      loading.value = false
+    }
     return {
       opened,
+      action,
+      loading,
+      moment,
     }
   },
 }

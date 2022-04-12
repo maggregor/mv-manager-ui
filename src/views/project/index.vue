@@ -81,7 +81,7 @@ export default {
       store.dispatch('LOAD_PROJECT_STATISTICS', { projectId, timeframe: timeframe.value })
     })
     const triggerOptimization = async () => {
-      router.push(`/projects/${projectId}/overview`)
+      router.push(`/projects/${projectId}/materialized-views`)
       await store.dispatch('FIND_MATERIALIZED_VIEWS', projectId)
     }
     const lastFetcherQueryJob = computed(() => store.getters.isLastFetcherQueryJobPending)

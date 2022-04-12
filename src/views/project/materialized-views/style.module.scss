@@ -2,21 +2,13 @@
 
 body {
 
-  overflow-y: hidden;
-  /* Hide vertical scrollbar */
-  overflow-x: hidden;
-  /* Hide horizontal scrollbar */
+  overflow: hidden !important;
 }
 
 .container {
   max-width: 80vw;
   /* Hide scrollbars */
 }
-
-body::-webkit-scrollbar {
-  display: none;
-}
-
 
 .leaf {
   border-radius: 5px;
@@ -46,10 +38,9 @@ body::-webkit-scrollbar {
   }
 
   .leaf-applied {
-    background-color: #fff7e6;
 
     .icon {
-      color: #fff7e6;
+      color: #a8a8a8;
     }
   }
 

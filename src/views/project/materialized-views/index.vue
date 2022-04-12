@@ -27,16 +27,16 @@
                   </a-col>
                   <a-col :span="1" />
                   <a-col :span="19">
-                    <a-anchor :affix="false">
-                      <a-anchor-link
-                        :href="`#${dataRef.mvDisplayName}`"
-                        :title="dataRef.mvDisplayName"
-                      >
-                      </a-anchor-link>
-                    </a-anchor>
+                    <a-anchor-link
+                      :href="`#${dataRef.mvDisplayName}`"
+                      :title="dataRef.mvDisplayName"
+                    >
+                    </a-anchor-link>
                   </a-col>
                   <a-col class="icon" :span="2">
-                    <plus-square-outlined v-if="true" />
+                    <plus-square-outlined v-if="dataRef.status === 'NOT_APPLIED'" />
+                    <check-square-outlined v-else-if="dataRef.status === 'APPLIED'" />
+                    <warning-outlined v-else-if="dataRef.status === 'OUTDATED'" />
                   </a-col>
                 </a-row>
               </span>
@@ -60,7 +60,12 @@
 </template>
 
 <script>
-import Icon, { CaretDownOutlined, PlusSquareOutlined } from '@ant-design/icons-vue'
+import Icon, {
+  CaretDownOutlined,
+  PlusSquareOutlined,
+  CheckSquareOutlined,
+  WarningOutlined,
+} from '@ant-design/icons-vue'
 import { computed, defineComponent, onMounted, ref } from 'vue'
 import { mapGetters, useStore } from 'vuex'
 import MaterializedViewCard from '@/components/MaterializedViews/MaterializedViewCard'
@@ -71,6 +76,8 @@ export default defineComponent({
     CaretDownOutlined,
     MaterializedViewCard,
     PlusSquareOutlined,
+    CheckSquareOutlined,
+    WarningOutlined,
   },
   setup() {
     const store = useStore()

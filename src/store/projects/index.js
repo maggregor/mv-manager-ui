@@ -34,7 +34,7 @@ const getDefaultState = () => {
     // True when a registering project is in progress
     registering: false,
     // Current materialized views loaded in /project/:projectId/materialized-views
-    materializedViews: [],
+    materializedViews: {},
   }
 }
 
@@ -57,6 +57,13 @@ export default {
         // Add a new project entry
         state.projects[projectId] = { ...project }
       }
+    },
+    ADD_MATERIALIZED_VIEW(state, mv) {
+      let mvId = mv.id
+      state.materializedViews[mvId] = mv
+    },
+    REMOVE_MATERIALIZED_VIEW(state, id) {
+      delete state.materializedViews[id]
     },
     REMOVE_PROJECT(state, id) {
       delete state.projects[id]
@@ -203,10 +210,10 @@ export default {
       commit('SET_STATE', { loading: true })
       await findMvJob({ projectId })
         .then(() => {
-          message.loading(`Optimization started...`, 5)
+          message.loading(`Finding new Materialized Views ...`, 5)
           dispatch('LOAD_OPTIMIZATIONS', { projectId: projectId })
         })
-        .catch(() => message.error(`Optimization error.`, 5))
+        .catch(() => message.error(`Can't find new materialized views.`, 5))
         .finally(() => commit('SET_STATE', { loading: false }))
     },
     LOAD_ALL_STRUCTS({ dispatch }, payload) {
@@ -251,7 +258,27 @@ export default {
      *
      */
     async LOAD_MATERIALIZED_VIEWS({ commit }, projectId) {
-      commit('SET_STATE', { materializedViews: await getAllMaterializedViews({ projectId }) })
+      commit('SET_STATE', {
+        materializedViews: _.keyBy(await getAllMaterializedViews({ projectId }), 'id'),
+      })
+    },
+    async APPLY_MATERIALIZED_VIEW({ commit }, payload) {
+      const projectId = payload.projectId
+      const id = payload.id
+      const newMv = await actionMaterializedView({ projectId, id, action: 'APPLY' })
+      commit('ADD_MATERIALIZED_VIEW', newMv)
+    },
+    async UNAPPLY_MATERIALIZED_VIEW({ commit }, payload) {
+      const projectId = payload.projectId
+      const id = payload.id
+      const newMv = await actionMaterializedView({ projectId, id, action: 'UNAPPLY' })
+      commit('ADD_MATERIALIZED_VIEW', newMv)
+    },
+    async DISCARD_MATERIALIZED_VIEW({ commit }, payload) {
+      const projectId = payload.projectId
+      const id = payload.id
+      await deleteMaterializedView({ projectId, id })
+      commit('REMOVE_MATERIALIZED_VIEW', id)
     },
   },
   getters: {
@@ -311,6 +338,6 @@ export default {
     atLeastOneDatasetIsActivated: (state, getters) => getters.allDatasets.some(d => d.activated),
     isDatasetsLoading: (state, getters) => getters.selectedProject.datasetsLoading,
     // Materialized Views
-    allMaterializedViews: state => state.materializedViews,
+    allMaterializedViews: state => Object.values(state.materializedViews),
   },
 }

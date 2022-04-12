@@ -4,15 +4,26 @@
   padding: 8px;
   background-color: #f6f8fa;
   border: 1px solid rgba(226, 226, 226, 1);
-  border-radius: 8px;
+  border-radius: 8px 8px 0px 0px;
 
 }
 
+p {
+  height: 3px;
+  font-size: 12px;
+}
 
 .selected-header {
-  border-top: 1px solid rgb(86, 57, 255);
-  border-left: 1px solid rgb(86, 57, 255);
-  border-right: 1px solid rgb(86, 57, 255);
+  border-top: 2px solid $main-purple;
+  border-left: 2px solid $main-purple;
+  border-right: 2px solid $main-purple;
+}
+
+.selected-header-closed {
+  border-bottom: 2px solid $main-purple;
+  border-top: 2px solid $main-purple;
+  border-left: 2px solid $main-purple;
+  border-right: 2px solid $main-purple;
 }
 
 
@@ -24,13 +35,13 @@
 
 
 .selected-content {
-  border-bottom: 1px solid rgb(86, 57, 255);
-  border-left: 1px solid rgb(86, 57, 255);
-  border-right: 1px solid rgb(86, 57, 255);
+  border-bottom: 2px solid $main-purple;
+  border-left: 2px solid $main-purple;
+  border-right: 2px solid $main-purple;
 }
 
 .closed {
-  border-radius: 8px 8px 0px 0px;
+  border-radius: 8px;
 }
 
 .actions-container {

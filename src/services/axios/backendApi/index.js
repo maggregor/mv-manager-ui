@@ -227,6 +227,6 @@ export async function actionMaterializedView(payload) {
 export async function deleteMaterializedView(payload) {
   const id = payload.id
   const projectId = payload.projectId
-  const { data } = await client.patch(`/mv/${id}`, { projectId })
+  const { data } = await client.delete(`/mv/${id}`, { params: { projectId } })
   return data
 }
