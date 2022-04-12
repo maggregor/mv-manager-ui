@@ -259,25 +259,25 @@ export default {
      */
     async LOAD_MATERIALIZED_VIEWS({ commit }, projectId) {
       commit('SET_STATE', {
-        materializedViews: _.keyBy(await getAllMaterializedViews({ projectId }), 'id'),
+        materializedViews: _.keyBy(await getAllMaterializedViews(projectId), 'id'),
       })
     },
     async APPLY_MATERIALIZED_VIEW({ commit }, payload) {
       const projectId = payload.projectId
       const id = payload.id
-      const newMv = await actionMaterializedView({ projectId, id, action: 'APPLY' })
+      const newMv = await actionMaterializedView(id, projectId, 'APPLY')
       commit('ADD_MATERIALIZED_VIEW', newMv)
     },
     async UNAPPLY_MATERIALIZED_VIEW({ commit }, payload) {
       const projectId = payload.projectId
       const id = payload.id
-      const newMv = await actionMaterializedView({ projectId, id, action: 'UNAPPLY' })
+      const newMv = await actionMaterializedView(id, projectId, 'UNAPPLY')
       commit('ADD_MATERIALIZED_VIEW', newMv)
     },
     async DISCARD_MATERIALIZED_VIEW({ commit }, payload) {
       const projectId = payload.projectId
       const id = payload.id
-      await deleteMaterializedView({ projectId, id })
+      await deleteMaterializedView(id, projectId)
       commit('REMOVE_MATERIALIZED_VIEW', id)
     },
   },
