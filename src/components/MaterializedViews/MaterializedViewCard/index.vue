@@ -22,7 +22,7 @@
           <a-tag
             v-if="mv.status === 'NOT_APPLIED' && mv.lastJobId === mv.initialJobId"
             color="green"
-            >New</a-tag
+            >Proposal</a-tag
           >
           <a> {{ mv.datasetName }}/{{ mv.tableName }}/{{ mv.mvDisplayName }}</a>
           <p>
