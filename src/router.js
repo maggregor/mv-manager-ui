@@ -82,30 +82,16 @@ const router = createRouter({
               meta: {
                 title: 'Overview',
                 breadcrumb: '',
-                projectActivatedRequired: true,
-                projectMenuBar: true,
               },
             },
             {
-              path: 'optimizations',
-              name: 'Optimizations',
-              component: () => import('./views/project/optimizations'),
+              path: 'materialized-views',
+              name: 'Materialized Views',
+              component: () => import('./views/project/materialized-views'),
               meta: {
-                title: 'Optimizations',
-                breadcrumb: 'Optimizations',
-                projectActivatedRequired: true,
-                projectMenuBar: true,
+                breadcrumb: 'Materialized Views',
+                title: 'Materialized Views',
               },
-              children: [
-                {
-                  path: ':optimizationId',
-                  name: 'Optimization details',
-                  component: () => import('./views/project/optimizations/details'),
-                  meta: {
-                    title: 'Details',
-                  },
-                },
-              ],
             },
             {
               path: 'datasets',
@@ -114,8 +100,6 @@ const router = createRouter({
               meta: {
                 breadcrumb: 'Datasets',
                 title: 'Datasets',
-                projectActivatedRequired: true,
-                // projectMenuBar: true,
               },
             },
             {
@@ -125,8 +109,6 @@ const router = createRouter({
               meta: {
                 breadcrumb: 'Settings',
                 title: 'Settings',
-                projectActivatedRequired: true,
-                projectMenuBar: true,
               },
             },
           ],

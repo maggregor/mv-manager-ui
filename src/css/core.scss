@@ -185,3 +185,11 @@ textarea {
   border-radius: 5px;
   padding: 10px;
 }
+
+.ant-anchor {
+  overflow: hidden !important;
+}
+
+.ant-anchor-ink::before {
+  width: 0px !important;
+}

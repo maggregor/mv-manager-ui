@@ -56,12 +56,13 @@ export async function getQueryStatistics(projectId, timeframe) {
 }
 
 export async function getKPIStatistics(projectId, timeframe) {
-  const { data } = await client.get(`/project/${projectId}/queries/${timeframe}/statistics/kpi`)
+  const { data } = await client.get(`/query/kpi`, { params: { projectId, timeframe } })
   return data
 }
 
-export function optimizeProject(projectId) {
-  return client.post(`/optimize/${projectId}`)
+export function findMvJob(payload) {
+  const projectId = payload.projectId
+  return client.post(`/job/mv`, { projectId })
 }
 
 export async function updateProject(projectId, payload) {
@@ -199,5 +200,20 @@ export async function getFetcherStructJob(payload) {
 export async function createNewFetcherStructJob(payload) {
   const projectId = payload.projectId
   const { data } = await client.post(`/job/fetcher/struct`, { projectId })
+  return data
+}
+
+export async function getAllMaterializedViews(projectId) {
+  const { data } = await client.get(`/mv`, { params: { projectId } })
+  return data
+}
+
+export async function actionMaterializedView(id, payload) {
+  const { data } = await client.patch(`/mv/${id}`, payload)
+  return data
+}
+
+export async function deleteMaterializedView(id, projectId) {
+  const { data } = await client.delete(`/mv/${id}`, { params: { projectId } })
   return data
 }
