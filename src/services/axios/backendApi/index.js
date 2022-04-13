@@ -62,7 +62,7 @@ export async function getKPIStatistics(projectId, timeframe) {
 
 export function findMvJob(payload) {
   const projectId = payload.projectId
-  return client.post(`/job/mv`, { projectId, timeframe: 30 })
+  return client.post(`/job/mv`, { projectId })
 }
 
 export async function updateProject(projectId, payload) {
