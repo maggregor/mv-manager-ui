@@ -27,8 +27,7 @@
         <cta
           label="Find Materialized Views"
           popover-text="You have to enable at least one dataset"
-          :trigger="triggerOptimization"
-          :disabled="!atLeastOneDatasetIsActivated"
+          :trigger="triggerFindMVJob"
         ></cta>
       </a-col>
       <a-divider style="padding: 0px" />
@@ -73,10 +72,9 @@ export default {
       //TODO: Check permissions
       store.dispatch('LOAD_LAST_FETCHERS', projectId)
       store.dispatch('LOAD_ALL_STRUCTS', { projectId })
-      store.dispatch('LOAD_OPTIMIZATIONS', { projectId })
       store.dispatch('LOAD_PROJECT_STATISTICS', { projectId, timeframe: timeframe.value })
     })
-    const triggerOptimization = async () => {
+    const triggerFindMVJob = async () => {
       router.push(`/projects/${projectId}/materialized-views`)
       await store.dispatch('FIND_MATERIALIZED_VIEWS', projectId)
     }
@@ -97,7 +95,7 @@ export default {
     return {
       isOverview,
       router,
-      triggerOptimization,
+      triggerFindMVJob,
       project,
     }
   },
