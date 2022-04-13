@@ -6,7 +6,6 @@ import {
   getDatasets,
   getKPIStatistics,
   deleteAllMaterializedViews,
-  getOptimizations,
   findMvJob,
   updateDataset,
   createProject,
@@ -172,36 +171,7 @@ export default {
       )
     },
     /**
-     *
-     *
-     * @param {*} payload
-     */
-    async LOAD_OPTIMIZATIONS({ commit }, payload) {
-      let projectId = payload.projectId
-      commit('SET_PROJECT_STATE', { projectId, optimizationsLoading: true })
-      commit('SET_PROJECT_STATE', {
-        projectId,
-        optimizations: await getOptimizations({ projectId }),
-        optimizationsLoading: false,
-      })
-    },
-    /**
-     * Load an optimization and set as selected.
-     *
-     * @param { projectId, optimizationId } payload
-     */
-    async LOAD_SELECTED_OPTIMIZATION({ commit }, payload) {
-      let projectId = payload.projectId
-      let optimizationId = payload.optimizationId
-      commit('SET_PROJECT_STATE', { projectId, selectedOptimizationLoading: true })
-      commit('SET_PROJECT_STATE', {
-        projectId,
-        selectedOptimization: await getOptimizations({ projectId, optimizationId }),
-        selectedOptimizationLoading: false,
-      })
-    },
-    /**
-     * Run an sync optimization.
+     * Run an async Find MV Job.
      *
      * @param { projectId } projectId
      */
@@ -211,7 +181,6 @@ export default {
       await findMvJob({ projectId })
         .then(() => {
           message.loading(`Finding new Materialized Views ...`, 5)
-          dispatch('LOAD_OPTIMIZATIONS', { projectId: projectId })
         })
         .catch(() => message.error(`Can't find new materialized views.`, 5))
         .finally(() => commit('SET_STATE', { loading: false }))
@@ -316,19 +285,6 @@ export default {
       getters.hasSelectedProjectKpi ? getters.selectedProjectKpi.percentQueriesIn : -1,
     kpiAverageScannedBytes: (state, getters) =>
       getters.hasSelectedProjectKpi ? getters.selectedProjectKpi.averageScannedBytes : -1,
-    // Optimizations
-    allOptimizations: (state, getters) =>
-      _.orderBy(getters.selectedProject.optimizations, 'createdDate', 'desc'),
-    isOptimizationsLoading: (state, getters) => getters.selectedProject.optimizationsLoading,
-    selectedOptimization: (state, getters) => getters.selectedProject.selectedOptimization,
-    isSelectedOptimizationLoading: (state, getters) =>
-      getters.selectedProject.selectedOptimizationLoading,
-    selectedOptimizationAppliedResults: (state, getters) =>
-      _.filter(getters.selectedOptimization.results, r => r.status === 'APPLY'),
-    selectedOptimizationNotAppliedResults: (state, getters) =>
-      _.filter(getters.selectedOptimization.results, r => r.status === 'PLAN_LIMIT_REACHED'),
-    lastOptimization: (state, getters) =>
-      getters.allOptimizations.length > 0 ? getters.allOptimizations[0] : null,
     // Datasets
     allDatasets: (state, getters) =>
       getters.selectedProject.datasets === undefined

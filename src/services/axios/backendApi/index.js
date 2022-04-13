@@ -74,17 +74,6 @@ export function updateDataset(projectId, datasetName, payload) {
   return client.put(`/project/${projectId}/dataset/${datasetName}`, payload)
 }
 
-export async function getOptimizations(payload) {
-  let projectId = payload.projectId
-  let optimizationId = payload.optimizationId
-  let resource = `/optimize/${projectId}`
-  if (optimizationId) {
-    resource += `/${optimizationId}`
-  }
-  const { data } = await client.get(resource)
-  return data
-}
-
 export function deleteAllMaterializedViews(projectId) {
   return client.delete(`/optimize/${projectId}`)
 }

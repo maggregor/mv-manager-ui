@@ -3,7 +3,6 @@
     <a @click="$router.push('/')" class="text-weight-600 font-size-18">{{ 'Back to projects' }}</a>
     <h1 class="project-path">
       {{ project.projectName }}
-      <span class="path" v-if="breadcrumb"> / {{ breadcrumb }}</span>
     </h1>
     <div v-if="isSynchronizing">
       <a-button :loading="true" type="link">Synchronizing</a-button>
@@ -50,13 +49,6 @@ export default {
       'isSynchronizing',
       'lastFetcherQueryJob',
     ]),
-    breadcrumb() {
-      let optimizationId = this.$route.params.optimizationId
-      if (optimizationId) {
-        return `#${optimizationId}`
-      }
-      return this.$route.meta.breadcrumb
-    },
   },
 }
 </script>
