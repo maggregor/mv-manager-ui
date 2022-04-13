@@ -11,9 +11,9 @@
               route: `/projects/${selectedProjectId}/overview`,
             },
             {
-              key: 'optimizations',
-              title: 'Optimizations',
-              route: `/projects/${selectedProjectId}/optimizations`,
+              key: 'materialized-views',
+              title: 'Materialized Views',
+              route: `/projects/${selectedProjectId}/materialized-views`,
             },
             {
               key: 'settings',
@@ -25,10 +25,9 @@
       </a-col>
       <a-col :span="4" style="display:flex; justify-content: end;">
         <cta
-          label="Start optimization"
+          label="Find Materialized Views"
           popover-text="You have to enable at least one dataset"
-          :trigger="triggerOptimization"
-          :disabled="!atLeastOneDatasetIsActivated"
+          :trigger="triggerFindMVJob"
         ></cta>
       </a-col>
       <a-divider style="padding: 0px" />
@@ -66,18 +65,18 @@ export default {
     const projectId = route.params.projectId
     const project = computed(() => store.getters.selectedProject)
     const timeframe = ref(14)
-    onMounted(() => {
+    onMounted(async () => {
+      await store.dispatch('LOAD_MATERIALIZED_VIEWS', projectId)
       store.dispatch('STOP_POLLING')
       store.dispatch('SET_SELECTED_PROJECT_ID', projectId)
       //TODO: Check permissions
       store.dispatch('LOAD_LAST_FETCHERS', projectId)
       store.dispatch('LOAD_ALL_STRUCTS', { projectId })
-      store.dispatch('LOAD_OPTIMIZATIONS', { projectId })
       store.dispatch('LOAD_PROJECT_STATISTICS', { projectId, timeframe: timeframe.value })
     })
-    const triggerOptimization = async () => {
-      router.push(`/projects/${projectId}/overview`)
-      await store.dispatch('RUN_OPTIMIZE', projectId)
+    const triggerFindMVJob = async () => {
+      router.push(`/projects/${projectId}/materialized-views`)
+      await store.dispatch('FIND_MATERIALIZED_VIEWS', projectId)
     }
     const lastFetcherQueryJob = computed(() => store.getters.isLastFetcherQueryJobPending)
     watch(lastFetcherQueryJob, (current, old) => {
@@ -96,7 +95,7 @@ export default {
     return {
       isOverview,
       router,
-      triggerOptimization,
+      triggerFindMVJob,
       project,
     }
   },

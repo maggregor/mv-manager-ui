@@ -73,7 +73,11 @@
             <p>If automatic mode is enabled, they will be re-created.</p>
           </a-col>
           <a-col span="auto">
-            <a-button class="delete-btn" :loading="deleteLoading" @click="deleteAll"
+            <a-button
+              class="delete-btn"
+              :loading="deleteLoading"
+              @click="deleteAll"
+              :disabled="true"
               >Delete all</a-button
             >
           </a-col>

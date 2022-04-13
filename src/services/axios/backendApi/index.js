@@ -60,8 +60,9 @@ export async function getKPIStatistics(projectId, timeframe) {
   return data
 }
 
-export function optimizeProject(projectId) {
-  return client.post(`/optimize/${projectId}`)
+export function findMvJob(payload) {
+  const projectId = payload.projectId
+  return client.post(`/job/mv`, { projectId })
 }
 
 export async function updateProject(projectId, payload) {
@@ -71,17 +72,6 @@ export async function updateProject(projectId, payload) {
 
 export function updateDataset(projectId, datasetName, payload) {
   return client.put(`/project/${projectId}/dataset/${datasetName}`, payload)
-}
-
-export async function getOptimizations(payload) {
-  let projectId = payload.projectId
-  let optimizationId = payload.optimizationId
-  let resource = `/optimize/${projectId}`
-  if (optimizationId) {
-    resource += `/${optimizationId}`
-  }
-  const { data } = await client.get(resource)
-  return data
 }
 
 export function deleteAllMaterializedViews(projectId) {
@@ -150,7 +140,7 @@ export async function getAllFetcherQueryJobs(payload) {
   const projectId = payload.projectId
   const last = payload.last
   const status = payload.status
-  const { data } = await client.get(`/fetcher/job/query`, { params: { projectId, last, status } })
+  const { data } = await client.get(`/job/fetcher/query`, { params: { projectId, last, status } })
   return data
 }
 
@@ -158,7 +148,7 @@ export async function getAllFetcherQueryJobs(payload) {
 export async function getFetcherQueryJob(payload) {
   const projectId = payload.projectId
   const fetcherQueryJobId = payload.fetcherQueryJobId
-  const { data } = await client.get(`/fetcher/job/query/${fetcherQueryJobId}`, {
+  const { data } = await client.get(`/job/fetcher/query/${fetcherQueryJobId}`, {
     params: { projectId },
   })
   return data
@@ -168,7 +158,7 @@ export async function getFetcherQueryJob(payload) {
 export async function createNewFetcherQueryJob(payload) {
   const projectId = payload.projectId
   const timeframe = payload.timeframe
-  const { data } = await client.post(`/fetcher/job/query`, { projectId, timeframe })
+  const { data } = await client.post(`/job/fetcher/query`, { projectId, timeframe })
   return data
 }
 
@@ -181,7 +171,7 @@ export async function getAllFetcherStructJobs(payload) {
   const projectId = payload.projectId
   const last = payload.last
   const status = payload.status
-  const { data } = await client.get(`/fetcher/job/struct`, { params: { projectId, last, status } })
+  const { data } = await client.get(`/job/fetcher/struct`, { params: { projectId, last, status } })
   return data
 }
 
@@ -189,7 +179,7 @@ export async function getAllFetcherStructJobs(payload) {
 export async function getFetcherStructJob(payload) {
   const projectId = payload.projectId
   const fetcherStructJobId = payload.fetcherStructJobId
-  const { data } = await client.get(`/fetcher/job/struct/${fetcherStructJobId}`, {
+  const { data } = await client.get(`/job/fetcher/struct/${fetcherStructJobId}`, {
     params: { projectId },
   })
   return data
@@ -198,6 +188,21 @@ export async function getFetcherStructJob(payload) {
 // Create and start a new struct fetching job
 export async function createNewFetcherStructJob(payload) {
   const projectId = payload.projectId
-  const { data } = await client.post(`/fetcher/job/struct`, { projectId })
+  const { data } = await client.post(`/job/fetcher/struct`, { projectId })
+  return data
+}
+
+export async function getAllMaterializedViews(projectId) {
+  const { data } = await client.get(`/mv`, { params: { projectId } })
+  return data
+}
+
+export async function actionMaterializedView(id, payload) {
+  const { data } = await client.patch(`/mv/${id}`, payload)
+  return data
+}
+
+export async function deleteMaterializedView(id, projectId) {
+  const { data } = await client.delete(`/mv/${id}`, { params: { projectId } })
   return data
 }

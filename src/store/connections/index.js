@@ -66,7 +66,7 @@ export default {
       delete payload.id
       const connection = await updateConnection(id, payload)
       commit('ADD_CONNECTION', connection)
-      message.success(`Connection {id} has been updated`)
+      message.success(`Connection ${id} has been updated`)
     },
     async DELETE_CONNECTION({ commit }, id) {
       await deleteConnection(id)

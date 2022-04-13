@@ -1,0 +1,75 @@
+@import '@/mixins.scss';
+
+.mv-card {
+  padding: 8px;
+  background-color: #f6f8fa;
+  border: 1px solid rgba(226, 226, 226, 1);
+  border-radius: 8px 8px 0px 0px;
+
+}
+
+p {
+  height: 3px;
+  font-size: 12px;
+}
+
+.selected-header {
+  border-top: 2px solid $main-purple;
+  border-left: 2px solid $main-purple;
+  border-right: 2px solid $main-purple;
+}
+
+.header-applied {
+  background-color: #f6f8fa;
+
+}
+
+.header-not_applied {
+  background-color: #f1fff1;
+}
+
+.header-outdated {
+  background-color: #fff9f0;
+}
+
+.selected-header-closed {
+  border-bottom: 2px solid $main-purple;
+  border-top: 2px solid $main-purple;
+  border-left: 2px solid $main-purple;
+  border-right: 2px solid $main-purple;
+}
+
+
+.mv-content {
+  border: 1px solid rgba(226, 226, 226, 1);
+  min-height: 100px;
+  padding: 30px;
+}
+
+
+.selected-content {
+  border-bottom: 2px solid $main-purple;
+  border-left: 2px solid $main-purple;
+  border-right: 2px solid $main-purple;
+}
+
+.closed {
+  border-radius: 8px;
+}
+
+.actions-container {
+  display: flex;
+  justify-content: flex-end;
+  margin: auto;
+}
+
+.check {
+  transform: scale(0.55);
+}
+
+.icon-open {
+  &:hover {
+    cursor: pointer;
+    color: blue;
+  }
+}

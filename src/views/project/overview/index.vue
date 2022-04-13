@@ -2,41 +2,75 @@
   <div class="container">
     <a-row>
       <a-col class="pr-5" :span="7">
-        <!-- Datasets section -->
+        <!-- Materialized views section -->
         <div class="section">
           <h3>
-            Datasets
+            Materialized Views
           </h3>
-          <a-col class="section-content" :span="24">
-            <DatasetCard
-              v-for="dataset in allDatasets"
-              :key="dataset.datasetName"
-              :project-id="selectedProjectId"
-              :dataset="dataset"
-            />
+          <a-col :span="24">
+            <a-card v-if="!allMaterializedViews.length">No Materialized Views</a-card>
+            <a-alert
+              v-if="allAppliedMaterializedViews.length"
+              :message="`x ${allAppliedMaterializedViews.length} are relevants`"
+              description="Based on your queries: theses Materialized Views are optimal."
+              type="success"
+              show-icon
+              class="mb-3"
+            >
+              <template #icon>
+                <img
+                  style="height: 7%; width: 7%"
+                  class="mr-1"
+                  src="@/assets/illustrations/materialized_view.svg"
+              /></template>
+            </a-alert>
           </a-col>
-        </div>
-        <!-- Optimization history section -->
-        <div class="section">
-          <h3>
-            History
-            <a-button type="link">
-              <span
-                v-if="allOptimizations.length"
-                class="text-dark"
-                @click="$router.push(`/projects/${selectedProjectId}/optimizations`)"
-                >See all</span
-              >
-            </a-button>
-          </h3>
-          <div class="section-content">
-            <div v-if="allOptimizations.length === 0"><OptimizationEmpty /></div>
-            <div v-else>
-              <div v-for="(optimization, index) in allOptimizations" :key="optimization.id">
-                <OptimizationHeader small v-if="index < 3" :optimization="optimization" />
-              </div>
-            </div>
-          </div>
+          <a-col :span="24"
+            ><a-alert
+              v-if="allNotAppliedMaterializedViews.length"
+              :message="`x ${allNotAppliedMaterializedViews.length} are waiting for review`"
+              type="info"
+              show-icon
+              class="mb-3"
+            >
+              <template #icon>
+                <img
+                  style="height: 7%; width: 7%"
+                  class="mr-1"
+                  src="@/assets/illustrations/materialized_view.svg"/></template
+              ><template #description>
+                <a-button
+                  type="link"
+                  @click="$router.push('/projects/achilio-dev/materialized-views')"
+                >
+                  Review now
+                </a-button>
+              </template>
+            </a-alert>
+          </a-col>
+          <a-col :span="24">
+            <a-alert
+              v-if="allOutdatedMaterializedViews.length"
+              :message="`x ${allOutdatedMaterializedViews.length} are outdated`"
+              type="warning"
+              show-icon
+            >
+              <template #icon>
+                <img
+                  style="height: 7%; width: 7%"
+                  class="mr-1"
+                  src="@/assets/illustrations/materialized_view.svg"
+              /></template>
+              <template #description>
+                <a-button
+                  type="link"
+                  @click="$router.push('/projects/achilio-dev/materialized-views')"
+                >
+                  Clean up now
+                </a-button>
+              </template></a-alert
+            ></a-col
+          >
         </div>
       </a-col>
       <a-col :span="17">
@@ -61,19 +95,6 @@
             /></a-col>
           </a-row>
         </div>
-        <div class="section">
-          <h3>
-            Last optimization
-          </h3>
-          <div>
-            <div v-if="lastOptimization">
-              <OptimizationHeader standalone :optimization="lastOptimization" />
-            </div>
-            <div v-else>
-              <OptimizationEmpty />
-            </div>
-          </div>
-        </div>
       </a-col>
     </a-row>
   </div>
@@ -83,17 +104,11 @@
 import { mapGetters } from 'vuex'
 import _ from 'lodash'
 import ProjectKPI from '@/components/Projects/ProjectKPI'
-import OptimizationHeader from '@/components/Optimization/OptimizationHeader'
-import OptimizationEmpty from '@/components/Optimization/OptimizationEmpty'
-import DatasetCard from '@/components/Projects/DatasetCard'
 
 export default {
   name: 'Overview',
   components: {
     ProjectKPI,
-    OptimizationHeader,
-    OptimizationEmpty,
-    DatasetCard,
   },
   computed: {
     ...mapGetters([
@@ -102,10 +117,12 @@ export default {
       'kpiAverageScannedBytes',
       'selectedProject',
       'selectedProjectId',
-      'allOptimizations',
       'allDatasets',
       'isDatasetsLoading',
-      'lastOptimization',
+      'allMaterializedViews',
+      'allAppliedMaterializedViews',
+      'allNotAppliedMaterializedViews',
+      'allOutdatedMaterializedViews',
     ]),
   },
 }
