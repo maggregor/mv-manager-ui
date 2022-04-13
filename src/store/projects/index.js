@@ -265,13 +265,13 @@ export default {
     async APPLY_MATERIALIZED_VIEW({ commit }, payload) {
       const projectId = payload.projectId
       const id = payload.id
-      const newMv = await actionMaterializedView(id, projectId, 'APPLY')
+      const newMv = await actionMaterializedView(id, { projectId, action: 'APPLY' })
       commit('ADD_MATERIALIZED_VIEW', newMv)
     },
     async UNAPPLY_MATERIALIZED_VIEW({ commit }, payload) {
       const projectId = payload.projectId
       const id = payload.id
-      const newMv = await actionMaterializedView(id, projectId, 'UNAPPLY')
+      const newMv = await actionMaterializedView(id, { projectId, action: 'UNAPPLY' })
       commit('ADD_MATERIALIZED_VIEW', newMv)
     },
     async DISCARD_MATERIALIZED_VIEW({ commit }, payload) {

@@ -56,7 +56,7 @@ export async function getQueryStatistics(projectId, timeframe) {
 }
 
 export async function getKPIStatistics(projectId, timeframe) {
-  const { data } = await client.get(`/project/${projectId}/queries/${timeframe}/statistics/kpi`)
+  const { data } = await client.get(`/query/kpi`, { params: { projectId, timeframe } })
   return data
 }
 
@@ -208,8 +208,8 @@ export async function getAllMaterializedViews(projectId) {
   return data
 }
 
-export async function actionMaterializedView(id, projectId, action) {
-  const { data } = await client.patch(`/mv/${id}`, { projectId, action })
+export async function actionMaterializedView(id, payload) {
+  const { data } = await client.patch(`/mv/${id}`, payload)
   return data
 }
 
