@@ -11,8 +11,8 @@
             <a-card v-if="!allMaterializedViews.length">No Materialized Views</a-card>
             <a-alert
               v-if="allAppliedMaterializedViews.length"
-              :message="`x ${allAppliedMaterializedViews.length} are relevants`"
-              description="Based on your queries: theses Materialized Views are optimal."
+              :message="`x ${allAppliedMaterializedViews.length} are applied`"
+              description=" "
               type="success"
               show-icon
               class="mb-3"
