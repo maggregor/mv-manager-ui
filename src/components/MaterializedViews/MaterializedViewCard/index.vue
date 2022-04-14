@@ -24,9 +24,12 @@
             color="green"
             >Proposal</a-tag
           >
-          <a> {{ mv.datasetName }}/{{ mv.tableName }}/{{ mv.mvDisplayName }}</a>
+          <a> {{ mv.datasetName }}/{{ mv.tableName }}/{{ mv.mvDisplayName }} </a>
           <p>
-            <i>Found by Achilio {{ moment(mv.createdAt).fromNow() }}</i>
+            <i>Found by Achilio {{ moment(mv.createdAt).fromNow() }}</i
+            ><a-tag class="ml-3" color="red" v-if="mv.statusReason === 'ERROR_DURING_CREATION'"
+              >Error during creation</a-tag
+            >
           </p>
         </a-col>
         <a-col class="actions-container" :span="9">
@@ -83,7 +86,9 @@ export default {
     const loading = ref(false)
     const action = async actionName => {
       loading.value = true
-      await store.dispatch(actionName, { projectId, id: props.mv.id })
+      try {
+        await store.dispatch(actionName, { projectId, id: props.mv.id })
+      } catch (ignored) {}
       loading.value = false
     }
     return {
