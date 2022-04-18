@@ -8,7 +8,20 @@
             Materialized Views
           </h3>
           <a-col :span="24">
-            <a-card v-if="!allMaterializedViews.length">No Materialized Views</a-card>
+            <div class="no-materialized-views" v-if="!allMaterializedViews.length">
+              <div>
+                <img
+                  style="height: 10%; width: 10%"
+                  class="mr-1"
+                  src="@/assets/illustrations/materialized_view.svg"
+                />
+              </div>
+              <div class="mt-2">
+                No Materialized Views proposals
+              </div>
+
+              <a-button @click="triggerFindMVJob" type="link">Find Materialized Views</a-button>
+            </div>
             <a-alert
               v-if="allAppliedMaterializedViews.length"
               :message="`x ${allAppliedMaterializedViews.length} are applied`"
@@ -101,14 +114,27 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, useStore } from 'vuex'
 import _ from 'lodash'
 import ProjectKPI from '@/components/Projects/ProjectKPI'
+import { useRouter } from 'vue-router'
 
 export default {
   name: 'Overview',
   components: {
     ProjectKPI,
+  },
+  setup() {
+    const store = useStore()
+    const router = useRouter()
+    const projectId = store.getters['selectedProjectId']
+    const triggerFindMVJob = async () => {
+      router.push(`/projects/${projectId}/materialized-views`)
+      await store.dispatch('FIND_MATERIALIZED_VIEWS', projectId)
+    }
+    return {
+      triggerFindMVJob,
+    }
   },
   computed: {
     ...mapGetters([
