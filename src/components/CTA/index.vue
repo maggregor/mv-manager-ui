@@ -48,6 +48,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    reload: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return { loading: false }

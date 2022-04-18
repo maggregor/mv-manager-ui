@@ -8,10 +8,6 @@
       <a-button :loading="true" type="link">Synchronizing</a-button>
     </div>
     <div v-else>
-      <p>
-        <a-button type="link" @click="synchronize">Synchronize</a-button> your project to start
-        using Achilio.
-      </p>
       <p v-if="lastFetcherQueryJob">
         <i>Last update {{ moment(lastFetcherQueryJob.createdAt).fromNow() }}</i>
       </p>

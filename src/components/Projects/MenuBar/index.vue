@@ -24,8 +24,7 @@ export default {
     }
     let selected = ref([currentRoute()])
     watch(route, () => {
-      const current = currentRoute()
-      selected = ref([current])
+      selected.value = [currentRoute()]
     })
     return {
       selected,

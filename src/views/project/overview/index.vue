@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <a-row>
+    <a-row justify="space-between">
       <a-col class="pr-5" :span="7">
         <!-- Materialized views section -->
         <div class="section">
@@ -8,7 +8,20 @@
             Materialized Views
           </h3>
           <a-col :span="24">
-            <a-card v-if="!allMaterializedViews.length">No Materialized Views</a-card>
+            <div class="no-materialized-views" v-if="!allMaterializedViews.length">
+              <div>
+                <img
+                  style="height: 10%; width: 10%"
+                  class="mr-1"
+                  src="@/assets/illustrations/materialized_view.svg"
+                />
+              </div>
+              <div class="mt-2">
+                No Materialized Views proposals
+              </div>
+
+              <a-button type="link">Find Materialized Views</a-button>
+            </div>
             <a-alert
               v-if="allAppliedMaterializedViews.length"
               :message="`x ${allAppliedMaterializedViews.length} are applied`"
@@ -123,6 +136,8 @@ export default {
       'allAppliedMaterializedViews',
       'allNotAppliedMaterializedViews',
       'allOutdatedMaterializedViews',
+      'isLastFetcherQueryJobPending',
+      'lastFercherQueryJob',
     ]),
   },
 }
