@@ -14,7 +14,7 @@
         <a-layout-header>
           <Topbar />
         </a-layout-header>
-        <a-layout-content class="vb__layout__content">
+        <a-layout-content>
           <router-view v-slot="{ Component }">
             <transition name="zoom-fadein" mode="out-in">
               <component :is="Component" />

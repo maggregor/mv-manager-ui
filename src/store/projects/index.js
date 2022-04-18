@@ -258,6 +258,8 @@ export default {
     // Returns projects as array of project
     allProjects: state => Object.values(state.projects),
     // Returns projects as array of project
+    hasProjects: state => Object.keys(state.projects).length > 0,
+    // Returns projects as array of project
     project: state => id => state.projects[id],
     // Returns the selected project id
     selectedProjectId: state => state.selectedProjectId,

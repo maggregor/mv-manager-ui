@@ -50,6 +50,8 @@ import CTA from '@/components/CTA'
 import MenuBar from '@/components/Projects/MenuBar'
 import Popper from 'vue3-popper'
 
+const moment = require('moment')
+
 export default {
   name: 'Overview',
   components: {
@@ -78,8 +80,8 @@ export default {
       router.push(`/projects/${projectId}/materialized-views`)
       await store.dispatch('FIND_MATERIALIZED_VIEWS', projectId)
     }
-    const lastFetcherQueryJob = computed(() => store.getters.isLastFetcherQueryJobPending)
-    watch(lastFetcherQueryJob, (current, old) => {
+    const isLastFetcherQueryJobPending = computed(() => store.getters.isLastFetcherQueryJobPending)
+    watch(isLastFetcherQueryJobPending, (current, old) => {
       //When a synchronize just finish
       if (!current && old) {
         store.dispatch('STOP_POLLING')
@@ -93,10 +95,12 @@ export default {
     })
     const isOverview = computed(() => route.fullPath.includes('overview'))
     return {
+      isLastFetcherQueryJobPending,
       isOverview,
       router,
       triggerFindMVJob,
       project,
+      moment,
     }
   },
   computed: {
@@ -105,6 +109,7 @@ export default {
       'selectedProject',
       'selectedProjectId',
       'atLeastOneDatasetIsActivated',
+      'lastFetcherQueryJob',
     ]),
   },
 }

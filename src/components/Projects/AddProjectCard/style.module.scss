@@ -4,10 +4,13 @@
   padding: 10px 20px 10px 20px;
   border: 1px dashed rgb(205, 205, 205);
   border-radius: 5px;
+  width: 100%;
   text-align: center;
-  min-height: 70px;
-  margin-top: 10px;
+  min-height: 110px;
+  filter: grayscale(50%);
+
   &:hover {
     cursor: pointer;
+    filter: grayscale(0%);
   }
 }
