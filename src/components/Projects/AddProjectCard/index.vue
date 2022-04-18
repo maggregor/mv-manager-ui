@@ -8,23 +8,30 @@
     align="middle"
   >
     <div>
-      <a v-if="allProjects.length">Register a new BigQuery project</a>
-      <a v-else>Register your first BigQuery project</a>
+      <div v-if="allProjects.length > 0">
+        <a>Synchronize a new BigQuery project</a>
+      </div>
+      <div v-else>
+        <img
+          style="height: 30px; margin-bottom: 10px"
+          src="@/assets/illustrations/bigquery_and_achilio.svg"
+        />
+        <br />
+        <a>Synchronize your first BigQuery project</a>
+      </div>
     </div>
   </a-row>
   <CreateEditProjectCard v-else />
 </template>
 <script>
 import CreateEditProjectCard from '@/components/Projects/CreateEditProjectCard'
-import { ref } from '@vue/reactivity'
 import { mapActions, mapGetters } from 'vuex'
 export default {
   components: {
     CreateEditProjectCard,
   },
   setup() {
-    const creating = ref(false)
-    return { creating, ...mapActions({ setRegistering: 'SET_PROJECT_REGISTERING' }) }
+    return { ...mapActions({ setRegistering: 'SET_PROJECT_REGISTERING' }) }
   },
   computed: {
     ...mapGetters(['isRegisteringProject', 'allProjects']),

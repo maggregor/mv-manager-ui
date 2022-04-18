@@ -1,8 +1,15 @@
 <template>
-  <div v-for="project in allProjects" :key="project.projectId">
-    <ProjectCard class="mt-2" :project="project" />
+  <div class="list-container">
+    <a-row
+      :gutter="[16, 16]"
+      :justify="`${allProjects.length > 0 ? 'space-between' : 'space-around'}`"
+    >
+      <a-col v-for="project in allProjects" :key="project.projectId" :span="12">
+        <ProjectCard :project="project" />
+      </a-col>
+      <a-col :span="12"> <AddProjectCard /></a-col>
+    </a-row>
   </div>
-  <AddProjectCard />
 </template>
 <script>
 import { mapGetters } from 'vuex'

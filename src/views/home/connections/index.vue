@@ -12,7 +12,6 @@
 import { mapGetters } from 'vuex'
 import AddConnectionCard from '@/components/Connection/AddConnectionCard'
 import ConnectionCard from '@/components/Connection/ConnectionCard'
-
 export default {
   name: 'Home',
   components: {

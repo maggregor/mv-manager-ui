@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <a-row>
+    <a-row justify="space-between">
       <a-col class="pr-5" :span="7">
         <!-- Materialized views section -->
         <div class="section">
@@ -149,6 +149,8 @@ export default {
       'allAppliedMaterializedViews',
       'allNotAppliedMaterializedViews',
       'allOutdatedMaterializedViews',
+      'isLastFetcherQueryJobPending',
+      'lastFercherQueryJob',
     ]),
   },
 }
