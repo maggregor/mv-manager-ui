@@ -8,8 +8,8 @@
       <a-button :loading="true" type="link">Synchronizing</a-button>
     </div>
     <div v-else>
-      <p v-if="lastFetcherQueryJob">
-        <i>Last update {{ moment(lastFetcherQueryJob.createdAt).fromNow() }}</i>
+      <p v-if="lastFetcherStructJob">
+        <i>Last update {{ moment(lastFetcherStructJob.createdAt).fromNow() }}</i>
       </p>
     </div>
   </div>
@@ -43,7 +43,7 @@ export default {
       'selectedProjectPlan',
       'hasSelectedProjectPlan',
       'isSynchronizing',
-      'lastFetcherQueryJob',
+      'lastFetcherStructJob',
     ]),
   },
 }

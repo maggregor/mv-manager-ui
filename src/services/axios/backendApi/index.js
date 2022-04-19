@@ -55,8 +55,8 @@ export async function getQueryStatistics(projectId, timeframe) {
   return data
 }
 
-export async function getKPIStatistics(projectId, timeframe) {
-  const { data } = await client.get(`/project/${projectId}/queries/${timeframe}/statistics/kpi`)
+export async function getStatistics(projectId, timeframe, type) {
+  const { data } = await client.get(`/query/statistics`, { params: { projectId, timeframe, type } })
   return data
 }
 

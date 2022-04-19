@@ -29,10 +29,10 @@ export default {
       dispatch('LOAD_LAST_FETCHER_STRUCT_JOB', projectId)
     },
     async LOAD_LAST_FETCHER_QUERY_JOB({ commit }, projectId) {
-      const jobs = await getAllFetcherQueryJobs({ projectId, last: true })
-      if (jobs) {
-        commit('SET_SYNC_STATE', { lastFetcherQueryJob: jobs[0] })
-      }
+      // const jobs = await getAllFetcherQueryJobs({ projectId, last: true })
+      // if (jobs) {
+      //   commit('SET_SYNC_STATE', { lastFetcherQueryJob: jobs[0] })
+      // }
     },
     async LOAD_LAST_FETCHER_STRUCT_JOB({ commit }, projectId) {
       const jobs = await getAllFetcherStructJobs({ projectId, last: true })

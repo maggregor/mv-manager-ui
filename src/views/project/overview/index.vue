@@ -88,8 +88,19 @@
       </a-col>
       <a-col :span="17">
         <div class="section">
-          <h3>
-            Last 14 days performance
+          <h3 v-if="selectedPeriod">
+            {{ selectedPeriod.name }} performance
+
+            <a-button
+              v-for="period in periods"
+              @click="changePeriod(period.key)"
+              :key="period.key"
+              :disabled="!hasLoadedAllKPI"
+              type="link"
+              ><a-badge :dot="true" v-if="period.key === selectedPeriod.key" color="#108ee9" />{{
+                period.name
+              }}</a-button
+            >
           </h3>
           (Excluding cached queries)
           <a-row>
@@ -118,6 +129,8 @@ import { mapGetters, useStore } from 'vuex'
 import _ from 'lodash'
 import ProjectKPI from '@/components/Projects/ProjectKPI'
 import { useRouter } from 'vue-router'
+import { ref } from '@vue/reactivity'
+import { computed } from '@vue/runtime-core'
 
 export default {
   name: 'Overview',
@@ -128,12 +141,41 @@ export default {
     const store = useStore()
     const router = useRouter()
     const projectId = store.getters['selectedProjectId']
+    const periods = {
+      last_7_days: {
+        name: 'Last 7 days',
+        key: 'last_7_days',
+        days: 7,
+      },
+      last_14_days: {
+        name: 'Last 14 days',
+        key: 'last_14_days',
+        days: 14,
+      },
+      last_28_days: {
+        name: 'Last 28 days',
+        key: 'last_28_days',
+        days: 28,
+      },
+    }
+    const selectedPeriodKey = ref('last_14_days')
+    const selectedPeriod = computed(() => periods[selectedPeriodKey.value])
     const triggerFindMVJob = async () => {
       router.push(`/projects/${projectId}/materialized-views`)
       await store.dispatch('FIND_MATERIALIZED_VIEWS', projectId)
     }
+    const changePeriod = periodKey => {
+      selectedPeriodKey.value = periodKey
+      store.dispatch('LOAD_PROJECT_STATISTICS', {
+        projectId,
+        timeframe: selectedPeriod.value.days,
+      })
+    }
     return {
       triggerFindMVJob,
+      selectedPeriod,
+      periods,
+      changePeriod,
     }
   },
   computed: {
@@ -151,6 +193,7 @@ export default {
       'allOutdatedMaterializedViews',
       'isLastFetcherQueryJobPending',
       'lastFercherQueryJob',
+      'hasLoadedAllKPI',
     ]),
   },
 }
