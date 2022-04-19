@@ -7,11 +7,6 @@
     <div v-if="isSynchronizing">
       <a-button :loading="true" type="link">Synchronizing</a-button>
     </div>
-    <div v-else>
-      <p v-if="lastFetcherStructJob">
-        <i>Last update {{ moment(lastFetcherStructJob.createdAt).fromNow() }}</i>
-      </p>
-    </div>
   </div>
 </template>
 
@@ -39,12 +34,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters([
-      'selectedProjectPlan',
-      'hasSelectedProjectPlan',
-      'isSynchronizing',
-      'lastFetcherStructJob',
-    ]),
+    ...mapGetters(['selectedProjectPlan', 'hasSelectedProjectPlan', 'isSynchronizing']),
   },
 }
 </script>

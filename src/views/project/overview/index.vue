@@ -191,8 +191,6 @@ export default {
       'allAppliedMaterializedViews',
       'allNotAppliedMaterializedViews',
       'allOutdatedMaterializedViews',
-      'isLastFetcherQueryJobPending',
-      'lastFercherQueryJob',
       'hasLoadedAllKPI',
     ]),
   },

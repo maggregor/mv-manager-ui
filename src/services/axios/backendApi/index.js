@@ -131,67 +131,6 @@ export async function createPortalSession() {
   return data
 }
 
-/**
- * Fetcher job query
- */
-
-// List all fetcher query job for a given projectId.
-export async function getAllFetcherQueryJobs(payload) {
-  const projectId = payload.projectId
-  const last = payload.last
-  const status = payload.status
-  const { data } = await client.get(`/job/fetcher/query`, { params: { projectId, last, status } })
-  return data
-}
-
-// Get a fetcher query job for a the given fetcherQueryJobId.
-export async function getFetcherQueryJob(payload) {
-  const projectId = payload.projectId
-  const fetcherQueryJobId = payload.fetcherQueryJobId
-  const { data } = await client.get(`/job/fetcher/query/${fetcherQueryJobId}`, {
-    params: { projectId },
-  })
-  return data
-}
-
-// Create and start a new query fetching job
-export async function createNewFetcherQueryJob(payload) {
-  const projectId = payload.projectId
-  const timeframe = payload.timeframe
-  const { data } = await client.post(`/job/fetcher/query`, { projectId, timeframe })
-  return data
-}
-
-/**
- * Fetcher job struct
- */
-
-// List all fetcher query struct for a given projectId.
-export async function getAllFetcherStructJobs(payload) {
-  const projectId = payload.projectId
-  const last = payload.last
-  const status = payload.status
-  const { data } = await client.get(`/job/fetcher/struct`, { params: { projectId, last, status } })
-  return data
-}
-
-// Get a fetcher struct job for a given id.
-export async function getFetcherStructJob(payload) {
-  const projectId = payload.projectId
-  const fetcherStructJobId = payload.fetcherStructJobId
-  const { data } = await client.get(`/job/fetcher/struct/${fetcherStructJobId}`, {
-    params: { projectId },
-  })
-  return data
-}
-
-// Create and start a new struct fetching job
-export async function createNewFetcherStructJob(payload) {
-  const projectId = payload.projectId
-  const { data } = await client.post(`/job/fetcher/struct`, { projectId })
-  return data
-}
-
 export async function getAllMaterializedViews(projectId) {
   const { data } = await client.get(`/mv`, { params: { projectId } })
   return data
