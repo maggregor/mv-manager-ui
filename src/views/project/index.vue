@@ -69,33 +69,16 @@ export default {
     const timeframe = ref(14)
     onMounted(async () => {
       await store.dispatch('LOAD_MATERIALIZED_VIEWS', projectId)
-      store.dispatch('STOP_POLLING')
       store.dispatch('SET_SELECTED_PROJECT_ID', projectId)
       //TODO: Check permissions
-      store.dispatch('LOAD_LAST_FETCHERS', projectId)
-      store.dispatch('LOAD_ALL_STRUCTS', { projectId })
       store.dispatch('LOAD_PROJECT_STATISTICS', { projectId, timeframe: timeframe.value })
     })
     const triggerFindMVJob = async () => {
       router.push(`/projects/${projectId}/materialized-views`)
       await store.dispatch('FIND_MATERIALIZED_VIEWS', projectId)
     }
-    const isLastFetcherQueryJobPending = computed(() => store.getters.isLastFetcherQueryJobPending)
-    watch(isLastFetcherQueryJobPending, (current, old) => {
-      //When a synchronize just finish
-      if (!current && old) {
-        store.dispatch('STOP_POLLING')
-        store.dispatch('LOAD_ALL_STRUCTS', { projectId })
-        store.dispatch('LOAD_PROJECT_STATISTICS', { projectId, timeframe: timeframe.value })
-      }
-      //When a synchronize just started
-      else if (current && !old) {
-        store.dispatch('START_POLLING', projectId)
-      }
-    })
     const isOverview = computed(() => route.fullPath.includes('overview'))
     return {
-      isLastFetcherQueryJobPending,
       isOverview,
       router,
       triggerFindMVJob,
@@ -109,7 +92,6 @@ export default {
       'selectedProject',
       'selectedProjectId',
       'atLeastOneDatasetIsActivated',
-      'lastFetcherQueryJob',
     ]),
   },
 }

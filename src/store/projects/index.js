@@ -4,7 +4,7 @@ import {
   getProjects,
   getProject,
   getDatasets,
-  getKPIStatistics,
+  getStatistics,
   deleteAllMaterializedViews,
   findMvJob,
   updateDataset,
@@ -146,13 +146,17 @@ export default {
     LOAD_PROJECT_STATISTICS({ commit }, payload) {
       let projectId = payload.projectId
       let timeframe = payload.timeframe
-      commit('SET_PROJECT_STATE', {
-        projectId,
-        kpiStatisticsLoading: true,
-        chartsStatisticsLoading: true,
-      })
-      getKPIStatistics(projectId, timeframe).then(kpi =>
-        commit('SET_PROJECT_STATE', { projectId, kpi, kpiStatisticsLoading: false }),
+      commit('SET_PROJECT_STATE', { projectId, totalQueries: -1 })
+      commit('SET_PROJECT_STATE', { projectId, averageProcessedBytes: -1 })
+      commit('SET_PROJECT_STATE', { projectId, percentQueryInMv: -1 })
+      getStatistics(projectId, timeframe, 'total_queries').then(totalQueries =>
+        commit('SET_PROJECT_STATE', { projectId, totalQueries }),
+      )
+      getStatistics(projectId, timeframe, 'average_processed_bytes').then(averageProcessedBytes =>
+        commit('SET_PROJECT_STATE', { projectId, averageProcessedBytes }),
+      )
+      getStatistics(projectId, timeframe, 'percent_query_in_mv').then(percentQueryInMv =>
+        commit('SET_PROJECT_STATE', { projectId, percentQueryInMv }),
       )
     },
     /**
@@ -277,16 +281,25 @@ export default {
       getters.hasSelectedProject ? getters.customerIdOf(getters.selectedProject.projectId) : null,
     customerIdOf: (state, getters) => projectId =>
       getters.project(projectId).organization.stripeCustomerId,
-    // Statistics / KPI
-    hasSelectedProjectKpi: (state, getters) =>
-      getters.hasSelectedProject && getters.selectedProject.kpi !== undefined,
-    selectedProjectKpi: (state, getters) => getters.selectedProject.kpi,
-    kpiTotalQueries: (state, getters) =>
-      getters.hasSelectedProjectKpi ? getters.selectedProjectKpi.totalQueries : -1,
-    kpiPercentQueriesInMV: (state, getters) =>
-      getters.hasSelectedProjectKpi ? getters.selectedProjectKpi.percentQueriesIn : -1,
-    kpiAverageScannedBytes: (state, getters) =>
-      getters.hasSelectedProjectKpi ? getters.selectedProjectKpi.averageScannedBytes : -1,
+    hasLoadedAllKPI: (state, getters) => {
+      return (
+        getters.kpiTotalQueries > -1 &&
+        getters.kpiPercentQueriesInMV > -1 &&
+        getters.kpiAverageScannedBytes > -1
+      )
+    },
+    kpiTotalQueries: (state, getters) => {
+      let totalQueries = getters.selectedProject.totalQueries
+      return totalQueries > -1 ? totalQueries : -1
+    },
+    kpiPercentQueriesInMV: (state, getters) => {
+      let percentQueryInMv = getters.selectedProject.percentQueryInMv
+      return percentQueryInMv > -1 ? percentQueryInMv : -1
+    },
+    kpiAverageScannedBytes: (state, getters) => {
+      let averageProcessedBytes = getters.selectedProject.averageProcessedBytes
+      return averageProcessedBytes > -1 ? averageProcessedBytes : -1
+    },
     // Datasets
     allDatasets: (state, getters) =>
       getters.selectedProject.datasets === undefined
