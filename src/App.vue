@@ -20,8 +20,7 @@ import NProgress from 'nprogress'
 export default {
   name: 'App',
   components: { Localization, StyleLoader, LoadingScreen, Unreachable },
-  setup(props, context) {
-    console.log(context)
+  setup() {
     const route = useRoute()
     const router = useRouter()
     const store = useStore()
