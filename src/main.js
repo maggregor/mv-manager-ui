@@ -7,12 +7,14 @@ import './registerServiceWorker'
 import router from './router'
 import store from './store'
 import { i18n } from './localization'
+import VueSSE from 'vue-sse'
 
 const app = createApp(App)
   .use(store)
   .use(router)
   .use(i18n)
   .use(Antd)
+  .use(VueSSE)
   .use(PerfectScrollbar)
 
 app.mount('#app')

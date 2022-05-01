@@ -4,9 +4,6 @@
     <h1 class="project-path">
       {{ project.projectName }}
     </h1>
-    <div v-if="isSynchronizing">
-      <a-button :loading="true" type="link">Synchronizing</a-button>
-    </div>
   </div>
 </template>
 
@@ -34,7 +31,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['selectedProjectPlan', 'hasSelectedProjectPlan', 'isSynchronizing']),
+    ...mapGetters(['selectedProjectPlan', 'hasSelectedProjectPlan']),
   },
 }
 </script>

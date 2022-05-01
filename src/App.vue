@@ -20,7 +20,8 @@ import NProgress from 'nprogress'
 export default {
   name: 'App',
   components: { Localization, StyleLoader, LoadingScreen, Unreachable },
-  setup() {
+  setup(props, context) {
+    console.log(context)
     const route = useRoute()
     const router = useRouter()
     const store = useStore()
@@ -60,6 +61,7 @@ export default {
       }
       setTimeout(() => (isAccountLoading.value = false), 300)
     })
+
     return {
       loading,
       isAccountLoading,
@@ -67,6 +69,28 @@ export default {
   },
   computed: {
     ...mapGetters(['loading', 'isUnreachable']),
+  },
+  mounted() {
+    const sseClient = this.$sse.create({
+      url: `${process.env.VUE_APP_SSE_BASE_URL}/subscribe`,
+      format: 'json',
+      withCredentials: true,
+      polyfill: true,
+    })
+    sseClient.on('error', e => {
+      console.error('lost connection or failed to parse!', e)
+    })
+    sseClient.on('message', message => {
+      console.log(message)
+    })
+    sseClient
+      .connect()
+      .then(sse => {
+        // connected
+      })
+      .catch(err => {
+        console.error('Failed to connect to server', err)
+      })
   },
 }
 </script>
