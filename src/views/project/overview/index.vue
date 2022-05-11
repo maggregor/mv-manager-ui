@@ -120,6 +120,7 @@
           </a-row>
         </div>
       </a-col>
+      <a-col :span="12">Tables {{ allTables }}</a-col>
     </a-row>
   </div>
 </template>
@@ -193,6 +194,7 @@ export default {
       'allOutdatedMaterializedViews',
       'hasLoadedAllKPI',
     ]),
+    ...mapGetters({ allTables: 'selectedTables' }),
   },
 }
 </script>

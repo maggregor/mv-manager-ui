@@ -4,6 +4,7 @@ import {
   getProjects,
   getProject,
   getDatasets,
+  getTables,
   getStatistics,
   deleteAllMaterializedViews,
   findMvJob,
@@ -103,8 +104,11 @@ export default {
       commit('SET_STATE', { loading: true })
       try {
         let projects = await getProjects()
-        projects.forEach(project => {
+        projects.forEach(async project => {
+          let projectId = project.projectId
           commit('ADD_PROJECT', project)
+          let tables = await getTables(projectId)
+          commit('SET_PROJECT_STATE', { projectId, tables })
         })
       } catch (e) {}
       commit('SET_STATE', { loading: false })
@@ -274,7 +278,16 @@ export default {
       if (getters.hasSelectedProject) {
         return getters.project(getters.selectedProjectId)
       }
-      throw Error('No selected project id defined')
+      console.log('No selected project')
+      return null
+    },
+    // Returns all table of the selected project
+    selectedTables: (state, getters) => {
+      if (getters.selectedProject) {
+        return getters.selectedProject.tables
+      }
+      console.log('Cannot get selected tables: no selected project')
+      return null
     },
     // Returns the selected customer id
     selectedCustomerId: (state, getters) =>

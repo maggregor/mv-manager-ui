@@ -32,6 +32,11 @@ export async function getDatasets(payload) {
   return data
 }
 
+export async function getTables(projectId) {
+  const { data } = await client.get(`/table`, { params: { projectId } })
+  return data
+}
+
 /**
  * Returns a project
  *
