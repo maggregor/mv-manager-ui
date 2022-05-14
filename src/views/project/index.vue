@@ -11,6 +11,11 @@
               route: `/projects/${selectedProjectId}/overview`,
             },
             {
+              key: 'tables',
+              title: 'Tables',
+              route: `/projects/${selectedProjectId}/tables`,
+            },
+            {
               key: 'materialized-views',
               title: 'Materialized Views',
               route: `/projects/${selectedProjectId}/materialized-views`,

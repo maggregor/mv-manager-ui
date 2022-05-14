@@ -32,6 +32,11 @@ export async function getDatasets(payload) {
   return data
 }
 
+export async function getTables(projectId) {
+  const { data } = await client.get(`/table`, { params: { projectId } })
+  return data
+}
+
 /**
  * Returns a project
  *
@@ -67,7 +72,7 @@ export function findMvJob(payload) {
 
 export async function synchronizeQueries(payload) {
   const projectId = payload.projectId
-  return client.post(`/job/batch/query`, { projectId, timeframe: 1 })
+  return client.post(`/job/batch/query`, { projectId, timeframe: 14 })
 }
 
 export async function synchronizeDataModel(payload) {
