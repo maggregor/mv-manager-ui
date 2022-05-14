@@ -118,10 +118,6 @@
                 :label="'Average scanned bytes per query'"
             /></a-col>
           </a-row>
-          <h3 class="mt-5">Tables</h3>
-          <a-row>
-            <a-col :span="24"> <TableList /></a-col>
-          </a-row>
         </div>
       </a-col>
     </a-row>
@@ -132,7 +128,6 @@
 import { mapGetters, useStore } from 'vuex'
 import _ from 'lodash'
 import ProjectKPI from '@/components/Projects/ProjectKPI'
-import TableList from '@/components/TableList'
 import { useRouter } from 'vue-router'
 import { ref } from '@vue/reactivity'
 import { computed } from '@vue/runtime-core'
@@ -141,7 +136,6 @@ export default {
   name: 'Overview',
   components: {
     ProjectKPI,
-    TableList,
   },
   setup() {
     const store = useStore()
