@@ -84,6 +84,9 @@ export default {
         case 'QUERY_FETCHER_JOB_FINISHED':
           this.$store.dispatch('FINISH_SYNCHRONIZE', { projectId })
           break
+        case 'DATA_MODEL_FETCHER_JOB_FINISHED':
+          this.$store.dispatch('LOAD_TABLES', { projectId })
+          break
       }
     })
     sseClient

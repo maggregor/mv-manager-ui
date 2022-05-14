@@ -110,11 +110,15 @@ export default {
         projects.forEach(async project => {
           let projectId = project.projectId
           commit('ADD_PROJECT', project)
-          let tables = await getTables(projectId)
-          commit('SET_PROJECT_STATE', { projectId, tables })
+          dispatch('LOAD_TABLES', { projectId })
         })
       } catch (e) {}
       commit('SET_STATE', { loading: false })
+    },
+    async LOAD_TABLES({ commit }, payload) {
+      let projectId = payload.projectId
+      let tables = await getTables(projectId)
+      commit('SET_PROJECT_STATE', { projectId, tables })
     },
     /**
      *
