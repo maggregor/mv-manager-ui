@@ -70,6 +70,16 @@ export function findMvJob(payload) {
   return client.post(`/job/mv`, { projectId })
 }
 
+export async function synchronizeQueries(payload) {
+  const projectId = payload.projectId
+  return client.post(`/job/batch/query`, { projectId, timeframe: 1 })
+}
+
+export async function synchronizeDataModel(payload) {
+  const projectId = payload.projectId
+  return client.post(`/job/batch/data-model`, { projectId })
+}
+
 export async function updateProject(projectId, payload) {
   const { data } = await client.patch(`/project/${projectId}`, payload)
   return data

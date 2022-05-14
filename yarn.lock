@@ -3131,6 +3131,11 @@ event-pubsub@4.3.0:
   resolved "https://registry.yarnpkg.com/event-pubsub/-/event-pubsub-4.3.0.tgz#f68d816bc29f1ec02c539dc58c8dd40ce72cb36e"
   integrity sha512-z7IyloorXvKbFx9Bpie2+vMJKKx1fH1EN5yiTfp8CiLOTptSYy1g8H4yDpGlEdshL1PBiFtBHepF2cNsqeEeFQ==
 
+event-source-polyfill@^1.0.22:
+  version "1.0.26"
+  resolved "https://registry.yarnpkg.com/event-source-polyfill/-/event-source-polyfill-1.0.26.tgz#86c04d088ef078279168eefa028f928fec5059a4"
+  integrity sha512-IwDLs9fUTcGAyacHBeS53T8wcEkDyDn0UP4tfQqJ4wQP8AyH0mszuQf2ULTylnpI0sMquzJ4usrNV7+uztwI9A==
+
 eventemitter3@^2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/eventemitter3/-/eventemitter3-2.0.3.tgz#b5e1079b59fb5e1ba2771c0a993be060a58c99ba"
@@ -8573,6 +8578,13 @@ vue-runtime-helpers@^1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/vue-runtime-helpers/-/vue-runtime-helpers-1.1.2.tgz#446b7b820888ab0c5264d2c3a32468e72e4100f3"
   integrity sha512-pZfGp+PW/IXEOyETE09xQHR1CKkR9HfHZdnMD/FVLUNI+HxYTa82evx5WrF6Kz4s82qtqHvMZ8MZpbk2zT2E1Q==
+
+vue-sse@^2.5.0:
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/vue-sse/-/vue-sse-2.5.0.tgz#1159c8db4ad8e830c8babcbc15bf6e194c22eeb2"
+  integrity sha512-BD/49sGrNtLYwBvBwQdQDhZ7FRYZu9Ox9/63OVf/APtJ56YRbBVuB4CeGLcablIgFzEov2lQpBAE/ykqg+mGAQ==
+  dependencies:
+    event-source-polyfill "^1.0.22"
 
 vue-stripe-js@^1.0.0:
   version "1.0.0"

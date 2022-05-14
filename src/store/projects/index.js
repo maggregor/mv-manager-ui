@@ -14,6 +14,8 @@ import {
   getAllMaterializedViews,
   actionMaterializedView,
   deleteMaterializedView,
+  synchronizeQueries,
+  synchronizeDataModel,
 } from '@/services/axios/backendApi'
 
 import {
@@ -22,6 +24,7 @@ import {
   trackDeleteAllMaterializedViews,
   trackDeleteProject,
 } from '@/analyticsHelper'
+import { getBaseTransformPreset } from '@vue/compiler-core'
 
 const getDefaultState = () => {
   return {
@@ -257,6 +260,16 @@ export default {
       await deleteMaterializedView(id, projectId)
       commit('REMOVE_MATERIALIZED_VIEW', id)
     },
+    async SYNCHRONIZE({ commit }, payload) {
+      const projectId = payload.projectId
+      commit('SET_PROJECT_STATE', { projectId, synchronizing: true })
+      await synchronizeQueries({ projectId })
+      await synchronizeDataModel({ projectId })
+    },
+    async FINISH_SYNCHRONIZE({ commit }, payload) {
+      const projectId = payload.projectId
+      commit('SET_PROJECT_STATE', { projectId, synchronizing: false })
+    },
   },
   getters: {
     //
@@ -271,6 +284,13 @@ export default {
     project: state => id => state.projects[id],
     // Returns the selected project id
     selectedProjectId: state => state.selectedProjectId,
+    //
+    isSelectedProjectSynchronizing: (state, getters) => {
+      if (getters.hasSelectedProject) {
+        return getters.selectedProject.synchronizing
+      }
+      return false
+    },
     // Returns the selected project id
     hasSelectedProject: (state, getters) => getters.selectedProjectId !== '',
     // Returns the selected project. If no selected project, returns null.
