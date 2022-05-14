@@ -60,7 +60,6 @@ export default {
       }
       setTimeout(() => (isAccountLoading.value = false), 300)
     })
-
     return {
       loading,
       isAccountLoading,
@@ -80,7 +79,12 @@ export default {
       console.error('lost connection or failed to parse!', e)
     })
     sseClient.on('message', message => {
-      console.log(message)
+      let projectId = message.projectId
+      switch (message.event) {
+        case 'QUERY_FETCHER_JOB_FINISHED':
+          this.$store.dispatch('FINISH_SYNCHRONIZE', { projectId })
+          break
+      }
     })
     sseClient
       .connect()
