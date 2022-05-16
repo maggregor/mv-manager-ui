@@ -11,6 +11,11 @@
               route: `/projects/${selectedProjectId}/overview`,
             },
             {
+              key: 'tables',
+              title: 'Tables',
+              route: `/projects/${selectedProjectId}/tables`,
+            },
+            {
               key: 'materialized-views',
               title: 'Materialized Views',
               route: `/projects/${selectedProjectId}/materialized-views`,
@@ -50,6 +55,8 @@ import CTA from '@/components/CTA'
 import MenuBar from '@/components/Projects/MenuBar'
 import Popper from 'vue3-popper'
 
+const moment = require('moment')
+
 export default {
   name: 'Overview',
   components: {
@@ -67,36 +74,21 @@ export default {
     const timeframe = ref(14)
     onMounted(async () => {
       await store.dispatch('LOAD_MATERIALIZED_VIEWS', projectId)
-      store.dispatch('STOP_POLLING')
       store.dispatch('SET_SELECTED_PROJECT_ID', projectId)
       //TODO: Check permissions
-      store.dispatch('LOAD_LAST_FETCHERS', projectId)
-      store.dispatch('LOAD_ALL_STRUCTS', { projectId })
       store.dispatch('LOAD_PROJECT_STATISTICS', { projectId, timeframe: timeframe.value })
     })
     const triggerFindMVJob = async () => {
       router.push(`/projects/${projectId}/materialized-views`)
       await store.dispatch('FIND_MATERIALIZED_VIEWS', projectId)
     }
-    const lastFetcherQueryJob = computed(() => store.getters.isLastFetcherQueryJobPending)
-    watch(lastFetcherQueryJob, (current, old) => {
-      //When a synchronize just finish
-      if (!current && old) {
-        store.dispatch('STOP_POLLING')
-        store.dispatch('LOAD_ALL_STRUCTS', { projectId })
-        store.dispatch('LOAD_PROJECT_STATISTICS', { projectId, timeframe: timeframe.value })
-      }
-      //When a synchronize just started
-      else if (current && !old) {
-        store.dispatch('START_POLLING', projectId)
-      }
-    })
     const isOverview = computed(() => route.fullPath.includes('overview'))
     return {
       isOverview,
       router,
       triggerFindMVJob,
       project,
+      moment,
     }
   },
   computed: {

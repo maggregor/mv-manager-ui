@@ -2,12 +2,16 @@
   <div class="connectionCard">
     <!-- Choose a selection -->
     <a-row type="flex" justify="space-between">
-      <a-col><p class="title">Register a project</p></a-col>
-      <a-col> <a-button type="link" @click="close">Close</a-button></a-col>
+      <a-col :span="2"></a-col>
+      <a-col span="auto"
+        ><p class="title">Synchronize</p>
+        <span class="sub-title">a new Google BigQuery project</span></a-col
+      >
+      <a-col :span="2"> <a-button type="link" @click="close">Close</a-button></a-col>
     </a-row>
     <a-row justify="space-around">
-      <a-col class="field mt-2 mb-5">
-        <p class="sub-title">Project ID</p>
+      <a-col class="field mt-4 mb-4">
+        <p class="field-title">Project ID</p>
         <input
           :size="inputNameSize"
           class="input-project-name"
@@ -17,12 +21,12 @@
       </a-col>
     </a-row>
     <a-row justify="space-around">
-      <ArrowDownOutlined height="1em" />
+      <down-outlined style="font-size: 30px; height: 0px" />
     </a-row>
     <a-row justify="space-around">
       <!-- Choose a selection -->
-      <a-col class="field mt-5 mb-5">
-        <p class="sub-title">Connection</p>
+      <a-col class="field mt-4 mb-4">
+        <p class="field-title">Connection</p>
         <a-dropdown-button class="dropdown-connections  mt-2" :trigger="['click']">
           <p style="cursor:pointer;" large @click.prevent>
             <span v-if="!selectedConnection">Select a connection</span>
@@ -34,9 +38,10 @@
           <template #overlay>
             <a-menu @click="handleSelectConnection">
               <a-menu-item>
-                <a @click="$router.push('/home/connections')">
-                  <PlusOutlined /> Create a new connection to BigQuery
+                <a style="margin-bottom: 50px" @click="$router.push('/home/connections')">
+                  <PlusOutlined /> Create a new connection to Google BigQuery
                 </a>
+                <a-divider />
               </a-menu-item>
               <a-menu-item v-for="c in allConnections" :key="c.id">
                 <a-row style="width: 399px" type="flex" justify="space-between" align="middle">
@@ -50,11 +55,11 @@
         </a-dropdown-button>
       </a-col>
     </a-row>
-    <a-row justify="space-around">
-      <ArrowDownOutlined :height="20" />
+    <a-row justify="space-around mb-4">
+      <down-outlined style="font-size: 30px; height: 0px" />
     </a-row>
     <a-row justify="space-around">
-      <a-col class="mt-5" :span="24">
+      <a-col class="mt-4" :span="24">
         <a-row class="mb-3" justify="space-around">
           <a-col>
             <CTA
@@ -71,15 +76,14 @@
 <script>
 import { ref } from '@vue/reactivity'
 import CTA from '@/components/CTA'
-import { mapActions, mapGetters, useStore } from 'vuex'
+import { mapGetters, useStore } from 'vuex'
 import { computed } from '@vue/runtime-core'
-import { PlusOutlined, DownOutlined, ArrowDownOutlined } from '@ant-design/icons-vue'
+import { PlusOutlined, DownOutlined } from '@ant-design/icons-vue'
 export default {
   components: {
     CTA,
     PlusOutlined,
     DownOutlined,
-    ArrowDownOutlined,
   },
   setup() {
     const store = useStore()

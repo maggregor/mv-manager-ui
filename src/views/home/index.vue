@@ -45,9 +45,6 @@ export default {
   },
   setup() {
     const store = useStore()
-    onMounted(() => {
-      store.dispatch('STOP_POLLING')
-    })
   },
   computed: {
     ...mapGetters(['firstName', 'allConnections']),

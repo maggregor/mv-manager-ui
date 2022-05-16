@@ -85,6 +85,15 @@ const router = createRouter({
               },
             },
             {
+              path: 'tables',
+              name: 'Tables',
+              component: () => import('./views/project/tables'),
+              meta: {
+                breadcrumb: 'Tables',
+                title: 'Tables',
+              },
+            },
+            {
               path: 'materialized-views',
               name: 'Materialized Views',
               component: () => import('./views/project/materialized-views'),

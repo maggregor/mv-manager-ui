@@ -4,7 +4,8 @@ import {
   getProjects,
   getProject,
   getDatasets,
-  getKPIStatistics,
+  getTables,
+  getStatistics,
   deleteAllMaterializedViews,
   findMvJob,
   updateDataset,
@@ -13,6 +14,8 @@ import {
   getAllMaterializedViews,
   actionMaterializedView,
   deleteMaterializedView,
+  synchronizeQueries,
+  synchronizeDataModel,
 } from '@/services/axios/backendApi'
 
 import {
@@ -21,6 +24,7 @@ import {
   trackDeleteAllMaterializedViews,
   trackDeleteProject,
 } from '@/analyticsHelper'
+import { getBaseTransformPreset } from '@vue/compiler-core'
 
 const getDefaultState = () => {
   return {
@@ -103,11 +107,18 @@ export default {
       commit('SET_STATE', { loading: true })
       try {
         let projects = await getProjects()
-        projects.forEach(project => {
+        projects.forEach(async project => {
+          let projectId = project.projectId
           commit('ADD_PROJECT', project)
+          dispatch('LOAD_TABLES', { projectId })
         })
       } catch (e) {}
       commit('SET_STATE', { loading: false })
+    },
+    async LOAD_TABLES({ commit }, payload) {
+      let projectId = payload.projectId
+      let tables = await getTables(projectId)
+      commit('SET_PROJECT_STATE', { projectId, tables })
     },
     /**
      *
@@ -146,13 +157,17 @@ export default {
     LOAD_PROJECT_STATISTICS({ commit }, payload) {
       let projectId = payload.projectId
       let timeframe = payload.timeframe
-      commit('SET_PROJECT_STATE', {
-        projectId,
-        kpiStatisticsLoading: true,
-        chartsStatisticsLoading: true,
-      })
-      getKPIStatistics(projectId, timeframe).then(kpi =>
-        commit('SET_PROJECT_STATE', { projectId, kpi, kpiStatisticsLoading: false }),
+      commit('SET_PROJECT_STATE', { projectId, totalQueries: -1 })
+      commit('SET_PROJECT_STATE', { projectId, averageProcessedBytes: -1 })
+      commit('SET_PROJECT_STATE', { projectId, percentQueryInMv: -1 })
+      getStatistics(projectId, timeframe, 'total_queries').then(totalQueries =>
+        commit('SET_PROJECT_STATE', { projectId, totalQueries }),
+      )
+      getStatistics(projectId, timeframe, 'average_processed_bytes').then(averageProcessedBytes =>
+        commit('SET_PROJECT_STATE', { projectId, averageProcessedBytes }),
+      )
+      getStatistics(projectId, timeframe, 'percent_query_in_mv').then(percentQueryInMv =>
+        commit('SET_PROJECT_STATE', { projectId, percentQueryInMv }),
       )
     },
     /**
@@ -249,6 +264,16 @@ export default {
       await deleteMaterializedView(id, projectId)
       commit('REMOVE_MATERIALIZED_VIEW', id)
     },
+    async SYNCHRONIZE({ commit }, payload) {
+      const projectId = payload.projectId
+      commit('SET_PROJECT_STATE', { projectId, synchronizing: true })
+      await synchronizeQueries({ projectId })
+      await synchronizeDataModel({ projectId })
+    },
+    async FINISH_SYNCHRONIZE({ commit }, payload) {
+      const projectId = payload.projectId
+      commit('SET_PROJECT_STATE', { projectId, synchronizing: false })
+    },
   },
   getters: {
     //
@@ -258,9 +283,18 @@ export default {
     // Returns projects as array of project
     allProjects: state => Object.values(state.projects),
     // Returns projects as array of project
+    hasProjects: state => Object.keys(state.projects).length > 0,
+    // Returns projects as array of project
     project: state => id => state.projects[id],
     // Returns the selected project id
     selectedProjectId: state => state.selectedProjectId,
+    //
+    isSelectedProjectSynchronizing: (state, getters) => {
+      if (getters.hasSelectedProject) {
+        return getters.selectedProject.synchronizing
+      }
+      return false
+    },
     // Returns the selected project id
     hasSelectedProject: (state, getters) => getters.selectedProjectId !== '',
     // Returns the selected project. If no selected project, returns null.
@@ -268,23 +302,41 @@ export default {
       if (getters.hasSelectedProject) {
         return getters.project(getters.selectedProjectId)
       }
-      throw Error('No selected project id defined')
+      console.log('No selected project')
+      return null
+    },
+    // Returns all table of the selected project
+    selectedTables: (state, getters) => {
+      if (getters.selectedProject) {
+        return getters.selectedProject.tables
+      }
+      console.log('Cannot get selected tables: no selected project')
+      return null
     },
     // Returns the selected customer id
     selectedCustomerId: (state, getters) =>
       getters.hasSelectedProject ? getters.customerIdOf(getters.selectedProject.projectId) : null,
     customerIdOf: (state, getters) => projectId =>
       getters.project(projectId).organization.stripeCustomerId,
-    // Statistics / KPI
-    hasSelectedProjectKpi: (state, getters) =>
-      getters.hasSelectedProject && getters.selectedProject.kpi !== undefined,
-    selectedProjectKpi: (state, getters) => getters.selectedProject.kpi,
-    kpiTotalQueries: (state, getters) =>
-      getters.hasSelectedProjectKpi ? getters.selectedProjectKpi.totalQueries : -1,
-    kpiPercentQueriesInMV: (state, getters) =>
-      getters.hasSelectedProjectKpi ? getters.selectedProjectKpi.percentQueriesIn : -1,
-    kpiAverageScannedBytes: (state, getters) =>
-      getters.hasSelectedProjectKpi ? getters.selectedProjectKpi.averageScannedBytes : -1,
+    hasLoadedAllKPI: (state, getters) => {
+      return (
+        getters.kpiTotalQueries > -1 &&
+        getters.kpiPercentQueriesInMV > -1 &&
+        getters.kpiAverageScannedBytes > -1
+      )
+    },
+    kpiTotalQueries: (state, getters) => {
+      let totalQueries = getters.selectedProject.totalQueries
+      return totalQueries > -1 ? totalQueries : -1
+    },
+    kpiPercentQueriesInMV: (state, getters) => {
+      let percentQueryInMv = getters.selectedProject.percentQueryInMv
+      return percentQueryInMv > -1 ? percentQueryInMv : -1
+    },
+    kpiAverageScannedBytes: (state, getters) => {
+      let averageProcessedBytes = getters.selectedProject.averageProcessedBytes
+      return averageProcessedBytes > -1 ? averageProcessedBytes : -1
+    },
     // Datasets
     allDatasets: (state, getters) =>
       getters.selectedProject.datasets === undefined

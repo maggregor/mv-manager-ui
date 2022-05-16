@@ -68,5 +68,35 @@ export default {
   computed: {
     ...mapGetters(['loading', 'isUnreachable']),
   },
+  mounted() {
+    const sseClient = this.$sse.create({
+      url: `${process.env.VUE_APP_SSE_BASE_URL}/subscribe`,
+      format: 'json',
+      withCredentials: true,
+      polyfill: true,
+    })
+    sseClient.on('error', e => {
+      console.error('lost connection or failed to parse!', e)
+    })
+    sseClient.on('message', message => {
+      let projectId = message.projectId
+      switch (message.event) {
+        case 'QUERY_FETCHER_JOB_FINISHED':
+          this.$store.dispatch('FINISH_SYNCHRONIZE', { projectId })
+          break
+        case 'DATA_MODEL_FETCHER_JOB_FINISHED':
+          this.$store.dispatch('LOAD_TABLES', { projectId })
+          break
+      }
+    })
+    sseClient
+      .connect()
+      .then(sse => {
+        // connected
+      })
+      .catch(err => {
+        console.error('Failed to connect to server', err)
+      })
+  },
 }
 </script>

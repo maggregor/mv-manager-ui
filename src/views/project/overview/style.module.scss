@@ -17,3 +17,13 @@
 .section-content::-webkit-scrollbar {
   display: none;
 }
+
+.no-materialized-views {
+  text-align: center;
+  border: 1px solid rgb(193, 193, 193);
+  background-color: rgb(247, 247, 247);
+  border-radius: 10px;
+  padding: 15px;
+  padding-top: 50px;
+  height: 180px;
+}
